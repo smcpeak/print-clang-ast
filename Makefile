@@ -27,16 +27,27 @@ else
 
 endif
 
-# smbase directory to get a few helper files.
-SMBASE_DIR := $(HOME)/wrk/smbase
+
+# ---- 'make' boilerplate ----
+# Eliminate all implicit rules.
+.SUFFIXES:
+
+# Delete a target when its recipe fails.
+.DELETE_ON_ERROR:
+
+# Do not remove "intermediate" targets.
+.SECONDARY:
 
 
 # ---- Helper definitions and scripts ----
-# Get definition of CREATE_OUTPUT_DIRECTORY, etc.
-include $(SMBASE_DIR)/sm-lib.mk
+# Ensure the directory meant to hold the output file of a recipe exists.
+CREATE_OUTPUT_DIRECTORY = @mkdir -p $(dir $@)
 
+# Python interpreter.
 PYTHON3 := python3
-RUN_COMPARE_EXPECT := $(PYTHON3) $(SMBASE_DIR)/run-compare-expect.py
+
+# Script to run a program and compare to expected output.
+RUN_COMPARE_EXPECT := $(PYTHON3) ./run-compare-expect.py
 
 
 # ---- llvm-config query results ----
@@ -77,9 +88,6 @@ CXXFLAGS += -Werror
 
 # Silence a warning about a multi-line comment in DeclOpenMP.h.
 CXXFLAGS += -Wno-comment
-
-# Pull in smbase so I can use sm-pp-util.h.
-CXXFLAGS += -I$(SMBASE_DIR)
 
 # Get llvm compilation flags.
 CXXFLAGS += $(LLVM_CXXFLAGS)
@@ -138,6 +146,7 @@ OBJS += pca-command-line-options.o
 OBJS += pca-command-line-options-test.o
 OBJS += print-clang-ast.o
 OBJS += print-clang-ast-nodes.o
+OBJS += sm-pp-util-test.o
 OBJS += stringref-parse.o
 OBJS += stringref-parse-test.o
 OBJS += util.o

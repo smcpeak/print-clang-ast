@@ -5,6 +5,7 @@
 #include "map-util.h"                                      // mapInsertAll
 #include "pca-command-line-options.h"                      // PCACommandLineOptions
 #include "print-clang-ast-nodes.h"                         // printClangASTNodes
+#include "sm-pp-util.h"                                    // test_sm_pp_util
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
 #include "trace.h"                                         // INIT_TRACE_LEVEL_ONCE
 #include "util.h"                                          // util_unit_tests
@@ -32,6 +33,7 @@ static void all_unit_tests()
   file_util_unit_tests();
   pca_command_line_options_unit_tests();
   stringref_parse_unit_tests();
+  test_sm_pp_util();
   util_unit_tests();
 }
 
