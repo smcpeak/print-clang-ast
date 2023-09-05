@@ -1,0 +1,9 @@
+*.exe
+*.d
+*.o
+config.mk
+doc/html
+make-from-editor.sh
+out
+test.cc
+tmp*

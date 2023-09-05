@@ -1,0 +1,145 @@
+---- stdout ----
+{
+
+"TranslationUnitDecl 1": {
+  "NextInContext": { "ptr": "null" },
+  "moduleOwnershipKind": "Unowned",
+  "DC": { "ptr": "null" },
+  "LDC": { "ptr": "null" },
+  "Loc": "<invalid loc>",
+  "Decl::flags": "",
+  "Access": "AS_none",
+  "IdentifierNamespace": "0",
+  "Linkage": "(not set)",
+  "DeclKind": "TranslationUnitDecl",
+  "DeclContextBits": "",
+  "LookupPtr": "StoredDeclsMap with 6 entries",
+  "FirstDecl": { "ptr": "TypedefDecl 2" },
+  "LastDecl": { "ptr": "FunctionDecl 14" },
+},
+
+"TypedefDecl 2": {
+  "skipping reserved": "\"__int128_t\"",
+},
+
+"BuiltinType 3": {
+  "syntax": "\"__int128\"",
+},
+
+"TypedefDecl 4": {
+  "skipping reserved": "\"__uint128_t\"",
+},
+
+"BuiltinType 5": {
+  "syntax": "\"unsigned __int128\"",
+},
+
+"TypedefDecl 6": {
+  "skipping reserved": "\"__NSConstantString\"",
+},
+
+"RecordType 7": {
+  "syntax": "\"struct __NSConstantString_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 20" },
+},
+
+"TypedefDecl 8": {
+  "skipping reserved": "\"__builtin_ms_va_list\"",
+},
+
+"PointerType 9": {
+  "syntax": "\"char *\"",
+  "PointeeType": { "ptr": "BuiltinType 10", "preview": "char" },
+},
+
+"BuiltinType 10": {
+  "syntax": "\"char\"",
+},
+
+"TypedefDecl 11": {
+  "skipping reserved": "\"__builtin_va_list\"",
+},
+
+"ConstantArrayType 12": {
+  "syntax": "\"struct __va_list_tag[1]\"",
+},
+
+"RecordType 13": {
+  "syntax": "\"struct __va_list_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 21" },
+},
+
+"FunctionDecl 14": {
+  "NextInContext": { "ptr": "null" },
+  "moduleOwnershipKind": "Unowned",
+  "DC": { "ptr": "TranslationUnitDecl 1" },
+  "LDC": { "ptr": "TranslationUnitDecl 1" },
+  "Loc": "in/src/nodes-no-qualifiers.cc:6:5",
+  "Decl::flags": "",
+  "Access": "AS_none",
+  "IdentifierNamespace": "IDNS_Ordinary",
+  "Linkage": "ExternalLinkage",
+  "DeclKind": "FunctionDecl",
+  "DeclContextBits": "",
+  "LookupPtr": "null",
+  "FirstDecl": { "ptr": "null" },
+  "LastDecl": { "ptr": "null" },
+  "Name": "\"foo\"",
+  "DeclType": { "ptr": "FunctionProtoType 15", "preview": "int (void)" },
+  "TInfo": "FunctionProto(\"int (void)\", <in/src/nodes-no-qualifiers.cc:6:1, col:9>, Builtin(\"int\", <in/src/nodes-no-qualifiers.cc:6:1>, NullTypeLoc))",
+  "ExtInfo": "absent",
+  "InnerLocStart": "in/src/nodes-no-qualifiers.cc:6:1",
+  "RD::Prev": { "ptr": "FunctionDecl 14" },
+  "RD::First": { "ptr": "FunctionDecl 14" },
+  "SClass": "SC_None",
+  "FunctionDeclBits": "HasWrittenPrototype",
+  "ParamInfo": "(empty)",
+  "Body": { "ptr": "CompoundStmt 17" },
+  "ODRHash": "0",
+  "EndRangeLoc": "in/src/nodes-no-qualifiers.cc:9:1",
+  "DefaultKWLoc": "<invalid loc>",
+  "getTemplatedKind()": "TK_NonTemplate",
+  "TemplateOrSpecialization": "null",
+  "DNLoc": "(none)",
+  "getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "getMemberSpecializationInfo()": { "ptr": "null" },
+  "getDescribedFunctionTemplate()": { "ptr": "null" },
+  "getTemplateSpecializationInfo()": { "ptr": "null" },
+  "getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "getPrimaryTemplate()": { "ptr": "null" },
+},
+
+"FunctionProtoType 15": {
+  "syntax": "\"int (void)\"",
+  "ResultType": { "ptr": "BuiltinType 16", "preview": "int" },
+},
+
+"BuiltinType 16": {
+  "syntax": "\"int\"",
+},
+
+"CompoundStmt 17": {
+},
+
+"ReturnStmt 18": {
+},
+
+"IntegerLiteral 19": {
+  "ValueKind": "VK_PRValue",
+  "ObjectKind": "OK_Ordinary",
+  "Dependent": "None",
+  "TR": { "ptr": "BuiltinType 16", "preview": "int" },
+},
+
+"CXXRecordDecl 20": {
+  "skipping reserved": "\"__NSConstantString_tag\"",
+},
+
+"CXXRecordDecl 21": {
+  "skipping reserved": "\"__va_list_tag\"",
+},
+}
+---- stderr ----
+---- exit status ----
+Exit 0

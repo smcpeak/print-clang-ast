@@ -1,0 +1,364 @@
+{
+  "drawFileName": true,
+  "entities": [
+    {
+      "attributes": "$(graphNodeShowFields)\n",
+      "loc": {
+        "x": 115,
+        "y": 85
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "FunctionTemplateDecl 14",
+      "size": {
+        "h": 75,
+        "w": 250
+      }
+    },
+    {
+      "loc": {
+        "x": 20,
+        "y": 35
+      },
+      "name": "TU",
+      "objectGraphNodeID": "TranslationUnitDecl 1",
+      "size": {
+        "h": 450,
+        "w": 30
+      }
+    },
+    {
+      "attributes": "template <class T>\nT identity(T t)\n{\n  return t;\n}\n",
+      "fillColor": "Yellow",
+      "loc": {
+        "x": 565,
+        "y": 285
+      },
+      "name": "Source Code",
+      "size": {
+        "h": 105,
+        "w": 115
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFields)",
+      "loc": {
+        "x": 115,
+        "y": 35
+      },
+      "name": "$(graphNodeID) (__int128)",
+      "objectGraphNodeID": "TypedefDecl 2",
+      "size": {
+        "h": 20,
+        "w": 250
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 430,
+        "y": 85
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "FunctionTemplateDecl::Common 25",
+      "size": {
+        "h": 65,
+        "w": 250
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 315,
+        "y": 195
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "TemplateTypeParmDecl 15",
+      "size": {
+        "h": 75,
+        "w": 280
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 115,
+        "y": 300
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "FunctionDecl 17",
+      "size": {
+        "h": 75,
+        "w": 250
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 305,
+        "y": 410
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "ParmVarDecl 19",
+      "size": {
+        "h": 75,
+        "w": 275
+      }
+    }
+  ],
+  "inheritances": [],
+  "objectGraph": {
+    "FunctionDecl 17": {
+      "Access": "AS_none",
+      "Body": {"ptr": "CompoundStmt 20"},
+      "DC": {"ptr": "TranslationUnitDecl 1"},
+      "DNLoc": "(none)",
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "FunctionDecl",
+      "DeclType": {
+        "preview": "T (T)",
+        "ptr": "FunctionProtoType 18"
+      },
+      "DefaultKWLoc": "<invalid loc>",
+      "EndRangeLoc": "tmp.cc:5:1",
+      "ExtInfo": "absent",
+      "FirstDecl": {"ptr": "ParmVarDecl 19"},
+      "FunctionDeclBits": " HasWrittenPrototype",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InnerLocStart": "tmp.cc:2:1",
+      "LastDecl": {"ptr": "ParmVarDecl 19"},
+      "Linkage": "ExternalLinkage",
+      "Loc": "tmp.cc:2:3",
+      "LookupPtr": "null",
+      "Name": "\"identity\"",
+      "NextInContext": {"ptr": "null"},
+      "ODRHash": "0",
+      "ParamInfo[0]": {"ptr": "ParmVarDecl 19"},
+      "Redeclarable::First": {"ptr": "FunctionDecl 17"},
+      "Redeclarable::Previous": {"ptr": "FunctionDecl 17"},
+      "SClass": "SC_None",
+      "TInfo": "FunctionProto(\"T (T)\", <tmp.cc:2:1, col:15>, TemplateTypeParm(\"T\", <tmp.cc:2:1>, NullTypeLoc))",
+      "TemplateOrSpecialization": {"ptr": "FunctionTemplateDecl 14"},
+      "address": "0x563c4e1b12c0",
+      "getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "getTemplatedKind()": "TK_FunctionTemplate",
+      "lexicalDeclContext": {"ptr": "TranslationUnitDecl 1"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "FunctionTemplateDecl 14": {
+      "Access": "AS_none",
+      "Common": {"ptr": "FunctionTemplateDecl::Common 25"},
+      "DC": {"ptr": "TranslationUnitDecl 1"},
+      "Decl::flags": "",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "Linkage": "(not set)",
+      "Loc": "tmp.cc:2:3",
+      "Name": "\"identity\"",
+      "NextInContext": {"ptr": "null"},
+      "NumParams": "1",
+      "Param[0]": {"ptr": "TemplateTypeParmDecl 15"},
+      "Redeclarable::First": {"ptr": "FunctionTemplateDecl 14"},
+      "Redeclarable::Previous": {"ptr": "FunctionTemplateDecl 14"},
+      "TemplateParameterList": "\"template <class T>\"",
+      "TemplateParameterList->Flags": "",
+      "TemplateParameterList->LAngleLoc": "tmp.cc:1:10",
+      "TemplateParameterList->RAngleLoc": "tmp.cc:1:18",
+      "TemplateParameterList->Requires": {"ptr": "null"},
+      "TemplateParameterList->TemplateLoc": "tmp.cc:1:1",
+      "TemplatedDecl": {"ptr": "FunctionDecl 17"},
+      "address": "0x563c4e1b1370",
+      "lexicalDeclContext": {"ptr": "TranslationUnitDecl 1"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "FunctionTemplateDecl::Common 25": {
+      "InjectedArgs": "null",
+      "InstantiatedFromMember.int": "0",
+      "InstantiatedFromMember.ptr": {"ptr": "null"},
+      "LazySpecializations": "null",
+      "Specializations": "empty",
+      "address": "0x563c4e1b1420",
+      "associated decl": {"ptr": "FunctionTemplateDecl 14"}
+    },
+    "ParmVarDecl 19": {
+      "ARCPseudoStrong": "0",
+      "Access": "AS_none",
+      "DC": {"ptr": "FunctionDecl 17"},
+      "Decl::flags": " Referenced",
+      "DeclType": {
+        "preview": "T",
+        "ptr": "TemplateTypeParmType 16"
+      },
+      "DefaultArgKind": "DAK_Normal",
+      "ExtInfo": "absent",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InitStmt": {"ptr": "null"},
+      "InitStyle": "CInit",
+      "InnerLocStart": "tmp.cc:2:12",
+      "Linkage": "(not set)",
+      "Loc": "tmp.cc:2:14",
+      "Name": "\"t\"",
+      "NextInContext": {"ptr": "null"},
+      "ParameterIndex": "0",
+      "ParmVarDeclBits flags": "",
+      "SClass": "SC_None",
+      "ScopeDepthOrObjCQuals": "0",
+      "TInfo": "TemplateTypeParm(\"T\", <tmp.cc:2:12>, NullTypeLoc)",
+      "TSCSpec": "TSCS_unspecified",
+      "address": "0x563c4e1b11a8",
+      "lexicalDeclContext": {"ptr": "FunctionDecl 17"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "TemplateTypeParmDecl 15": {
+      "Access": "AS_public",
+      "DC": {"ptr": "FunctionDecl 17"},
+      "Decl::flags": " Referenced",
+      "IdentifierNamespace": "IDNS_Type|IDNS_Ordinary",
+      "Linkage": "(not set)",
+      "Loc": "tmp.cc:1:17",
+      "LocStart": "tmp.cc:1:11",
+      "Name": "\"T\"",
+      "NextInContext": {"ptr": "null"},
+      "NumExpanded": "0",
+      "TemplateTypeParmDecl flags": "",
+      "TypeForDecl": {
+        "preview": "T",
+        "ptr": "TemplateTypeParmType 16"
+      },
+      "address": "0x563c4e1b10d0",
+      "lexicalDeclContext": {"ptr": "FunctionDecl 17"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "TranslationUnitDecl 1": {
+      "Access": "AS_none",
+      "DC": {"ptr": "null"},
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "TranslationUnitDecl",
+      "FirstDecl": {"ptr": "TypedefDecl 2"},
+      "IdentifierNamespace": "0",
+      "LastDecl": {"ptr": "FunctionTemplateDecl 14"},
+      "Linkage": "(not set)",
+      "Loc": "<invalid loc>",
+      "LookupPtr": "StoredDeclsMap with 6 entries",
+      "NextInContext": {"ptr": "null"},
+      "address": "0x563c4e164c78",
+      "lexicalDeclContext": {"ptr": "null"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "TypedefDecl 2": {
+      "address": "0x563c4e165500",
+      "skipping reserved": "\"__int128_t\""
+    }
+  },
+  "objectGraphConfig": {
+    "newNodeAttributes": null,
+    "newNodeName": null,
+    "showFields": [
+      "Name",
+      "NumParams",
+      "InstantiatedFromMember.ptr",
+      "Specializations",
+      "TypeForDecl",
+      "DeclType",
+      "NextInContext"
+    ]
+  },
+  "relations": [
+    {
+      "end": {"entityRef": 0},
+      "label": "LastDecl",
+      "start": {"entityRef": 1}
+    },
+    {
+      "end": {"entityRef": 7},
+      "label": "FirstDecl, LastDecl",
+      "routingAlg": "RA_MANHATTAN_VERT",
+      "start": {"entityRef": 6}
+    },
+    {
+      "dashStructure": [
+        1,
+        2
+      ],
+      "end": {"entityRef": 0},
+      "label": "NextInContext",
+      "start": {"entityRef": 3}
+    },
+    {
+      "end": {"entityRef": 3},
+      "label": "FirstDecl",
+      "start": {"entityRef": 1}
+    },
+    {
+      "end": {"entityRef": 4},
+      "label": "Common",
+      "start": {"entityRef": 0}
+    },
+    {
+      "end": {"entityRef": 5},
+      "label": "Param[0]",
+      "start": {"entityRef": 0}
+    },
+    {
+      "end": {"entityRef": 6},
+      "label": "DC",
+      "start": {"entityRef": 5}
+    },
+    {
+      "end": {"entityRef": 1},
+      "label": "DC",
+      "start": {"entityRef": 6}
+    },
+    {
+      "controlPts": [{
+        "x": 300,
+        "y": 270
+      }],
+      "end": {"entityRef": 0},
+      "label": "TemplateOrSpecialization",
+      "start": {"entityRef": 6}
+    },
+    {
+      "controlPts": [{
+        "x": 135,
+        "y": 190
+      }],
+      "end": {"entityRef": 6},
+      "label": "TemplatedDecl",
+      "start": {"entityRef": 0}
+    },
+    {
+      "controlPts": [{
+        "x": 465,
+        "y": 340
+      }],
+      "end": {"entityRef": 7},
+      "label": "ParamInfo[0]",
+      "start": {"entityRef": 6}
+    },
+    {
+      "controlPts": [{
+        "x": 315,
+        "y": 390
+      }],
+      "end": {"entityRef": 6},
+      "label": "DC",
+      "start": {"entityRef": 7}
+    },
+    {
+      "controlPts": [{
+        "x": 60,
+        "y": 140
+      }],
+      "end": {"entityRef": 1},
+      "label": "DC",
+      "start": {"entityRef": 0}
+    }
+  ],
+  "type": "Diagram Editor Diagram",
+  "version": 28,
+  "windowSize": {
+    "h": 506,
+    "w": 700
+  }
+}

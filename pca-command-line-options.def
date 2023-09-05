@@ -1,0 +1,90 @@
+// pca-command-line-options.def
+// Compile-time data table for pca-command-line-options.
+
+/*
+  The caller must:
+
+    #define BOOL_OPTION(fieldName, defaultValue, optionName, helpText) ...
+
+  where:
+
+    'fieldName' is the name of a 'bool' field in the
+    PCACommandLineOptions structure.
+
+    'defaultValue' is the default value, either true or false.
+
+    'optionName' is a string giving the option's name on the command line.
+
+    'helpText' is the help text string for --help.  It will be emitted
+    with its initial line indented four spaces, so subsequent lines
+    should also have four spaces of indentation.  The last line should
+    not end with a newline because that will be added.
+*/
+#ifndef BOOL_OPTION
+  #error Must define BOOL_OPTION before including this file.
+#endif
+
+BOOL_OPTION(
+  m_runUnitTests,
+  false,
+  "--unit-tests",
+  R"(Run the internal unit tests and stop.)"
+)
+
+BOOL_OPTION(
+  m_dumpAST,
+  false,
+  "--dump-ast",
+  R"(Dump the Clang AST to stderr after parsing, before doing further
+    processing.)"
+)
+
+BOOL_OPTION(
+  m_printAST_JSON,
+  false,
+  "--print-ast-json",
+  R"(Print the AST with Clang's built-in JSON format.)"
+)
+
+BOOL_OPTION(
+  m_printASTNodes,
+  false,
+  "--print-ast-nodes",
+  R"(Print the AST node details for the primary source file, also in a
+    JSON format.  This is the main option to use to get this program's
+    principal output.)"
+)
+
+BOOL_OPTION(
+  m_noASTFieldQualifiers,
+  false,
+  "--no-ast-field-qualifiers",
+  R"(When printing AST node field names, do not include class name
+    qualifiers.)"
+)
+
+BOOL_OPTION(
+  m_fullTU,
+  false,
+  "--full-tu",
+  R"(With --print-ast-nodes, print details for the entire TU.)"
+)
+
+BOOL_OPTION(
+  m_suppressAddresses,
+  false,
+  "--suppress-addresses",
+  R"(With --print-ast-nodes, do not print numeric addresses.)"
+)
+
+BOOL_OPTION(
+  m_printUsage,
+  false,
+  "--help",
+  R"(Print this message.)"
+)
+
+
+#undef BOOL_OPTION
+
+// EOF

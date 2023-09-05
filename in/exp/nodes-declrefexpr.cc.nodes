@@ -1,0 +1,520 @@
+---- stdout ----
+{
+
+"TranslationUnitDecl 1": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "null" },
+  "Decl::lexicalDeclContext": { "ptr": "null" },
+  "Decl::Loc": "<invalid loc>",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "0",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "TranslationUnitDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 7 entries",
+  "DeclContext::FirstDecl": { "ptr": "TypedefDecl 2" },
+  "DeclContext::LastDecl": { "ptr": "FunctionDecl 20" },
+},
+
+"TypedefDecl 2": {
+  "skipping reserved": "\"__int128_t\"",
+},
+
+"BuiltinType 3": {
+  "syntax": "\"__int128\"",
+},
+
+"TypedefDecl 4": {
+  "skipping reserved": "\"__uint128_t\"",
+},
+
+"BuiltinType 5": {
+  "syntax": "\"unsigned __int128\"",
+},
+
+"TypedefDecl 6": {
+  "skipping reserved": "\"__NSConstantString\"",
+},
+
+"RecordType 7": {
+  "syntax": "\"struct __NSConstantString_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 44" },
+},
+
+"TypedefDecl 8": {
+  "skipping reserved": "\"__builtin_ms_va_list\"",
+},
+
+"PointerType 9": {
+  "syntax": "\"char *\"",
+  "PointeeType": { "ptr": "BuiltinType 10", "preview": "char" },
+},
+
+"BuiltinType 10": {
+  "syntax": "\"char\"",
+},
+
+"TypedefDecl 11": {
+  "skipping reserved": "\"__builtin_va_list\"",
+},
+
+"ConstantArrayType 12": {
+  "syntax": "\"struct __va_list_tag[1]\"",
+},
+
+"RecordType 13": {
+  "syntax": "\"struct __va_list_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 45" },
+},
+
+"CXXRecordDecl 14": {
+  "Decl::NextInContext": { "ptr": "FunctionDecl 20" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/nodes-declrefexpr.cc:4:8",
+  "Decl::flags": "Referenced",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+  "Decl::Linkage": "ExternalLinkage",
+  "DeclContext::DeclKind": "CXXRecordDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 2 entries",
+  "DeclContext::FirstDecl": { "ptr": "CXXRecordDecl 15" },
+  "DeclContext::LastDecl": { "ptr": "CXXConversionDecl 16" },
+  "NamedDecl::Name": "\"S\"",
+  "TypeDecl::TypeForDecl": { "ptr": "RecordType 26", "preview": "struct S" },
+  "TypeDecl::LocStart": "in/src/nodes-declrefexpr.cc:4:1",
+  "Redeclarable::Previous": { "ptr": "CXXRecordDecl 14" },
+  "Redeclarable::First": { "ptr": "CXXRecordDecl 14" },
+  "Redeclarable::redecls_size()": 1,
+  "TagDecl::TagDeclBits": "TTK_Struct IsCompleteDefinition IsFreeStanding MayHaveOutOfDateDef IsCompleteDefinitionRequired",
+  "TagDecl::TagDeclBits.IsCompleteDefinition": "true",
+  "TagDecl::BraceRange": "<in/src/nodes-declrefexpr.cc:4:10, line:6:1>",
+  "TagDecl::TypedefNameDeclOrQualifier.name": { "ptr": "null" },
+  "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
+  "RecordDecl::ODRHash": "58770973",
+  "CXXRecordDecl::DefinitionData": { "ptr": "DefinitionData 46" },
+  "CXXRecordDecl::TemplateOrInstantiation": "null",
+  "CXXRecordDecl::getDependentLambdaCallOperator()": { "ptr": "null" },
+  "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
+  "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
+  "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+},
+
+"CXXRecordDecl 15": {
+  "Decl::NextInContext": { "ptr": "CXXConversionDecl 16" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 14" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 14" },
+  "Decl::Loc": "in/src/nodes-declrefexpr.cc:4:8",
+  "Decl::flags": "Implicit",
+  "Decl::Implicit": "true",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXRecordDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"S\"",
+  "TypeDecl::TypeForDecl": { "ptr": "RecordType 26", "preview": "struct S" },
+  "TypeDecl::LocStart": "in/src/nodes-declrefexpr.cc:4:1",
+  "Redeclarable::Previous": { "ptr": "CXXRecordDecl 15" },
+  "Redeclarable::First": { "ptr": "CXXRecordDecl 15" },
+  "Redeclarable::redecls_size()": 1,
+  "TagDecl::TagDeclBits": "TTK_Struct MayHaveOutOfDateDef",
+  "TagDecl::TagDeclBits.IsCompleteDefinition": "false",
+  "TagDecl::BraceRange": "<<invalid sloc>>",
+  "TagDecl::TypedefNameDeclOrQualifier.name": { "ptr": "null" },
+  "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
+  "RecordDecl::ODRHash": "58770973",
+  "CXXRecordDecl::DefinitionData": { "ptr": "null" },
+  "CXXRecordDecl::TemplateOrInstantiation": "null",
+  "CXXRecordDecl::getDependentLambdaCallOperator()": { "ptr": "null" },
+  "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
+  "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
+  "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+},
+
+"CXXConversionDecl 16": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 14" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 14" },
+  "Decl::Loc": "in/src/nodes-declrefexpr.cc:5:3",
+  "Decl::flags": "Used Referenced",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "ExternalLinkage",
+  "DeclContext::DeclKind": "CXXConversionDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"operator int *\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 19", "preview": "int *(void)" },
+  "DeclaratorDecl::TInfo": "FunctionProto(\"int *(void)\", <in/src/nodes-declrefexpr.cc:5:12, col:18>, Pointer(\"int *\", <in/src/nodes-declrefexpr.cc:5:12, col:15>, Builtin(\"int\", <in/src/nodes-declrefexpr.cc:5:12>, NullTypeLoc)))",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/nodes-declrefexpr.cc:5:3",
+  "Redeclarable::Previous": { "ptr": "CXXConversionDecl 16" },
+  "Redeclarable::First": { "ptr": "CXXConversionDecl 16" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
+  "FunctionDecl::ParamInfo": "(empty)",
+  "FunctionDecl::Body": { "ptr": "null" },
+  "FunctionDecl::ODRHash": "0",
+  "FunctionDecl::EndRangeLoc": "in/src/nodes-declrefexpr.cc:5:18",
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::DNLoc": "Pointer(\"int *\", <in/src/nodes-declrefexpr.cc:5:12, col:15>, Builtin(\"int\", <in/src/nodes-declrefexpr.cc:5:12>, NullTypeLoc))",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+},
+
+"PointerType 17": {
+  "syntax": "\"int *\"",
+  "PointeeType": { "ptr": "BuiltinType 18", "preview": "int" },
+},
+
+"BuiltinType 18": {
+  "syntax": "\"int\"",
+},
+
+"FunctionProtoType 19": {
+  "syntax": "\"int *(void)\"",
+  "ResultType": { "ptr": "PointerType 17", "preview": "int *" },
+},
+
+"FunctionDecl 20": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/nodes-declrefexpr.cc:8:5",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "ExternalLinkage",
+  "DeclContext::DeclKind": "FunctionDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "ParmVarDecl 22" },
+  "DeclContext::LastDecl": { "ptr": "VarDecl 29" },
+  "NamedDecl::Name": "\"f\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 21", "preview": "int (int, S *)" },
+  "DeclaratorDecl::TInfo": "FunctionProto(\"int (int, S *)\", <in/src/nodes-declrefexpr.cc:8:1, col:18>, Builtin(\"int\", <in/src/nodes-declrefexpr.cc:8:1>, NullTypeLoc))",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/nodes-declrefexpr.cc:8:1",
+  "Redeclarable::Previous": { "ptr": "FunctionDecl 20" },
+  "Redeclarable::First": { "ptr": "FunctionDecl 20" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
+  "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 22" },
+  "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 23" },
+  "FunctionDecl::Body": { "ptr": "CompoundStmt 27" },
+  "FunctionDecl::ODRHash": "0",
+  "FunctionDecl::EndRangeLoc": "in/src/nodes-declrefexpr.cc:21:1",
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::DNLoc": "(none)",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+},
+
+"FunctionProtoType 21": {
+  "syntax": "\"int (int, S *)\"",
+  "CanonicalType": { "ptr": "FunctionProtoType 47", "preview": "int (int, struct S *)" },
+  "ResultType": { "ptr": "BuiltinType 18", "preview": "int" },
+  "paramType[0]": { "ptr": "BuiltinType 18", "preview": "int" },
+  "paramType[1]": { "ptr": "PointerType 24", "preview": "S *" },
+},
+
+"ParmVarDecl 22": {
+  "Decl::NextInContext": { "ptr": "ParmVarDecl 23" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 20" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 20" },
+  "Decl::Loc": "in/src/nodes-declrefexpr.cc:8:11",
+  "Decl::flags": "Used Referenced",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"x\"",
+  "ValueDecl::DeclType": { "ptr": "BuiltinType 18", "preview": "int" },
+  "DeclaratorDecl::TInfo": "Builtin(\"int\", <in/src/nodes-declrefexpr.cc:8:7>, NullTypeLoc)",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/nodes-declrefexpr.cc:8:7",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+  "ParmVarDecl::ParmVarDeclBits flags": "",
+  "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+  "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+  "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+},
+
+"ParmVarDecl 23": {
+  "Decl::NextInContext": { "ptr": "VarDecl 29" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 20" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 20" },
+  "Decl::Loc": "in/src/nodes-declrefexpr.cc:8:17",
+  "Decl::flags": "Used Referenced",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"s\"",
+  "ValueDecl::DeclType": { "ptr": "PointerType 24", "preview": "S *" },
+  "DeclaratorDecl::TInfo": "Pointer(\"S *\", <in/src/nodes-declrefexpr.cc:8:14, col:16>, Elaborated(\"S\", <in/src/nodes-declrefexpr.cc:8:14>, Record(\"struct S\", <in/src/nodes-declrefexpr.cc:8:14>, NullTypeLoc)))",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/nodes-declrefexpr.cc:8:14",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+  "ParmVarDecl::ParmVarDeclBits flags": "",
+  "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+  "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+  "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "1",
+},
+
+"PointerType 24": {
+  "syntax": "\"S *\"",
+  "CanonicalType": { "ptr": "PointerType 48", "preview": "struct S *" },
+  "PointeeType": { "ptr": "ElaboratedType 25", "preview": "S" },
+},
+
+"ElaboratedType 25": {
+  "syntax": "\"S\"",
+  "CanonicalType": { "ptr": "RecordType 26", "preview": "struct S" },
+  "getUnqualifiedDesugaredType()": { "ptr": "RecordType 26", "preview": "struct S" },
+  "Keyword": "ETK_None",
+  "NNS": "null",
+  "NamedType": { "ptr": "RecordType 26", "preview": "struct S" },
+},
+
+"RecordType 26": {
+  "syntax": "\"struct S\"",
+  "decl": { "ptr": "CXXRecordDecl 14" },
+},
+
+"CompoundStmt 27": {
+},
+
+"DeclStmt 28": {
+},
+
+"VarDecl 29": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 20" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 20" },
+  "Decl::Loc": "in/src/nodes-declrefexpr.cc:14:13",
+  "Decl::flags": "Used Referenced",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"ptm\"",
+  "ValueDecl::DeclType": { "ptr": "MemberPointerType 30", "preview": "int *(struct S::*)(void)" },
+  "DeclaratorDecl::TInfo": "MemberPointer(\"int *(struct S::*)(void)\", <in/src/nodes-declrefexpr.cc:14:3, col:18>, Paren(\"int *(void)\", <in/src/nodes-declrefexpr.cc:14:3, col:18>, FunctionProto(\"int *(void)\", <in/src/nodes-declrefexpr.cc:14:3, col:18>, Pointer(\"int *\", <in/src/nodes-declrefexpr.cc:14:3, col:6>, Builtin(\"int\", <in/src/nodes-declrefexpr.cc:14:3>, NullTypeLoc)))))",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/nodes-declrefexpr.cc:14:3",
+  "VarDecl::InitStmt": { "ptr": "UnaryOperator 32" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"MemberPointerType 30": {
+  "syntax": "\"int *(struct S::*)(void)\"",
+  "CanonicalType": { "ptr": "MemberPointerType 49", "preview": "int *(struct S::*)(void)" },
+},
+
+"ParenType 31": {
+  "syntax": "\"int *(void)\"",
+  "CanonicalType": { "ptr": "FunctionProtoType 19", "preview": "int *(void)" },
+  "getUnqualifiedDesugaredType()": { "ptr": "FunctionProtoType 19", "preview": "int *(void)" },
+},
+
+"UnaryOperator 32": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "MemberPointerType 49", "preview": "int *(struct S::*)(void)" },
+},
+
+"DeclRefExpr 33": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "FunctionProtoType 19", "preview": "int *(void)" },
+  "DeclRefExpr::DeclRefExprBits": "HasQualifier",
+  "DeclRefExpr::Loc": "in/src/nodes-declrefexpr.cc:14:26",
+  "DeclRefExpr::D": { "ptr": "CXXConversionDecl 16" },
+  "DeclRefExpr::DNLoc": "Pointer(\"int *\", <in/src/nodes-declrefexpr.cc:14:35, col:38>, Builtin(\"int\", <in/src/nodes-declrefexpr.cc:14:35>, NullTypeLoc))",
+  "DeclRefExpr::NestedNameSpecifierLoc": "\"S::\" at <in/src/nodes-declrefexpr.cc:14:23, col:24>",
+},
+
+"CXXMemberCallExpr 34": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "PointerType 17", "preview": "int *" },
+},
+
+"ParenExpr 35": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 50", "preview": "<bound member function type>" },
+},
+
+"BinaryOperator 36": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 50", "preview": "<bound member function type>" },
+},
+
+"ImplicitCastExpr 37": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "PointerType 24", "preview": "S *" },
+},
+
+"DeclRefExpr 38": {
+  "Expr::ExprBits::ValueKind": "VK_LValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "PointerType 24", "preview": "S *" },
+  "DeclRefExpr::DeclRefExprBits": "",
+  "DeclRefExpr::Loc": "in/src/nodes-declrefexpr.cc:15:4",
+  "DeclRefExpr::D": { "ptr": "ParmVarDecl 23" },
+  "DeclRefExpr::DNLoc": "(none)",
+},
+
+"ImplicitCastExpr 39": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "MemberPointerType 30", "preview": "int *(struct S::*)(void)" },
+},
+
+"DeclRefExpr 40": {
+  "Expr::ExprBits::ValueKind": "VK_LValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "MemberPointerType 30", "preview": "int *(struct S::*)(void)" },
+  "DeclRefExpr::DeclRefExprBits": "",
+  "DeclRefExpr::Loc": "in/src/nodes-declrefexpr.cc:15:8",
+  "DeclRefExpr::D": { "ptr": "VarDecl 29" },
+  "DeclRefExpr::DNLoc": "(none)",
+},
+
+"ReturnStmt 41": {
+},
+
+"ImplicitCastExpr 42": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 18", "preview": "int" },
+},
+
+"DeclRefExpr 43": {
+  "Expr::ExprBits::ValueKind": "VK_LValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 18", "preview": "int" },
+  "DeclRefExpr::DeclRefExprBits": "",
+  "DeclRefExpr::Loc": "in/src/nodes-declrefexpr.cc:20:10",
+  "DeclRefExpr::D": { "ptr": "ParmVarDecl 22" },
+  "DeclRefExpr::DNLoc": "(none)",
+},
+
+"CXXRecordDecl 44": {
+  "skipping reserved": "\"__NSConstantString_tag\"",
+},
+
+"CXXRecordDecl 45": {
+  "skipping reserved": "\"__va_list_tag\"",
+},
+
+"DefinitionData 46": {
+  "flags": [
+    "Aggregate",
+    "PlainOldData",
+    "Empty",
+    "IsStandardLayout",
+    "IsCXX11StandardLayout",
+    "HasIrrelevantDestructor",
+    "DefaultedDefaultConstructorIsConstexpr",
+    "DefaultedDestructorIsConstexpr",
+    "StructuralIfLiteral",
+    "ImplicitCopyConstructorCanHaveConstParamForVBase",
+    "ImplicitCopyConstructorCanHaveConstParamForNonVBase",
+    "ImplicitCopyAssignmentHasConstParam",
+  ],
+  "UserDeclaredSpecialMembers": "SMF_None",
+  "HasTrivialSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+  "HasTrivialSpecialMembersForCall": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+  "DeclaredNonTrivialSpecialMembers": "SMF_None",
+  "DeclaredNonTrivialSpecialMembersForCall": "SMF_None",
+  "DeclaredSpecialMembers": "SMF_None",
+  "ODRHash": "0",
+  "NumBases": "0",
+  "NumVBases": "0",
+  "Bases": "TODO",
+  "VBases": "TODO",
+  "Conversions": "TODO",
+  "VisibleConversions": "TODO",
+  "Definition": { "ptr": "CXXRecordDecl 14" },
+  "FirstFriend": "TODO",
+},
+
+"FunctionProtoType 47": {
+  "syntax": "\"int (int, struct S *)\"",
+  "ResultType": { "ptr": "BuiltinType 18", "preview": "int" },
+  "paramType[0]": { "ptr": "BuiltinType 18", "preview": "int" },
+  "paramType[1]": { "ptr": "PointerType 48", "preview": "struct S *" },
+},
+
+"PointerType 48": {
+  "syntax": "\"struct S *\"",
+  "PointeeType": { "ptr": "RecordType 26", "preview": "struct S" },
+},
+
+"MemberPointerType 49": {
+  "syntax": "\"int *(struct S::*)(void)\"",
+},
+
+"BuiltinType 50": {
+  "syntax": "\"<bound member function type>\"",
+},
+}
+---- stderr ----
+---- exit status ----
+Exit 0
