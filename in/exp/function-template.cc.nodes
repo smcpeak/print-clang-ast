@@ -149,11 +149,9 @@
   "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 19" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 20" },
-  "FunctionDecl::EndRangeLoc": "in/src/function-template.cc:8:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplate",
   "FunctionDecl::TemplateOrSpecialization.NamedDecl (described)": { "ptr": "FunctionTemplateDecl 14" },
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "FunctionTemplateDecl 14" },
@@ -210,7 +208,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/function-template.cc:7:10",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 19" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "FunctionDecl 23": {
@@ -240,11 +237,9 @@
   "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 24" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 29" },
-  "FunctionDecl::EndRangeLoc": "in/src/function-template.cc:8:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplateSpecialization",
   "FunctionDecl::TemplateOrSpecialization.FunctionTemplateSpecializationInfo": { "ptr": "FunctionTemplateSpecializationInfo 25" },
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -332,7 +327,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/function-template.cc:7:10",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 24" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "FunctionDecl 33": {
@@ -362,11 +356,9 @@
   "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 35" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 36" },
-  "FunctionDecl::EndRangeLoc": "in/src/function-template.cc:13:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -436,7 +428,6 @@
   "DeclRefExpr::DeclRefExprBits": "HasFoundDecl",
   "DeclRefExpr::Loc": "in/src/function-template.cc:12:10",
   "DeclRefExpr::D": { "ptr": "FunctionDecl 23" },
-  "DeclRefExpr::DNLoc": "(none)",
   "DeclRefExpr::FoundDecl": { "ptr": "FunctionTemplateDecl 14" },
 },
 
@@ -455,7 +446,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/function-template.cc:12:19",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 35" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CXXRecordDecl 43": {
@@ -471,7 +461,6 @@
   "InstantiatedFromMember.ptr": { "ptr": "null" },
   "InstantiatedFromMember.isMemberSpecialization": "0",
   "LazySpecializations": "null",
-  "InjectedArgs": "null",
   "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 25" },
 },
 

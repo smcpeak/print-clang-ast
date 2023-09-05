@@ -165,11 +165,9 @@
   "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
   "FunctionDecl::ParamInfo": "(empty)",
   "FunctionDecl::Body": { "ptr": "null" },
-  "FunctionDecl::EndRangeLoc": "in/src/declrefexpr.cc:5:18",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "Pointer(\"int *\", <in/src/declrefexpr.cc:5:12, col:15>, Builtin(\"int\", <in/src/declrefexpr.cc:5:12>, NullTypeLoc))",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -221,11 +219,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 22" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 23" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 27" },
-  "FunctionDecl::EndRangeLoc": "in/src/declrefexpr.cc:21:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -369,7 +365,6 @@
   "DeclRefExpr::DeclRefExprBits": "HasQualifier",
   "DeclRefExpr::Loc": "in/src/declrefexpr.cc:14:26",
   "DeclRefExpr::D": { "ptr": "CXXConversionDecl 16" },
-  "DeclRefExpr::DNLoc": "Pointer(\"int *\", <in/src/declrefexpr.cc:14:35, col:38>, Builtin(\"int\", <in/src/declrefexpr.cc:14:35>, NullTypeLoc))",
   "DeclRefExpr::NestedNameSpecifierLoc": "\"S::\" at <in/src/declrefexpr.cc:14:23, col:24>",
 },
 
@@ -409,7 +404,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/declrefexpr.cc:15:4",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 23" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "ImplicitCastExpr 39": {
@@ -427,7 +421,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/declrefexpr.cc:15:8",
   "DeclRefExpr::D": { "ptr": "VarDecl 29" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "ReturnStmt 41": {
@@ -448,7 +441,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/declrefexpr.cc:20:10",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 22" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CXXRecordDecl 44": {

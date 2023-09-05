@@ -377,7 +377,6 @@
   "InstantiatedFromMember.ptr": { "ptr": "null" },
   "InstantiatedFromMember.isMemberSpecialization": "0",
   "LazySpecializations": "null",
-  "InjectedArgs": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 18" },
   "PartialSpecializations": "empty",
   "InjectedClassNameType": { "ptr": "TemplateSpecializationType 38", "preview": "S<T>" },

@@ -246,11 +246,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 22" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 23" },
   "FunctionDecl::Body": { "ptr": "null" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-ovl-method-canttpt.cc:7:21",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -352,11 +350,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 27" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 28" },
   "FunctionDecl::Body": { "ptr": "null" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-ovl-method-canttpt.cc:8:21",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -465,11 +461,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 37" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 38" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 39" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-ovl-method-canttpt.cc:15:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -648,7 +642,6 @@
   "DeclRefExpr::DeclRefExprBits": "NOUR_Unevaluated",
   "DeclRefExpr::Loc": "in/src/class-template-ovl-method-canttpt.cc:14:22",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 37" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CStyleCastExpr 46": {
@@ -680,7 +673,6 @@
   "DeclRefExpr::DeclRefExprBits": "NOUR_Unevaluated",
   "DeclRefExpr::Loc": "in/src/class-template-ovl-method-canttpt.cc:14:40",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 38" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CXXMethodDecl 50": {
@@ -722,11 +714,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 57" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 58" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 59" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-ovl-method-canttpt.cc:21:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -905,7 +895,6 @@
   "DeclRefExpr::DeclRefExprBits": "NOUR_Unevaluated",
   "DeclRefExpr::Loc": "in/src/class-template-ovl-method-canttpt.cc:20:22",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 57" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CStyleCastExpr 66": {
@@ -937,7 +926,6 @@
   "DeclRefExpr::DeclRefExprBits": "NOUR_Unevaluated",
   "DeclRefExpr::Loc": "in/src/class-template-ovl-method-canttpt.cc:20:40",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 58" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CXXRecordDecl 70": {
@@ -953,7 +941,6 @@
   "InstantiatedFromMember.ptr": { "ptr": "null" },
   "InstantiatedFromMember.isMemberSpecialization": "0",
   "LazySpecializations": "null",
-  "InjectedArgs": "null",
   "Specializations": "empty",
   "PartialSpecializations": "empty",
   "InjectedClassNameType": { "ptr": "TemplateSpecializationType 80", "preview": "S<T1, U1>" },

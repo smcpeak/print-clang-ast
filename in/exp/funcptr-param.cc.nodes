@@ -97,11 +97,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 17" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 22" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 23" },
-  "FunctionDecl::EndRangeLoc": "in/src/funcptr-param.cc:9:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -247,7 +245,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/funcptr-param.cc:8:10",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 17" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "ImplicitCastExpr 28": {
@@ -265,7 +262,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/funcptr-param.cc:8:13",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 22" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CXXRecordDecl 30": {

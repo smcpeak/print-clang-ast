@@ -218,11 +218,9 @@
   "FunctionDecl::FunctionDeclBits": "IsInline HasWrittenPrototype",
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 21" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 22" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-method.cc:9:3",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -279,7 +277,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/class-template-method.cc:8:12",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 21" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CXXRecordDecl 25": {
@@ -295,7 +292,6 @@
   "InstantiatedFromMember.ptr": { "ptr": "null" },
   "InstantiatedFromMember.isMemberSpecialization": "0",
   "LazySpecializations": "null",
-  "InjectedArgs": "null",
   "Specializations": "empty",
   "PartialSpecializations": "empty",
   "InjectedClassNameType": { "ptr": "TemplateSpecializationType 32", "preview": "S<T>" },

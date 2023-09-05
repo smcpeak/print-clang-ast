@@ -272,11 +272,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 25" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 26" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 27" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-method-template.cc:10:3",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplate",
   "FunctionDecl::TemplateOrSpecialization.NamedDecl (described)": { "ptr": "FunctionTemplateDecl 19" },
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "FunctionTemplateDecl 19" },
@@ -371,7 +369,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/class-template-method-template.cc:9:12",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 25" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "DeclRefExpr 31": {
@@ -382,7 +379,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/class-template-method-template.cc:9:16",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 26" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "ClassTemplateSpecializationDecl 32": {
@@ -545,11 +541,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 38" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 39" },
   "FunctionDecl::Body": { "ptr": "null" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-method-template.cc:10:3",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplate",
   "FunctionDecl::TemplateOrSpecialization.NamedDecl (described)": { "ptr": "FunctionTemplateDecl 34" },
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "FunctionTemplateDecl 34" },
@@ -661,11 +655,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 44" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 45" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 50" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-method-template.cc:10:3",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplateSpecialization",
   "FunctionDecl::TemplateOrSpecialization.FunctionTemplateSpecializationInfo": { "ptr": "FunctionTemplateSpecializationInfo 46" },
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -801,7 +793,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/class-template-method-template.cc:9:12",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 44" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "ImplicitCastExpr 57": {
@@ -819,7 +810,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/class-template-method-template.cc:9:16",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 45" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "FunctionDecl 59": {
@@ -849,11 +839,9 @@
   "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 61" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 65" },
-  "FunctionDecl::EndRangeLoc": "in/src/class-template-method-template.cc:16:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
@@ -954,7 +942,6 @@
   "MemberExpr::Base": { "ptr": "DeclRefExpr 69" },
   "MemberExpr::MemberDecl": { "ptr": "CXXMethodDecl 43" },
   "MemberExpr::MemberLoc": "in/src/class-template-method-template.cc:15:12",
-  "MemberExpr::MemberDNLoc": "(none)",
 },
 
 "DeclRefExpr 69": {
@@ -965,7 +952,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/class-template-method-template.cc:15:10",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 61" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "IntegerLiteral 70": {
@@ -995,7 +981,6 @@
   "InstantiatedFromMember.ptr": { "ptr": "null" },
   "InstantiatedFromMember.isMemberSpecialization": "0",
   "LazySpecializations": "null",
-  "InjectedArgs": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 32" },
   "PartialSpecializations": "empty",
   "InjectedClassNameType": { "ptr": "TemplateSpecializationType 90", "preview": "S<T>" },
@@ -1051,7 +1036,6 @@
   "InstantiatedFromMember.ptr": { "ptr": "null" },
   "InstantiatedFromMember.isMemberSpecialization": "0",
   "LazySpecializations": "null",
-  "InjectedArgs": "null",
   "Specializations": "empty",
 },
 
@@ -1115,7 +1099,6 @@
   "InstantiatedFromMember.ptr": { "ptr": "FunctionTemplateDecl 19" },
   "InstantiatedFromMember.isMemberSpecialization": "0",
   "LazySpecializations": "null",
-  "InjectedArgs": "null",
   "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 46" },
 },
 

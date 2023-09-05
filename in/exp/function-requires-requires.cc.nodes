@@ -187,7 +187,6 @@
   "DeclRefExpr::DeclRefExprBits": "NOUR_Unevaluated",
   "DeclRefExpr::Loc": "in/src/function-requires-requires.cc:7:31",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 19" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "DeclRefExpr 22": {
@@ -198,7 +197,6 @@
   "DeclRefExpr::DeclRefExprBits": "NOUR_Unevaluated",
   "DeclRefExpr::Loc": "in/src/function-requires-requires.cc:7:35",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 19" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "FunctionDecl 23": {
@@ -229,11 +227,9 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 25" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 26" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 27" },
-  "FunctionDecl::EndRangeLoc": "in/src/function-requires-requires.cc:8:33",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplate",
   "FunctionDecl::TemplateOrSpecialization.NamedDecl (described)": { "ptr": "FunctionTemplateDecl 14" },
-  "FunctionDecl::DNLoc": "(none)",
   "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
   "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
   "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "FunctionTemplateDecl 14" },
@@ -324,7 +320,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/function-requires-requires.cc:8:26",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 25" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "DeclRefExpr 31": {
@@ -335,7 +330,6 @@
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/function-requires-requires.cc:8:30",
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 26" },
-  "DeclRefExpr::DNLoc": "(none)",
 },
 
 "CXXRecordDecl 32": {
@@ -351,7 +345,6 @@
   "InstantiatedFromMember.ptr": { "ptr": "null" },
   "InstantiatedFromMember.isMemberSpecialization": "0",
   "LazySpecializations": "null",
-  "InjectedArgs": "null",
   "Specializations": "empty",
 },
 
