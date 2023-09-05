@@ -26,8 +26,21 @@ sensitive to Clang version changes.
 
 # Compiling
 
-For now, you have to edit the `Makefile` to set
-`CLANG_LLVM_INSTALL_DIR` to point at a Clang installation directory.
+Create a file called `pre-config.mk` with contents that point at a
+Clang+LLVM installation directory, for example:
+
+```
+CLANG_LLVM_INSTALL_DIR = $(HOME)/opt/clang+llvm-16.0.0-x86_64-linux-gnu-ubuntu-18.04
+```
+
+Alternatively, to use a source build directory, point it at that
+directory like this:
+
+```
+USE_SOURCE_BUILD = 1
+CLANG_LLVM_SRC_DIR = $(HOME)/bld/llvm-project-2023-07-14
+CLANG_LLVM_INSTALL_DIR = $(CLANG_LLVM_SRC_DIR)/build
+```
 
 Then:
 
@@ -58,7 +71,8 @@ source files that do not `#include` anything.
 
 # Importing into ded
 
-After generating JSON, to import into `ded`:
+After generating JSON, to import into
+[`ded`](https://github.com/smcpeak/ded):
 
 * Start `ded`.
 

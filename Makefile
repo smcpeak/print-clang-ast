@@ -27,6 +27,9 @@ else
 
 endif
 
+# Let the user override my defaults.
+-include pre-config.mk
+
 
 # ---- 'make' boilerplate ----
 # Eliminate all implicit rules.
