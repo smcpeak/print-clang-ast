@@ -149,7 +149,6 @@
   "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 19" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 20" },
-  "FunctionDecl::ODRHash": "0",
   "FunctionDecl::EndRangeLoc": "in/src/triv-template-function.cc:8:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplate",

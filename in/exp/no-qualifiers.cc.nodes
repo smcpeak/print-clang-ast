@@ -95,7 +95,6 @@
   "FunctionDeclBits": "HasWrittenPrototype",
   "ParamInfo": "(empty)",
   "Body": { "ptr": "CompoundStmt 17" },
-  "ODRHash": "0",
   "EndRangeLoc": "in/src/no-qualifiers.cc:9:1",
   "DefaultKWLoc": "<invalid loc>",
   "getTemplatedKind()": "TK_NonTemplate",

@@ -97,7 +97,6 @@
   "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 17" },
   "FunctionDecl::ParamInfo[1]": { "ptr": "ParmVarDecl 22" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 23" },
-  "FunctionDecl::ODRHash": "0",
   "FunctionDecl::EndRangeLoc": "in/src/funcptr-param.cc:9:1",
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",

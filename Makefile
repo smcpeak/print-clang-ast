@@ -178,10 +178,13 @@ out/unit-tests.ok: print-clang-ast.exe
 
 # Test --print-ast-nodes.  This passes -std=c++20 because one test needs
 # that and it shouldn't cause problems for the others.
+#
+# We drop the ODRHash output because that depends on the Clang version.
 out/%.nodes: in/src/% in/exp/%.nodes print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
 	$(RUN_COMPARE_EXPECT) \
 	  --actual $@ --expect in/exp/$*.nodes \
+	  --drop-lines 'ODRHash":' \
 	  ./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
 	    -std=c++20 in/src/$*
 
