@@ -97,19 +97,6 @@ CXXFLAGS += -DCLANG_LLVM_INSTALL_DIR='"$(CLANG_LLVM_INSTALL_DIR)"'
 GENDEPS_FLAGS = -MMD
 
 
-# Compilation flags to pass specifically when checking that the output
-# of header analysis compiles.
-CHECK_OUTPUT_CXXFLAGS :=
-
-# These warnings will fire spuriously when a header file is passed as
-# the "main file" of a translation unit, so turn them off.
-#
-# Note that print-clang-ast.exe internally disables these flags itself,
-# so we do not need to pass it to HA, only to $(CXX).
-CHECK_OUTPUT_CXXFLAGS += -Wno-unused-function
-CHECK_OUTPUT_CXXFLAGS += -Wno-unused-const-variable
-
-
 # Linker options.
 LDFLAGS =
 
@@ -167,75 +154,9 @@ print-clang-ast.exe: $(OBJS)
 in/exp/%:
 	touch $@
 
-# Given a directory in $(1) that we will chdir into, return a path that
-# can be used to chdir back to the starting point.  (This is currently
-# not general; it simply detects specific directories.)
-REVDIR = $(subst in/src,../..,$(1))
 
-# Given a name in $(1) that might contain a '%' pattern placeholder,
-# replace it with '$*' so it expands to the string matched by the '%'.
-UNPCT = $(subst %,$$*,$(1))
-
-# Create a rule that runs the analysis as part of the tests and compare
-# to expected output.
-#
-# Params:
-#   $(1): Source file name without directory info, but possibly with a
-#         '%' pattern placeholder
-#   $(2): Directory containing source file.
-#   $(3): Flags for print-clang-ast.exe.
-#   $(4): Compilation flags.
-define MAKE_RUN_RULE
-
-out/$(1).ha: print-clang-ast.exe $(2)/$(1) in/exp/$(1).ha
-	$$(CREATE_OUTPUT_DIRECTORY)
-	@#
-	@# Run the analysis.
-	cd $(2) && $$(call REVDIR,$(2))/print-clang-ast.exe \
-	  --outdir=$$(call REVDIR,$(2))/out $(3) $(4) $(call UNPCT,$(1))
-	@#
-	@# Check that the output (if created) can be compiled.  We
-	@# check both Data (alone) and Ops.
-	$(if $(findstring .h,$(1)), \
-	  cd out && $(CXX) -c -o /dev/null $(4) -I../$(2) \
-	    $$(CHECK_OUTPUT_CXXFLAGS) \
-	    $(patsubst %.h,%,$(call UNPCT,$(1)))_Data.h \
-	)
-	$(if $(findstring .h,$(1)), \
-	  cd out && $(CXX) -c -o /dev/null $(4) -I../$(2) \
-	    $$(CHECK_OUTPUT_CXXFLAGS) \
-	    $(patsubst %.h,%,$(call UNPCT,$(1)))_Ops.h \
-	)
-	@#
-	@# Compare output to expectation.
-	$$(RUN_COMPARE_EXPECT) \
-	  --actual $$@ --expect in/exp/$(call UNPCT,$(1)).ha \
-	  cat out/$(call UNPCT,$(1)).deps \
-	      out/$(call UNPCT,$(1)).counts \
-	      $(if $(findstring .h,$(1)), \
-	        out/$(patsubst %.h,%,$(call UNPCT,$(1)))_Names.h \
-	        out/$(patsubst %.h,%,$(call UNPCT,$(1)))_Data.h \
-	        out/$(patsubst %.h,%,$(call UNPCT,$(1)))_Ops.h \
-	        $(if $(findstring --rewrite,$(3)), \
-	          out/$(call UNPCT,$(1)) \
-	        ) \
-	      )
-
-endef
-
-$(eval $(call MAKE_RUN_RULE,%.c,in/src,,))
-$(eval $(call MAKE_RUN_RULE,%.cc,in/src,,$(CXXFLAGS)))
-$(eval $(call MAKE_RUN_RULE,%.h,in/src,--rewrite,$(CXXFLAGS) -xc++))
-
-$(eval $(call MAKE_RUN_RULE,%.cc,.,,$(CXXFLAGS)))
-$(eval $(call MAKE_RUN_RULE,%.h,.,--rewrite,$(CXXFLAGS) -xc++))
-
-
-# Normal tests.
+# All tests.
 .PHONY: check
-
-# Tests that currently are broken.
-.PHONY: check-broken
 
 
 # Unit tests.
