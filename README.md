@@ -69,6 +69,11 @@ $ ./print-clang-ast.exe --print-ast-nodes test.cc >test.json
 The output is voluminous, so this is mainly intended to be used on tiny
 source files that do not `#include` anything.
 
+By default, the program uses fairly verbose names for attributes, which
+is helpful for learning the organization of the AST, but creates a lot
+of clutter in a diagram.  Consider adding `--no-ast-field-qualifiers` to
+the command line to reduce the verbosity.
+
 # Importing into ded
 
 After generating JSON, to import into
@@ -81,39 +86,24 @@ After generating JSON, to import into
   * Copy+paste the JSON text into the window that opens, replacing the
     initial pair of braces.  Press Ok.
 
-* In `ded`, press "C" (Create) then left-click to create an entity.
+* Choose "Diagram -> Add object graph node...".
 
-* Double-click the newly created entity to edit it.
-
-  * Outside `ded` (for example, in a text editor), look in the JSON
-    output from `print-clang-ast.exe` for a node of interest.  A possible
-    starting point is `TranslationUnitDecl 1`, representing the entire TU.
-
-  * Type or paste the chosen node ID into the "Object graph node ID" box
-    in the lower-right corner.
-
-  * Enter `$(graphNodeID)` into the "Name" box.  (That means the node
-    is named after its ID.  You could put something else instead or
-    in addition.)
-
-  * Enter `$(graphNodeShowFieldsAttrs)<newline>$(graphNodeShowFieldsPtrs)`
-    into the "Attributes" box.  (Only the first node requires so much
-    manual effort.)
-
-  * Press Ok.
+  * Choose a node of central importance.  What is important will depend
+    on the chosen input source code and the desired purpose of the
+    diagram.  A `FunctionDecl` node might be a good choice.
 
 * Resize the entity so you can see its name and contents.  Inside the
   main area you should see the attributes, then a blank line, then
   the pointers.
 
 * Right-click the entity, choose "Follow pointer", then pick a pointer
-  name.  If using the TU as the first node, "LastDecl" might be a good
-  choice.
+  name.  If using a `FunctionDecl` as the first node, and it has
+  parameters, `ParamInfo[0]` might be a good choice.
 
-* Continue following pointers to explore the graph.
-
-* I'll add more documentation to `ded` soon explaining all the
-  capabilities.
+* Continue following pointers to explore the graph.  See the `ded`
+  documentation on
+  [Using ded to make diagrams of graphs](https://github.com/smcpeak/ded/doc/diagrams-of-graphs.md)
+  for more details on how to do that.
 
 # Licensing
 
