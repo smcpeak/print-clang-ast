@@ -60,7 +60,8 @@ BOOL_OPTION(
   false,
   "--no-ast-field-qualifiers",
   R"(When printing AST node field names, do not include class name
-    qualifiers.)"
+    qualifiers.  Also use abbreviations for some attributes whose name
+    is long even without a qualifier.)"
 )
 
 BOOL_OPTION(
