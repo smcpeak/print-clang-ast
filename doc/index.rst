@@ -6,4 +6,4 @@ Contents
 
 .. toctree::
 
-   Templates
+   ASTsForTemplates

@@ -1,7 +1,7 @@
 # doc/Makefile
 
 DOCS :=
-DOCS += Templates.rst
+DOCS += ASTsForTemplates.rst
 DOCS += index.rst
 
 html/index.html: $(DOCS) conf.py
