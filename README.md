@@ -102,7 +102,7 @@ After generating JSON, to import into
 
 * Continue following pointers to explore the graph.  See the `ded`
   documentation on
-  [Using ded to make diagrams of graphs](https://github.com/smcpeak/ded/doc/diagrams-of-graphs.md)
+  [Using ded to make diagrams of graphs](https://github.com/smcpeak/ded/blob/master/doc/diagrams-of-graphs.md)
   for more details on how to do that.
 
 # Licensing
