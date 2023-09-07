@@ -31,8 +31,8 @@
       "attributes": "template <class T>\nT identity(T t)\n{\n  return t;\n}\n\nint caller(int x)\n{\n  return identity(x);\n}\n",
       "fillColor": "Yellow",
       "loc": {
-        "x": 585,
-        "y": 150
+        "x": 590,
+        "y": 190
       },
       "name": "Source Code",
       "size": {
@@ -42,6 +42,7 @@
     },
     {
       "attributes": "\"identity\" in \"identity(x)\"\n",
+      "fillColor": "Stmt",
       "loc": {
         "x": 345,
         "y": 400
@@ -56,7 +57,7 @@
     {
       "attributes": "$(graphNodeShowFieldsPtrs)\n",
       "loc": {
-        "x": 170,
+        "x": 210,
         "y": 125
       },
       "name": "$(graphNodeID)",
@@ -69,7 +70,7 @@
     {
       "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
       "loc": {
-        "x": 170,
+        "x": 210,
         "y": 200
       },
       "name": "$(graphNodeID)",
@@ -81,8 +82,9 @@
     },
     {
       "attributes": "$(graphNodeShowFieldsAttrs)\n$(graphNodeShowFieldsPtrs)\n",
+      "fillColor": "Focus Node",
       "loc": {
-        "x": 170,
+        "x": 210,
         "y": 295
       },
       "name": "$(graphNodeID)",
@@ -104,9 +106,95 @@
         "h": 75,
         "w": 260
       }
+    },
+    {
+      "fillColor": "Stmt",
+      "loc": {
+        "x": 50,
+        "y": 350
+      },
+      "name": "CompoundStmt 29",
+      "size": {
+        "h": 20,
+        "w": 115
+      }
+    },
+    {
+      "fillColor": "Stmt",
+      "loc": {
+        "x": 590,
+        "y": 130
+      },
+      "name": "CompoundStmt 20",
+      "size": {
+        "h": 20,
+        "w": 115
+      }
     }
   ],
   "inheritances": [],
+  "namedColors": [
+    {
+      "color": "RGB(0,0,0)",
+      "name": "Black"
+    },
+    {
+      "color": "RGB(192,192,192)",
+      "name": "Gray"
+    },
+    {
+      "color": "RGB(255,255,255)",
+      "name": "White"
+    },
+    {
+      "color": "RGB(224,224,224)",
+      "name": "Light Gray"
+    },
+    {
+      "color": "RGB(236,125,70)",
+      "name": "Orange"
+    },
+    {
+      "color": "RGB(234,236,52)",
+      "name": "Yellow"
+    },
+    {
+      "color": "RGB(76,222,76)",
+      "name": "Green"
+    },
+    {
+      "color": "RGB(135,193,255)",
+      "name": "Sky Blue"
+    },
+    {
+      "color": "RGB(161,140,237)",
+      "name": "Purple"
+    },
+    {
+      "color": "RGB(227,120,236)",
+      "name": "Pink"
+    },
+    {
+      "color": "RGB(248,50,50)",
+      "name": "Red"
+    },
+    {
+      "color": "RGB(150,255,150)",
+      "name": "CanonicalType"
+    },
+    {
+      "color": "RGB(60,200,60)",
+      "name": "Type"
+    },
+    {
+      "color": "RGB(227,120,236)",
+      "name": "Stmt"
+    },
+    {
+      "color": "RGB(255,204,204)",
+      "name": "Focus Node"
+    }
+  ],
   "objectGraph": {
     "DeclRefExpr 40": {
       "D": {"ptr": "FunctionDecl 23"},
@@ -356,7 +444,7 @@
     },
     {
       "controlPts": [{
-        "x": 295,
+        "x": 335,
         "y": 275
       }],
       "end": {"entityRef": 5},
@@ -375,7 +463,7 @@
     {
       "controlPts": [
         {
-          "x": 530,
+          "x": 570,
           "y": 115
         },
         {
@@ -387,10 +475,20 @@
       "label": "FoundDecl",
       "routingAlg": "RA_MANHATTAN_VERT",
       "start": {"entityRef": 3}
+    },
+    {
+      "end": {"entityRef": 8},
+      "label": "Body",
+      "start": {"entityRef": 6}
+    },
+    {
+      "end": {"entityRef": 9},
+      "label": "Body",
+      "start": {"entityRef": 1}
     }
   ],
   "type": "Diagram Editor Diagram",
-  "version": 28,
+  "version": 29,
   "windowSize": {
     "h": 492,
     "w": 721

@@ -41,6 +41,7 @@
     },
     {
       "attributes": "$(graphNodeShowFieldsAttrs)\nTagDeclBits.IsCompleteDefinition: true\n\n$(graphNodeShowFieldsPtrs)\nRedeclarable::Previous, First: this\n",
+      "fillColor": "Focus Node",
       "loc": {
         "x": 90,
         "y": 175
@@ -143,6 +144,68 @@
     }
   ],
   "inheritances": [],
+  "namedColors": [
+    {
+      "color": "RGB(0,0,0)",
+      "name": "Black"
+    },
+    {
+      "color": "RGB(192,192,192)",
+      "name": "Gray"
+    },
+    {
+      "color": "RGB(255,255,255)",
+      "name": "White"
+    },
+    {
+      "color": "RGB(224,224,224)",
+      "name": "Light Gray"
+    },
+    {
+      "color": "RGB(236,125,70)",
+      "name": "Orange"
+    },
+    {
+      "color": "RGB(234,236,52)",
+      "name": "Yellow"
+    },
+    {
+      "color": "RGB(76,222,76)",
+      "name": "Green"
+    },
+    {
+      "color": "RGB(135,193,255)",
+      "name": "Sky Blue"
+    },
+    {
+      "color": "RGB(161,140,237)",
+      "name": "Purple"
+    },
+    {
+      "color": "RGB(227,120,236)",
+      "name": "Pink"
+    },
+    {
+      "color": "RGB(248,50,50)",
+      "name": "Red"
+    },
+    {
+      "color": "RGB(150,255,150)",
+      "name": "CanonicalType"
+    },
+    {
+      "color": "RGB(60,200,60)",
+      "name": "Type"
+    },
+    {
+      "color": "RGB(227,120,236)",
+      "name": "Stmt"
+    },
+    {
+      "color": "RGB(255,204,204)",
+      "name": "Focus Node"
+    }
+  ],
   "objectGraph": {
     "BuiltinType 10": {"syntax": "\"char\""},
     "BuiltinType 3": {"syntax": "\"__int128\""},
@@ -734,7 +797,7 @@
     }
   ],
   "type": "Diagram Editor Diagram",
-  "version": 28,
+  "version": 29,
   "windowSize": {
     "h": 680,
     "w": 923

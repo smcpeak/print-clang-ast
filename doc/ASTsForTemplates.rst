@@ -747,6 +747,13 @@ Observations:
 * ``FunctionTemplateDecl 14`` and ``FunctionDecl 17`` point to each
   other.
 
+* ``FunctionDecl 17`` has a pointer to the ``Body`` that gives the
+  definition of the behavior of the function, which in this case is a
+  templated "pattern" to instantiate.  In this and subsequent diagrams,
+  nodes in the ``Stmt`` hierarchy (which includes ``Expr``) are colored
+  purple to visually distinguish them from the gray used for ``Decl``
+  nodes (and decl-associated nodes like ``Common``).
+
 * There are no specializations in ``FunctionTemplateDecl::Common 25``.
 
 * ``TemplateTypeParmDecl 15`` uses the template\ **d** function as its
@@ -812,9 +819,11 @@ We also have a ``FunctionDecl`` for ``caller``.
 ``DeclRefExpr`` of an implicit instantiation
 --------------------------------------------
 
-Within ``caller``, there is a ``DeclRefExpr`` representing the
-``identity`` expression of the ``identity(x)`` call site.  In this case,
-there are two notable fields relevant to templates:
+A ``DeclRefExpr`` is an expression that refers to a declaration,
+typically a variable or function parameter.  Within ``caller``, there is
+a ``DeclRefExpr`` representing the ``identity`` expression of the
+``identity(x)`` call site.  In this case, there are two notable fields
+relevant to templates:
 
 * ``ValueDecl *DeclRefExpr::D``: The primary declaration that this node
   references, ``D`` points at the *instantiated* ``FunctionDecl``.
@@ -834,13 +843,15 @@ of templates.
 
 Although it is not shown in the AST dump, the there is an important node
 sitting between the ``FunctionTemplateDecl`` and the instantiation
-``FunctionDecl``, namely the ``FunctionTemplateSpecializationInfo``.  It
-is an element of the ``RedeclarableTemplateDecl::Specializations`` set,
-which itself is stored in the ``Common`` node shared by all
-redeclarations of the template.
+``FunctionDecl``, namely the ``FunctionTemplateSpecializationInfo``
+(FTSI).  It is an element of the
+``RedeclarableTemplateDecl::Specializations`` set, which itself is
+stored in the ``Common`` node shared by all redeclarations of the
+template.
 
-There is one ``FunctionTemplateSpecializationInfo`` (FTSI) record for
-each specialization of a given template in the translation unit.  It
+The FTSI acts as a parent node of a ``FunctionDecl`` that is a
+specialization of a template; there is one FTSI record for each
+specialization of a given function template in the translation unit.  It
 contains these fields:
 
 * ``void *FoldingSetNode::NextInFoldingSetBucket``:
@@ -1022,6 +1033,14 @@ with interesting types.
 ``ClassTemplateDecl``
 ---------------------
 
+At a high level, ``ClassTemplateDecl`` has four key pieces of data:
+
+* A template parameter list.
+* A pointer to the templated ``CXXRecordDecl``.
+* A set of (full) specializations.
+* A set of partial specializations, a feature that function templates
+  lack.
+
 ``ClassTemplateDecl`` has the following inheritance hierarchy::
 
     Class Name                                  Header          Novel?
@@ -1117,6 +1136,24 @@ it in the latter?]
 
 ``CXXRecordDecl``
 -----------------
+
+A ``CXXRecordDecl`` declares or defines a C++ ``class`` or ``struct`` or
+``union``.  With respect to templates, ``CXXRecordDecl`` plays the same
+three basic roles that ``FunctionDecl`` did:
+
+* The templated class of a class template declaration.
+
+* A specialization, whether implicit, explicit, or partial.  In these
+  cases, the ``CXXRecordDecl`` object is a base class subobject of
+  a ``ClassTemplateSpecializationDecl`` or
+  ``ClassTemplatePartialSpecializationDecl``.
+
+* A member specialization, as a member of an instantiation of an outer
+  class template.
+
+``CXXRecordDecl`` is also used to represent the injected-class-name
+inside the class, although that mechanism is mostly orthogonal to
+templates.
 
 ``CXXRecordDecl`` has the following inheritance hierarchy::
 
@@ -1288,6 +1325,10 @@ The novel fields (and novel meanings of fields for this context) of
 ``FieldDecl``
 -------------
 
+In a template context, what is interesting about a ``FieldDecl`` is its
+``ValueDecl::DeclType`` field, which specifies the type, potentially in
+terms of ``TemplateTypeParmType`` and ``InjectedClassNameType`` nodes.
+
 The inheritance hierarchy for ``FieldDecl`` is::
 
     Class Name              Header          Novel?
@@ -1349,11 +1390,10 @@ Canonical ``TemplateTypeParmType``
 As explained above, the type of the ``data`` field within the template
 is a ``TemplateTypeParmType`` whose ``TTPDecl`` field points at the
 ``TemplateTypeParmDecl`` node at the top of the template declaration.
-But this type node is not *canonical* (canonical means that semantic
-equivalence is determined by pointer equality), because semantically the
+But this type node is not *canonical*, because semantically the
 same type can be introduced again, potentially with a different name.
 
-Consider:
+Consider this example:
 
 .. code-block:: c++
 
@@ -1425,8 +1465,13 @@ This diagram focuses on the relationships among the ``Type`` objects:
 
 .. image:: ASTsForTemplatesImages/class-template-types.ded.png
 
-The green boxes are ``Type`` nodes and the gray boxes are ``Decl``
-nodes.  Lighter green means the ``Type`` is canonical.
+The green boxes are ``Type`` nodes.  Lighter green means the ``Type`` is
+canonical.
+
+The main thing to observe is the parallel structure between the
+non-canonical types, which use user-defined names for template
+parameters, and canonical types, which exclusively use the depth/index
+scheme for template parameters.
 
 
 Class template implicit instantiation
@@ -1487,6 +1532,18 @@ We'll look at each of these in turn.
 
 ``ClassTemplateSpecializationDecl``
 -----------------------------------
+
+A ``ClassTemplateSpecializationDecl`` has four main pieces:
+
+* A class declaration, as an embedded ``CXXRecordDecl`` subobject.
+
+* A pointer to the primary class template it specializes.
+
+* The template arguments that identify the specialization in the context
+  of the primary.
+
+* For the case of an instantiation of a partial specialization, a
+  pointer to the partial and the arguments that apply to that partial.
 
 The inheritance hierarchy for ``ClassTemplateSpecializationDecl`` is::
 

@@ -2,6 +2,7 @@
   "drawFileName": true,
   "entities": [
     {
+      "fillColor": "Focus Node",
       "loc": {
         "x": 45,
         "y": 75
@@ -65,6 +66,7 @@
       }
     },
     {
+      "fillColor": "Focus Node",
       "loc": {
         "x": 45,
         "y": 55
@@ -292,6 +294,14 @@
     {
       "color": "RGB(60,200,60)",
       "name": "Type"
+    },
+    {
+      "color": "RGB(227,120,236)",
+      "name": "Stmt"
+    },
+    {
+      "color": "RGB(255,204,204)",
+      "name": "Focus Node"
     }
   ],
   "objectGraph": {
@@ -1589,7 +1599,7 @@
     }
   ],
   "type": "Diagram Editor Diagram",
-  "version": 28,
+  "version": 29,
   "windowSize": {
     "h": 658,
     "w": 834
