@@ -1,6 +1,6 @@
-=================
-    Templates
-=================
+==========================
+    ASTs for Templates
+==========================
 
 .. contents::
    :local:
@@ -10,6 +10,9 @@
 
 .. comment: The *.ded diagrams used in this document can be edited with
             https://github.com/smcpeak/ded
+
+.. comment: The graph data inside the diagrams can be regenerated with
+            https://github.com/smcpeak/print-clang-ast
 
 
 Preliminaries
@@ -21,8 +24,9 @@ Document scope
 
 This document assumes a general familiarity with at least the concept of
 an abstract syntax tree (AST), and moderate familiarity with C++
-templates.  Some familiarity with the Clang AST is helpful but not
-necessary.
+templates.  Some familiarity with the Clang AST
+is helpful but not necessary; see :doc:`IntroductionToTheClangAST` and
+:doc:`InternalsManual` (section "The AST Library").
 
 The document's main focus is on how the language feature of templates is
 represented in the Clang AST, especially in the form it takes after
@@ -37,13 +41,6 @@ There is some overlap between material here and the comments in the
 source code.  This document is meant to provide a complimentary overview
 of the most important structures, while source code comments go into
 greater detail, especially on more ancillary topics.
-
-[Meta: Ideally the comments and this document could be brought into
-greater alignment.  Some possibilities include cross-references from
-comments to this document, automatically copying certain fragments from
-the source to here, and (manually) copying or moving some of this
-material into comments.  Selecting and implementing a strategy for
-alignment is a topic for discussion.]
 
 
 Definitions of terms
@@ -74,11 +71,12 @@ the C++ standard.  Some key terms are listed below:
   potential objects (run-time values).  To say an object has a type is
   to say it is in the type's set.  A type is a *semantic* notion, not
   inherently tied to any particular source code location.  However, in
-  the clang AST, a type that was defined using a declaration (such as a
+  the Clang AST, a type that was defined using a declaration (such as a
   ``class`` or a ``typedef``) provides a way to navigate back to that
   declaration, and some AST nodes contain ``TypeLoc`` objects that
   augment a type with source location information for a particular
-  syntactic description of a type.
+  syntactic description of a type.  [TODO: I'm not entirely satisfied
+  with this definition, but the standard doesn't give one.]
 
 * A *dependent type* is a mathematical function whose input is a
   sequence of template arguments and whose output is either a
@@ -197,12 +195,14 @@ look at each in turn.
 
 Let's dig into ``FunctionTemplateDecl``.  Its inheritance structure is::
 
-    FunctionTemplateDecl                        (DeclTemplate.h)
-      RedeclarableTemplateDecl                  (DeclTemplate.h)
-        TemplateDecl                            (DeclTemplate.h)
-          NamedDecl                             (Decl.h)
-            Decl                                (DeclBase.h)
-        Redeclarable<RedeclarableTemplateDecl>  (Redeclarable.h)
+    Class Name                                  Header
+    ------------------------------------------  --------------
+    FunctionTemplateDecl                        DeclTemplate.h
+      RedeclarableTemplateDecl                  DeclTemplate.h
+        TemplateDecl                            DeclTemplate.h
+          NamedDecl                             Decl.h
+            Decl                                DeclBase.h
+        Redeclarable<RedeclarableTemplateDecl>  Redeclarable.h
 
 The Doxygen-generated documentation focuses on the public methods, but
 it is hard to tell how things really work by looking at that.  Instead,
@@ -222,7 +222,7 @@ to fields stored in the low bits of pointers, is:
   * ``SourceLocation Loc``: Source code location.
 
   * Various flags, including ``unsigned DeclKind : 7``, an indicator of
-    what kind of object this is (the clang AST does not use C++ RTTI for
+    what kind of object this is (the Clang AST does not use C++ RTTI for
     performance and flexibility reasons).
 
 * From base class ``NamedDecl``:
@@ -326,13 +326,20 @@ less degenerate.
 
 The class hierarchy for ``TemplateTypeParmDecl`` is::
 
-    TemplateTypeParmDecl                                    (DeclTemplate.h)
-      TypeDecl                                              (Decl.h)
-        NamedDecl                                           (Decl.h)
-          Decl                                              (DeclBase.h)
-      TrailingObjects<TemplateTypeParmDecl, TypeConstraint> (llvm/Support/TrailingObjects.h)
-        TypeConstraint                                      (ASTConcept.h)
-          ConceptReference                                  (ASTConcept.h)
+    Class Name                              Header             Novel?
+    --------------------------------------  -----------------  ------------
+    TemplateTypeParmDecl                    DeclTemplate.h     yes
+      TypeDecl                              Decl.h             yes
+        NamedDecl                           Decl.h             no
+          Decl                              DeclBase.h         contextually
+      TrailingObjects<..., TypeConstraint>  TrailingObjects.h  yes
+        TypeConstraint                      ASTConcept.h       yes
+          ConceptReference                  ASTConcept.h       yes
+
+In this table, "Novel?" indicates whether the class is novel in the
+sense of not having already been discussed previously in this document.
+"Contextually" means the class was discussed, but something about it is
+different in this context.
 
 Technically, ``TrailingObjects<TemplateTypeParmDecl, TypeConstraint>``
 does not inherit ``TypeConstraint``, but it arranges for a
@@ -353,17 +360,18 @@ The fields of ``TemplateTypeParmDecl`` are:
     parameter is not added to the list of child declarations of its (or
     any) ``DeclContext``, presumably because it is very different from
     the normal declaration children of a function (namely, parameters)
-    or class (namely, class members).  TODO: What about template
-    variables?  [Editorial: Why not make ``TemplateDecl`` be a
+    or class (namely, class members).  [TODO: What about template
+    variables?]  [TODO: Question: Why not make ``TemplateDecl`` be a
     ``DeclContext``?]
 
 * From ``TypeDecl``:
 
   * ``Type *TypeForDecl``: The ``Type`` object this declaration
     introduces.  In this case it is a ``TemplateTypeParmType``, and that
-    points back to the ``TemplateTypeParmDecl``.  TODO:
+    points back to the ``TemplateTypeParmDecl``.
     ``TemplateTypeParmType`` can be a "canonical" type, lacking a
-    pointer to the declaration.  What is that?
+    pointer to the declaration; this is discussed below, at
+    `Canonical TemplateTypeParmType`_.
 
   * ``SourceLocation LocStart``: Location of the start of the type
     declaration.  In ``template <class T> ...``, the start of the
@@ -371,28 +379,28 @@ The fields of ``TemplateTypeParmDecl`` are:
 
 * From ``ConceptReference`` (when present):
 
-  * TODO
+  * [TODO]
 
 * From ``TypeConstraint`` (when present):
 
-  * TODO
+  * [TODO]
 
 * In ``TemplateTypeParmDecl`` itself:
 
   * ``bool Typename``: True if ``typename`` was used to declare the
-    parameter, false if ``class`` was.  TODO: But there is an exception
-    involving type constraints.
+    parameter, false if ``class`` was.  [TODO: But there is an exception
+    involving type constraints.]
 
   * ``bool HasTypeConstraint``: True if there is a type constraint,
     which means there is an associated ``TypeConstraint`` member.
 
-  * ``bool TypeConstraintInitialized``: TODO
+  * ``bool TypeConstraintInitialized``: [TODO]
 
-  * ``bool ExpandedParameterPack``: TODO
+  * ``bool ExpandedParameterPack``: [TODO]
 
   * ``unsigned NumExpanded``: The number of type parameters in an
-    expanded parameter pack.  TODO: Explain more.  Where are those
-    parameters?
+    expanded parameter pack.  [TODO: Explain more.  Where are those
+    parameters?]
 
 The main takeaway here is that, within the scope of the template
 declaration, ``TemplateTypeParmDecl`` acts like the declaration of a new
@@ -412,13 +420,15 @@ that is the ``TemplateOrSpecialization`` field).
 
 The class hierarchy for ``FunctionDecl`` is::
 
-    FunctionDecl                   (Decl.h)
-      DeclaratorDecl               (Decl.h)
-        ValueDecl                  (Decl.h)
-          NamedDecl                (Decl.h)
-            Decl                   (DeclBase.h)
-      DeclContext                  (DeclBase.h)
-      Redeclarable<FunctionDecl>   (Redeclarable.h)
+    Class Name                     Header          Novel?
+    -----------------------------  --------------  ------------
+    FunctionDecl                   Decl.h          yes
+      DeclaratorDecl               Decl.h          yes
+        ValueDecl                  Decl.h          yes
+          NamedDecl                Decl.h          no
+            Decl                   DeclBase.h      contextually
+      DeclContext                  DeclBase.h      yes
+      Redeclarable<FunctionDecl>   Redeclarable.h  no
 
 The fields of ``FunctionDecl`` are:
 
@@ -444,7 +454,7 @@ The fields of ``FunctionDecl`` are:
   * ``TypeSourceInfo *TInfo``: Augments the ``DeclType`` with source
     location information, indicating where in the source code this
     particular declaration denotes the type.  It can be ``nullptr``, for
-    example for the destructor of a lambda.  [That fact should be stated
+    example for the destructor of a lambda.  [TODO: That fact could be stated
     in the documentation of ``DeclaratorDecl::getTypeSourceInfo()``.]
 
   * Optional ``ExtInfo *``: A structure with extra information needed
@@ -528,7 +538,7 @@ The fields of ``FunctionDecl`` are:
     if it is a ``FunctionNoProtoType``.  If the number of parameters is
     zero, then ``ParamInfo`` is ``nullptr``.  (Note: A comment on its
     declaration says it is ``nullptr`` for prototypes (non-definitions),
-    but that is not true.)
+    but that is not true.)  [TODO: Fix the comment?]
 
   * Anonymous union discriminated by
     ``FunctionDeclBits.HasDefaultedFunctionInfo``:
@@ -551,10 +561,10 @@ The fields of ``FunctionDecl`` are:
     ``FunctionDeclBits.HasODRHash`` is true (it will be computed if and
     when it is needed).  The relevance to templates is if a function is
     an instantiation, then it its ``ODRHash`` is the same as the
-    templated function from which it was instantiated.  [That is how it
-    is implemented.  I do not know if that is an optimization because
-    the hash would turn out the same, or a deliberate alteration to what
-    the naive calculation would produce.]
+    templated function from which it was instantiated.  [TODO: That is
+    how it is implemented.  I do not know if that is an optimization
+    because the hash would turn out the same, or a deliberate alteration
+    to what the naive calculation would produce.  Clarify.]
 
   * ``SourceLocation EndRangeLoc``: The location of the end of the
     (conceptual) declaration.  If a function body is present, then this
@@ -615,13 +625,15 @@ The fields of ``FunctionDecl`` are:
 Lastly for this example, let's look at ``ParmVarDecl``, which has this
 inheritance diagram::
 
-    ParmVarDecl                    (Decl.h)
-      VarDecl                      (Decl.h)
-        DeclaratorDecl             (Decl.h)
-          ValueDecl                (Decl.h)
-            NamedDecl              (Decl.h)
-              Decl                 (DeclBase.h)
-        Redeclarable<VarDecl>      (Redeclarable.h)
+    Class Name                 Header          Novel?
+    -------------------------  --------------  ------------
+    ParmVarDecl                Decl.h          yes
+      VarDecl                  Decl.h          yes
+        DeclaratorDecl         Decl.h          no
+          ValueDecl            Decl.h          contextually
+            NamedDecl          Decl.h          no
+              Decl             DeclBase.h      no
+        Redeclarable<VarDecl>  Redeclarable.h  no
 
 Its fields are:
 
@@ -675,10 +687,10 @@ Its fields are:
 Diagram: Function template: Definition
 --------------------------------------
 
-The following diagram shows the AST objects involved in the representing
-a single function template:
+The following diagram shows the AST objects involved in representing a
+single function template:
 
-.. image:: function-template.ded.png
+.. image:: ASTsForTemplatesImages/function-template.ded.png
 
 The ``TypedefDecl`` shown at the top is first of several implicitly
 defined typedefs.  Their ``NextInContext`` chain ends with the
@@ -811,7 +823,7 @@ contains these fields:
   first instantiated.  [TODO: In a chain of instantiations, is this the
   first or last element of the chain?]
 
-* Optional trailing object ``MemberSpecializationInfo *``: TODO
+* Optional trailing object ``MemberSpecializationInfo *``: [TODO]
 
 
 The instantiation ``FunctionDecl``
@@ -838,7 +850,7 @@ Diagram: Function template: Instantiation
 The following diagram shows the major objects involved in representing a
 function that has been implicitly instantiated:
 
-.. image:: function-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/function-instantiation.ded.png
 
 In this diagram, all of the pointers related to scoping and lookup have
 been removed in order to focus on the template relationships.
@@ -871,7 +883,7 @@ A method of a non-templated class can be templated:
 The object interaction diagram is similar to the case for a global
 function template:
 
-.. image:: method-template.ded.png
+.. image:: ASTsForTemplatesImages/method-template.ded.png
 
 The changes from the function template case are:
 
@@ -892,7 +904,7 @@ The changes from the function template case are:
   instance (or are all ``nullptr`` if there is no definition), and
   ``DefinitionData::Definition`` points back to a particular
   ``CXXRecordDecl``, so we'll look at how those relationships are
-  affected by templates.
+  affected by templates in `CXXRecordDecl`_.
 
 * The first member is another ``CXXRecordDecl``.  This represents the
   "injected class name".  For class templates, this is plays an
@@ -1044,7 +1056,7 @@ the name of a type (``clang::InjectedClassNameType`` declared in
 (``clang::ClassTemplateDecl::Common::InjectedClassNameType`` declared in
 ``DeclTemplate.h``) in the C++ clang implementation.
 
-[Question: The second invariant, if accurate, seemingly suggests that
+[TODO: Question: The second invariant, if accurate, seemingly suggests that
 the ICNT could just as easily be retrieved from the templated
 declaration as from the ``Common`` structure.  So why redundantly store
 it in the latter?]
@@ -1095,7 +1107,7 @@ The novel fields (and novel meanings of fields for this context) of
     arguments for all parameters:
 
     * ``CXXRecordDecl *Decl``: Pointer to the templated
-      ``CXXRecordDecl``.  [Question: Couldn't this be computed as
+      ``CXXRecordDecl``.  [TODO: Question: Couldn't this be computed as
       ``InjectedType->getAs<TemplateSpecializationType>()->Template.getAsTemplateDecl().TemplatedDecl``?]
 
     * ``QualType InjectedType``: A ``TemplateSpecializationType``
@@ -1150,7 +1162,7 @@ The novel fields (and novel meanings of fields for this context) of
     * ``ExtInfo *``, where ``ExtInfo`` is an alias for ``QualifierInfo``:
       Used for definitions of class members (that are themselves
       classes) appearing outside their parent class body.  The details
-      are discussed above, under ``FunctionDecl``.
+      are discussed above, under `FunctionDecl`_.
 
     * ``nullptr``: Used in the common case where neither of the
       preceding apply.  The injected-class-name always has ``nullptr``.
@@ -1212,10 +1224,10 @@ The novel fields (and novel meanings of fields for this context) of
     * ``ClassTemplateDecl *``: This is a templated class, and the
       pointer refers to the enclosing template declaration.  The
       injected-class-name *also* points to the enclosing template
-      declaration.  [Question: Why?  I would expect the ICN to have
+      declaration.  [TODO: Question: Why?  I would expect the ICN to have
       ``nullptr``, following the analogy of a member ``typedef``.]
 
-    * ``MemberSpecializationInfo *``: TODO
+    * ``MemberSpecializationInfo *``: [TODO]
 
     * ``nullptr``: Neither of the above apply.
 
@@ -1226,7 +1238,7 @@ The novel fields (and novel meanings of fields for this context) of
 The inheritance hierarchy for ``FieldDecl`` is::
 
     Class Name              Header          Novel?
-    ----------------------  -------         -------
+    ----------------------  -------         ------------
     FieldDecl               Decl.h          yes
       DeclaratorDecl        Decl.h          no
         ValueDecl           Decl.h          contextually
@@ -1284,9 +1296,9 @@ Canonical ``TemplateTypeParmType``
 As explained above, the type of the ``data`` field within the template
 is a ``TemplateTypeParmType`` whose ``TTPDecl`` field points at the
 ``TemplateTypeParmDecl`` node at the top of the template declaration.
-But this type node is not *canonical* (meaning semantic equivalence is
-determined by pointer equality), because semantically the same type can
-be introduced again, potentially with a different name.
+But this type node is not *canonical* (canonical means that semantic
+equivalence is determined by pointer equality), because semantically the
+same type can be introduced again, potentially with a different name.
 
 Consider:
 
@@ -1331,7 +1343,7 @@ In the Clang compiler front end, the ``CanTTPT`` names should not appear
 in error messages and the like because they are meaningless to the user.
 However, at times (particularly during error recovery) it can be
 difficult to prevent the names from leaking.
-[Question: Should any instance of ``type-parameter-D-I`` appearing in an
+[TODO: Question: Should any instance of ``type-parameter-D-I`` appearing in an
 error message be regarded as a bug in the CFE?  Or perhaps only if the
 first error has it?]
 
@@ -1342,7 +1354,7 @@ Diagram: Class template: Definition
 Let's now diagram the AST relationships for the example with a single
 class template, first focusing on the ``Decl`` objects:
 
-.. image:: class-template.ded.png
+.. image:: ASTsForTemplatesImages/class-template.ded.png
 
 The most essential observations are:
 
@@ -1358,7 +1370,7 @@ The most essential observations are:
 
 This diagram focuses on the relationships among the ``Type`` objects:
 
-.. image:: class-template-types.ded.png
+.. image:: ASTsForTemplatesImages/class-template-types.ded.png
 
 The green boxes are ``Type`` nodes and the gray boxes are ``Decl``
 nodes.  Lighter green means the ``Type`` is canonical.
@@ -1426,7 +1438,7 @@ We'll look at each of these in turn.
 The inheritance hierarchy for ``ClassTemplateSpecializationDecl`` is::
 
     Class Name                       Header          Novel?
-    -------------------------------  --------------  ------
+    -------------------------------  --------------  ------------
     ClassTemplateSpecializationDecl  DeclTemplate.h  yes
       CXXRecordDecl                  DeclCXX.h       contextually
         RecordDecl                   Decl.h          no
@@ -1446,10 +1458,10 @@ right.  It has these novel fields or interpretations:
 * From base ``CXXRecordDecl``:
 
   * ``PointerUnion<...> TemplateOrInstantiation``:
-    This field is slightly misnamed, as the "or instantiation" part
-    really should be something like "or member specialization".  Since
-    this class is neither a template nor a member specialization
-    (discussed later), the field is ``nullptr``.
+    This field is arguably slightly misnamed, as the "or instantiation"
+    part really should be understood as something like "or member
+    specialization".  Since this class is neither a template nor a
+    member specialization (discussed later), the field is ``nullptr``.
 
 * From base ``TypeDecl``:
 
@@ -1493,8 +1505,8 @@ right.  It has these novel fields or interpretations:
       * ``const TemplateArgumentList *TemplateArgs``:
         The template arguments, corresponding to the parameters of the
         partial specialization (not the primary), with which the partial
-        was instantiated.  (Later in this document we'll give an
-        example.)
+        was instantiated.  There is an example below, in
+        `Diagram: Class template: Partial specialization`_.
 
     * ``nullptr`` is *not* a possibility here.
 
@@ -1506,13 +1518,13 @@ right.  It has these novel fields or interpretations:
     contains:
 
     * ``TypeSourceInfo *TypeAsWritten``:
-      TODO
+      [TODO]
 
     * ``SourceLocation ExternLoc``:
-      TODO
+      [TODO]
 
     * ``SourceLocation TemplateKeywordLoc``:
-      TODO
+      [TODO]
 
   * ``const TemplateArgumentList *TemplateArgs``:
     Template arguments, corresponding to the parameters of the primary
@@ -1566,7 +1578,7 @@ field of interest is ``QualType ValueDecl::DeclType``:
       If true, the replacement type is non-canonical, and stored as a
       trailing object.  Otherwise, the replacement is simply the
       canonical type, which is stored in the
-      ``ExtQualsTypeCommonBase::CanonicalType`` field.  [Question: Can
+      ``ExtQualsTypeCommonBase::CanonicalType`` field.  [TODO: Question: Can
       this flag ever be set?  I have not been able to make it happen,
       since it seems like template arguments always get canonicalized
       before landing in a ``SubstTemplateTypeParmType``.]
@@ -1576,7 +1588,7 @@ field of interest is ``QualType ValueDecl::DeclType``:
       parameter that was substituted.
 
     * ``unsigned PackIndex``:
-      TODO
+      [TODO]
 
   * ``Decl *AssociatedDecl``:
     Comments at the declaration site explain that this is
@@ -1615,7 +1627,7 @@ Diagram: Class template: Instantiation
 Here is a diagram showing the key ``Decl`` objects for the class
 template instantiation example:
 
-.. image:: class-template-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/class-template-instantiation.ded.png
 
 Observations:
 
@@ -1647,7 +1659,7 @@ Observations:
 Here is a diagram showing the ``Type`` objects used to represent the
 types of the instantiated data members:
 
-.. image:: class-template-instantiation-types.ded.png
+.. image:: ASTsForTemplatesImages/class-template-instantiation-types.ded.png
 
 This diagram omits discussion of the types of the implicitly
 generated constructors because methods will be discussed more generally
@@ -1693,7 +1705,7 @@ Now let's look at an example of a class template with a method:
 
 Here is a diagram of some of the relevant AST objects:
 
-.. image:: class-template-method.ded.png
+.. image:: ASTsForTemplatesImages/class-template-method.ded.png
 
 The main thing to note in the diagram is that its structure is very much
 like a non-template class and method, just with ``TemplateTypeParmType``
@@ -1771,7 +1783,7 @@ Diagram: Ordinary method inside class template: Instantiation
 For the method instantiation example above, part of the resulting AST
 looks like this:
 
-.. image:: class-template-method-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/class-template-method-instantiation.ded.png
 
 Observations:
 
@@ -1825,7 +1837,7 @@ A function template can be explicitly specialized:
 
 The resulting object graph looks like this:
 
-.. image:: function-explicit-specialization.ded.png
+.. image:: ASTsForTemplatesImages/function-explicit-specialization.ded.png
 
 Interestingly, the specialization creates *two* ``FunctionDecl`` nodes,
 not one.  One of them (#34 in the diagram) is merely a declaration
@@ -1872,7 +1884,7 @@ A class template can be explicitly specialized:
 
 The resulting object graph looks like this:
 
-.. image:: class-template-explicit-specialization.ded.png
+.. image:: ASTsForTemplatesImages/class-template-explicit-specialization.ded.png
 
 The central object is the ``ClassTemplateSpecializationDecl``, which
 records the associated template, the specialized template arguments,
@@ -1988,7 +2000,7 @@ For the following translation unit:
 
 The resulting object graph looks like this:
 
-.. image:: class-template-partial-specialization.ded.png
+.. image:: ASTsForTemplatesImages/class-template-partial-specialization.ded.png
 
 The peach-colored node is the ``ClassTemplatePartialSpecializationDecl``
 we are focusing on.  It has a pointer to the primary template, and is
@@ -1996,7 +2008,7 @@ pointed to by the primary's ``Common`` structure, among its
 ``PartialSpecializations`` (in this case it is the only one).  Its
 members are very similar to those of a primary class template, with the
 main difference being the use of canonical rather than non-canonical
-``TemplateTypeParmDecl`` nodes.  [Question: What is the reason for this
+``TemplateTypeParmDecl`` nodes.  [TODO: Question: What is the reason for this
 difference?]
 
 It's also notable that the partial's ``TemplateTypeParmDecl`` (node #41)
@@ -2044,7 +2056,7 @@ specialized:
 
 The resulting object graph looks like this:
 
-.. image:: class-template-member-explicit-specialization.ded.png
+.. image:: ASTsForTemplatesImages/class-template-member-explicit-specialization.ded.png
 
 The peach-colored node is the ``CXXMethodDecl`` directly associated with
 the syntactic declaration starting with ``template <>``.  It is
@@ -2091,7 +2103,7 @@ is instantiated yet.
 
 The resulting object graph looks like this:
 
-.. image:: class-template-method-template.ded.png
+.. image:: ASTsForTemplatesImages/class-template-method-template.ded.png
 
 The peach-colored node is the method template.  It contains the
 templated method, and is contained by the templated class.  Its template
@@ -2129,7 +2141,7 @@ of the argument expressions).
 
 The resulting object graph looks like this:
 
-.. image:: class-template-method-template-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/class-template-method-template-instantiation.ded.png
 
 The peach-colored node is the instantiation of the method template.
 This is a two-step process: first the class is instantiated with
@@ -2189,7 +2201,7 @@ Alternatively, we can explicitly specialize the method template:
 
 The resulting object graph looks like this:
 
-.. image:: class-template-method-template-specialization.ded.png
+.. image:: ASTsForTemplatesImages/class-template-method-template-specialization.ded.png
 
 As with earlier examples of specializing a function template, the
 process produces two AST nodes that are redeclarations of each other.
@@ -2225,7 +2237,7 @@ We can define and instantiate a class template inside a class template:
 
 The resulting object graph looks like this:
 
-.. image:: class-template-class-template-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/class-template-class-template-instantiation.ded.png
 
 The peach-colored node, ``ClassTemplateSpecializationDecl 32`` is the
 result of instantiating ``Outer<int>::Inner<float>``.  It is most
@@ -2270,7 +2282,7 @@ We can explicitly specialize a class template inside a class template:
 
 The resulting object graph looks like this:
 
-.. image:: class-template-class-template-specialization.ded.png
+.. image:: ASTsForTemplatesImages/class-template-class-template-specialization.ded.png
 
 In many respects, this looks like the previous case, with the major
 difference that the ``ClassTemplateSpecializationDecl`` of interest
@@ -2312,7 +2324,7 @@ We can partially specialize a class template inside a class template:
 
 The resulting object graph looks like this:
 
-.. image:: class-template-class-template-partial-specialization.ded.png
+.. image:: ASTsForTemplatesImages/class-template-class-template-partial-specialization.ded.png
 
 This diagram omits the ``TemplateTypeParmDecl`` nodes and their types in
 order to focus on the rest of the structure.
@@ -2414,14 +2426,15 @@ Two-level nested:
   * Inner ordinary function: Not possible.
   * Inner function template: Not possible.
   * Inner ordinary class: Uninteresting.
-  * Inner class template: [TODO]
+  * Inner class template: Not possible.
 
 * Outer function template
 
-  * Inner ordinary function: Not possible.
+  * Inner ordinary function: Not possible.  [TODO: At least ``clang``
+    rejects this.  But then what is ``TK_DependentNonTemplate``?]
   * Inner function template: Not possible.
   * Inner ordinary class: [TODO]
-  * Inner class template: [TODO]
+  * Inner class template: Not possible.
 
 * Outer ordinary class
 

@@ -2,6 +2,8 @@
 
 DOCS :=
 DOCS += ASTsForTemplates.rst
+DOCS += InternalsManual.rst
+DOCS += IntroductionToTheClangAST.rst
 DOCS += index.rst
 
 html/index.html: $(DOCS) conf.py

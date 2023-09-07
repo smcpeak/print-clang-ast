@@ -7,3 +7,5 @@ Contents
 .. toctree::
 
    ASTsForTemplates
+   InternalsManual
+   IntroductionToTheClangAST
