@@ -37,6 +37,16 @@ the former.  But AST elements that are orthogonal to templates and not
 conceptually foundational to them are described only briefly, or omitted
 entirely.
 
+This document currently omits discussion of some topics:
+
+* Template non-type parameters and template template parameters.
+
+* Template ``requires`` constraints.
+
+* Concepts.
+
+* [TODO: There are others.]
+
 There is some overlap between material here and the comments in the
 source code.  This document is meant to provide a complimentary overview
 of the most important structures, while source code comments go into
@@ -67,21 +77,33 @@ the C++ standard.  Some key terms are listed below:
   semantic entity (as well as being one particular syntactic declaration
   of it).
 
-* A non-dependent *type* represents a (usually infinite) set of
-  potential objects (run-time values).  To say an object has a type is
-  to say it is in the type's set.  A type is a *semantic* notion, not
-  inherently tied to any particular source code location.  However, in
-  the Clang AST, a type that was defined using a declaration (such as a
-  ``class`` or a ``typedef``) provides a way to navigate back to that
-  declaration, and some AST nodes contain ``TypeLoc`` objects that
-  augment a type with source location information for a particular
-  syntactic description of a type.  [TODO: I'm not entirely satisfied
-  with this definition, but the standard doesn't give one.]
+* A *type* is a semantic property of an expression or declared entity.
+  A non-dependent type constrains the set of allowable operations on the
+  expression or entity.  Object types (as opposed to function types)
+  also specify how many bytes of storage objects of that type occupy and
+  how those bytes are interpreted as mathematical objects.  Because a
+  type is a semantic notion, it (unlike a declaration) is not inherently
+  tied to any particular source location.  However, in the Clang AST, a
+  type that was defined using a declaration (such as a ``class`` or a
+  ``typedef``) provides a way to navigate back to that declaration, and
+  some AST nodes contain ``TypeLoc`` objects that augment a type with
+  source location information for a particular syntactic description of
+  a type.
 
-* A *dependent type* is a mathematical function whose input is a
-  sequence of template arguments and whose output is either a
-  non-dependent type if all of the arguments are non-dependent, or
-  another dependent type otherwise.
+* A *dependent type* is a type that depends in some way on unspecified
+  template arguments.  Generally, dependent types have fewer constraints
+  on the set of allowable operations and less information about size and
+  interpretation of their representation than do non-dependent types.
+
+* A *canonical type* is one constructed in such a way that two canonical
+  types are semantically equivalent if and only if they are structurally
+  identical.  For example, after ``typedef int MyInt;``, ``MyInt`` is
+  semantically equivalent to ``int`` but (in the Clang AST) is not
+  structurally identical because ``MyInt`` knows its user-defined name
+  and declaration location, so it is not canonical.  Given an arbitrary
+  type, the Clang API has methods (such as
+  ``QualType::getCanonicalType()``) to get the corresponding canonical
+  type.
 
 * A *template* is a kind of declaration, represented as an object that
   is a subtype of ``TemplateDecl``.  It corresponds to the
@@ -190,8 +212,25 @@ The primary objects of interest are ``FunctionTemplateDecl``,
 ``TemplateTypeParmDecl``, ``FunctionDecl``, and ``ParmVarDecl``.  We'll
 look at each in turn.
 
+
 ``FunctionTemplateDecl``
 ------------------------
+
+At a high level, ``FunctionTemplateDecl`` has three key pieces of data:
+
+* A sequence of template parameters.
+
+* A pointer to the templated function declaration.
+
+* The set of specializations, both implicit and explicit.
+
+That's probably enough to know on a first reading of this document, so
+you may want to skip the remainder of this section and come back later
+to study these foundational details.  This pattern is repeated
+throughout this document: for each type of object, there is a brief,
+high-level description, followed by details that are skippable on a
+first read.  The details always begin with the inheritance hierarchy,
+so that's the natural choice point regarding what to read when.
 
 Let's dig into ``FunctionTemplateDecl``.  Its inheritance structure is::
 
@@ -206,9 +245,9 @@ Let's dig into ``FunctionTemplateDecl``.  Its inheritance structure is::
 
 The Doxygen-generated documentation focuses on the public methods, but
 it is hard to tell how things really work by looking at that.  Instead,
-we need to look at the private data structure definitions.  The set of
-fields of ``FunctionTemplateDecl``, simplified a little by giving names
-to fields stored in the low bits of pointers, is:
+we need to look at the private data structure definitions.  The fields
+of ``FunctionTemplateDecl``, simplified a little by giving names to
+fields stored in the low bits of pointers, are:
 
 * From base class ``Decl``:
 
@@ -310,19 +349,19 @@ For the example fragment above, the most important relations are:
 * ``Redeclarable::Previous`` points to itself, meaning there are no
   other redeclarations.
 
-* ``RedeclarableTemplateDecl::Common->InstantiatedFromMember`` is
-  ``nullptr`` because (among other things) this isn't a member of any
-  class.
-
 * ``RedeclarableTemplateDecl::Common->Specializations`` is empty because
   there are no specializations.
-
-Later we will look at source code that causes these AST features to be
-less degenerate.
 
 
 ``TemplateTypeParmDecl``
 ------------------------
+
+At a high level, ``TemplateTypeParmDecl`` declares a new dependent type,
+for use within the scope of the template, whose concrete details are
+known only when a template argument is supplied.  The type is
+represented by a ``TemplateTypeParmType`` object whose most important
+piece of data is simply a pointer back to the corresponding
+``TemplateTypeParmDecl``.
 
 The class hierarchy for ``TemplateTypeParmDecl`` is::
 
@@ -402,11 +441,6 @@ The fields of ``TemplateTypeParmDecl`` are:
     expanded parameter pack.  [TODO: Explain more.  Where are those
     parameters?]
 
-The main takeaway here is that, within the scope of the template
-declaration, ``TemplateTypeParmDecl`` acts like the declaration of a new
-type, namely a fresh ``TemplateTypeParmType`` that is associated with
-that particular parameter.
-
 It is also worth noting that ``TemplateTypeParmDecl`` does not have a
 direct pointer to its ``TemplateDecl``.  Instead, to navigate to the
 ``TemplateDecl``, one must use ``DeclCtx`` to get to the templated
@@ -417,6 +451,28 @@ that is the ``TemplateOrSpecialization`` field).
 
 ``FunctionDecl``
 ----------------
+
+A ``FunctionDecl`` declares, and optionally defines, a function.  There
+are three main kinds of template-associated ``FunctionDecl`` nodes:
+
+* The templated function in a ``FunctionTemplateDecl``, which provides
+  the pattern from which instantiation can proceed.
+
+* A specialization of a function template, resulting either from
+  instantiation or explicit specialization of a template declaration.
+  This is discussed further under `FunctionTemplateSpecializationInfo`_.
+
+* A specialization of a member (method) of a class template, where the
+  method itself may or may not also be a template.  This is discussed
+  further under `MemberSpecializationInfo`_.
+
+In all three cases, the ``FunctionDecl`` has a pointer to the structure
+that describes its template-ness.
+
+Additionally, the parameters and body of a template-associated
+``FunctionDecl`` can refer to ``TemplateTypeParmType`` objects (and
+non-type and template template parameters, but those are currently
+out of the scope of this document).
 
 The class hierarchy for ``FunctionDecl`` is::
 
@@ -622,8 +678,11 @@ The fields of ``FunctionDecl`` are:
 ``ParmVarDecl``
 ---------------
 
-Lastly for this example, let's look at ``ParmVarDecl``, which has this
-inheritance diagram::
+A ``ParmVarDecl`` is a declaration of a function parameter.  For the
+purpose of this document, the most important thing is its
+``ValueDecl::DeclType`` can be or refer to a ``TemplateTypeParmType``.
+
+``ParmVarDecl`` has this inheritance diagram::
 
     Class Name                 Header          Novel?
     -------------------------  --------------  ------------
@@ -640,33 +699,14 @@ Its fields are:
 * Those from ``DeclaratorDecl``, ``ValueDecl``, ``NamedDecl``,
   ``Decl``, and ``Redeclarable``, discussed above.  With respect to
   templates, the main notable thing is that ``ValueDecl::DeclType`` is a
-  ``TemplateTypeParmType`` here.
+  ``TemplateTypeParmType`` in the ``identity`` function template example
+  under consideration.
 
 * From ``VarDecl``:
 
   * ``llvm::PointerUnion<Stmt *, EvaluatedStmt *> Init``: Pointer to
-    the initializer or default argument.
-
-    * In the ``Stmt*`` case, this is an ordinary AST pointer, and no
-      attempt has been made to evaluate it.
-
-    * In the ``EvaluatedStmt*`` case, this points to an
-      ``EvaluatedStmt`` (defined in ``Decl.h``) object that is "owned"
-      by the ``VarDecl``.  There might not have been any attempt to
-      evaluate (merely the structure allocated as preparation), or
-      evaluation may have been attempted and succeeded or failed.
-      ``EvaluatedStmt`` contains:
-
-      * Several flags that relate to the evaluation state and results.
-
-      * ``Stmt *Value``: Pointer to the expression, like the case where
-        only a ``Stmt *`` is stored.
-
-      * ``APValue Evaluated``: The result of evaluation, if it has been
-        attempted.  In that case, an ``APValue`` kind of ``None`` means
-        the evaluation failed.  This might contain additional allocated
-        resources (e.g., it could be a large arbitrary-precision
-        integer), and those too are owned by the ``VarDecl``.
+    the initializer or default argument.  The details are orthogonal to
+    templates, so omitted here.
 
   * ``VarDeclBits``: Describes storage class and initialization syntax,
     neither of which is particularly relevant for templates.
@@ -692,12 +732,25 @@ single function template:
 
 .. image:: ASTsForTemplatesImages/function-template.ded.png
 
-The ``TypedefDecl`` shown at the top is first of several implicitly
-defined typedefs.  Their ``NextInContext`` chain ends with the
-``FunctionTemplateDecl``.
+In this diagram, and all that follow, the peach-colored node is the most
+important, "focus" node.  Here, it is the ``FunctionTemplateDecl 14``
+node corresponding to the template declaration.  (The numbers in the box
+titles are arbitrary, being artifacts of the process by which the
+diagram was created.)
 
-(The numbers in the box titles are arbitrary, being artifacts of the
-process by which the diagram was created.)
+Observations:
+
+* The ``TypedefDecl`` shown at the top is first of several implicitly
+  defined typedefs.  Their ``NextInContext`` chain ends with
+  ``FunctionTemplateDecl 14``.
+
+* ``FunctionTemplateDecl 14`` and ``FunctionDecl 17`` point to each
+  other.
+
+* There are no specializations in ``FunctionTemplateDecl::Common 25``.
+
+* ``TemplateTypeParmDecl 15`` uses the template\ **d** function as its
+  ``DeclContext``.
 
 
 Function template instantiation

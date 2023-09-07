@@ -2,7 +2,8 @@
   "drawFileName": true,
   "entities": [
     {
-      "attributes": "$(graphNodeShowFields)\n",
+      "attributes": "$(graphNodeShowFieldsAttrs)\n$(graphNodeShowFieldsPtrs)\n",
+      "fillColor": "Focus Node",
       "loc": {
         "x": 115,
         "y": 85
@@ -10,8 +11,8 @@
       "name": "$(graphNodeID)",
       "objectGraphNodeID": "FunctionTemplateDecl 14",
       "size": {
-        "h": 75,
-        "w": 250
+        "h": 85,
+        "w": 255
       }
     },
     {
@@ -88,7 +89,7 @@
       "objectGraphNodeID": "FunctionDecl 17",
       "size": {
         "h": 75,
-        "w": 250
+        "w": 255
       }
     },
     {
@@ -103,9 +104,95 @@
         "h": 75,
         "w": 275
       }
+    },
+    {
+      "fillColor": "Stmt",
+      "loc": {
+        "x": 115,
+        "y": 410
+      },
+      "name": "CompoundStmt 20",
+      "size": {
+        "h": 20,
+        "w": 125
+      }
+    },
+    {
+      "loc": {
+        "x": 115,
+        "y": 450
+      },
+      "name": "(rest of body AST)",
+      "shape": "ES_NO_SHAPE",
+      "size": {
+        "h": 20,
+        "w": 125
+      }
     }
   ],
   "inheritances": [],
+  "namedColors": [
+    {
+      "color": "RGB(0,0,0)",
+      "name": "Black"
+    },
+    {
+      "color": "RGB(192,192,192)",
+      "name": "Gray"
+    },
+    {
+      "color": "RGB(255,255,255)",
+      "name": "White"
+    },
+    {
+      "color": "RGB(224,224,224)",
+      "name": "Light Gray"
+    },
+    {
+      "color": "RGB(236,125,70)",
+      "name": "Orange"
+    },
+    {
+      "color": "RGB(234,236,52)",
+      "name": "Yellow"
+    },
+    {
+      "color": "RGB(76,222,76)",
+      "name": "Green"
+    },
+    {
+      "color": "RGB(135,193,255)",
+      "name": "Sky Blue"
+    },
+    {
+      "color": "RGB(161,140,237)",
+      "name": "Purple"
+    },
+    {
+      "color": "RGB(227,120,236)",
+      "name": "Pink"
+    },
+    {
+      "color": "RGB(248,50,50)",
+      "name": "Red"
+    },
+    {
+      "color": "RGB(150,255,150)",
+      "name": "CanonicalType"
+    },
+    {
+      "color": "RGB(60,200,60)",
+      "name": "Type"
+    },
+    {
+      "color": "RGB(227,120,236)",
+      "name": "Stmt"
+    },
+    {
+      "color": "RGB(255,204,204)",
+      "name": "Focus Node"
+    }
+  ],
   "objectGraph": {
     "FunctionDecl 17": {
       "Access": "AS_none",
@@ -260,7 +347,8 @@
       "Specializations",
       "TypeForDecl",
       "DeclType",
-      "NextInContext"
+      "NextInContext",
+      "TemplateParameterList"
     ]
   },
   "relations": [
@@ -353,10 +441,23 @@
       "end": {"entityRef": 1},
       "label": "DC",
       "start": {"entityRef": 0}
+    },
+    {
+      "end": {"entityRef": 8},
+      "label": "Body",
+      "start": {"entityRef": 6}
+    },
+    {
+      "dashStructure": [
+        1,
+        2
+      ],
+      "end": {"entityRef": 9},
+      "start": {"entityRef": 8}
     }
   ],
   "type": "Diagram Editor Diagram",
-  "version": 28,
+  "version": 29,
   "windowSize": {
     "h": 506,
     "w": 700

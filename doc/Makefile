@@ -6,7 +6,9 @@ DOCS += InternalsManual.rst
 DOCS += IntroductionToTheClangAST.rst
 DOCS += index.rst
 
-html/index.html: $(DOCS) conf.py
+IMAGES := $(wildcard ASTsForTemplatesImages/*.png)
+
+html/index.html: $(DOCS) $(IMAGES) conf.py
 	mkdir -p html
 	sphinx-build . html
 
