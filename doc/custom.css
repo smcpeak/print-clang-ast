@@ -1,0 +1,12 @@
+/* custom.css */
+/* Customizations to Alabaster theme. */
+
+div.document {
+    width: 1060px;
+}
+
+div.body {
+    max-width: 1060px;
+}
+
+/* EOF */

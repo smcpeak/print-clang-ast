@@ -8,7 +8,7 @@ DOCS += index.rst
 
 IMAGES := $(wildcard ASTsForTemplatesImages/*.png)
 
-html/index.html: $(DOCS) $(IMAGES) conf.py
+html/index.html: $(DOCS) $(IMAGES) custom.css conf.py
 	mkdir -p html
 	sphinx-build . html
 
