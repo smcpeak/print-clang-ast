@@ -131,6 +131,7 @@
     },
     {
       "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "fillColor": "Focus Node",
       "loc": {
         "x": 335,
         "y": 295
@@ -320,6 +321,10 @@
     {
       "color": "RGB(227,120,236)",
       "name": "Stmt"
+    },
+    {
+      "color": "RGB(255,204,204)",
+      "name": "Focus Node"
     }
   ],
   "objectGraph": {

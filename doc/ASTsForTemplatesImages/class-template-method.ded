@@ -67,6 +67,7 @@
     },
     {
       "attributes": "$(graphNodeShowFieldsAttrs)\n$(graphNodeShowFieldsPtrs)\n",
+      "fillColor": "Focus Node",
       "loc": {
         "x": 100,
         "y": 345
@@ -265,6 +266,10 @@
     {
       "color": "RGB(227,120,236)",
       "name": "Stmt"
+    },
+    {
+      "color": "RGB(255,204,204)",
+      "name": "Focus Node"
     }
   ],
   "objectGraph": {
@@ -859,7 +864,7 @@
     }
   ],
   "type": "Diagram Editor Diagram",
-  "version": 28,
+  "version": 29,
   "windowSize": {
     "h": 714,
     "w": 574

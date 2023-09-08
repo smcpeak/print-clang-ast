@@ -10,6 +10,9 @@
 
 .. comment: The *.ded diagrams used in this document can be edited with
             https://github.com/smcpeak/ded
+            Note that diagram width should be kept under 1000 pixels,
+            since otherwise there is a risk it will be demagnified by
+            the browser, making it blurry.
 
 .. comment: The graph data inside the diagrams can be regenerated with
             https://github.com/smcpeak/print-clang-ast
@@ -122,6 +125,9 @@ the C++ standard.  Some key terms are listed below:
   supplied.  We say "templated class" to emphasize that we are referring
   to the class inside the template declaration.
 
+* A *pattern* is another name for a templated declaration.  This term is
+  used to emphasize the role it plays as the basis of instantiation.
+
 * An *instantiation* of a template is a declaration synthesized, by the
   compiler, by substituting template arguments for corresponding
   template parameters within a templated entity.  Instantiation can be
@@ -155,6 +161,16 @@ hierarchy:
     * Implicit instantiation, which is induced by usage:
       :raw-html:`<br/>`
       ``C<int> someVariable;``
+
+Finally, a *member specialization* is a specialization of a class
+template member that arises because the class template is specialized.
+The member itself may or may not be a template, and the specialization
+may be implicit or explicit.  If the member is a template,
+specialization as a member (of the containing class template) is a
+distinct and orthogonal process to specialization of the member template
+itself.
+See `Diagram: Method template inside class template: "Partial" specialization`_
+for an example of both happening at the same time.
 
 
 External AST sources
@@ -470,9 +486,10 @@ In all three cases, the ``FunctionDecl`` has a pointer to the structure
 that describes its template-ness.
 
 Additionally, the parameters and body of a template-associated
-``FunctionDecl`` can refer to ``TemplateTypeParmType`` objects (and
-non-type and template template parameters, but those are currently
-out of the scope of this document).
+``FunctionDecl`` can refer to ``TemplateTypeParmType`` objects, as they
+mark the places that will be substituted during instantiation.  (They
+can also refer to non-type and template template parameters, but those
+are currently out of the scope of this document).
 
 The class hierarchy for ``FunctionDecl`` is::
 
@@ -741,8 +758,8 @@ diagram was created.)
 Observations:
 
 * The ``TypedefDecl`` shown at the top is first of several implicitly
-  defined typedefs.  Their ``NextInContext`` chain ends with
-  ``FunctionTemplateDecl 14``.
+  defined typedefs that appear at the start of every translation unit.
+  Their ``NextInContext`` chain ends with ``FunctionTemplateDecl 14``.
 
 * ``FunctionTemplateDecl 14`` and ``FunctionDecl 17`` point to each
   other.
@@ -1846,7 +1863,7 @@ The parameter type ``S<int>`` causes the class template data to be
 instantiated, then the call to ``identity`` causes its ``identity``
 method to also be instantiated.
 
-When a non-template class or function member of a class template is
+When a **non-templated** class or function member of a class template is
 specialized (implicitly or explicitly), the AST records the relationship
 between the specialization and the original member in a
 ``MemberSpecializationInfo`` structure (declared in
@@ -1950,15 +1967,15 @@ The resulting object graph looks like this:
 .. image:: ASTsForTemplatesImages/function-explicit-specialization.ded.png
 
 Interestingly, the specialization creates *two* ``FunctionDecl`` nodes,
-not one.  One of them (#34 in the diagram) is merely a declaration
-without a body.  Its type uses ``SubstTemplateTypeParmType`` to
-represent ``int``, reflecting the fact that it arose due to the process
-of matching the specialization's signature against the available
-templates to find the one it specializes.  The other (#20 in the
-diagram) comes from parsing the source as-is, and consequently has a
-body, an empty template parameter list, and uses ``BuiltinType`` to
-represent ``int``.  The two declarations are linked together by the
-``Redeclarable`` links, with the non-definition considered "first".
+not one.  One of them (#34) is merely a declaration without a body.  Its
+type uses ``SubstTemplateTypeParmType`` to represent ``int``, reflecting
+the fact that it arose due to the process of matching the
+specialization's signature against the available templates to find the
+one it specializes.  The other (#20) comes from parsing the source
+as-is, and consequently has a body, an empty template parameter list,
+and uses ``BuiltinType`` to represent ``int``.  The two declarations are
+linked together by the ``Redeclarable`` links, with the non-definition
+considered "first".
 
 The diagram above includes ``redecls_size()`` for ``Redeclarable``
 nodes.  There is no actual method by that name; it is computed as
@@ -1996,11 +2013,11 @@ The resulting object graph looks like this:
 
 .. image:: ASTsForTemplatesImages/class-template-explicit-specialization.ded.png
 
-The central object is the ``ClassTemplateSpecializationDecl``, which
-records the associated template, the specialized template arguments,
-and the fact that it is an explicit specialization.  This object is in
-the ``ClassTemplateDecl::Common::Specializations`` list, so can be
-found when needed.
+The focus of the diagram is ``ClassTemplateSpecializationDecl 18``,
+which records the associated template, the specialized template
+arguments, and the fact that it is an explicit specialization.  This
+object is in the ``ClassTemplateDecl::Common::Specializations`` list, so
+can be found when needed.
 
 As with class template instantiation, there are two ways to name the
 class from within a specialization, either with or without using the
@@ -2017,12 +2034,13 @@ for a class template specialization.
 ------------------------------------------
 
 A class template partial specialization is simultaneously a template,
-from which concrete specializations can be instantiated, and an
-explicit specialization of a primary template.  It is represented by
-the ``ClassTemplatePartialSpecializationDecl`` class, which simultaneously
-plays the role of "template declaration" (like ``ClassTemplateDecl``)
-and "template\ *d* declaration" (like ``CXXRecordDecl``).  It has this
-inheritance hierarchy::
+from which concrete specializations can be instantiated, and an explicit
+specialization of a primary template.  It is represented by the
+``ClassTemplatePartialSpecializationDecl`` class, which principally adds
+a sequence of template parameters to a
+``ClassTemplateSpecializationDecl``.
+
+It has this inheritance hierarchy::
 
     Class Name                              Header          Novel?
     --------------------------------------  --------------  ------------
@@ -2067,7 +2085,10 @@ It has these novel fields and interpretations:
     instantiations' arguments will be matched to see if this
     explicit specialization applies.  The pattern uses canonical
     ``TemplateTypeParmType`` nodes, for example,
-    ``<type-parameter-0-0 *>``.
+    ``<type-parameter-0-0 *>``.  [TODO: Question: Is there a strong
+    reason not to use non-canonical types here?  Naively it seems like
+    there shouldn't be a problem using the parameters declared with the
+    partial, and canonical types are not user-friendly.]
 
 * In ``ClassTemplatePartialSpecializationDecl`` itself:
 
@@ -2086,6 +2107,11 @@ It has these novel fields and interpretations:
 
     * ``bool``:
       [TODO]
+
+It is notable that ``ClassTemplatePartialSpecializationDecl`` does *not*
+contain a list of specializations.  Instead, instantiations of the
+partial go into the list of specializations of the primary, and it is
+not possible to explicitly specialize a partial specialization.
 
 
 Diagram: Class template: Partial specialization
@@ -2118,8 +2144,7 @@ pointed to by the primary's ``Common`` structure, among its
 ``PartialSpecializations`` (in this case it is the only one).  Its
 members are very similar to those of a primary class template, with the
 main difference being the use of canonical rather than non-canonical
-``TemplateTypeParmDecl`` nodes.  [TODO: Question: What is the reason for this
-difference?]
+``TemplateTypeParmDecl`` nodes.
 
 It's also notable that the partial's ``TemplateTypeParmDecl`` (node #41)
 uses the partial itself as its ``DeclContext``.  This is another way
@@ -2325,6 +2350,98 @@ The same navigation path back to ``CXXMethodDecl 22`` is available,
 but as this is no longer the origin of the body of the specialization,
 we must pass ``false`` as the ``ForDefinition`` parameter of
 ``getTemplateInstantiationPattern()`` to use that method.
+
+
+``ClassScopeFunctionSpecializationDecl``
+----------------------------------------
+
+A ``ClassScopeFunctionSpecializationDecl`` represents an explicit
+specialization of a member function template within the body of a class
+template, for example:
+
+.. code-block:: c++
+
+    template <class T>
+    struct S {
+      template <class U>
+      int add(T t, U u);
+
+      template <>              // ClassScopeFunctionSpecializationDecl
+      int add(T t, float u)
+      {
+        return t + u;
+      }
+    };
+
+This is something like a "partial specialization" of a function
+template, in that the class template parameters remain generic but the
+function template parameters are concrete.
+
+The inheritance hierarchy of ``ClassScopeFunctionSpecializationDecl``
+is::
+
+    Class Name                            Header          Novel?
+    ------------------------------------  --------------  ------------
+    ClassScopeFunctionSpecializationDecl  DeclTemplate.h  yes
+      Decl                                DeclBase.h      no
+
+``ClassScopeFunctionSpecializationDecl`` (CSFSD) has two fields (other
+than those it inherits):
+
+* ``CXXMethodDecl *Specialization``:
+  The pointer to the ``CXXMethodDecl`` that has the specialization
+  signature and (possibly) definition.
+
+* ``const ASTTemplateArgumentListInfo *TemplateArgs``:
+  A nullable pointer to template arguments.  For example, in the above
+  example, ``add`` could have been written ``add<float>``; providing
+  template arguments is needed if they cannot be deduced from the
+  signature.
+
+Note that CSFSD is only used when the specialization is inside a class
+template.  Inside an ordinary class, the equivalent case is represented
+with just a ``CXXMethodDecl``.  [TODO: Why wouldn't that work for the
+case of a class template?]
+
+
+Diagram: Method template inside class template: "Partial" specialization
+------------------------------------------------------------------------
+
+Here is an example that demonstrates
+``ClassScopeFunctionSpecializationDecl``:
+
+.. code-block:: c++
+
+    template <class T>
+    struct S {
+      template <class U>
+      int add(T t, U u);
+
+      template <>              // ClassScopeFunctionSpecializationDecl
+      int add(T t, float u)
+      {
+        return t + u;
+      }
+    };
+
+    int caller(S<int> &s, int i, float f)
+    {
+      return s.add(i, f);
+    }
+
+The resulting object graph looks like this:
+
+.. image:: ASTsForTemplatesImages/class-template-method-template-partial-specialization.ded.png
+
+``CXXMethodDecl 48`` is both a (template) specialization of
+``FunctionTemplateDecl 40`` (representing ``S<int>::add<U>``) and also a
+member specialization of ``ClassScopeFunctionSpecializationDecl 27``
+(representing ``S<T>::add<float>``).  This demonstrates simultaneous
+template specialization and member specialization.
+
+As usual for function template specializations, we also have a "stub"
+specialization at ``CXXMethodDecl 94`` due to using overload resolution
+to find the specialized primary.
 
 
 Diagram: Class template inside class template: Definition and instantiation
@@ -2573,7 +2690,7 @@ Two-level nested:
     * Definition: `Diagram: Method template inside class template: Definition`_
     * Instantiation: `Diagram: Method template inside class template: Instantiation`_
     * Explicit specialization: `Diagram: Method template inside class template: Explicit specialization`_
-    * Partial specialization: [TODO: ``ClassScopeFunctionSpecializationDecl``]
+    * Partial specialization: `Diagram: Method template inside class template: "Partial" specialization`_
 
   * Inner ordinary class: [TODO]
 

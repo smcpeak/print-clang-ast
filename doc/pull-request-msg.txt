@@ -1,0 +1,127 @@
+[clang][doc] Add documentation for the ASTs used to represent C++ templates.
+
+This PR contains a draft proposal for additional documentation focusing
+on the way C++ templates are represented in the Clang AST.
+
+## Rationale
+
+My main reason for submitting this is that I recently spent a fair
+amount of time studying and documenting this subject for my own purposes
+and thought others might benefit from it.  However, while I have tried
+diligently to ensure all of the material is accurate, it is very dense,
+and I've only recently learned it, so there may be mistakes.
+
+## Status
+
+The document is still incomplete (it contains scattered TODOs).  I'm not
+sure at this point exactly which TODOs I want to complete and which to
+just drop.
+
+At this point I'm mainly looking for feedback on the overall direction,
+and on some of the topics discussed below, while I continue to work on
+the remaining TODOs.  Also, the document has some questions (look for
+"TODO: Question") I have about the design.  A review of technical
+accuracy would be nice, but I realize that's a big ask.
+
+## Approach
+
+The overall approach is to focus on documenting the private data members
+of the relevant AST classes, with only secondary importance given to the
+public APIs.  This may be controversial, as it is in sharp contrast to
+the Doxygen-generated API documentation, which only shows the APIs and
+omits private data entirely.  The reason for the focus on the data is,
+in my experience and opinion, thoroughly understanding the data is
+necessary for truly grasping the design, whereas the APIs can easily be
+learned individually as needed.
+
+I've documented some physical memory allocation patterns, such as
+trailing objects and "owner" pointers.  The reason is, although an AST
+consumer does not care where things are in memory, they *do* care
+whether a piece of data is potentially shared with other AST nodes,
+since that affects both how it is interpreted and what modifications
+might be possible (for those trying to do source-to-source using Clang
+at the AST level).  Trailing objects and owner pointers are specifically
+*not* shared, and documenting them as such conveys the non-shared
+nature.
+
+Despite the focus on private data, I've tentatively placed this under
+the "Using Clang as a Library" section of `index.rst` rather than
+"Design Documents", since the intended primary audience is those who
+want to consume rather than maintain the AST.  Again, the idea is to
+gain a deep understanding of how the AST is organized since that serves
+as a mental framework for understanding what particular APIs do.
+
+## Overlap with other documentation
+
+The material here has some similarity to "The AST Library" in
+`InternalsManual.rst`, although there is almost no overlap in topics
+actually covered.  I considered integrating it into that section, but
+the new material is already approximately as long as that entire
+document, and I didn't want to overwhelm it with material about one
+subject.
+
+Perhaps more concerning, there is overlap between material in
+`ASTsForTemplates.rst` and the comments in the C++ source code, creating
+opportunity for divergence.  Ideally some mechanism would ensure
+consistency going forward, but I don't think transclusion works because
+it's difficult to phrase things in a way that makes sense for both
+contexts.  (It's also tough to conform to Doxygen and RST syntax
+simultaneously.)
+
+Relatedly, `ASTsForTemplates.rst` contains information that I think
+could usefully be added to the C++ comments.  If there is interest I
+could propose changes along those lines too.  However, doing so touches
+on the issue of Doxygen documentation omitting private data.
+Personally, I would prefer to first change the Doxygen configuration to
+include the private data, and then write/edit C++ comments with that in
+mind.
+
+## Tools used
+
+The document makes extensive use of diagrams produced using two of my
+own tools, called `ded` and `print-clang-ast`.  The former is a diagram
+editor whose capabilities I significantly expanded for this project, and
+the latter is a Clang-based tool written specifically for this project.
+Links to their github repos are in comments at the top of
+`ASTsForTemplates.rst`.  If this material is accepted into the Clang
+repo, and subsequently maintained, at least `ded` will be needed to make
+minor edits the diagrams, and `print-clang-ast` would be useful to
+regenerate the underlying data if and when major changes to the AST
+structure are made.  For more convenient access and to fight bitrot,
+`print-clang-ast` could be added to `clang-tools-extra`, although it
+uses some "dirty tricks" to access private data that the Clang team may
+not want to implicitly endorse by including.  It probably would not make
+sense to add `ded` since it's a GUI program written in Java and has no
+specific dependencies on Clang structures.
+
+## Typography
+
+Like the other Sphinx-generated Clang documentation,
+`ASTsForTemplates.rst` uses the "haiku" theme with its default
+configuration.  This theme has (in my opinion) some typographical
+issues:
+
+* It right-justifies the text, which in some places looks pretty bad
+  since the text contains long words (names of AST classes and fields),
+  and the browser has to add a lot of space between words to produce a
+  justified right margin (dependent on browser window width, of course).
+
+* Hyperlinks use boldface type and orange color, both of which are
+  distracting and disruptive to the flow of reading when emphasis is not
+  appropriate.  I would prefer to use more hyperlinks than I have, but
+  have refrained due to this.
+
+And even more subjectively:
+
+* I find the "DejaVu Sans" font unpleasant to read.  I think Arial is a
+  preferable sans-serif font, and a serif font could be even better at a
+  larger size, leading into:
+
+* The text is slightly too small.  Browser text magnification, at least
+  with Firefox, is not a good option because it magnifies the images
+  too, making them blurry and larger than desired.
+
+I'm not necessarily proposing to do anything about these issue, just
+noting them.  But if people are open to it, I'd be happy to play with
+the configuration to try to improve the typography, either for just this
+document or for the entire collection.

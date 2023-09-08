@@ -67,6 +67,7 @@
     },
     {
       "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "fillColor": "Focus Node",
       "loc": {
         "x": 50,
         "y": 205
@@ -168,7 +169,7 @@
       "objectGraphNodeID": "RecordType 26",
       "size": {
         "h": 45,
-        "w": 380
+        "w": 370
       }
     },
     {
@@ -260,8 +261,8 @@
       "attributes": "template <class T>\nstruct S;\n\ntemplate <>\nstruct S<int>\n{\n  int data;\n  S *ptr1;\n  S<int> *ptr2;\n};\n",
       "fillColor": "Yellow",
       "loc": {
-        "x": 875,
-        "y": 35
+        "x": 860,
+        "y": 30
       },
       "name": "Source Code",
       "size": {
@@ -327,6 +328,10 @@
     {
       "color": "RGB(227,120,236)",
       "name": "Stmt"
+    },
+    {
+      "color": "RGB(255,204,204)",
+      "name": "Focus Node"
     }
   ],
   "objectGraph": {
@@ -999,7 +1004,7 @@
     },
     {
       "controlPts": [{
-        "x": 980,
+        "x": 975,
         "y": 305
       }],
       "end": {"entityRef": 12},
@@ -1013,7 +1018,7 @@
     },
     {
       "controlPts": [{
-        "x": 980,
+        "x": 975,
         "y": 290
       }],
       "end": {"entityRef": 12},
@@ -1096,6 +1101,6 @@
   "version": 29,
   "windowSize": {
     "h": 655,
-    "w": 1002
+    "w": 993
   }
 }
