@@ -1,8 +1,8 @@
 // util.h
 // Some general-purpose utilities.
 
-#ifndef HEADER_ANALYSIS_UTIL_H
-#define HEADER_ANALYSIS_UTIL_H
+#ifndef PCA_UTIL_H
+#define PCA_UTIL_H
 
 #include <cstddef>                     // std::size_t
 #include <map>                         // std::map
@@ -13,6 +13,7 @@
 #include <vector>                      // std::vector
 
 
+// Construct a string in-place using ostream operators.
 #define stringb(stuff) \
   (static_cast<std::ostringstream&>(std::ostringstream() << stuff).str())
 
@@ -230,4 +231,4 @@ public:      // methods
 void util_unit_tests();
 
 
-#endif // HEADER_ANALYSIS_UTIL_H
+#endif // PCA_UTIL_H

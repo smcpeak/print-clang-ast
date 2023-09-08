@@ -133,6 +133,11 @@ public:      // methods
     std::string const &label,
     clang::TemplateArgumentListInfo const &args);
 
+  void printASTTemplateArgumentListInfo(
+    std::string const &qualifier,
+    std::string const &label,
+    clang::ASTTemplateArgumentListInfo const * NULLABLE args);
+
   void printTemplateArgument(
     std::string const &qualifier,
     std::string const &label,
@@ -252,6 +257,8 @@ public:      // methods
     clang::ClassTemplatePartialSpecializationDecl const *decl);
   void printClassTemplateDecl(                                  // DeclTemplate.h line 2247
     clang::ClassTemplateDecl const *decl);
+  void printClassScopeFunctionSpecializationDecl(               // DeclTemplate.h line 2604
+    clang::ClassScopeFunctionSpecializationDecl const *decl);
 
   // Print methods for statements.
   void printStmt(clang::Stmt const *stmt);                      // Stmt.h line   49

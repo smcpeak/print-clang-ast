@@ -218,6 +218,7 @@ check-nodes: out/class-template-explicit-specialization.cc.nodes
 check-nodes: out/class-template-inner-struct.cc.nodes
 check-nodes: out/class-template-instantiation.cc.nodes
 check-nodes: out/class-template-member-explicit-specialization.cc.nodes
+check-nodes: out/class-template-method-template-partial-specialization.cc.nodes
 check-nodes: out/class-template-method-template-specialization.cc.nodes
 check-nodes: out/class-template-method-template.cc.nodes
 check-nodes: out/class-template-method.cc.nodes

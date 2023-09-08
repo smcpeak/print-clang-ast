@@ -9,7 +9,7 @@
 #include "optional-util.h"                       // optionalToString
 #include "spy-private.h"                         // ACCESS_PRIVATE_FIELD
 #include "trace.h"                               // INIT_TRACE_LEVEL_ONCE
-#include "util.h"                                // doubleQuote
+#include "util.h"                                // doubleQuote, stringb
 
 //#include "clang/AST/ASTDumper.h"                 // clang::ASTDumper
 #include "clang/AST/DeclContextInternals.h"      // clang::StoredDeclsMap::size
@@ -628,6 +628,30 @@ void PrintClangASTNodes::printTemplateArgumentListInfo(
 }
 
 
+void PrintClangASTNodes::printASTTemplateArgumentListInfo(
+  std::string const &qualifier,
+  std::string const &label,
+  clang::ASTTemplateArgumentListInfo const * NULLABLE args)
+{
+  if (!args) {
+    OUT_QATTR_NULL(qualifier, label);
+    return;
+  }
+
+  OUT_QATTR_LOC(qualifier, label << ".LAngleLoc",
+    args->LAngleLoc);
+  OUT_QATTR_LOC(qualifier, label << ".RAngleLoc",
+    args->RAngleLoc);
+
+  for (unsigned i=0; i < args->NumTemplateArgs; ++i) {
+    clang::TemplateArgumentLoc const &arg = (*args)[i];
+
+    printTemplateArgumentLoc(qualifier,
+      stringb(label << "[" << i << "]"), &arg);
+  }
+}
+
+
 void PrintClangASTNodes::printTemplateArgument(
   std::string const &qualifier,
   std::string const &label,
@@ -1039,6 +1063,7 @@ void PrintClangASTNodes::printDecl(clang::Decl const *decl)
   PRINT_IF_SUBCLASS(decl, ClassTemplateSpecializationDecl)
   PRINT_IF_SUBCLASS(decl, ClassTemplatePartialSpecializationDecl)
   PRINT_IF_SUBCLASS(decl, ClassTemplateDecl)
+  PRINT_IF_SUBCLASS(decl, ClassScopeFunctionSpecializationDecl)
 }
 
 
@@ -2083,6 +2108,19 @@ void PrintClangASTNodes::printClassTemplateDecl(
 }
 
 
+void PrintClangASTNodes::printClassScopeFunctionSpecializationDecl(
+  clang::ClassScopeFunctionSpecializationDecl const *decl)
+{
+  char const *qualifier = "ClassScopeFunctionSpecializationDecl::";
+
+  OUT_QATTR_PTR(qualifier, "Specialization",
+    getDeclIDStr(decl->getSpecialization()));
+
+  printASTTemplateArgumentListInfo(qualifier, "TemplateArgs",
+    decl->getTemplateArgsAsWritten());
+}
+
+
 // ------------------ PrintClangASTNodes: statements -------------------
 void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
 {
@@ -2299,9 +2337,8 @@ void PrintClangASTNodes::printFunctionTemplateSpecializationInfo(
     locStr(ftsi->PointOfInstantiation));
 
   if (isMemberSpecialization) {
-    // TODO: Print the fields, not the address.
-    OUT_ATTR_STRING("MemberSpecializationInfo",
-      ftsi->getMemberSpecializationInfo());
+    OUT_ATTR_PTR("MemberSpecializationInfo",
+      getMemberSpecializationInfoIDStr(ftsi->getMemberSpecializationInfo()));
   }
 }
 
