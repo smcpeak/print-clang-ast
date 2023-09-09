@@ -93,10 +93,11 @@ the C++ standard.  Some key terms are listed below:
   source location information for a particular syntactic description of
   a type.
 
-* A *dependent type* is a type that depends in some way on unspecified
-  template arguments.  Generally, dependent types have fewer constraints
-  on the set of allowable operations and less information about size and
-  interpretation of their representation than do non-dependent types.
+* A *dependent type* is a type that depends in some way on template
+  parameters for which an argument has not been supplied.  Generally,
+  dependent types have fewer constraints on the set of allowable
+  operations and less information about size and interpretation of their
+  representation than do non-dependent types.
 
 * A *canonical type* is one constructed in such a way that two canonical
   types are semantically equivalent if and only if they are structurally
@@ -162,15 +163,24 @@ hierarchy:
       :raw-html:`<br/>`
       ``C<int> someVariable;``
 
-Finally, a *member specialization* is a specialization of a class
-template member that arises because the class template is specialized.
-The member itself may or may not be a template, and the specialization
-may be implicit or explicit.  If the member is a template,
-specialization as a member (of the containing class template) is a
-distinct and orthogonal process to specialization of the member template
-itself.
-See `Diagram: Method template inside class template: "Partial" specialization`_
-for an example of both happening at the same time.
+Continuing the terminology:
+
+* A *member specialization* is a specialization of a class
+  template member that arises because the class template is
+  instantiated.  The member itself may or may not be a template, and its
+  specialization may be implicit or explicit.  If the member is a
+  template, specialization as a member (of the containing class
+  template) is distinct from specialization of the member template
+  itself.  In particular, the former may *cause* the latter.  See
+  `Diagram: Method template inside class template: Class scope specialization`_
+  for an example.
+
+* A *class scope specialization* is an explicit specialization
+  declaration that appears inside the body of a (possibly templated)
+  class definition.  When the enclosing class is templated, the
+  semantics are different from an explicit specialization outside the
+  class body because the class scope specialization is then subject to
+  instantiation.
 
 
 External AST sources
@@ -1324,7 +1334,7 @@ The novel fields (and novel meanings of fields for this context) of
       that where types appear, they could be dependent (for example, in
       ``TypeSourceInfo *MethodTyInfo``).
 
-  * ``llvm::PointerUnion<...> TemplateOrInstantiation``:
+  * ``PointerUnion<...> TemplateOrInstantiation``:
     This is the most important template-related field in
     ``CXXRecordDecl``.  It has these cases:
 
@@ -1334,7 +1344,9 @@ The novel fields (and novel meanings of fields for this context) of
       declaration.  [TODO: Question: Why?  I would expect the ICN to have
       ``nullptr``, following the analogy of a member ``typedef``.]
 
-    * ``MemberSpecializationInfo *``: [TODO]
+    * ``MemberSpecializationInfo *``:
+      For a member specialization of a member of a template class, the
+      corresponding `MemberSpecializationInfo`_ details.
 
     * ``nullptr``: Neither of the above apply.
 
@@ -1585,10 +1597,9 @@ right.  It has these novel fields or interpretations:
 * From base ``CXXRecordDecl``:
 
   * ``PointerUnion<...> TemplateOrInstantiation``:
-    This field is arguably slightly misnamed, as the "or instantiation"
-    part really should be understood as something like "or member
-    specialization".  Since this class is neither a template nor a
-    member specialization (discussed later), the field is ``nullptr``.
+    For the ``CXXRecordDecl`` within a
+    ``ClassTemplateSpecializationDecl``, this is usually ``nullptr``;
+    but see [TODO] for a case where it is not.
 
 * From base ``TypeDecl``:
 
@@ -2373,9 +2384,9 @@ template, for example:
       }
     };
 
-This is something like a "partial specialization" of a function
-template, in that the class template parameters remain generic but the
-function template parameters are concrete.
+This is vaguely like a "partial specialization" of a function template,
+in that the class template parameters remain generic but the function
+template parameters are concrete.
 
 The inheritance hierarchy of ``ClassScopeFunctionSpecializationDecl``
 is::
@@ -2404,8 +2415,8 @@ with just a ``CXXMethodDecl``.  [TODO: Why wouldn't that work for the
 case of a class template?]
 
 
-Diagram: Method template inside class template: "Partial" specialization
-------------------------------------------------------------------------
+Diagram: Method template inside class template: Class scope specialization
+--------------------------------------------------------------------------
 
 Here is an example that demonstrates
 ``ClassScopeFunctionSpecializationDecl``:
@@ -2431,7 +2442,7 @@ Here is an example that demonstrates
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-method-template-partial-specialization.ded.png
+.. image:: ASTsForTemplatesImages/class-template-method-template-class-scope-specialization.ded.png
 
 ``CXXMethodDecl 48`` is both a (template) specialization of
 ``FunctionTemplateDecl 40`` (representing ``S<int>::add<U>``) and also a
@@ -2615,8 +2626,10 @@ an exhaustive enumeration of this product space:
   * Definition
   * Implicit instantiation
   * Explicit instantiation: Excluded, uninteresting.
-  * Explicit specialization
-  * Partial specialization
+  * Explicit specialization outside any parent class scope
+  * Partial specialization outside any parent class scope
+  * Class scope specialization
+  * Class scope partial specialization
 
 where "Templated thing" is one of:
 
@@ -2637,7 +2650,8 @@ Non-nested:
   * Definition: `Diagram: Function template: Definition`_
   * Instantiation: `Diagram: Function template: Instantiation`_
   * Explicit specialization: `Diagram: Function template: Explicit specialization`_
-  * Partial specialization: Not possible.
+  * Partial specialization: No syntax for this in C++.
+  * Class scope specialization: Not applicable (not in a class).
 
 * Class template
 
@@ -2645,23 +2659,26 @@ Non-nested:
   * Instantiation: `Diagram: Class template: Instantiation`_
   * Explicit specialization: `Diagram: Class template: Explicit specialization`_
   * Partial specialization: `Diagram: Class template: Partial specialization`_
+  * Class scope specialization: Not applicable (not in a class).
 
 Two-level nested:
 
 * Outer ordinary function
 
-  * Inner ordinary function: Not possible.
-  * Inner function template: Not possible.
+  * Inner ordinary function: Not legal C++.
+  * Inner function template: Not legal C++.
   * Inner ordinary class: Uninteresting.
-  * Inner class template: Not possible.
+  * Inner class template: Not legal C++.
+  * Class scope specialization: Not applicable (not in a class).
 
 * Outer function template
 
-  * Inner ordinary function: Not possible.  [TODO: At least ``clang``
+  * Inner ordinary function: Not legal C++.  [TODO: At least ``clang``
     rejects this.  But then what is ``TK_DependentNonTemplate``?]
-  * Inner function template: Not possible.
+  * Inner function template: Not legal C++.
   * Inner ordinary class: [TODO]
-  * Inner class template: Not possible.
+  * Inner class template: Not legal C++.
+  * Class scope specialization: Not applicable (not in a class).
 
 * Outer ordinary class
 
@@ -2683,14 +2700,17 @@ Two-level nested:
     * Definition: `Diagram: Ordinary method inside class template: Definition`_
     * Instantiation: `Diagram: Ordinary method inside class template: Instantiation`_
     * Explicit specialization: `Diagram: Ordinary method inside class template: Explicit specialization`_
-    * Partial specialization: Not possible.
+    * Partial specialization: No syntax for this in C++.
+    * Class scope specialization: Not applicable (not a template).
 
   * Inner function (method) template:
 
     * Definition: `Diagram: Method template inside class template: Definition`_
     * Instantiation: `Diagram: Method template inside class template: Instantiation`_
     * Explicit specialization: `Diagram: Method template inside class template: Explicit specialization`_
-    * Partial specialization: `Diagram: Method template inside class template: "Partial" specialization`_
+    * Partial specialization: No syntax for this in C++.
+    * Class scope specialization: `Diagram: Method template inside class template: Class scope specialization`_
+    * Class scope partial specialization: No syntax for this in C++.
 
   * Inner ordinary class: [TODO]
 
@@ -2699,5 +2719,7 @@ Two-level nested:
     * Definition and instantiation: `Diagram: Class template inside class template: Definition and instantiation`_
     * Explicit specialization: `Diagram: Class template inside class template: Explicit specialization`_
     * Partial specialization: `Diagram: Class template inside class template: Partial specialization`_
+    * Class scope specialization: [TODO]
+    * Class scope partial specialization: [TODO]
 
 .. EOF
