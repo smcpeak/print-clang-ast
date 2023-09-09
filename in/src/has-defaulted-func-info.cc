@@ -1,4 +1,4 @@
-// nodes-has-defaulted-func-info.cc
+// has-defaulted-func-info.cc
 // An example where FunctionDecl::HasDefaultedFunctionInfo is true.
 
 struct S;

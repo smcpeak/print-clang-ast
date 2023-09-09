@@ -1,4 +1,4 @@
-// nodes-default-args.cc
+// default-args.cc
 // Simple test of node printing with default arguments.
 
 int f(int x = 2)

@@ -1,4 +1,4 @@
-// nodes-funcptr-param.cc
+// funcptr-param.cc
 // Printing test for a parameter that is a function pointer.
 
 // Here, 'x' will have:

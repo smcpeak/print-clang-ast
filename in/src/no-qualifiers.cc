@@ -1,4 +1,4 @@
-// nodes-no-qualifiers.cc
+// no-qualifiers.cc
 // Test of --no-ast-field-qualifiers.
 
 // PRINT_CLANG_AST_OPTIONS: --no-ast-field-qualifiers

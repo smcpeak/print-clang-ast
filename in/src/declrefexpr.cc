@@ -1,4 +1,4 @@
-// nodes-declrefexpr.cc
+// declrefexpr.cc
 // Print nodes test exercising some DeclRefExpr cases.
 
 struct S {

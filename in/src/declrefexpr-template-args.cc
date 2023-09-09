@@ -1,4 +1,4 @@
-// nodes-declrefexpr-template-args.cc
+// declrefexpr-template-args.cc
 // Test some cases of DeclRefExpr with template arguments.
 
 template <class T>

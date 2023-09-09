@@ -210,37 +210,11 @@ out/%.nodes: in/src/% in/exp/%.nodes print-clang-ast.exe
 
 .PHONY: check-nodes
 
-check-nodes: out/bitfield-with-init.cc.nodes
-check-nodes: out/class-template-class-template-instantiation.cc.nodes
-check-nodes: out/class-template-class-template-partial-specialization.cc.nodes
-check-nodes: out/class-template-class-template-specialization.cc.nodes
-check-nodes: out/class-template-explicit-specialization.cc.nodes
-check-nodes: out/class-template-inner-struct.cc.nodes
-check-nodes: out/class-template-instantiation.cc.nodes
-check-nodes: out/class-template-member-explicit-specialization.cc.nodes
-check-nodes: out/class-template-method-template-partial-specialization.cc.nodes
-check-nodes: out/class-template-method-template-specialization.cc.nodes
-check-nodes: out/class-template-method-template.cc.nodes
-check-nodes: out/class-template-method.cc.nodes
-check-nodes: out/class-template-only.cc.nodes
-check-nodes: out/class-template-ovl-method-canttpt.cc.nodes
-check-nodes: out/class-template-partial-specialization.cc.nodes
-check-nodes: out/class-template-redecl.cc.nodes
-check-nodes: out/declrefexpr-template-args.cc.nodes
-check-nodes: out/declrefexpr.cc.nodes
-check-nodes: out/default-args.cc.nodes
-check-nodes: out/deleted-function.cc.nodes
-check-nodes: out/funcptr-param.cc.nodes
-check-nodes: out/function-requires-requires.cc.nodes
-check-nodes: out/function-template-explicit-specialization.cc.nodes
-check-nodes: out/function-template.cc.nodes
-check-nodes: out/functiondecl-body.cc.nodes
-check-nodes: out/has-defaulted-func-info.cc.nodes
-check-nodes: out/method-template-of-concrete-class.cc.nodes
-check-nodes: out/nested-function.cc.nodes
-check-nodes: out/no-qualifiers.cc.nodes
-check-nodes: out/ool-defn-tmethod-tclass.cc.nodes
-check-nodes: out/triv-template-function.cc.nodes
+TEST_SRCS := $(wildcard in/src/*.cc)
+
+TEST_OUTS := $(patsubst in/src/%,out/%.nodes,$(TEST_SRCS))
+
+check-nodes: $(TEST_OUTS)
 
 check: check-nodes
 

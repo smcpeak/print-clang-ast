@@ -1,4 +1,4 @@
-// nodes-deleted-function.cc
+// deleted-function.cc
 // AST nodes test for a function that is deleted.
 
 struct S {

@@ -1,4 +1,4 @@
-// nodes-function-requires-requires.cc
+// function-requires-requires.cc
 // Test an ad-hoc function 'requires' constraint.
 
 // Found at: https://en.cppreference.com/w/cpp/language/requires

@@ -1,4 +1,4 @@
-// nodes-ool-defn-tmethod-tclass.cc
+// ool-defn-tmethod-tclass.cc
 // Testcase for --print-ast-nodes that has a templated method defined
 // outside its templated class.
 

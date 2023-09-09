@@ -1,4 +1,4 @@
-// nodes-functiondecl-body.cc
+// functiondecl-body.cc
 // Exercise FunctionDecl::Body.
 
 // No body.  Part of the point of the test is we see a null Body here

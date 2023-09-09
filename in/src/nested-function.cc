@@ -1,4 +1,4 @@
-// nodes-nested-function.cc
+// nested-function.cc
 // Printing test for a nested functions.
 
 int f(int x)

@@ -1,4 +1,4 @@
-// nodes-bitfield-with-init.cc
+// bitfield-with-init.cc
 // A bitfield with an initializer.
 
 struct S {
