@@ -172,7 +172,7 @@ Continuing the terminology:
   template, specialization as a member (of the containing class
   template) is distinct from specialization of the member template
   itself.  In particular, the former may *cause* the latter.  See
-  `Diagram: Method template inside class template: Class scope specialization`_
+  `Diagram: Class template contains function template: Class scope specialization`_
   for an example.
 
 * A *class scope specialization* is an explicit specialization
@@ -757,7 +757,7 @@ Diagram: Function template: Definition
 The following diagram shows the AST objects involved in representing a
 single function template:
 
-.. image:: ASTsForTemplatesImages/function-template.ded.png
+.. image:: ASTsForTemplatesImages/ft-defn.ded.png
 
 In this diagram, and all that follow, the peach-colored node is the most
 important, "focus" node.  Here, it is the ``FunctionTemplateDecl 14``
@@ -941,7 +941,7 @@ Diagram: Function template: Instantiation
 The following diagram shows the major objects involved in representing a
 function that has been implicitly instantiated:
 
-.. image:: ASTsForTemplatesImages/function-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/ft-inst.ded.png
 
 In this diagram, all of the pointers related to scoping and lookup have
 been removed in order to focus on the template relationships.
@@ -956,8 +956,8 @@ pointers, one to the found template definition and the other to the
 resulting instantiated definition.
 
 
-Diagram: Method template inside ordinary class: Definition
-----------------------------------------------------------
+Diagram: Ordinary class contains function template: Definition
+--------------------------------------------------------------
 
 A method of a non-templated class can be templated:
 
@@ -974,7 +974,7 @@ A method of a non-templated class can be templated:
 The object interaction diagram is similar to the case for a global
 function template:
 
-.. image:: ASTsForTemplatesImages/method-template.ded.png
+.. image:: ASTsForTemplatesImages/oc-cont-ft-defn.ded.png
 
 The changes from the function template case are:
 
@@ -1476,7 +1476,7 @@ Diagram: Class template: Definition
 Let's now diagram the AST relationships for the example with a single
 class template, first focusing on the ``Decl`` objects:
 
-.. image:: ASTsForTemplatesImages/class-template.ded.png
+.. image:: ASTsForTemplatesImages/ct-defn.ded.png
 
 The most essential observations are:
 
@@ -1492,7 +1492,7 @@ The most essential observations are:
 
 This diagram focuses on the relationships among the ``Type`` objects:
 
-.. image:: ASTsForTemplatesImages/class-template-types.ded.png
+.. image:: ASTsForTemplatesImages/ct-defn-types.ded.png
 
 The green boxes are ``Type`` nodes.  Lighter green means the ``Type`` is
 canonical.
@@ -1765,7 +1765,7 @@ Diagram: Class template: Instantiation
 Here is a diagram showing the key ``Decl`` objects for the class
 template instantiation example:
 
-.. image:: ASTsForTemplatesImages/class-template-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/ct-inst.ded.png
 
 Observations:
 
@@ -1797,7 +1797,7 @@ Observations:
 Here is a diagram showing the ``Type`` objects used to represent the
 types of the instantiated data members:
 
-.. image:: ASTsForTemplatesImages/class-template-instantiation-types.ded.png
+.. image:: ASTsForTemplatesImages/ct-inst-types.ded.png
 
 This diagram omits discussion of the types of the implicitly
 generated constructors because methods will be discussed more generally
@@ -1826,8 +1826,8 @@ Observations:
   it canonicalizes to the same ``RecordType`` as in the preceding case.
 
 
-Diagram: Ordinary method inside class template: Definition
-----------------------------------------------------------
+Diagram: Class template contains ordinary function: Definition
+--------------------------------------------------------------
 
 Now let's look at an example of a class template with a method:
 
@@ -1843,7 +1843,7 @@ Now let's look at an example of a class template with a method:
 
 Here is a diagram of some of the relevant AST objects:
 
-.. image:: ASTsForTemplatesImages/class-template-method.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-of-defn.ded.png
 
 The main thing to note in the diagram is that its structure is very much
 like a non-template class and method, just with ``TemplateTypeParmType``
@@ -1888,7 +1888,7 @@ between the specialization and the original member in a
     The example above features an implicit specialization, but this also
     applies to explicit specializations of members, an example of which
     is shown in
-    `Diagram: Ordinary method inside class template: Explicit specialization`_.
+    `Diagram: Class template contains ordinary function: Explicit specialization`_.
 
   * ``TemplateSpecializationKind TSK``:
     Implicit versus explicit specialization, etc.
@@ -1915,13 +1915,13 @@ A ``MemberSpecialization`` can appear in these places:
   [TODO]
 
 
-Diagram: Ordinary method inside class template: Instantiation
--------------------------------------------------------------
+Diagram: Class template contains ordinary function: Instantiation
+-----------------------------------------------------------------
 
 For the method instantiation example above, part of the resulting AST
 looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-method-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-of-inst.ded.png
 
 Observations:
 
@@ -1975,7 +1975,7 @@ A function template can be explicitly specialized:
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/function-explicit-specialization.ded.png
+.. image:: ASTsForTemplatesImages/ft-espec.ded.png
 
 Interestingly, the specialization creates *two* ``FunctionDecl`` nodes,
 not one.  One of them (#34) is merely a declaration without a body.  Its
@@ -2022,7 +2022,7 @@ A class template can be explicitly specialized:
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-explicit-specialization.ded.png
+.. image:: ASTsForTemplatesImages/ct-espec.ded.png
 
 The focus of the diagram is ``ClassTemplateSpecializationDecl 18``,
 which records the associated template, the specialized template
@@ -2147,7 +2147,7 @@ For the following translation unit:
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-partial-specialization.ded.png
+.. image:: ASTsForTemplatesImages/ct-pspec.ded.png
 
 The peach-colored node is the ``ClassTemplatePartialSpecializationDecl``
 we are focusing on.  It has a pointer to the primary template, and is
@@ -2181,8 +2181,8 @@ To emphasize:
   contents.
 
 
-Diagram: Ordinary method inside class template: Explicit specialization
------------------------------------------------------------------------
+Diagram: Class template contains ordinary function: Explicit specialization
+---------------------------------------------------------------------------
 
 A non-template member function of a class template can be explicitly
 specialized:
@@ -2202,7 +2202,7 @@ specialized:
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-member-explicit-specialization.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-of-espec.ded.png
 
 The peach-colored node is the ``CXXMethodDecl`` directly associated with
 the syntactic declaration starting with ``template <>``.  It is
@@ -2228,8 +2228,8 @@ We'll now look at cases where a template declaration is nested inside
 another template declaration.
 
 
-Diagram: Method template inside class template: Definition
-----------------------------------------------------------
+Diagram: Class template contains function template: Definition
+--------------------------------------------------------------
 
 Consider this translation unit:
 
@@ -2249,7 +2249,7 @@ is instantiated yet.
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-method-template.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-ft-defn.ded.png
 
 The peach-colored node is the method template.  It contains the
 templated method, and is contained by the templated class.  Its template
@@ -2257,8 +2257,8 @@ parameter, ``U``, has as its canonical form ``type-parameter-1-0``
 because it is nested one level deep.
 
 
-Diagram: Method template inside class template: Instantiation
--------------------------------------------------------------
+Diagram: Class template contains function template: Instantiation
+-----------------------------------------------------------------
 
 We now add code that will cause instantiation:
 
@@ -2287,7 +2287,7 @@ of the argument expressions).
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-method-template-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-ft-inst.ded.png
 
 The peach-colored node is the instantiation of the method template.
 This is a two-step process: first the class is instantiated with
@@ -2325,8 +2325,8 @@ This complete sequence can be accomplished by calling
 ``FunctionDecl::getTemplateInstantiationPattern()``.
 
 
-Diagram: Method template inside class template: Explicit specialization
------------------------------------------------------------------------
+Diagram: Class template contains function template: Explicit specialization
+---------------------------------------------------------------------------
 
 Alternatively, we can explicitly specialize the method template:
 
@@ -2347,7 +2347,7 @@ Alternatively, we can explicitly specialize the method template:
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-method-template-specialization.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-ft-espec.ded.png
 
 As with earlier examples of specializing a function template, the
 process produces two AST nodes that are redeclarations of each other.
@@ -2415,8 +2415,8 @@ with just a ``CXXMethodDecl``.  [TODO: Why wouldn't that work for the
 case of a class template?]
 
 
-Diagram: Method template inside class template: Class scope specialization
---------------------------------------------------------------------------
+Diagram: Class template contains function template: Class scope specialization
+------------------------------------------------------------------------------
 
 Here is an example that demonstrates
 ``ClassScopeFunctionSpecializationDecl``:
@@ -2442,7 +2442,7 @@ Here is an example that demonstrates
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-method-template-class-scope-specialization.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-ft-csspec.ded.png
 
 ``CXXMethodDecl 48`` is both a (template) specialization of
 ``FunctionTemplateDecl 40`` (representing ``S<int>::add<U>``) and also a
@@ -2455,8 +2455,8 @@ specialization at ``CXXMethodDecl 94`` due to using overload resolution
 to find the specialized primary.
 
 
-Diagram: Class template inside class template: Definition and instantiation
----------------------------------------------------------------------------
+Diagram: Class template contains class template: Definition and instantiation
+-----------------------------------------------------------------------------
 
 We can define and instantiate a class template inside a class template:
 
@@ -2475,7 +2475,7 @@ We can define and instantiate a class template inside a class template:
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-class-template-instantiation.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-ct-inst.ded.png
 
 The peach-colored node, ``ClassTemplateSpecializationDecl 32`` is the
 result of instantiating ``Outer<int>::Inner<float>``.  It is most
@@ -2485,7 +2485,7 @@ definition because it is, in turn, the result of instantating
 ``ClassTemplateDecl 19``.
 
 Like with the case of
-`Diagram: Method template inside class template: Instantiation`_,
+`Diagram: Class template contains function template: Instantiation`_,
 we can navigate from ``ClassTemplateSpecializationDecl 32`` back to
 its original definition at ``CXXRecordDecl 22`` by going through the
 intermediate instantiation, or by calling
@@ -2498,8 +2498,8 @@ canonicalizes to ``type-parameter-0-0``, the same thing that the type
 template only has one level of parameterization, so both are at depth 0.
 
 
-Diagram: Class template inside class template: Explicit specialization
-----------------------------------------------------------------------
+Diagram: Class template contains class template: Explicit specialization
+------------------------------------------------------------------------
 
 We can explicitly specialize a class template inside a class template:
 
@@ -2520,7 +2520,7 @@ We can explicitly specialize a class template inside a class template:
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-class-template-specialization.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-ct-espec.ded.png
 
 In many respects, this looks like the previous case, with the major
 difference that the ``ClassTemplateSpecializationDecl`` of interest
@@ -2538,8 +2538,8 @@ back to the unspecialized declaration in a single step here, since
 ``FunctionDecl::getTemplateInstantiationPattern()`` does.
 
 
-Diagram: Class template inside class template: Partial specialization
----------------------------------------------------------------------
+Diagram: Class template contains class template: Partial specialization
+-----------------------------------------------------------------------
 
 We can partially specialize a class template inside a class template:
 
@@ -2562,7 +2562,7 @@ We can partially specialize a class template inside a class template:
 
 The resulting object graph looks like this:
 
-.. image:: ASTsForTemplatesImages/class-template-class-template-partial-specialization.ded.png
+.. image:: ASTsForTemplatesImages/ct-cont-ct-pspec.ded.png
 
 This diagram omits the ``TemplateTypeParmDecl`` nodes and their types in
 order to focus on the rest of the structure.
@@ -2686,7 +2686,7 @@ Two-level nested:
 
   * Inner function template
 
-    * Definition: `Diagram: Method template inside ordinary class: Definition`_
+    * Definition: `Diagram: Ordinary class contains function template: Definition`_
     * Instantiation, etc: Not significantly different from non-nested function templates.
 
   * Inner ordinary class: Uninteresting.
@@ -2697,28 +2697,28 @@ Two-level nested:
 
   * Inner ordinary function
 
-    * Definition: `Diagram: Ordinary method inside class template: Definition`_
-    * Instantiation: `Diagram: Ordinary method inside class template: Instantiation`_
-    * Explicit specialization: `Diagram: Ordinary method inside class template: Explicit specialization`_
+    * Definition: `Diagram: Class template contains ordinary function: Definition`_
+    * Instantiation: `Diagram: Class template contains ordinary function: Instantiation`_
+    * Explicit specialization: `Diagram: Class template contains ordinary function: Explicit specialization`_
     * Partial specialization: No syntax for this in C++.
     * Class scope specialization: Not applicable (not a template).
 
   * Inner function (method) template:
 
-    * Definition: `Diagram: Method template inside class template: Definition`_
-    * Instantiation: `Diagram: Method template inside class template: Instantiation`_
-    * Explicit specialization: `Diagram: Method template inside class template: Explicit specialization`_
+    * Definition: `Diagram: Class template contains function template: Definition`_
+    * Instantiation: `Diagram: Class template contains function template: Instantiation`_
+    * Explicit specialization: `Diagram: Class template contains function template: Explicit specialization`_
     * Partial specialization: No syntax for this in C++.
-    * Class scope specialization: `Diagram: Method template inside class template: Class scope specialization`_
+    * Class scope specialization: `Diagram: Class template contains function template: Class scope specialization`_
     * Class scope partial specialization: No syntax for this in C++.
 
   * Inner ordinary class: [TODO]
 
   * Inner class template:
 
-    * Definition and instantiation: `Diagram: Class template inside class template: Definition and instantiation`_
-    * Explicit specialization: `Diagram: Class template inside class template: Explicit specialization`_
-    * Partial specialization: `Diagram: Class template inside class template: Partial specialization`_
+    * Definition and instantiation: `Diagram: Class template contains class template: Definition and instantiation`_
+    * Explicit specialization: `Diagram: Class template contains class template: Explicit specialization`_
+    * Partial specialization: `Diagram: Class template contains class template: Partial specialization`_
     * Class scope specialization: [TODO]
     * Class scope partial specialization: [TODO]
 
