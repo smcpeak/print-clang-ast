@@ -2606,6 +2606,39 @@ specialization ``Outer<int>::Inner<V*>`` on top (node #78).  Finally,
 ``Outer<int>::Inner<float*>`` can be instantiated (node #29).
 
 
+Diagram: Class template contains class template: Class scope specialization
+---------------------------------------------------------------------------
+
+We can specialize a class template inside a class template from within
+the scope of the outer template class body:
+
+.. code-block:: c++
+
+    template <class T>
+    struct Outer {
+      template <class U>
+      struct Inner;
+
+      template <>
+      struct Inner<float> {
+        T t;
+        float u;
+      };
+    };
+
+    Outer<int>::Inner<float> i;
+
+The resulting object graph looks like this:
+
+.. image:: ASTsForTemplatesImages/ct-cont-ct-csspec.ded.png
+
+The focus node, ``ClassTemplateSpecializationDecl 35``, is both a
+(template) specialization of ``ClassTemplateDecl 31`` (representing
+``Outer<int>::Inner<U>``) and a member specialization of
+``ClassTemplateSpecializationDecl 23`` (representing
+``Outer<T>::Inner<float>``).
+
+
 Index of examples
 =================
 
@@ -2719,7 +2752,7 @@ Two-level nested:
     * Definition and instantiation: `Diagram: Class template contains class template: Definition and instantiation`_
     * Explicit specialization: `Diagram: Class template contains class template: Explicit specialization`_
     * Partial specialization: `Diagram: Class template contains class template: Partial specialization`_
-    * Class scope specialization: [TODO]
+    * Class scope specialization: `Diagram: Class template contains class template: Class scope specialization`_
     * Class scope partial specialization: [TODO]
 
 .. EOF
