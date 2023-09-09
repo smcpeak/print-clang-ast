@@ -2639,6 +2639,50 @@ The focus node, ``ClassTemplateSpecializationDecl 35``, is both a
 ``Outer<T>::Inner<float>``).
 
 
+Diagram: Class template contains class template: Class scope partial specialization
+-----------------------------------------------------------------------------------
+
+We can partially specialize a class template inside a class template
+from within the scope of the outer template class body:
+
+.. code-block:: c++
+
+    template <class T>
+    struct Outer {
+      template <class U>
+      struct Inner;
+
+      template <class V>
+      struct Inner<V*> {
+        T t;
+        V *u;
+      };
+    };
+
+    Outer<int>::Inner<float*> i;
+
+The resulting object graph looks like this:
+
+.. image:: ASTsForTemplatesImages/ct-cont-ct-cspspec.ded.png
+
+The focus node, ``ClassTemplateSpecializationDecl 36``
+(representing ``Outer<int>::Inner<float*>``), is an
+instantiation of ``ClassTemplatePartialSpecializationDecl 78``
+(representing ``Outer<int>::Inner<V*>``), which
+was instantiated from ``ClassTemplatePartialSpecializationDecl 23``
+(representing ``Outer<T>::Inner<V*>``).
+
+Meanwhile, ``ClassTemplateDecl 32`` (representing
+``Outer<int>::Inner<U>``), which is an instantiation of
+``ClassTemplateDecl 19`` (representing ``Outer<T>::Inner<U>``),
+has both a partial specialization (#78) and a full specialization
+(#36, the focus node).
+
+In this case, there is nothing that is simultaneously a (full, template)
+specialization and a member specialization because the member
+specialization is #78, but that is only a partial specialization.
+
+
 Index of examples
 =================
 
@@ -2753,6 +2797,6 @@ Two-level nested:
     * Explicit specialization: `Diagram: Class template contains class template: Explicit specialization`_
     * Partial specialization: `Diagram: Class template contains class template: Partial specialization`_
     * Class scope specialization: `Diagram: Class template contains class template: Class scope specialization`_
-    * Class scope partial specialization: [TODO]
+    * Class scope partial specialization: `Diagram: Class template contains class template: Class scope partial specialization`_
 
 .. EOF
