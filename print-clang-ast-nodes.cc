@@ -1957,8 +1957,23 @@ void PrintClangASTNodes::printClassTemplatePartialSpecializationDecl(
   llvm::PointerIntPair<clang::ClassTemplatePartialSpecializationDecl *, 1, bool>
     instantiatedFromMember =
       SPY(ClassTemplatePartialSpecializationDecl, decl, InstantiatedFromMember);
-  OUT_QATTR_INT(qualifier << "InstantiatedFromMember.", "isMemberSpecialization",
+
+  /*
+    As elsewhere, this bit is confusing.
+
+    The documentation on the bit says:
+
+      The boolean value will be true to indicate that this class template
+      partial specialization was specialized at this level.
+
+    but it is returned by method 'isMemberSpecialization()', which says:
+
+      Determines whether this class template partial specialization
+      template was a specialization of a member partial specialization.
+  */
+  OUT_QATTR_INT(qualifier << "InstantiatedFromMember.", "specdThisLevel",
     instantiatedFromMember.getInt());
+
   OUT_QATTR_PTR(qualifier, "InstantiatedFromMember" << ifLongForm(".ptr"),
     getDeclIDStr(instantiatedFromMember.getPointer()));
 }
@@ -2317,7 +2332,21 @@ void PrintClangASTNodes::printFunctionTemplateSpecializationInfo(
   OUT_ATTR_PTR("Function" << ifLongForm(".ptr"),
     getDeclIDStr(ftsi->getFunction()));
 
-  OUT_QATTR_STRING("Function.", "isMemberSpecialization",
+  /*
+    Documentation on the bit:
+
+      flag indicating if the function is a member specialization.
+
+    The bits meaning is implied by the documentation on
+    'getMemberSpecializationInfo()':
+
+      Get the specialization info if this function template specialization is
+      also a member specialization:
+
+    From my perspective, the ground truth here is that the bit controls
+    whether an MSI object is present.
+  */
+  OUT_QATTR_STRING("Function.", "isFuncMemberSpec",
     isMemberSpecialization);
 
   OUT_ATTR_PTR("Template" << ifLongForm(".ptr"),
@@ -2359,7 +2388,27 @@ void PrintClangASTNodes::printRedeclarableTemplateDecl_CommonBase(
       SPY(RedeclarableTemplateDecl, common, InstantiatedFromMember);
   OUT_ATTR_PTR("InstantiatedFromMember" << ifLongForm(".ptr"),
     getDeclIDStr(InstantiatedFromMember.getPointer()));
-  OUT_QATTR_STRING("InstantiatedFromMember.", "isMemberSpecialization",
+
+  /*
+    The documentation of this bit is confusing.  The bit itself says:
+
+      The boolean value indicates whether this template
+      was explicitly specialized.
+
+    but the bit is returned by the 'isMemberSpecialization()' method,
+    which says:
+
+      Determines whether this template was a specialization of a
+      member template.
+
+    From the examples I've studied, it seems the "explicit" part is
+    accurate.
+
+    It is also confusing that there are two other bits, on other
+    structures, called 'isMemberSpecialization', which seem to have
+    fairly different meanings.
+  */
+  OUT_QATTR_STRING("InstantiatedFromMember.", "explicitMemberSpec",
     InstantiatedFromMember.getInt());
 
   if (uint32_t *lazySpecs =

@@ -244,7 +244,7 @@
 
 "FunctionTemplateSpecializationInfo 21": {
   "Function.ptr": { "ptr": "FunctionDecl 20" },
-  "Function.isMemberSpecialization": "0",
+  "Function.isFuncMemberSpec": "0",
   "Template.ptr": { "ptr": "FunctionTemplateDecl 14" },
   "Template.specKind": "TSK_ExplicitSpecialization",
   "TemplateArguments": "\"<int>\"",
@@ -322,7 +322,7 @@
 "FunctionTemplateDecl::Common 31": {
   "associated decl": { "ptr": "FunctionTemplateDecl 14" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 35" },
 },
@@ -382,7 +382,7 @@
 
 "FunctionTemplateSpecializationInfo 35": {
   "Function.ptr": { "ptr": "FunctionDecl 34" },
-  "Function.isMemberSpecialization": "0",
+  "Function.isFuncMemberSpec": "0",
   "Template.ptr": { "ptr": "FunctionTemplateDecl 14" },
   "Template.specKind": "TSK_ExplicitSpecialization",
   "TemplateArguments": "\"<int>\"",

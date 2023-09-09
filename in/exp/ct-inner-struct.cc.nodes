@@ -1011,7 +1011,7 @@
 "ClassTemplateDecl::Common 59": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 22" },
   "PartialSpecializations": "empty",

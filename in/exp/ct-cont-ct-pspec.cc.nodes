@@ -869,7 +869,7 @@
   "ClassTemplatePartialSpecializationDecl::TemplateParams->Param[0]": { "ptr": "TemplateTypeParmDecl 49" },
   "ClassTemplatePartialSpecializationDecl::TemplateParams->Requires": { "ptr": "null" },
   "ClassTemplatePartialSpecializationDecl::ArgsAsWritten": "TODO",
-  "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.isMemberSpecialization": 0,
+  "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.specdThisLevel": 0,
   "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.ptr": { "ptr": "null" },
 },
 
@@ -1100,7 +1100,7 @@
 "ClassTemplateDecl::Common 66": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 23" },
   "PartialSpecializations": "empty",
@@ -1155,7 +1155,7 @@
 "ClassTemplateDecl::Common 70": {
   "associated decl": { "ptr": "ClassTemplateDecl 19" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations": "empty",
   "PartialSpecializations[0]": { "ptr": "ClassTemplatePartialSpecializationDecl 48" },
@@ -1215,7 +1215,7 @@
 "ClassTemplateDecl::Common 75": {
   "associated decl": { "ptr": "ClassTemplateDecl 25" },
   "InstantiatedFromMember.ptr": { "ptr": "ClassTemplateDecl 19" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 29" },
   "PartialSpecializations[0]": { "ptr": "ClassTemplatePartialSpecializationDecl 78" },
@@ -1319,7 +1319,7 @@
   "ClassTemplatePartialSpecializationDecl::TemplateParams->Param[0]": { "ptr": "TemplateTypeParmDecl 93" },
   "ClassTemplatePartialSpecializationDecl::TemplateParams->Requires": { "ptr": "null" },
   "ClassTemplatePartialSpecializationDecl::ArgsAsWritten": "TODO",
-  "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.isMemberSpecialization": 0,
+  "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.specdThisLevel": 0,
   "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.ptr": { "ptr": "ClassTemplatePartialSpecializationDecl 48" },
 },
 

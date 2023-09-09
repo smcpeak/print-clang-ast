@@ -221,7 +221,7 @@
 "FunctionTemplateDecl::Common 25": {
   "associated decl": { "ptr": "FunctionTemplateDecl 14" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations": "empty",
 },

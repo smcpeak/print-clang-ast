@@ -652,7 +652,7 @@
 
 "FunctionTemplateSpecializationInfo 39": {
   "Function.ptr": { "ptr": "CXXMethodDecl 38" },
-  "Function.isMemberSpecialization": "0",
+  "Function.isFuncMemberSpec": "0",
   "Template.ptr": { "ptr": "FunctionTemplateDecl 29" },
   "Template.specKind": "TSK_ExplicitSpecialization",
   "TemplateArguments": "\"<float>\"",
@@ -808,7 +808,7 @@
 "ClassTemplateDecl::Common 56": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 27" },
   "PartialSpecializations": "empty",
@@ -863,7 +863,7 @@
 "FunctionTemplateDecl::Common 60": {
   "associated decl": { "ptr": "FunctionTemplateDecl 19" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations": "empty",
 },
@@ -922,7 +922,7 @@
 "FunctionTemplateDecl::Common 65": {
   "associated decl": { "ptr": "FunctionTemplateDecl 29" },
   "InstantiatedFromMember.ptr": { "ptr": "FunctionTemplateDecl 19" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 69" },
 },
@@ -988,7 +988,7 @@
 
 "FunctionTemplateSpecializationInfo 69": {
   "Function.ptr": { "ptr": "CXXMethodDecl 67" },
-  "Function.isMemberSpecialization": "0",
+  "Function.isFuncMemberSpec": "0",
   "Template.ptr": { "ptr": "FunctionTemplateDecl 29" },
   "Template.specKind": "TSK_ExplicitSpecialization",
   "TemplateArguments": "\"<float>\"",

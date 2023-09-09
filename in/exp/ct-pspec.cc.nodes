@@ -619,7 +619,7 @@
   "ClassTemplatePartialSpecializationDecl::TemplateParams->Param[0]": { "ptr": "TemplateTypeParmDecl 41" },
   "ClassTemplatePartialSpecializationDecl::TemplateParams->Requires": { "ptr": "null" },
   "ClassTemplatePartialSpecializationDecl::ArgsAsWritten": "TODO",
-  "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.isMemberSpecialization": 0,
+  "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.specdThisLevel": 0,
   "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.ptr": { "ptr": "null" },
 },
 
@@ -868,7 +868,7 @@
 "ClassTemplateDecl::Common 61": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 18" },
   "PartialSpecializations[0]": { "ptr": "ClassTemplatePartialSpecializationDecl 40" },

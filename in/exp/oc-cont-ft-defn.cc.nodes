@@ -346,7 +346,7 @@
 
 "FunctionTemplateSpecializationInfo 27": {
   "Function.ptr": { "ptr": "CXXMethodDecl 25" },
-  "Function.isMemberSpecialization": "0",
+  "Function.isFuncMemberSpec": "0",
   "Template.ptr": { "ptr": "FunctionTemplateDecl 16" },
   "Template.specKind": "TSK_ImplicitInstantiation",
   "TemplateArguments": "\"<int>\"",
@@ -613,7 +613,7 @@
 "FunctionTemplateDecl::Common 52": {
   "associated decl": { "ptr": "FunctionTemplateDecl 16" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 27" },
 },

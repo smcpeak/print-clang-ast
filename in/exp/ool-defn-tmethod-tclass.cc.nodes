@@ -569,7 +569,7 @@
 "ClassTemplateDecl::Common 44": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations": "empty",
   "PartialSpecializations": "empty",
@@ -624,7 +624,7 @@
 "FunctionTemplateDecl::Common 48": {
   "associated decl": { "ptr": "FunctionTemplateDecl 19" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations": "empty",
 },

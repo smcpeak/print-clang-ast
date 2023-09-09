@@ -959,7 +959,7 @@
 "ClassTemplateDecl::Common 57": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 26" },
   "PartialSpecializations": "empty",
@@ -1014,7 +1014,7 @@
 "ClassTemplateDecl::Common 61": {
   "associated decl": { "ptr": "ClassTemplateDecl 19" },
   "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations": "empty",
   "PartialSpecializations": "empty",
@@ -1105,7 +1105,7 @@
 "ClassTemplateDecl::Common 67": {
   "associated decl": { "ptr": "ClassTemplateDecl 28" },
   "InstantiatedFromMember.ptr": { "ptr": "ClassTemplateDecl 19" },
-  "InstantiatedFromMember.isMemberSpecialization": "0",
+  "InstantiatedFromMember.explicitMemberSpec": "0",
   "LazySpecializations": "null",
   "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 32" },
   "PartialSpecializations": "empty",
