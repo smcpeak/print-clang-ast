@@ -44,6 +44,10 @@ This document currently omits discussion of some topics:
 
 * Template non-type parameters and template template parameters.
 
+* Variable templates.
+
+* Type alias templates.
+
 * Template ``requires`` constraints.
 
 * Concepts.
@@ -345,15 +349,17 @@ fields stored in the low bits of pointers, are:
       Two elements:
 
       * ``RedeclarableTemplateDecl*``:
-        If this template is a member specialization (an instantiation of
-        a member template of a class template), this points to the
-        member template from which it was instantiated.  An example is
-        shown in
+        If this template is a member specialization of a member template
+        of a class template, this points to the member template from
+        which it was instantiated.  An example is shown in
         `Diagram: Class template contains function template: Instantiation`_.
         Otherwise, it is ``nullptr``.
 
       * ``bool explicitMemberSpec``:
-        [TODO]
+        The member specialization can be explicit, and when it is, this
+        flag is set.  See
+        `Diagram: Class template contains function template: Explicit member specialization`_
+        for an example.
 
     * ``uint32_t *LazySpecializations``: A pointer to an array of IDs
       that can be used to load specializations of this template from an
@@ -2373,6 +2379,52 @@ we must pass ``false`` as the ``ForDefinition`` parameter of
 ``getTemplateInstantiationPattern()`` to use that method.
 
 
+Diagram: Class template contains function template: Explicit member specialization
+----------------------------------------------------------------------------------
+
+It is possible for a member specialization to be explicit:
+
+.. code-block:: c++
+
+    template <class T>
+    struct S {
+      template <class U>
+      unsigned sum(T t, U u);
+    };
+
+    template <>
+    template <class U>
+    unsigned S<int>::sum(int t, U u)
+    {
+      return t + u;
+    }
+
+    int caller(S<int> &s, int i, float f)
+    {
+      return s.sum(i, f);
+    }
+
+To think about this, first imagine that the middle declaration was
+absent.  Writing ``S<int>`` would cause the ``S<T>::sum<U>`` member
+template to be instantiated, yielding ``S<int>::sum<U>`` (a member
+specialization), which would then itself be instantiated to create
+``S<int>::sum<float>``.  But the presence of the explicit member
+specialization overrides the definition of ``S<int>::sum<U>``, and
+*that* is then instantiated to make ``S<int>::sum<float>``.
+
+The resulting object graph looks like this:
+
+.. image:: ASTsForTemplatesImages/ct-cont-ft-emspec.ded.png
+
+The focus node, ``FunctionTemplateDecl 55``, is the user-written
+explicit member specialization.  Its ``Common`` (#96) structure points
+at the member that it specializes, and has ``explicitMemberSpec`` set to
+``true``.  This is the first example we've looked at that has that flag
+set.  (Recall that ``explicitMemberSpec`` is the name I've chosen to
+give to the otherwise anonymous ``bool`` value stored in
+``RedeclarableTemplateDecl::CommonBase::InstantiatedFromMember``.)
+
+
 ``ClassScopeFunctionSpecializationDecl``
 ----------------------------------------
 
@@ -2394,9 +2446,9 @@ template, for example:
       }
     };
 
-This is vaguely like a "partial specialization" of a function template,
-in that the class template parameters remain generic but the function
-template parameters are concrete.
+This is sort of the opposite of the previous case, as it specializes the
+member template's parameter rather than the containing class template's
+parameter.
 
 The inheritance hierarchy of ``ClassScopeFunctionSpecializationDecl``
 is::
@@ -2459,10 +2511,6 @@ The resulting object graph looks like this:
 member specialization of ``ClassScopeFunctionSpecializationDecl 27``
 (representing ``S<T>::add<float>``).  This demonstrates simultaneous
 template specialization and member specialization.
-
-As usual for function template specializations, we also have a "stub"
-specialization at ``CXXMethodDecl 94`` due to using overload resolution
-to find the specialized primary.
 
 
 Diagram: Class template contains class template: Definition and instantiation
@@ -2715,6 +2763,7 @@ an exhaustive enumeration of this product space:
   * Explicit instantiation: Excluded, uninteresting.
   * Explicit specialization outside any parent class scope
   * Partial specialization outside any parent class scope
+  * Explicit member specialization
   * Class scope specialization
   * Class scope partial specialization
 
@@ -2722,8 +2771,6 @@ where "Templated thing" is one of:
 
   * Function
   * Class
-  * Variable: Excluded for now. [TODO: Add?]
-  * Type alias: Excluded for now. [TODO: Add?]
 
 Here, "uninteresting" means that examining the case would not reveal
 important or novel structure or relationships within the AST, from the
@@ -2738,6 +2785,7 @@ Non-nested:
   * Instantiation: `Diagram: Function template: Instantiation`_
   * Explicit specialization: `Diagram: Function template: Explicit specialization`_
   * Partial specialization: No syntax for this in C++.
+  * Explicit member specialization: Not applicable (not in a class).
   * Class scope specialization: Not applicable (not in a class).
 
 * Class template
@@ -2746,6 +2794,7 @@ Non-nested:
   * Instantiation: `Diagram: Class template: Instantiation`_
   * Explicit specialization: `Diagram: Class template: Explicit specialization`_
   * Partial specialization: `Diagram: Class template: Partial specialization`_
+  * Explicit member specialization: Not applicable (not in a class).
   * Class scope specialization: Not applicable (not in a class).
 
 Two-level nested:
@@ -2756,6 +2805,7 @@ Two-level nested:
   * Inner function template: Not legal C++.
   * Inner ordinary class: Uninteresting.
   * Inner class template: Not legal C++.
+  * Explicit member specialization: Not applicable (not in a class).
   * Class scope specialization: Not applicable (not in a class).
 
 * Outer function template
@@ -2765,6 +2815,7 @@ Two-level nested:
   * Inner function template: Not legal C++.
   * Inner ordinary class: [TODO]
   * Inner class template: Not legal C++.
+  * Explicit member specialization: Not applicable (not in a class).
   * Class scope specialization: Not applicable (not in a class).
 
 * Outer ordinary class
@@ -2788,6 +2839,7 @@ Two-level nested:
     * Instantiation: `Diagram: Class template contains ordinary function: Instantiation`_
     * Explicit specialization: `Diagram: Class template contains ordinary function: Explicit specialization`_
     * Partial specialization: No syntax for this in C++.
+    * Explicit member specialization: Not applicable (not a template).
     * Class scope specialization: Not applicable (not a template).
 
   * Inner function (method) template:
@@ -2796,6 +2848,7 @@ Two-level nested:
     * Instantiation: `Diagram: Class template contains function template: Instantiation`_
     * Explicit specialization: `Diagram: Class template contains function template: Explicit specialization`_
     * Partial specialization: No syntax for this in C++.
+    * Explicit member specialization: `Diagram: Class template contains function template: Explicit member specialization`_
     * Class scope specialization: `Diagram: Class template contains function template: Class scope specialization`_
     * Class scope partial specialization: No syntax for this in C++.
 
@@ -2806,6 +2859,7 @@ Two-level nested:
     * Definition and instantiation: `Diagram: Class template contains class template: Definition and instantiation`_
     * Explicit specialization: `Diagram: Class template contains class template: Explicit specialization`_
     * Partial specialization: `Diagram: Class template contains class template: Partial specialization`_
+    * Explicit member specialization: [TODO]
     * Class scope specialization: `Diagram: Class template contains class template: Class scope specialization`_
     * Class scope partial specialization: `Diagram: Class template contains class template: Class scope partial specialization`_
 

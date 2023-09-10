@@ -312,6 +312,7 @@ CHECKED_DIAGRAMS += ct-cont-of-espec.ded
 CHECKED_DIAGRAMS += ct-cont-ft-defn.ded
 CHECKED_DIAGRAMS += ct-cont-ft-inst.ded
 CHECKED_DIAGRAMS += ct-cont-ft-espec.ded
+CHECKED_DIAGRAMS += ct-cont-ft-emspec.ded
 CHECKED_DIAGRAMS += ct-cont-ft-csspec.ded
 CHECKED_DIAGRAMS += ct-cont-ct-inst.ded
 CHECKED_DIAGRAMS += ct-cont-ct-espec.ded
