@@ -189,17 +189,27 @@ out/%.json: in/src/% print-clang-ast.exe
 	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
 	  -std=c++20 in/src/$* >$@
 
+# Same, but with abbreviated field names.
+out/%.abbrev.json: in/src/% print-clang-ast.exe
+	$(CREATE_OUTPUT_DIRECTORY)
+	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
+	  --no-ast-field-qualifiers -std=c++20 in/src/$* >$@
+
 
 # Inputs.
 TEST_INPUTS := $(wildcard in/src/*.cc)
 
 # Outputs.
 TEST_OUTPUTS := $(patsubst in/src/%,out/%.json,$(TEST_INPUTS))
+TEST_ABBREV_OUTPUTS := $(patsubst in/src/%,out/%.abbrev.json,$(TEST_INPUTS))
 
 .PHONY: test-outputs
 test-outputs: $(TEST_OUTPUTS)
-
 check: test-outputs
+
+.PHONY: test-abbrev-outputs
+test-abbrev-outputs: $(TEST_ABBREV_OUTPUTS)
+check: test-abbrev-outputs
 
 
 # Check that the output matches expected output.

@@ -1,4 +1,4 @@
-// ct-member-espec.cc
+// ct-cont-of-espec.cc
 // Explicitly specialize a non-template member of a class template.
 
 template <class T>

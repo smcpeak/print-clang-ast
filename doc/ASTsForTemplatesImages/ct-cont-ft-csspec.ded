@@ -168,7 +168,7 @@
       "name": "$(graphNodeID)",
       "objectGraphNodeID": "FunctionTemplateSpecializationInfo 101",
       "size": {
-        "h": 60,
+        "h": 75,
         "w": 235
       }
     },
@@ -178,12 +178,12 @@
       "attributesWrapTextPolicy": "Whitespace",
       "loc": {
         "x": 725,
-        "y": 440
+        "y": 455
       },
       "name": "$(graphNodeID)",
       "objectGraphNodeID": "CXXMethodDecl 94",
       "size": {
-        "h": 115,
+        "h": 105,
         "w": 225
       }
     },
@@ -219,12 +219,12 @@
       "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
       "loc": {
         "x": 380,
-        "y": 315
+        "y": 300
       },
       "name": "$(graphNodeID)",
       "objectGraphNodeID": "FunctionTemplateSpecializationInfo 51",
       "size": {
-        "h": 60,
+        "h": 75,
         "w": 290
       }
     },
@@ -423,8 +423,7 @@
         "preview": "<dependent type>",
         "ptr": "BuiltinType 89"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0315ae8"
+      "ValueKind": "VK_PRValue"
     },
     "BinaryOperator 56": {
       "Dependent": "None",
@@ -433,8 +432,7 @@
         "preview": "float",
         "ptr": "BuiltinType 32"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335ec8"
+      "ValueKind": "VK_PRValue"
     },
     "BuiltinType 10": {"syntax": "\"char\""},
     "BuiltinType 26": {"syntax": "\"int\""},
@@ -450,8 +448,7 @@
         "preview": "int",
         "ptr": "BuiltinType 26"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335c68"
+      "ValueKind": "VK_PRValue"
     },
     "CXXMethodDecl 22": {
       "Access": "AS_public",
@@ -466,17 +463,17 @@
         "ptr": "FunctionProtoType 25"
       },
       "DefaultKWLoc": "<invalid loc>",
-      "EndRangeLoc": "tmp.cc:4:19",
+      "EndRangeLoc": "in/src/ct-cont-ft-csspec.cc:7:19",
       "ExtInfo": "absent",
       "FTD": {"ptr": "FunctionTemplateDecl 19"},
       "FirstDecl": {"ptr": "null"},
       "FunctionDeclBits": "HasWrittenPrototype HasODRHash",
       "IdentifierNamespace": "IDNS_Ordinary",
-      "InnerLocStart": "tmp.cc:4:3",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:3",
       "LDC": {"ptr": "CXXRecordDecl 17"},
       "LastDecl": {"ptr": "null"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:7",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:7",
       "LookupPtr": "null",
       "Name": "\"add\"",
       "NextInContext": {"ptr": "null"},
@@ -486,8 +483,7 @@
       "RD::First": {"ptr": "CXXMethodDecl 22"},
       "RD::Prev": {"ptr": "CXXMethodDecl 22"},
       "SClass": "SC_None",
-      "TInfo": "FunctionProto(\"int (T, U)\", <tmp.cc:4:3, col:19>, Builtin(\"int\", <tmp.cc:4:3>, NullTypeLoc))",
-      "address": "0x55dca0315618",
+      "TInfo": "FunctionProto(\"int (T, U)\", <in/src/ct-cont-ft-csspec.cc:7:3, col:19>, Builtin(\"int\", <in/src/ct-cont-ft-csspec.cc:7:3>, NullTypeLoc))",
       "getDescribedFunctionTemplate()": {"ptr": "FunctionTemplateDecl 19"},
       "getInstantiatedFromMemberFunction()": {"ptr": "null"},
       "getMemberSpecializationInfo()": {"ptr": "null"},
@@ -511,15 +507,15 @@
         "ptr": "FunctionProtoType 29"
       },
       "DefaultKWLoc": "<invalid loc>",
-      "EndRangeLoc": "tmp.cc:10:3",
+      "EndRangeLoc": "in/src/ct-cont-ft-csspec.cc:13:3",
       "FirstDecl": {"ptr": "ParmVarDecl 30"},
       "FunctionDeclBits": "IsInline HasWrittenPrototype",
       "IdentifierNamespace": "IDNS_Ordinary",
-      "InnerLocStart": "tmp.cc:7:3",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:10:3",
       "LDC": {"ptr": "CXXRecordDecl 17"},
       "LastDecl": {"ptr": "ParmVarDecl 31"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:7:7",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:10:7",
       "LookupPtr": "null",
       "Name": "\"add\"",
       "NextInContext": {"ptr": "null"},
@@ -531,17 +527,16 @@
       "RD::First": {"ptr": "CXXMethodDecl 28"},
       "RD::Prev": {"ptr": "CXXMethodDecl 28"},
       "SClass": "SC_None",
-      "TInfo": "FunctionProto(\"int (T, float)\", <tmp.cc:7:3, col:23>, Builtin(\"int\", <tmp.cc:7:3>, NullTypeLoc))",
+      "TInfo": "FunctionProto(\"int (T, float)\", <in/src/ct-cont-ft-csspec.cc:10:3, col:23>, Builtin(\"int\", <in/src/ct-cont-ft-csspec.cc:10:3>, NullTypeLoc))",
       "TPL[0]": "\"template <>\"",
       "TPL[0]->Flags": "",
-      "TPL[0]->LAngleLoc": "tmp.cc:6:12",
+      "TPL[0]->LAngleLoc": "in/src/ct-cont-ft-csspec.cc:9:12",
       "TPL[0]->NumTParams": "0",
-      "TPL[0]->RAngleLoc": "tmp.cc:6:13",
+      "TPL[0]->RAngleLoc": "in/src/ct-cont-ft-csspec.cc:9:13",
       "TPL[0]->Requires": {"ptr": "null"},
-      "TPL[0]->TemplateLoc": "tmp.cc:6:3",
+      "TPL[0]->TemplateLoc": "in/src/ct-cont-ft-csspec.cc:9:3",
       "TemplateOrSpecialization": "null",
       "TrailingRequiresClause": {"ptr": "null"},
-      "address": "0x55dca0315948",
       "getDescribedFunctionTemplate()": {"ptr": "null"},
       "getInstantiatedFromMemberFunction()": {"ptr": "null"},
       "getMemberSpecializationInfo()": {"ptr": "null"},
@@ -565,17 +560,17 @@
         "ptr": "FunctionProtoType 46"
       },
       "DefaultKWLoc": "<invalid loc>",
-      "EndRangeLoc": "tmp.cc:4:19",
+      "EndRangeLoc": "in/src/ct-cont-ft-csspec.cc:7:19",
       "ExtInfo": "absent",
       "FTD": {"ptr": "FunctionTemplateDecl 40"},
       "FirstDecl": {"ptr": "null"},
       "FunctionDeclBits": "HasWrittenPrototype HasODRHash",
       "IdentifierNamespace": "IDNS_Ordinary",
-      "InnerLocStart": "tmp.cc:4:3",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:3",
       "LDC": {"ptr": "ClassTemplateSpecializationDecl 38"},
       "LastDecl": {"ptr": "null"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:7",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:7",
       "LookupPtr": "null",
       "Name": "\"add\"",
       "NextInContext": {"ptr": "null"},
@@ -585,8 +580,7 @@
       "RD::First": {"ptr": "CXXMethodDecl 43"},
       "RD::Prev": {"ptr": "CXXMethodDecl 43"},
       "SClass": "SC_None",
-      "TInfo": "FunctionProto(\"int (int, U)\", <tmp.cc:4:3, col:19>, Builtin(\"int\", <tmp.cc:4:3>, NullTypeLoc))",
-      "address": "0x55dca0334ce8",
+      "TInfo": "FunctionProto(\"int (int, U)\", <in/src/ct-cont-ft-csspec.cc:7:3, col:19>, Builtin(\"int\", <in/src/ct-cont-ft-csspec.cc:7:3>, NullTypeLoc))",
       "getDescribedFunctionTemplate()": {"ptr": "FunctionTemplateDecl 40"},
       "getInstantiatedFromMemberFunction()": {"ptr": "null"},
       "getMemberSpecializationInfo()": {"ptr": "null"},
@@ -610,17 +604,17 @@
         "ptr": "FunctionProtoType 52"
       },
       "DefaultKWLoc": "<invalid loc>",
-      "EndRangeLoc": "tmp.cc:10:3",
+      "EndRangeLoc": "in/src/ct-cont-ft-csspec.cc:13:3",
       "ExtInfo": "absent",
       "FTSI": {"ptr": "FunctionTemplateSpecializationInfo 51"},
       "FirstDecl": {"ptr": "null"},
       "FunctionDeclBits": "IsInline HasWrittenPrototype",
       "IdentifierNamespace": "IDNS_Ordinary",
-      "InnerLocStart": "tmp.cc:7:3",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:10:3",
       "LDC": {"ptr": "ClassTemplateSpecializationDecl 38"},
       "LastDecl": {"ptr": "null"},
       "Linkage": "ExternalLinkage",
-      "Loc": "tmp.cc:7:7",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:10:7",
       "LookupPtr": "null",
       "Name": "\"add\"",
       "NextInContext": {"ptr": "null"},
@@ -630,8 +624,7 @@
       "RD::First": {"ptr": "CXXMethodDecl 94"},
       "RD::Prev": {"ptr": "CXXMethodDecl 94"},
       "SClass": "SC_None",
-      "TInfo": "FunctionProto(\"int (int, float)\", <tmp.cc:7:3, col:23>, Builtin(\"int\", <tmp.cc:7:3>, NullTypeLoc))",
-      "address": "0x55dca0335028",
+      "TInfo": "FunctionProto(\"int (int, float)\", <in/src/ct-cont-ft-csspec.cc:10:3, col:23>, Builtin(\"int\", <in/src/ct-cont-ft-csspec.cc:10:3>, NullTypeLoc))",
       "getDescribedFunctionTemplate()": {"ptr": "null"},
       "getInstantiatedFromMemberFunction()": {"ptr": "CXXMethodDecl 28"},
       "getMemberSpecializationInfo()": {"ptr": "MemberSpecializationInfo 95"},
@@ -656,17 +649,17 @@
         "ptr": "FunctionProtoType 102"
       },
       "DefaultKWLoc": "<invalid loc>",
-      "EndRangeLoc": "tmp.cc:4:19",
+      "EndRangeLoc": "in/src/ct-cont-ft-csspec.cc:7:19",
       "ExtInfo": "absent",
       "FTSI": {"ptr": "FunctionTemplateSpecializationInfo 101"},
       "FirstDecl": {"ptr": "null"},
       "FunctionDeclBits": "HasWrittenPrototype",
       "IdentifierNamespace": "IDNS_Ordinary",
-      "InnerLocStart": "tmp.cc:4:3",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:3",
       "LDC": {"ptr": "ClassTemplateSpecializationDecl 38"},
       "LastDecl": {"ptr": "null"},
       "Linkage": "ExternalLinkage",
-      "Loc": "tmp.cc:7:7",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:10:7",
       "LookupPtr": "null",
       "Name": "\"add\"",
       "NextInContext": {"ptr": "null"},
@@ -676,8 +669,7 @@
       "RD::First": {"ptr": "CXXMethodDecl 94"},
       "RD::Prev": {"ptr": "CXXMethodDecl 48"},
       "SClass": "SC_None",
-      "TInfo": "FunctionProto(\"int (int, float)\", <tmp.cc:4:3, col:19>, Builtin(\"int\", <tmp.cc:4:3>, NullTypeLoc))",
-      "address": "0x55dca0335308",
+      "TInfo": "FunctionProto(\"int (int, float)\", <in/src/ct-cont-ft-csspec.cc:7:3, col:19>, Builtin(\"int\", <in/src/ct-cont-ft-csspec.cc:7:3>, NullTypeLoc))",
       "getDescribedFunctionTemplate()": {"ptr": "null"},
       "getInstantiatedFromMemberFunction()": {"ptr": "null"},
       "getMemberSpecializationInfo()": {"ptr": "null"},
@@ -692,7 +684,7 @@
     "CXXRecordDecl 17": {
       "Access": "AS_none",
       "Bits.IsCompleteDefinition": "true",
-      "BraceRange": "<tmp.cc:2:10, line:11:1>",
+      "BraceRange": "<in/src/ct-cont-ft-csspec.cc:5:10, line:14:1>",
       "CTD": {"ptr": "ClassTemplateDecl 14"},
       "DC": {"ptr": "TranslationUnitDecl 1"},
       "Decl::flags": "",
@@ -704,8 +696,8 @@
       "LDC": {"ptr": "TranslationUnitDecl 1"},
       "LastDecl": {"ptr": "ClassScopeFunctionSpecializationDecl 27"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:2:8",
-      "LocStart": "tmp.cc:2:1",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:5:8",
+      "LocStart": "in/src/ct-cont-ft-csspec.cc:5:1",
       "LookupPtr": "StoredDeclsMap with 2 entries",
       "Name": "\"S\"",
       "NextInContext": {"ptr": "null"},
@@ -719,7 +711,6 @@
         "ptr": "InjectedClassNameType 83"
       },
       "TypedefNameDeclOrQualifier.name": {"ptr": "null"},
-      "address": "0x55dca0314f68",
       "getDependentLambdaCallOperator()": {"ptr": "null"},
       "getDescribedClassTemplate()": {"ptr": "ClassTemplateDecl 14"},
       "getInstantiatedFromMemberClass()": {"ptr": "null"},
@@ -742,8 +733,8 @@
       "LDC": {"ptr": "CXXRecordDecl 17"},
       "LastDecl": {"ptr": "null"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:2:8",
-      "LocStart": "tmp.cc:2:1",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:5:8",
+      "LocStart": "in/src/ct-cont-ft-csspec.cc:5:1",
       "LookupPtr": "null",
       "Name": "\"S\"",
       "NextInContext": {"ptr": "FunctionTemplateDecl 19"},
@@ -757,7 +748,6 @@
         "ptr": "InjectedClassNameType 83"
       },
       "TypedefNameDeclOrQualifier.name": {"ptr": "null"},
-      "address": "0x55dca0315288",
       "getDependentLambdaCallOperator()": {"ptr": "null"},
       "getDescribedClassTemplate()": {"ptr": "ClassTemplateDecl 14"},
       "getInstantiatedFromMemberClass()": {"ptr": "null"},
@@ -779,8 +769,8 @@
       "LDC": {"ptr": "ClassTemplateSpecializationDecl 38"},
       "LastDecl": {"ptr": "null"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:2:8",
-      "LocStart": "tmp.cc:2:1",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:5:8",
+      "LocStart": "in/src/ct-cont-ft-csspec.cc:5:1",
       "LookupPtr": "null",
       "Name": "\"S\"",
       "NextInContext": {"ptr": "FunctionTemplateDecl 40"},
@@ -795,21 +785,14 @@
         "ptr": "RecordType 90"
       },
       "TypedefNameDeclOrQualifier.name": {"ptr": "null"},
-      "address": "0x55dca03349c0",
       "getDependentLambdaCallOperator()": {"ptr": "null"},
       "getDescribedClassTemplate()": {"ptr": "null"},
       "getInstantiatedFromMemberClass()": {"ptr": "null"},
       "getTemplateInstantiationPattern()": {"ptr": "null"},
       "moduleOwnershipKind": "Unowned"
     },
-    "CXXRecordDecl 79": {
-      "address": "0x55dca02c9518",
-      "skipping reserved": "\"__NSConstantString_tag\""
-    },
-    "CXXRecordDecl 80": {
-      "address": "0x55dca02c9978",
-      "skipping reserved": "\"__va_list_tag\""
-    },
+    "CXXRecordDecl 79": {"skipping reserved": "\"__NSConstantString_tag\""},
+    "CXXRecordDecl 80": {"skipping reserved": "\"__va_list_tag\""},
     "ClassScopeFunctionSpecializationDecl 27": {
       "Access": "AS_none",
       "DC": {"ptr": "CXXRecordDecl 17"},
@@ -817,11 +800,10 @@
       "IdentifierNamespace": "0",
       "LDC": {"ptr": "CXXRecordDecl 17"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:7:7",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:10:7",
       "NextInContext": {"ptr": "null"},
       "Specialization": {"ptr": "CXXMethodDecl 28"},
       "TemplateArgs": null,
-      "address": "0x55dca0315a58",
       "moduleOwnershipKind": "Unowned"
     },
     "ClassTemplateDecl 14": {
@@ -832,7 +814,7 @@
       "IdentifierNamespace": "IDNS_Tag|IDNS_Type|IDNS_Ordinary",
       "LDC": {"ptr": "TranslationUnitDecl 1"},
       "Linkage": "ExternalLinkage",
-      "Loc": "tmp.cc:2:8",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:5:8",
       "Name": "\"S\"",
       "NextInContext": {"ptr": "FunctionDecl 62"},
       "Param[0]": {"ptr": "TemplateTypeParmDecl 15"},
@@ -840,13 +822,12 @@
       "RD::Prev": {"ptr": "ClassTemplateDecl 14"},
       "TP": "\"template <class T>\"",
       "TP->Flags": "",
-      "TP->LAngleLoc": "tmp.cc:1:10",
+      "TP->LAngleLoc": "in/src/ct-cont-ft-csspec.cc:4:10",
       "TP->NumTParams": "1",
-      "TP->RAngleLoc": "tmp.cc:1:18",
+      "TP->RAngleLoc": "in/src/ct-cont-ft-csspec.cc:4:18",
       "TP->Requires": {"ptr": "null"},
-      "TP->TemplateLoc": "tmp.cc:1:1",
+      "TP->TemplateLoc": "in/src/ct-cont-ft-csspec.cc:4:1",
       "TdD": {"ptr": "CXXRecordDecl 17"},
-      "address": "0x55dca0315018",
       "getInstantiatedFromMemberTemplate()": {"ptr": "null"},
       "moduleOwnershipKind": "Unowned"
     },
@@ -860,14 +841,13 @@
       "LazySpecializations": "null",
       "PartialSpecializations": "empty",
       "Specializations[0]": {"ptr": "ClassTemplateSpecializationDecl 38"},
-      "address": "0x55dca0315088",
       "associated decl": {"ptr": "ClassTemplateDecl 14"},
-      "isMemberSpecialization": "0"
+      "explicitMemberSpec": "0"
     },
     "ClassTemplateSpecializationDecl 38": {
       "Access": "AS_none",
       "Bits.IsCompleteDefinition": "true",
-      "BraceRange": "<tmp.cc:2:10, line:11:1>",
+      "BraceRange": "<in/src/ct-cont-ft-csspec.cc:5:10, line:14:1>",
       "DC": {"ptr": "TranslationUnitDecl 1"},
       "Decl::flags": "",
       "DeclContextBits": "",
@@ -879,13 +859,13 @@
       "LDC": {"ptr": "TranslationUnitDecl 1"},
       "LastDecl": {"ptr": "CXXMethodDecl 48"},
       "Linkage": "ExternalLinkage",
-      "Loc": "tmp.cc:2:8",
-      "LocStart": "tmp.cc:2:1",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:5:8",
+      "LocStart": "in/src/ct-cont-ft-csspec.cc:5:1",
       "LookupPtr": "StoredDeclsMap with 2 entries",
       "Name": "\"S\"",
       "NextInContext": {"ptr": "null"},
       "ODRHash": "46480523",
-      "PointOfInstantiation": "tmp.cc:15:11",
+      "PointOfInstantiation": "in/src/ct-cont-ft-csspec.cc:18:11",
       "RD::First": {"ptr": "ClassTemplateSpecializationDecl 38"},
       "RD::Prev": {"ptr": "ClassTemplateSpecializationDecl 38"},
       "RecordDeclBits": "APK_CanPassInRegs",
@@ -904,7 +884,6 @@
         "ptr": "RecordType 90"
       },
       "TypedefNameDeclOrQualifier.name": {"ptr": "null"},
-      "address": "0x55dca0315b68",
       "getDependentLambdaCallOperator()": {"ptr": "null"},
       "getDescribedClassTemplate()": {"ptr": "null"},
       "getInstantiatedFrom().CTD": {"ptr": "ClassTemplateDecl 14"},
@@ -914,107 +893,100 @@
       "getTemplateInstantiationPattern()": {"ptr": "CXXRecordDecl 17"},
       "moduleOwnershipKind": "Unowned"
     },
-    "CompoundStmt 33": {"address": "0x55dca0315b18"},
-    "CompoundStmt 53": {"address": "0x55dca0335f10"},
-    "CompoundStmt 70": {"address": "0x55dca0335df8"},
+    "CompoundStmt 33": {},
+    "CompoundStmt 53": {},
+    "CompoundStmt 70": {},
     "ConstantArrayType 12": {"syntax": "\"struct __va_list_tag[1]\""},
     "DeclRefExpr 36": {
       "D": {"ptr": "ParmVarDecl 30"},
       "DNLoc": "(none)",
       "DeclRefExprBits": "",
       "Dependent": "Instantiation|Type|Value",
-      "Loc": "tmp.cc:9:12",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:12:12",
       "ObjectKind": "OK_Ordinary",
       "TR": {
         "preview": "T",
         "ptr": "TemplateTypeParmType 16"
       },
-      "ValueKind": "VK_LValue",
-      "address": "0x55dca0315aa8"
+      "ValueKind": "VK_LValue"
     },
     "DeclRefExpr 37": {
       "D": {"ptr": "ParmVarDecl 31"},
       "DNLoc": "(none)",
       "DeclRefExprBits": "",
       "Dependent": "None",
-      "Loc": "tmp.cc:9:16",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:12:16",
       "ObjectKind": "OK_Ordinary",
       "TR": {
         "preview": "float",
         "ptr": "BuiltinType 32"
       },
-      "ValueKind": "VK_LValue",
-      "address": "0x55dca0315ac8"
+      "ValueKind": "VK_LValue"
     },
     "DeclRefExpr 59": {
       "D": {"ptr": "ParmVarDecl 49"},
       "DNLoc": "(none)",
       "DeclRefExprBits": "",
       "Dependent": "None",
-      "Loc": "tmp.cc:9:12",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:12:12",
       "ObjectKind": "OK_Ordinary",
       "TR": {
         "preview": "int",
         "ptr": "SubstTemplateTypeParmType 47"
       },
-      "ValueKind": "VK_LValue",
-      "address": "0x55dca0335e10"
+      "ValueKind": "VK_LValue"
     },
     "DeclRefExpr 61": {
       "D": {"ptr": "ParmVarDecl 50"},
       "DNLoc": "(none)",
       "DeclRefExprBits": "",
       "Dependent": "None",
-      "Loc": "tmp.cc:9:16",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:12:16",
       "ObjectKind": "OK_Ordinary",
       "TR": {
         "preview": "float",
         "ptr": "BuiltinType 32"
       },
-      "ValueKind": "VK_LValue",
-      "address": "0x55dca0335e48"
+      "ValueKind": "VK_LValue"
     },
     "DeclRefExpr 74": {
       "D": {"ptr": "ParmVarDecl 64"},
       "DNLoc": "(none)",
       "DeclRefExprBits": "",
       "Dependent": "None",
-      "Loc": "tmp.cc:15:10",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:18:10",
       "ObjectKind": "OK_Ordinary",
       "TR": {
         "preview": "S<int>",
         "ptr": "ElaboratedType 66"
       },
-      "ValueKind": "VK_LValue",
-      "address": "0x55dca0334930"
+      "ValueKind": "VK_LValue"
     },
     "DeclRefExpr 76": {
       "D": {"ptr": "ParmVarDecl 68"},
       "DNLoc": "(none)",
       "DeclRefExprBits": "",
       "Dependent": "None",
-      "Loc": "tmp.cc:15:16",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:18:16",
       "ObjectKind": "OK_Ordinary",
       "TR": {
         "preview": "int",
         "ptr": "BuiltinType 26"
       },
-      "ValueKind": "VK_LValue",
-      "address": "0x55dca0335b78"
+      "ValueKind": "VK_LValue"
     },
     "DeclRefExpr 78": {
       "D": {"ptr": "ParmVarDecl 69"},
       "DNLoc": "(none)",
       "DeclRefExprBits": "",
       "Dependent": "None",
-      "Loc": "tmp.cc:15:19",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:18:19",
       "ObjectKind": "OK_Ordinary",
       "TR": {
         "preview": "float",
         "ptr": "BuiltinType 32"
       },
-      "ValueKind": "VK_LValue",
-      "address": "0x55dca0335b98"
+      "ValueKind": "VK_LValue"
     },
     "DefinitionData 84": {
       "Bases": "TODO",
@@ -1108,16 +1080,16 @@
         "ptr": "FunctionProtoType 63"
       },
       "DefaultKWLoc": "<invalid loc>",
-      "EndRangeLoc": "tmp.cc:16:1",
+      "EndRangeLoc": "in/src/ct-cont-ft-csspec.cc:19:1",
       "ExtInfo": "absent",
       "FirstDecl": {"ptr": "ParmVarDecl 64"},
       "FunctionDeclBits": "HasWrittenPrototype",
       "IdentifierNamespace": "IDNS_Ordinary",
-      "InnerLocStart": "tmp.cc:13:1",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:16:1",
       "LDC": {"ptr": "TranslationUnitDecl 1"},
       "LastDecl": {"ptr": "ParmVarDecl 69"},
       "Linkage": "ExternalLinkage",
-      "Loc": "tmp.cc:13:5",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:16:5",
       "LookupPtr": "null",
       "Name": "\"caller\"",
       "NextInContext": {"ptr": "null"},
@@ -1128,9 +1100,8 @@
       "RD::First": {"ptr": "FunctionDecl 62"},
       "RD::Prev": {"ptr": "FunctionDecl 62"},
       "SClass": "SC_None",
-      "TInfo": "FunctionProto(\"int (S<int> &, int, float)\", <tmp.cc:13:1, col:37>, Builtin(\"int\", <tmp.cc:13:1>, NullTypeLoc))",
+      "TInfo": "FunctionProto(\"int (S<int> &, int, float)\", <in/src/ct-cont-ft-csspec.cc:16:1, col:37>, Builtin(\"int\", <in/src/ct-cont-ft-csspec.cc:16:1>, NullTypeLoc))",
       "TemplateOrSpecialization": "null",
-      "address": "0x55dca0334808",
       "getDescribedFunctionTemplate()": {"ptr": "null"},
       "getInstantiatedFromMemberFunction()": {"ptr": "null"},
       "getMemberSpecializationInfo()": {"ptr": "null"},
@@ -1346,7 +1317,7 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "LDC": {"ptr": "CXXRecordDecl 17"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:7",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:7",
       "Name": "\"add\"",
       "NextInContext": {"ptr": "ClassScopeFunctionSpecializationDecl 27"},
       "Param[0]": {"ptr": "TemplateTypeParmDecl 20"},
@@ -1354,13 +1325,12 @@
       "RD::Prev": {"ptr": "FunctionTemplateDecl 19"},
       "TP": "\"template <class U>\"",
       "TP->Flags": "",
-      "TP->LAngleLoc": "tmp.cc:3:12",
+      "TP->LAngleLoc": "in/src/ct-cont-ft-csspec.cc:6:12",
       "TP->NumTParams": "1",
-      "TP->RAngleLoc": "tmp.cc:3:20",
+      "TP->RAngleLoc": "in/src/ct-cont-ft-csspec.cc:6:20",
       "TP->Requires": {"ptr": "null"},
-      "TP->TemplateLoc": "tmp.cc:3:3",
+      "TP->TemplateLoc": "in/src/ct-cont-ft-csspec.cc:6:3",
       "TdD": {"ptr": "CXXMethodDecl 22"},
-      "address": "0x55dca03156c8",
       "getInstantiatedFromMemberTemplate()": {"ptr": "null"},
       "moduleOwnershipKind": "Unowned"
     },
@@ -1372,7 +1342,7 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "LDC": {"ptr": "ClassTemplateSpecializationDecl 38"},
       "Linkage": "ExternalLinkage",
-      "Loc": "tmp.cc:4:7",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:7",
       "Name": "\"add\"",
       "NextInContext": {"ptr": "CXXMethodDecl 48"},
       "Param[0]": {"ptr": "TemplateTypeParmDecl 41"},
@@ -1380,13 +1350,12 @@
       "RD::Prev": {"ptr": "FunctionTemplateDecl 40"},
       "TP": "\"template <class U>\"",
       "TP->Flags": "",
-      "TP->LAngleLoc": "tmp.cc:3:12",
+      "TP->LAngleLoc": "in/src/ct-cont-ft-csspec.cc:6:12",
       "TP->NumTParams": "1",
-      "TP->RAngleLoc": "tmp.cc:3:20",
+      "TP->RAngleLoc": "in/src/ct-cont-ft-csspec.cc:6:20",
       "TP->Requires": {"ptr": "null"},
-      "TP->TemplateLoc": "tmp.cc:3:3",
+      "TP->TemplateLoc": "in/src/ct-cont-ft-csspec.cc:6:3",
       "TdD": {"ptr": "CXXMethodDecl 43"},
-      "address": "0x55dca0334d98",
       "getInstantiatedFromMemberTemplate()": {"ptr": "FunctionTemplateDecl 19"},
       "moduleOwnershipKind": "Unowned"
     },
@@ -1395,18 +1364,16 @@
       "InstantiatedFromMember": {"ptr": "null"},
       "LazySpecializations": "null",
       "Specializations": "empty",
-      "address": "0x55dca0335fa0",
       "associated decl": {"ptr": "FunctionTemplateDecl 19"},
-      "isMemberSpecialization": "0"
+      "explicitMemberSpec": "0"
     },
     "FunctionTemplateDecl::Common 92": {
       "InjectedArgs": "null",
       "InstantiatedFromMember": {"ptr": "FunctionTemplateDecl 19"},
       "LazySpecializations": "null",
       "Specializations[0]": {"ptr": "FunctionTemplateSpecializationInfo 101"},
-      "address": "0x55dca0334e00",
       "associated decl": {"ptr": "FunctionTemplateDecl 40"},
-      "isMemberSpecialization": "0"
+      "explicitMemberSpec": "0"
     },
     "FunctionTemplateSpecializationInfo 101": {
       "Function": {"ptr": "CXXMethodDecl 94"},
@@ -1414,7 +1381,7 @@
       "Template": {"ptr": "FunctionTemplateDecl 40"},
       "TemplateArguments": "\"<float>\"",
       "TemplateArgumentsAsWritten": "null",
-      "isMemberSpecialization": "0",
+      "isFuncMemberSpec": "0",
       "specKind": "TSK_ExplicitSpecialization"
     },
     "FunctionTemplateSpecializationInfo 51": {
@@ -1424,7 +1391,7 @@
       "Template": {"ptr": "FunctionTemplateDecl 40"},
       "TemplateArguments": "\"<float>\"",
       "TemplateArgumentsAsWritten": "null",
-      "isMemberSpecialization": "1",
+      "isFuncMemberSpec": "1",
       "specKind": "TSK_ExplicitSpecialization"
     },
     "ImplicitCastExpr 55": {
@@ -1434,8 +1401,7 @@
         "preview": "int",
         "ptr": "BuiltinType 26"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335ee8"
+      "ValueKind": "VK_PRValue"
     },
     "ImplicitCastExpr 57": {
       "Dependent": "None",
@@ -1444,8 +1410,7 @@
         "preview": "float",
         "ptr": "BuiltinType 32"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335eb0"
+      "ValueKind": "VK_PRValue"
     },
     "ImplicitCastExpr 58": {
       "Dependent": "None",
@@ -1454,8 +1419,7 @@
         "preview": "int",
         "ptr": "SubstTemplateTypeParmType 47"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335e80"
+      "ValueKind": "VK_PRValue"
     },
     "ImplicitCastExpr 60": {
       "Dependent": "None",
@@ -1464,8 +1428,7 @@
         "preview": "float",
         "ptr": "BuiltinType 32"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335e98"
+      "ValueKind": "VK_PRValue"
     },
     "ImplicitCastExpr 75": {
       "Dependent": "None",
@@ -1474,8 +1437,7 @@
         "preview": "int",
         "ptr": "BuiltinType 26"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335cc8"
+      "ValueKind": "VK_PRValue"
     },
     "ImplicitCastExpr 77": {
       "Dependent": "None",
@@ -1484,8 +1446,7 @@
         "preview": "float",
         "ptr": "BuiltinType 32"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335ce0"
+      "ValueKind": "VK_PRValue"
     },
     "InjectedClassNameType 83": {
       "Decl": {"ptr": "CXXRecordDecl 17"},
@@ -1520,19 +1481,18 @@
       "MemberDecl": {"ptr": "CXXMethodDecl 48"},
       "MemberExprBits": "NOUR_None HasQualifierOrFoundDecl HadMultipleCandidates",
       "MemberExprNameQualifier": "TODO",
-      "MemberLoc": "tmp.cc:15:12",
+      "MemberLoc": "in/src/ct-cont-ft-csspec.cc:18:12",
       "ObjectKind": "OK_Ordinary",
-      "OperatorLoc": "tmp.cc:15:11",
+      "OperatorLoc": "in/src/ct-cont-ft-csspec.cc:18:11",
       "TR": {
         "preview": "<bound member function type>",
         "ptr": "BuiltinType 99"
       },
-      "ValueKind": "VK_PRValue",
-      "address": "0x55dca0335c20"
+      "ValueKind": "VK_PRValue"
     },
     "MemberSpecializationInfo 95": {
       "Member": {"ptr": "CXXMethodDecl 28"},
-      "PointOfInstantiation": "tmp.cc:15:12",
+      "PointOfInstantiation": "in/src/ct-cont-ft-csspec.cc:18:12",
       "TemplateSpecializationKind": "TSK_ImplicitInstantiation"
     },
     "ParmVarDecl 103": {
@@ -1549,19 +1509,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:4:11",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:11",
       "LDC": {"ptr": "CXXMethodDecl 94"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:13",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:13",
       "Name": "\"t\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "0",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "SubstTemplateTypeParm(\"int\", <tmp.cc:4:11>, NullTypeLoc)",
+      "TInfo": "SubstTemplateTypeParm(\"int\", <in/src/ct-cont-ft-csspec.cc:7:11>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0335178",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 104": {
@@ -1578,19 +1537,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:4:16",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:16",
       "LDC": {"ptr": "CXXMethodDecl 94"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:18",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:18",
       "Name": "\"u\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "1",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "SubstTemplateTypeParm(\"float\", <tmp.cc:4:16>, NullTypeLoc)",
+      "TInfo": "SubstTemplateTypeParm(\"float\", <in/src/ct-cont-ft-csspec.cc:7:16>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0335220",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 23": {
@@ -1607,19 +1565,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:4:11",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:11",
       "LDC": {"ptr": "CXXMethodDecl 22"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:13",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:13",
       "Name": "\"t\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "0",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "TemplateTypeParm(\"T\", <tmp.cc:4:11>, NullTypeLoc)",
+      "TInfo": "TemplateTypeParm(\"T\", <in/src/ct-cont-ft-csspec.cc:7:11>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0315418",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 24": {
@@ -1636,19 +1593,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:4:16",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:16",
       "LDC": {"ptr": "CXXMethodDecl 22"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:18",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:18",
       "Name": "\"u\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "1",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "TemplateTypeParm(\"U\", <tmp.cc:4:16>, NullTypeLoc)",
+      "TInfo": "TemplateTypeParm(\"U\", <in/src/ct-cont-ft-csspec.cc:7:16>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0315498",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 30": {
@@ -1665,19 +1621,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:7:11",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:10:11",
       "LDC": {"ptr": "CXXMethodDecl 28"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:7:13",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:10:13",
       "Name": "\"t\"",
       "NextInContext": {"ptr": "ParmVarDecl 31"},
       "ParameterIndex": "0",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "TemplateTypeParm(\"T\", <tmp.cc:7:11>, NullTypeLoc)",
+      "TInfo": "TemplateTypeParm(\"T\", <in/src/ct-cont-ft-csspec.cc:10:11>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0315770",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 31": {
@@ -1694,19 +1649,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:7:16",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:10:16",
       "LDC": {"ptr": "CXXMethodDecl 28"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:7:22",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:10:22",
       "Name": "\"u\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "1",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "Builtin(\"float\", <tmp.cc:7:16>, NullTypeLoc)",
+      "TInfo": "Builtin(\"float\", <in/src/ct-cont-ft-csspec.cc:10:16>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca03157f8",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 44": {
@@ -1723,19 +1677,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:4:11",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:11",
       "LDC": {"ptr": "CXXMethodDecl 43"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:13",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:13",
       "Name": "\"t\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "0",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "SubstTemplateTypeParm(\"int\", <tmp.cc:4:11>, NullTypeLoc)",
+      "TInfo": "SubstTemplateTypeParm(\"int\", <in/src/ct-cont-ft-csspec.cc:7:11>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0334b40",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 45": {
@@ -1752,19 +1705,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:4:16",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:7:16",
       "LDC": {"ptr": "CXXMethodDecl 43"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:4:18",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:7:18",
       "Name": "\"u\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "1",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "TemplateTypeParm(\"U\", <tmp.cc:4:16>, NullTypeLoc)",
+      "TInfo": "TemplateTypeParm(\"U\", <in/src/ct-cont-ft-csspec.cc:7:16>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0334bc0",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 49": {
@@ -1781,19 +1733,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:7:11",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:10:11",
       "LDC": {"ptr": "CXXMethodDecl 48"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:7:13",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:10:13",
       "Name": "\"t\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "0",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "SubstTemplateTypeParm(\"int\", <tmp.cc:7:11>, NullTypeLoc)",
+      "TInfo": "SubstTemplateTypeParm(\"int\", <in/src/ct-cont-ft-csspec.cc:10:11>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0334e90",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 50": {
@@ -1810,19 +1761,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:7:16",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:10:16",
       "LDC": {"ptr": "CXXMethodDecl 48"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:7:22",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:10:22",
       "Name": "\"u\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "1",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "Builtin(\"float\", <tmp.cc:7:16>, NullTypeLoc)",
+      "TInfo": "Builtin(\"float\", <in/src/ct-cont-ft-csspec.cc:10:16>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0334f00",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 64": {
@@ -1839,19 +1789,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:13:12",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:16:12",
       "LDC": {"ptr": "FunctionDecl 62"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:13:20",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:16:20",
       "Name": "\"s\"",
       "NextInContext": {"ptr": "ParmVarDecl 68"},
       "ParameterIndex": "0",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "LValueReference(\"S<int> &\", <tmp.cc:13:12, col:19>, Elaborated(\"S<int>\", <tmp.cc:13:12, col:17>, TemplateSpecialization(\"S<int>\", <tmp.cc:13:12, col:17>, NullTypeLoc)))",
+      "TInfo": "LValueReference(\"S<int> &\", <in/src/ct-cont-ft-csspec.cc:16:12, col:19>, Elaborated(\"S<int>\", <in/src/ct-cont-ft-csspec.cc:16:12, col:17>, TemplateSpecialization(\"S<int>\", <in/src/ct-cont-ft-csspec.cc:16:12, col:17>, NullTypeLoc)))",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0334578",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 68": {
@@ -1868,19 +1817,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:13:23",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:16:23",
       "LDC": {"ptr": "FunctionDecl 62"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:13:27",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:16:27",
       "Name": "\"i\"",
       "NextInContext": {"ptr": "ParmVarDecl 69"},
       "ParameterIndex": "1",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "Builtin(\"int\", <tmp.cc:13:23>, NullTypeLoc)",
+      "TInfo": "Builtin(\"int\", <in/src/ct-cont-ft-csspec.cc:16:23>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0334600",
       "moduleOwnershipKind": "Unowned"
     },
     "ParmVarDecl 69": {
@@ -1897,19 +1845,18 @@
       "IdentifierNamespace": "IDNS_Ordinary",
       "InitStmt": {"ptr": "null"},
       "InitStyle": "CInit",
-      "InnerLocStart": "tmp.cc:13:30",
+      "InnerLocStart": "in/src/ct-cont-ft-csspec.cc:16:30",
       "LDC": {"ptr": "FunctionDecl 62"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:13:36",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:16:36",
       "Name": "\"f\"",
       "NextInContext": {"ptr": "null"},
       "ParameterIndex": "2",
       "ParmVarDeclBits flags": "",
       "SClass": "SC_None",
       "ScopeDepthOrObjCQuals": "0",
-      "TInfo": "Builtin(\"float\", <tmp.cc:13:30>, NullTypeLoc)",
+      "TInfo": "Builtin(\"float\", <in/src/ct-cont-ft-csspec.cc:16:30>, NullTypeLoc)",
       "TSCSpec": "TSCS_unspecified",
-      "address": "0x55dca0334688",
       "moduleOwnershipKind": "Unowned"
     },
     "PointerType 9": {
@@ -1931,9 +1878,9 @@
       "decl": {"ptr": "ClassTemplateSpecializationDecl 38"},
       "syntax": "\"struct S<int>\""
     },
-    "ReturnStmt 34": {"address": "0x55dca0315b08"},
-    "ReturnStmt 54": {"address": "0x55dca0335f00"},
-    "ReturnStmt 71": {"address": "0x55dca0335de8"},
+    "ReturnStmt 34": {},
+    "ReturnStmt 54": {},
+    "ReturnStmt 71": {},
     "SubstTemplateTypeParmType 106": {
       "AssociatedDecl": {"ptr": "FunctionTemplateDecl 40"},
       "Canon": {
@@ -2037,8 +1984,8 @@
       "IdentifierNamespace": "IDNS_Type|IDNS_Ordinary",
       "LDC": {"ptr": "CXXRecordDecl 17"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:1:17",
-      "LocStart": "tmp.cc:1:11",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:4:17",
+      "LocStart": "in/src/ct-cont-ft-csspec.cc:4:11",
       "Name": "\"T\"",
       "NextInContext": {"ptr": "null"},
       "NumExpanded": "0",
@@ -2047,7 +1994,6 @@
         "preview": "T",
         "ptr": "TemplateTypeParmType 16"
       },
-      "address": "0x55dca0314ea0",
       "moduleOwnershipKind": "Unowned"
     },
     "TemplateTypeParmDecl 20": {
@@ -2057,8 +2003,8 @@
       "IdentifierNamespace": "IDNS_Type|IDNS_Ordinary",
       "LDC": {"ptr": "CXXMethodDecl 22"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:3:19",
-      "LocStart": "tmp.cc:3:13",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:6:19",
+      "LocStart": "in/src/ct-cont-ft-csspec.cc:6:13",
       "Name": "\"U\"",
       "NextInContext": {"ptr": "null"},
       "NumExpanded": "0",
@@ -2067,7 +2013,6 @@
         "preview": "U",
         "ptr": "TemplateTypeParmType 21"
       },
-      "address": "0x55dca0315338",
       "moduleOwnershipKind": "Unowned"
     },
     "TemplateTypeParmDecl 41": {
@@ -2077,8 +2022,8 @@
       "IdentifierNamespace": "IDNS_Type|IDNS_Ordinary",
       "LDC": {"ptr": "CXXMethodDecl 43"},
       "Linkage": "(not set)",
-      "Loc": "tmp.cc:3:19",
-      "LocStart": "tmp.cc:3:13",
+      "Loc": "in/src/ct-cont-ft-csspec.cc:6:19",
+      "LocStart": "in/src/ct-cont-ft-csspec.cc:6:13",
       "Name": "\"U\"",
       "NextInContext": {"ptr": "null"},
       "NumExpanded": "0",
@@ -2087,7 +2032,6 @@
         "preview": "U",
         "ptr": "TemplateTypeParmType 42"
       },
-      "address": "0x55dca0334a70",
       "moduleOwnershipKind": "Unowned"
     },
     "TemplateTypeParmType 16": {
@@ -2151,29 +2095,13 @@
       "Loc": "<invalid loc>",
       "LookupPtr": "StoredDeclsMap with 7 entries",
       "NextInContext": {"ptr": "null"},
-      "address": "0x55dca02c8bb8",
       "moduleOwnershipKind": "Unowned"
     },
-    "TypedefDecl 11": {
-      "address": "0x55dca0314e40",
-      "skipping reserved": "\"__builtin_va_list\""
-    },
-    "TypedefDecl 2": {
-      "address": "0x55dca02c9440",
-      "skipping reserved": "\"__int128_t\""
-    },
-    "TypedefDecl 4": {
-      "address": "0x55dca02c94b8",
-      "skipping reserved": "\"__uint128_t\""
-    },
-    "TypedefDecl 6": {
-      "address": "0x55dca02c9870",
-      "skipping reserved": "\"__NSConstantString\""
-    },
-    "TypedefDecl 8": {
-      "address": "0x55dca02c9918",
-      "skipping reserved": "\"__builtin_ms_va_list\""
-    }
+    "TypedefDecl 11": {"skipping reserved": "\"__builtin_va_list\""},
+    "TypedefDecl 2": {"skipping reserved": "\"__int128_t\""},
+    "TypedefDecl 4": {"skipping reserved": "\"__uint128_t\""},
+    "TypedefDecl 6": {"skipping reserved": "\"__NSConstantString\""},
+    "TypedefDecl 8": {"skipping reserved": "\"__builtin_ms_va_list\""}
   },
   "objectGraphConfig": {
     "newNodeAttributes": null,
@@ -2206,9 +2134,13 @@
       "SpecializationKind",
       "TemplateSpecializationKind",
       "Body",
+      "explicitMemberSpec",
+      "isFuncMemberSpec",
+      "specdThisLevel",
       "redecls_size()"
     ]
   },
+  "objectGraphSourceFile": "../../out/ct-cont-ft-csspec.cc.abbrev.json",
   "relations": [
     {
       "end": {"entityRef": 3},
@@ -2390,7 +2322,7 @@
     }
   ],
   "type": "Diagram Editor Diagram",
-  "version": 29,
+  "version": 30,
   "windowSize": {
     "h": 607,
     "w": 968

@@ -1,4 +1,4 @@
-// ft-explicit-specialization.cc
+// ft-espec.cc
 // Function template explicit specialization.
 
 template <class T>

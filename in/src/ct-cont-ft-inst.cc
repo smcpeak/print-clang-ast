@@ -1,4 +1,4 @@
-// ct-cont-ft-defn.cc
+// ct-cont-ft-inst.cc
 // Class template with a method template.
 
 template <class T>
@@ -9,5 +9,10 @@ struct S {
     return t + u;
   }
 };
+
+unsigned caller(S<int> &s)
+{
+  return s.sum<float>(1, 2.0f);
+}
 
 // EOF

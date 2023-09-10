@@ -1,4 +1,4 @@
-// ct-cont-ft-pspec.cc
+// ct-cont-ft-csspec.cc
 // "Partial" specialization of a method template inside a class template.
 
 template <class T>
