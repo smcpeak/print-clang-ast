@@ -278,7 +278,7 @@ fields stored in the low bits of pointers, are:
 * From base class ``Decl``:
 
   * ``Decl *NextInContext`` and
-    ``llvm::PointerUnion<DeclContext*, MultipleDC*> DeclCtx``: Parent
+    ``PointerUnion<DeclContext*, MultipleDC*> DeclCtx``: Parent
     and sibling links to form the ``DeclContext`` tree.  ``DeclCtx`` can
     be either one or two parent pointers, the latter for the case of an
     entity defined outside its semantically containing class or
@@ -341,9 +341,19 @@ fields stored in the low bits of pointers, are:
     redeclarations of the same template.
     ``RedeclarableTemplateDecl::CommonBase`` contains:
 
-    * ``llvm::PointerIntPair<RedeclarableTemplateDecl*, 1, bool>
-      InstantiatedFromMember``: [TODO: Explain both the pointer and the
-      ``bool``.]
+    * ``PointerIntPair<RedeclarableTemplateDecl*, 1, bool> InstantiatedFromMember``:
+      Two elements:
+
+      * ``RedeclarableTemplateDecl*``:
+        If this template is a member specialization (an instantiation of
+        a member template of a class template), this points to the
+        member template from which it was instantiated.  An example is
+        shown in
+        `Diagram: Class template contains function template: Instantiation`_.
+        Otherwise, it is ``nullptr``.
+
+      * ``bool explicitMemberSpec``:
+        [TODO]
 
     * ``uint32_t *LazySpecializations``: A pointer to an array of IDs
       that can be used to load specializations of this template from an
@@ -360,7 +370,7 @@ fields stored in the low bits of pointers, are:
     instance of ``FunctionTemplateDecl::Common``, which in addition to
     the fields of ``CommonBase``, contains:
 
-    * ``llvm::FoldingSetVector<FunctionTemplateSpecializationInfo>
+    * ``FoldingSetVector<FunctionTemplateSpecializationInfo>
       Specializations``: Set of specializations (both explicit and
       implicit) of this function template.  When a specialization has
       multiple declarations, only one of them appears in this list.
@@ -658,7 +668,7 @@ The fields of ``FunctionDecl`` are:
   * ``SourceLocation DefaultKWLoc``: The location of the ``default``
     keyword in a defaulted definition; otherwise, invalid.
 
-  * ``llvm::PointerUnion<...> TemplateOrSpecialization``:
+  * ``PointerUnion<...> TemplateOrSpecialization``:
     Pointer union with, effectively, six cases, corresponding to the
     elements of the ``FunctionDecl::TemplatedKind`` enumeration:
 
@@ -731,7 +741,7 @@ Its fields are:
 
 * From ``VarDecl``:
 
-  * ``llvm::PointerUnion<Stmt *, EvaluatedStmt *> Init``: Pointer to
+  * ``PointerUnion<Stmt *, EvaluatedStmt *> Init``: Pointer to
     the initializer or default argument.  The details are orthogonal to
     templates, so omitted here.
 
@@ -889,12 +899,12 @@ contains these fields:
   ``Common``.  (But note that a specialization ``FunctionDecl`` also
   points at its associated FTSI, so it is not entirely encapsulated.)
 
-* ``llvm::PointerIntPair<FunctionDecl *, 1, bool> Function``:
+* ``PointerIntPair<FunctionDecl *, 1, bool> Function``:
   A pointer to the specialization, along with a ``bool`` that is true
   if this is a "member specialization", meaning the optional
   ``MemberSpecializationInfo*`` trailing object is present.
 
-* ``llvm::PointerIntPair<FunctionTemplateDecl *, 2> Template``:
+* ``PointerIntPair<FunctionTemplateDecl *, 2> Template``:
   A pointer to the template, along with the
   ``TemplateSpecializationKind``, which distinguishes explicit from
   implicit specializations, and among the latter, whether the
@@ -1093,10 +1103,10 @@ apply here too, except:
 However, it declares ``ClassTemplateDecl::Common`` as an extension of
 ``RedeclarableTemplateDecl::CommonBase``, adding these fields:
 
-* ``llvm::FoldingSetVector<ClassTemplateSpecializationDecl> Specializations``:
+* ``FoldingSetVector<ClassTemplateSpecializationDecl> Specializations``:
   Set of full specializations, both implicit and explicit.
 
-* ``llvm::FoldingSetVector<ClassTemplatePartialSpecializationDecl> PartialSpecializations``:
+* ``FoldingSetVector<ClassTemplatePartialSpecializationDecl> PartialSpecializations``:
   Set of partial specializations (which are always explicit).
 
 * ``QualType InjectedClassNameType``:
@@ -1269,7 +1279,7 @@ The novel fields (and novel meanings of fields for this context) of
     goes from the opening brace to the closing brace.  Otherwise it is
     invalid.
 
-  * ``llvm::PointerUnion<TypedefNameDecl *, ExtInfo *> TypedefNameDeclOrQualifier``:
+  * ``PointerUnion<TypedefNameDecl *, ExtInfo *> TypedefNameDeclOrQualifier``:
     Cases:
 
     * ``TypedefNameDecl *``: Used for name mangling of a
@@ -1880,7 +1890,7 @@ between the specialization and the original member in a
 ``MemberSpecializationInfo`` structure (declared in
 ``DeclTemplate.h``).  Its fields are:
 
-* ``llvm::PointerIntPair<NamedDecl *, 2> MemberAndTSK``:
+* ``PointerIntPair<NamedDecl *, 2> MemberAndTSK``:
   Two values:
 
   * ``NamedDecl *Member``:
@@ -2110,7 +2120,7 @@ It has these novel fields and interpretations:
   * ``const ASTTemplateArgumentListInfo *ArgsAsWritten``:
     [TODO]
 
-  * ``llvm::PointerIntPair<...> InstantiatedFromMember``:
+  * ``PointerIntPair<...> InstantiatedFromMember``:
     Tuple of two elements:
 
     * ``ClassTemplatePartialSpecializationDecl *``:
