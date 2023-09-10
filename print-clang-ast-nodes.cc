@@ -1454,6 +1454,13 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
     getDeclIDStr(decl->getPrimaryTemplate()));
 
   // TODO: Call getDependentSpecializationInfo().
+
+  // For the moment, only print this in verbose mode so I don't have
+  // complaints about my diagrams' graphs being out of date...
+  if (m_config.m_printQualifiers) {
+    OUT_QATTR_STRING("FunctionDecl::", "getExceptionSpecType()",
+      exceptionSpecificationTypeStr(decl->getExceptionSpecType()));
+  }
 }
 
 
@@ -2773,6 +2780,16 @@ void PrintClangASTNodes::printType(clang::Type const *type)
         qualTypeIDSyntaxJson(paramType));
       ++i;
     }
+
+    // For the moment, only print this in verbose mode so I don't have
+    // complaints about my diagrams' graphs being out of date...
+    if (m_config.m_printQualifiers) {
+      OUT_QATTR_STRING("FunctionProtoType::FunctionTypeBits.",
+        "ExceptionSpecType",
+          exceptionSpecificationTypeStr(funcType->getExceptionSpecType()));
+    }
+
+    // TODO: More bits.
   }
 
   else if (auto refType = dyn_cast<clang::ReferenceType>(type)) {

@@ -282,6 +282,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 23": {
@@ -290,6 +291,7 @@
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 21", "preview": "U" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 24": {
@@ -551,6 +553,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 38": {
@@ -611,6 +614,7 @@
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 41", "preview": "int" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 36", "preview": "U" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "SubstTemplateTypeParmType 41": {
@@ -665,6 +669,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "CXXMethodDecl 22" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "CXXMethodDecl 22" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "FunctionTemplateDecl 34" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 44": {
@@ -735,6 +740,7 @@
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 41", "preview": "int" },
   "paramType[1]": { "ptr": "SubstTemplateTypeParmType 48", "preview": "float" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "SubstTemplateTypeParmType 48": {
@@ -849,6 +855,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 60": {
@@ -856,6 +863,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 87", "preview": "unsigned int (struct S<int> &)" },
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "LValueReferenceType 62", "preview": "S<int> &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 61": {
@@ -1052,6 +1060,7 @@
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 75", "preview": "type-parameter-0-0" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 79", "preview": "type-parameter-1-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 81": {
@@ -1107,6 +1116,7 @@
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "BuiltinType 42", "preview": "int" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 75", "preview": "type-parameter-0-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionProtoType 86": {
@@ -1114,12 +1124,14 @@
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "BuiltinType 42", "preview": "int" },
   "paramType[1]": { "ptr": "BuiltinType 49", "preview": "float" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionProtoType 87": {
   "syntax": "\"unsigned int (struct S<int> &)\"",
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "LValueReferenceType 88", "preview": "struct S<int> &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "LValueReferenceType 88": {

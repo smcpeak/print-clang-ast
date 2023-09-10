@@ -282,6 +282,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 23": {
@@ -290,6 +291,7 @@
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 21", "preview": "U" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 24": {
@@ -465,6 +467,7 @@
   "ResultType": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 35", "preview": "type-parameter-0-0" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 39", "preview": "type-parameter-1-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 41": {

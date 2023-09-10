@@ -175,11 +175,13 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 17": {
   "syntax": "\"void (void)\"",
   "ResultType": { "ptr": "BuiltinType 18", "preview": "void" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 18": {
@@ -223,6 +225,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "CXXRecordDecl 20": {

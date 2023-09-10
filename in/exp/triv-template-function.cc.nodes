@@ -159,6 +159,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 18": {
@@ -166,6 +167,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 27", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
   "ResultType": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 19": {
@@ -238,6 +240,7 @@
   "syntax": "\"type-parameter-0-0 (type-parameter-0-0)\"",
   "ResultType": { "ptr": "TemplateTypeParmType 26", "preview": "type-parameter-0-0" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 26", "preview": "type-parameter-0-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 }
 ---- stderr ----

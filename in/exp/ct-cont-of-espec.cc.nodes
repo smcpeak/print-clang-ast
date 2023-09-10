@@ -228,6 +228,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 20": {
@@ -261,6 +262,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 43", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
   "ResultType": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ClassTemplateSpecializationDecl 22": {
@@ -379,6 +381,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "CXXMethodDecl 19" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 25": {
@@ -412,6 +415,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 31", "preview": "int (int)" },
   "ResultType": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "SubstTemplateTypeParmType 27": {
@@ -474,6 +478,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "CXXMethodDecl 19" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "TemplateSpecializationType 30": {
@@ -493,6 +498,7 @@
   "syntax": "\"int (int)\"",
   "ResultType": { "ptr": "BuiltinType 28", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 28", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 32": {
@@ -611,6 +617,7 @@
   "syntax": "\"type-parameter-0-0 (type-parameter-0-0)\"",
   "ResultType": { "ptr": "TemplateTypeParmType 40", "preview": "type-parameter-0-0" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 40", "preview": "type-parameter-0-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "RecordType 44": {

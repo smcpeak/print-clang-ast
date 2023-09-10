@@ -107,6 +107,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 15": {
@@ -115,6 +116,7 @@
   "ResultType": { "ptr": "BuiltinType 16", "preview": "int" },
   "paramType[0]": { "ptr": "PointerType 18", "preview": "int (*)(int)" },
   "paramType[1]": { "ptr": "BuiltinType 16", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 16": {
@@ -163,6 +165,7 @@
   "syntax": "\"int (int)\"",
   "ResultType": { "ptr": "BuiltinType 16", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 16", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 21": {
@@ -277,6 +280,7 @@
   "ResultType": { "ptr": "BuiltinType 16", "preview": "int" },
   "paramType[0]": { "ptr": "PointerType 33", "preview": "int (*)(int)" },
   "paramType[1]": { "ptr": "BuiltinType 16", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "PointerType 33": {

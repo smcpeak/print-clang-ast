@@ -534,6 +534,28 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
+/*static*/ std::string ClangUtil::exceptionSpecificationTypeStr(
+  clang::ExceptionSpecificationType est)
+{
+  ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::, ExceptionSpecificationType, est,
+
+    EST_None,
+    EST_DynamicNone,
+    EST_Dynamic,
+    EST_MSAny,
+    EST_NoThrow,
+    EST_BasicNoexcept,
+    EST_DependentNoexcept,
+    EST_NoexceptFalse,
+    EST_NoexceptTrue,
+    EST_Unevaluated,
+    EST_Uninstantiated,
+    EST_Unparsed,
+  )
+}
+
+
 /*static*/ clang::Decl const *ClangUtil::declFromDC(
   clang::DeclContext const * NULLABLE dc)
 {

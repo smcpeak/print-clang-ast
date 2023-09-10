@@ -281,6 +281,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 23": {
@@ -314,6 +315,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 50", "preview": "void (type-parameter-1-0)" },
   "ResultType": { "ptr": "BuiltinType 25", "preview": "void" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 21", "preview": "U" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 25": {
@@ -420,6 +422,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "TemplateTypeParmDecl 30": {
@@ -466,6 +469,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 50", "preview": "void (type-parameter-1-0)" },
   "ResultType": { "ptr": "BuiltinType 25", "preview": "void" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 28", "preview": "W" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 34": {
@@ -534,11 +538,13 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 37": {
   "syntax": "\"int (void)\"",
   "ResultType": { "ptr": "BuiltinType 38", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 38": {
@@ -641,6 +647,7 @@
   "syntax": "\"void (type-parameter-1-0)\"",
   "ResultType": { "ptr": "BuiltinType 25", "preview": "void" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 49", "preview": "type-parameter-1-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "TemplateSpecializationType 51": {

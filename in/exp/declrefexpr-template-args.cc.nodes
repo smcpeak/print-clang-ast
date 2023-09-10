@@ -159,6 +159,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 18": {
@@ -166,6 +167,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 114", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
   "ResultType": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 19": {
@@ -247,6 +249,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "FunctionDecl 17" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "FunctionDecl 17" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "FunctionTemplateDecl 14" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 24": {
@@ -290,6 +293,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 85", "preview": "int (int)" },
   "ResultType": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "SubstTemplateTypeParmType 27": {
@@ -410,11 +414,13 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 36": {
   "syntax": "\"int (void)\"",
   "ResultType": { "ptr": "BuiltinType 28", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "CompoundStmt 37": {
@@ -470,6 +476,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "FunctionDecl 35" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "FunctionDecl 35" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "FunctionTemplateDecl 33" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionTemplateSpecializationInfo 41": {
@@ -592,6 +599,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "CompoundStmt 50": {
@@ -658,6 +666,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "FunctionDecl 49" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "FunctionDecl 49" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "FunctionTemplateDecl 46" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionTemplateSpecializationInfo 56": {
@@ -882,6 +891,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 70": {
@@ -889,6 +899,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 114", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
   "ResultType": { "ptr": "TemplateTypeParmType 68", "preview": "T" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 68", "preview": "T" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 71": {
@@ -970,6 +981,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "CXXMethodDecl 69" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "CXXMethodDecl 69" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "FunctionTemplateDecl 66" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 76": {
@@ -1013,6 +1025,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 85", "preview": "int (int)" },
   "ResultType": { "ptr": "SubstTemplateTypeParmType 79", "preview": "int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 79", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "SubstTemplateTypeParmType 79": {
@@ -1085,12 +1098,14 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 85": {
   "syntax": "\"int (int)\"",
   "ResultType": { "ptr": "BuiltinType 28", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 28", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 86": {
@@ -1342,6 +1357,7 @@
   "syntax": "\"type-parameter-0-0 (type-parameter-0-0)\"",
   "ResultType": { "ptr": "TemplateTypeParmType 113", "preview": "type-parameter-0-0" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 113", "preview": "type-parameter-0-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionTemplateDecl::Common 115": {

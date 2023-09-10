@@ -500,6 +500,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
   "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
@@ -548,6 +549,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
   "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
@@ -639,6 +641,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
   "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
@@ -716,6 +719,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
   "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
@@ -764,6 +768,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
   "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
@@ -855,6 +860,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
   "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
@@ -1182,6 +1188,7 @@
 "FunctionProtoType 68": {
   "syntax": "\"void (void) noexcept\"",
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 69": {
@@ -1189,6 +1196,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 79", "preview": "void (const struct S<int>::Inner &)" },
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 33", "preview": "const Inner &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "LValueReferenceType 70": {
@@ -1201,6 +1209,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 80", "preview": "void (struct S<int>::Inner &&)" },
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 38", "preview": "Inner &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "RValueReferenceType 72": {
@@ -1213,6 +1222,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 81", "preview": "void (const struct S<int> &)" },
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 43", "preview": "const S<int> &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "LValueReferenceType 74": {
@@ -1225,6 +1235,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 82", "preview": "void (struct S<int> &&)" },
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 48", "preview": "S<int> &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "RValueReferenceType 76": {
@@ -1252,24 +1263,28 @@
   "syntax": "\"void (const struct S<int>::Inner &)\"",
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 70", "preview": "const struct S<int>::Inner &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionProtoType 80": {
   "syntax": "\"void (struct S<int>::Inner &&)\"",
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 72", "preview": "struct S<int>::Inner &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionProtoType 81": {
   "syntax": "\"void (const struct S<int> &)\"",
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 74", "preview": "const struct S<int> &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionProtoType 82": {
   "syntax": "\"void (struct S<int> &&)\"",
   "ResultType": { "ptr": "BuiltinType 78", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 76", "preview": "struct S<int> &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "TemplateSpecializationType 83": {

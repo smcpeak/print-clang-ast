@@ -207,6 +207,10 @@ public:      // methods
   static std::string elaboratedTypeKeywordStr(
     clang::ElaboratedTypeKeyword keyword);
 
+  // Stringify 'est'.
+  static std::string exceptionSpecificationTypeStr(
+    clang::ExceptionSpecificationType est);
+
   // Cast 'dc' to the associated Decl pointer.  Asserts that the
   // conversion succeeds, unless 'dc' is null, in which case null is
   // returned.

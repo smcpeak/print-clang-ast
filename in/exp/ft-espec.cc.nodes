@@ -159,6 +159,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 18": {
@@ -192,6 +193,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 33", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
   "ResultType": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionDecl 20": {
@@ -240,6 +242,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "FunctionDecl 17" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "FunctionTemplateDecl 14" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionTemplateSpecializationInfo 21": {
@@ -256,6 +259,7 @@
   "syntax": "\"int (int)\"",
   "ResultType": { "ptr": "BuiltinType 23", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 23", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 23": {
@@ -339,6 +343,7 @@
   "syntax": "\"type-parameter-0-0 (type-parameter-0-0)\"",
   "ResultType": { "ptr": "TemplateTypeParmType 32", "preview": "type-parameter-0-0" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 32", "preview": "type-parameter-0-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionDecl 34": {
@@ -378,6 +383,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "FunctionDecl 17" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "FunctionTemplateDecl 14" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionTemplateSpecializationInfo 35": {
@@ -395,6 +401,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 22", "preview": "int (int)" },
   "ResultType": { "ptr": "SubstTemplateTypeParmType 38", "preview": "int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 38", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 37": {

@@ -141,6 +141,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 16": {
@@ -201,6 +202,7 @@
   "ResultType": { "ptr": "BuiltinType 19", "preview": "_Bool" },
   "paramType[0]": { "ptr": "LValueReferenceType 20", "preview": "const S &" },
   "paramType[1]": { "ptr": "LValueReferenceType 20", "preview": "const S &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 19": {
@@ -265,6 +267,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 24": {
@@ -325,6 +328,7 @@
   "ResultType": { "ptr": "BuiltinType 19", "preview": "_Bool" },
   "paramType[0]": { "ptr": "ElaboratedType 21", "preview": "S" },
   "paramType[1]": { "ptr": "ElaboratedType 21", "preview": "S" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "CXXRecordDecl 27": {
@@ -436,6 +440,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 30": {
@@ -469,6 +474,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 39", "preview": "_Bool (const struct S &) const" },
   "ResultType": { "ptr": "BuiltinType 19", "preview": "_Bool" },
   "paramType[0]": { "ptr": "LValueReferenceType 20", "preview": "const S &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "CXXRecordDecl 32": {
@@ -515,6 +521,7 @@
   "ResultType": { "ptr": "BuiltinType 19", "preview": "_Bool" },
   "paramType[0]": { "ptr": "LValueReferenceType 36", "preview": "const struct S &" },
   "paramType[1]": { "ptr": "LValueReferenceType 36", "preview": "const struct S &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "LValueReferenceType 36": {
@@ -527,6 +534,7 @@
   "ResultType": { "ptr": "BuiltinType 19", "preview": "_Bool" },
   "paramType[0]": { "ptr": "RecordType 22", "preview": "struct S" },
   "paramType[1]": { "ptr": "RecordType 22", "preview": "struct S" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionProtoType 38": {
@@ -534,12 +542,14 @@
   "CanonicalType": { "ptr": "FunctionProtoType 39", "preview": "_Bool (const struct S &) const" },
   "ResultType": { "ptr": "BuiltinType 19", "preview": "_Bool" },
   "paramType[0]": { "ptr": "LValueReferenceType 20", "preview": "const S &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 39": {
   "syntax": "\"_Bool (const struct S &) const\"",
   "ResultType": { "ptr": "BuiltinType 19", "preview": "_Bool" },
   "paramType[0]": { "ptr": "LValueReferenceType 36", "preview": "const struct S &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 }
 ---- stderr ----

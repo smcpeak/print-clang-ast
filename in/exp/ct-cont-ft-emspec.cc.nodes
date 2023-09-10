@@ -282,6 +282,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 23": {
@@ -342,6 +343,7 @@
   "ResultType": { "ptr": "BuiltinType 26", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 21", "preview": "U" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 26": {
@@ -518,6 +520,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 33": {
@@ -578,6 +581,7 @@
   "ResultType": { "ptr": "BuiltinType 26", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 36", "preview": "int" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 31", "preview": "U" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "SubstTemplateTypeParmType 36": {
@@ -634,6 +638,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "CXXMethodDecl 58" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "CXXMethodDecl 22" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "FunctionTemplateDecl 55" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 39": {
@@ -717,6 +722,7 @@
   "ResultType": { "ptr": "BuiltinType 26", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "BuiltinType 37", "preview": "int" },
   "paramType[1]": { "ptr": "SubstTemplateTypeParmType 44", "preview": "float" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "SubstTemplateTypeParmType 44": {
@@ -894,6 +900,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 59": {
@@ -902,6 +909,7 @@
   "ResultType": { "ptr": "BuiltinType 26", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "BuiltinType 37", "preview": "int" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 57", "preview": "U" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 60": {
@@ -1028,6 +1036,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 68": {
@@ -1037,6 +1046,7 @@
   "paramType[0]": { "ptr": "LValueReferenceType 70", "preview": "S<int> &" },
   "paramType[1]": { "ptr": "BuiltinType 37", "preview": "int" },
   "paramType[2]": { "ptr": "BuiltinType 45", "preview": "float" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 69": {
@@ -1306,6 +1316,7 @@
   "ResultType": { "ptr": "BuiltinType 26", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 88", "preview": "type-parameter-0-0" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 92", "preview": "type-parameter-1-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "RecordType 94": {
@@ -1357,6 +1368,7 @@
   "ResultType": { "ptr": "BuiltinType 26", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "BuiltinType 37", "preview": "int" },
   "paramType[1]": { "ptr": "TemplateTypeParmType 88", "preview": "type-parameter-0-0" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "FunctionProtoType 98": {
@@ -1364,6 +1376,7 @@
   "ResultType": { "ptr": "BuiltinType 26", "preview": "unsigned int" },
   "paramType[0]": { "ptr": "BuiltinType 37", "preview": "int" },
   "paramType[1]": { "ptr": "BuiltinType 45", "preview": "float" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 99": {
@@ -1376,6 +1389,7 @@
   "paramType[0]": { "ptr": "LValueReferenceType 101", "preview": "struct S<int> &" },
   "paramType[1]": { "ptr": "BuiltinType 37", "preview": "int" },
   "paramType[2]": { "ptr": "BuiltinType 45", "preview": "float" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "LValueReferenceType 101": {

@@ -106,12 +106,14 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 15": {
   "syntax": "\"int (int)\"",
   "ResultType": { "ptr": "BuiltinType 16", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 16", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 16": {
@@ -256,6 +258,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "ParmVarDecl 23": {
@@ -415,12 +418,14 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
 "FunctionProtoType 34": {
   "syntax": "\"auto (int) const\"",
   "ResultType": { "ptr": "AutoType 30", "preview": "auto" },
   "paramType[0]": { "ptr": "BuiltinType 16", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "ParmVarDecl 35": {
@@ -510,6 +515,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
 },
 
 "PointerType 41": {
@@ -523,6 +529,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 15", "preview": "int (int)" },
   "ResultType": { "ptr": "AutoType 43", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 16", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "AutoType 43": {
@@ -535,6 +542,7 @@
   "syntax": "\"int (*(void) const noexcept)(int)\"",
   "CanonicalType": { "ptr": "FunctionProtoType 63", "preview": "int (*(void) const noexcept)(int)" },
   "ResultType": { "ptr": "PointerType 41", "preview": "int (*)(int)" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "CXXMethodDecl 45": {
@@ -605,6 +613,7 @@
   "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
   "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
   "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
 },
 
 "ReturnStmt 48": {
@@ -749,6 +758,7 @@
   "CanonicalType": { "ptr": "FunctionProtoType 65", "preview": "int (int) const" },
   "ResultType": { "ptr": "AutoType 43", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 16", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "PointerType 62": {
@@ -759,17 +769,20 @@
 "FunctionProtoType 63": {
   "syntax": "\"int (*(void) const noexcept)(int)\"",
   "ResultType": { "ptr": "PointerType 62", "preview": "int (*)(int)" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 64": {
   "syntax": "\"void (void) noexcept\"",
   "ResultType": { "ptr": "BuiltinType 66", "preview": "void" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 65": {
   "syntax": "\"int (int) const\"",
   "ResultType": { "ptr": "BuiltinType 16", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 16", "preview": "int" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
 "BuiltinType 66": {
