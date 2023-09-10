@@ -1606,7 +1606,7 @@
         "ptr": "RecordType 65"
       },
       "Template": "Outer",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"int\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "int",
@@ -1630,7 +1630,7 @@
         "ptr": "RecordType 46"
       },
       "Template": "Inner",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 28"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 28"},
       "args[0]": "\"float\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "float",
@@ -1654,7 +1654,7 @@
         "ptr": "TemplateSpecializationType 81"
       },
       "Template": "Outer",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"T\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "T",
@@ -1674,7 +1674,7 @@
         "ptr": "TemplateSpecializationType 82"
       },
       "Template": "Inner",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 19"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 19"},
       "args[0]": "\"U\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "U",
@@ -1694,7 +1694,7 @@
         "ptr": "TemplateSpecializationType 83"
       },
       "Template": "Inner",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 28"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 28"},
       "args[0]": "\"U\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "U",
@@ -1710,7 +1710,7 @@
       "Bits.NumArgs": "1",
       "Bits.TypeAlias": "0",
       "Template": "Outer",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"type-parameter-0-0\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "type-parameter-0-0",
@@ -1726,7 +1726,7 @@
       "Bits.NumArgs": "1",
       "Bits.TypeAlias": "0",
       "Template": "Inner",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 19"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 19"},
       "args[0]": "\"type-parameter-1-0\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "type-parameter-1-0",
@@ -1742,7 +1742,7 @@
       "Bits.NumArgs": "1",
       "Bits.TypeAlias": "0",
       "Template": "Inner",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 28"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 28"},
       "args[0]": "\"type-parameter-0-0\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "type-parameter-0-0",

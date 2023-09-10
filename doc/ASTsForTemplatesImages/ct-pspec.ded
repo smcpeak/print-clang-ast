@@ -1403,7 +1403,7 @@
         "ptr": "RecordType 27"
       },
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"int *\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "int *",
@@ -1427,7 +1427,7 @@
         "ptr": "InjectedClassNameType 49"
       },
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"U *\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "U *",
@@ -1451,7 +1451,7 @@
         "ptr": "RecordType 27"
       },
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"int *\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "int *",
@@ -1475,7 +1475,7 @@
         "ptr": "TemplateSpecializationType 79"
       },
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"type-parameter-0-0 *\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "type-parameter-0-0 *",
@@ -1495,7 +1495,7 @@
         "ptr": "TemplateSpecializationType 80"
       },
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"T\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "T",
@@ -1511,7 +1511,7 @@
       "Bits.NumArgs": "1",
       "Bits.TypeAlias": "0",
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"type-parameter-0-0 *\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "type-parameter-0-0 *",
@@ -1527,7 +1527,7 @@
       "Bits.NumArgs": "1",
       "Bits.TypeAlias": "0",
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"type-parameter-0-0\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "type-parameter-0-0",

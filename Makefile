@@ -305,6 +305,19 @@ CHECKED_DIAGRAMS += ct-inst.ded
 CHECKED_DIAGRAMS += ct-inst-types.ded
 CHECKED_DIAGRAMS += ct-cont-of-defn.ded
 CHECKED_DIAGRAMS += ct-cont-of-inst.ded
+CHECKED_DIAGRAMS += ft-espec.ded
+CHECKED_DIAGRAMS += ct-espec.ded
+CHECKED_DIAGRAMS += ct-pspec.ded
+CHECKED_DIAGRAMS += ct-cont-of-espec.ded
+CHECKED_DIAGRAMS += ct-cont-ft-defn.ded
+CHECKED_DIAGRAMS += ct-cont-ft-inst.ded
+CHECKED_DIAGRAMS += ct-cont-ft-espec.ded
+CHECKED_DIAGRAMS += ct-cont-ft-csspec.ded
+CHECKED_DIAGRAMS += ct-cont-ct-inst.ded
+CHECKED_DIAGRAMS += ct-cont-ct-espec.ded
+CHECKED_DIAGRAMS += ct-cont-ct-pspec.ded
+CHECKED_DIAGRAMS += ct-cont-ct-csspec.ded
+CHECKED_DIAGRAMS += ct-cont-ct-cspspec.ded
 
 check-diagrams: $(patsubst %,out/%.cg,$(CHECKED_DIAGRAMS))
 

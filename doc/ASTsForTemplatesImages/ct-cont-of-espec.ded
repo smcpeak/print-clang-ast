@@ -924,7 +924,7 @@
         "ptr": "RecordType 44"
       },
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"int\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "int",
@@ -948,7 +948,7 @@
         "ptr": "TemplateSpecializationType 49"
       },
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"T\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "T",
@@ -964,7 +964,7 @@
       "Bits.NumArgs": "1",
       "Bits.TypeAlias": "0",
       "Template": "S",
-      "Template.TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
+      "TemplateDecl": {"ptr": "ClassTemplateDecl 14"},
       "args[0]": "\"type-parameter-0-0\" (ArgKind::Type)",
       "args[0].Type": {
         "preview": "type-parameter-0-0",
