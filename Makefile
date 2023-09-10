@@ -52,6 +52,11 @@ PYTHON3 := python3
 # Script to run a program and compare to expected output.
 RUN_COMPARE_EXPECT := $(PYTHON3) ./run-compare-expect.py
 
+# The diagram editor program, used for the 'check-diagrams' target (and
+# not otherwise, so it's fine if this is missing).  The editor is:
+# https://github.com/smcpeak/ded
+DED := $(HOME)/wrk/ded/ded
+
 
 # ---- llvm-config query results ----
 # Program to query the various LLVM configuration options.
@@ -247,6 +252,30 @@ TEST_CONFIRMATIONS := $(patsubst in/src/%,out/%.nodes,$(TEST_INPUTS))
 check-nodes: $(TEST_CONFIRMATIONS)
 
 check: check-nodes
+
+
+# Check that a diagram's graph agrees with the diagram and with the
+# graph source.
+#
+# This depends on the JSON file because --check-graph-source reads it.
+# Here, I am just assuming that the diagrams are following the proper
+# naming convention regarding where their JSON source is.
+out/%.ded.cg: doc/ASTsForTemplatesImages/%.ded out/%.cc.abbrev.json
+	$(CREATE_OUTPUT_DIRECTORY)
+	$(DED) --check-graph --check-graph-source \
+	  doc/ASTsForTemplatesImages/$*.ded
+	touch $@
+
+# The 'check-diagrams' target is *not* part of 'check' because that
+# would require having 'ded', which I do not want to require.
+.PHONY: check-diagrams
+
+CHECKED_DIAGRAMS :=
+CHECKED_DIAGRAMS += ft-defn.ded
+CHECKED_DIAGRAMS += ft-inst.ded
+CHECKED_DIAGRAMS += oc-cont-ft-defn.ded
+
+check-diagrams: $(patsubst %,out/%.cg,$(CHECKED_DIAGRAMS))
 
 
 .PHONY: clean

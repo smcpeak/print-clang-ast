@@ -1,4 +1,4 @@
-// oc-cont-ft-defn.cc
+// oc-cont-ft-inst.cc
 // Method template of a non-template (concrete) class.
 
 struct S {
@@ -8,5 +8,10 @@ struct S {
     return t;
   }
 };
+
+int caller(S &s, int x)
+{
+  return s.identity(x);
+}
 
 // EOF
