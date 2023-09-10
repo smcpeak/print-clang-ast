@@ -938,12 +938,12 @@
 
 "ClassTemplateDecl::Common 72": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations": "empty",
-  "PartialSpecializations": "empty",
-  "InjectedClassNameType": { "ptr": "TemplateSpecializationType 80", "preview": "S<T1, U1>" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "CTD::Common::Specializations": "empty",
+  "CTD::Common::PartialSpecializations": "empty",
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 80", "preview": "S<T1, U1>" },
 },
 
 "TemplateTypeParmType 73": {

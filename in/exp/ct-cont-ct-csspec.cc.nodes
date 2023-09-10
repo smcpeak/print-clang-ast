@@ -1023,12 +1023,12 @@
 
 "ClassTemplateDecl::Common 59": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 29" },
-  "PartialSpecializations": "empty",
-  "InjectedClassNameType": { "ptr": "TemplateSpecializationType 80", "preview": "Outer<T>" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 29" },
+  "CTD::Common::PartialSpecializations": "empty",
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 80", "preview": "Outer<T>" },
 },
 
 "TemplateTypeParmType 60": {
@@ -1078,12 +1078,12 @@
 
 "ClassTemplateDecl::Common 63": {
   "associated decl": { "ptr": "ClassTemplateDecl 19" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 23" },
-  "PartialSpecializations": "empty",
-  "InjectedClassNameType": { "ptr": "TemplateSpecializationType 81", "preview": "Inner<U>" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 23" },
+  "CTD::Common::PartialSpecializations": "empty",
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 81", "preview": "Inner<U>" },
 },
 
 "TemplateTypeParmType 64": {
@@ -1185,12 +1185,12 @@
 
 "ClassTemplateDecl::Common 71": {
   "associated decl": { "ptr": "ClassTemplateDecl 31" },
-  "InstantiatedFromMember.ptr": { "ptr": "ClassTemplateDecl 19" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 35" },
-  "PartialSpecializations": "empty",
-  "InjectedClassNameType": { "ptr": "TemplateSpecializationType 82", "preview": "Inner<U>" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "ClassTemplateDecl 19" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 35" },
+  "CTD::Common::PartialSpecializations": "empty",
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 82", "preview": "Inner<U>" },
 },
 
 "InjectedClassNameType 72": {

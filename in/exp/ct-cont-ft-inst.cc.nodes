@@ -978,12 +978,12 @@
 
 "ClassTemplateDecl::Common 74": {
   "associated decl": { "ptr": "ClassTemplateDecl 14" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 32" },
-  "PartialSpecializations": "empty",
-  "InjectedClassNameType": { "ptr": "TemplateSpecializationType 90", "preview": "S<T>" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 32" },
+  "CTD::Common::PartialSpecializations": "empty",
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 90", "preview": "S<T>" },
 },
 
 "TemplateTypeParmType 75": {
@@ -1033,10 +1033,10 @@
 
 "FunctionTemplateDecl::Common 78": {
   "associated decl": { "ptr": "FunctionTemplateDecl 19" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations": "empty",
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "FTD::Common::Specializations": "empty",
 },
 
 "TemplateTypeParmType 79": {
@@ -1096,10 +1096,10 @@
 
 "FunctionTemplateDecl::Common 84": {
   "associated decl": { "ptr": "FunctionTemplateDecl 34" },
-  "InstantiatedFromMember.ptr": { "ptr": "FunctionTemplateDecl 19" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 46" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "FunctionTemplateDecl 19" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 46" },
 },
 
 "FunctionProtoType 85": {

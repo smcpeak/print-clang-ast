@@ -1324,10 +1324,10 @@
 
 "FunctionTemplateDecl::Common 112": {
   "associated decl": { "ptr": "FunctionTemplateDecl 14" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 25" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 25" },
 },
 
 "TemplateTypeParmType 113": {
@@ -1346,18 +1346,18 @@
 
 "FunctionTemplateDecl::Common 115": {
   "associated decl": { "ptr": "FunctionTemplateDecl 33" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 41" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 41" },
 },
 
 "FunctionTemplateDecl::Common 116": {
   "associated decl": { "ptr": "FunctionTemplateDecl 46" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 56" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 56" },
 },
 
 "BuiltinType 117": {
@@ -1403,10 +1403,10 @@
 
 "FunctionTemplateDecl::Common 120": {
   "associated decl": { "ptr": "FunctionTemplateDecl 66" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 77" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 77" },
 },
 
 "PointerType 121": {

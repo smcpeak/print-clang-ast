@@ -458,10 +458,10 @@
 
 "FunctionTemplateDecl::Common 45": {
   "associated decl": { "ptr": "FunctionTemplateDecl 14" },
-  "InstantiatedFromMember.ptr": { "ptr": "null" },
-  "InstantiatedFromMember.explicitMemberSpec": "0",
-  "LazySpecializations": "null",
-  "Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 25" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 25" },
 },
 
 "TemplateTypeParmType 46": {

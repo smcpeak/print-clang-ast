@@ -2383,11 +2383,14 @@ void PrintClangASTNodes::printRedeclarableTemplateDecl_CommonBase(
   OUT_ATTR_PTR("associated decl",
     getDeclIDStr(decl));
 
+  char const *qualifier = "CommonBase::";
+
   llvm::PointerIntPair<clang::RedeclarableTemplateDecl*, 1, bool>
     InstantiatedFromMember =
       SPY(RedeclarableTemplateDecl, common, InstantiatedFromMember);
-  OUT_ATTR_PTR("InstantiatedFromMember" << ifLongForm(".ptr"),
-    getDeclIDStr(InstantiatedFromMember.getPointer()));
+  OUT_QATTR_PTR(qualifier,
+    "InstantiatedFromMember" << ifLongForm(".ptr"),
+      getDeclIDStr(InstantiatedFromMember.getPointer()));
 
   /*
     The documentation of this bit is confusing.  The bit itself says:
@@ -2408,36 +2411,37 @@ void PrintClangASTNodes::printRedeclarableTemplateDecl_CommonBase(
     structures, called 'isMemberSpecialization', which seem to have
     fairly different meanings.
   */
-  OUT_QATTR_STRING("InstantiatedFromMember.", "explicitMemberSpec",
-    InstantiatedFromMember.getInt());
+  OUT_QATTR_STRING(qualifier << "InstantiatedFromMember.",
+    "explicitMemberSpec",
+      InstantiatedFromMember.getInt());
 
   if (uint32_t *lazySpecs =
         SPY(RedeclarableTemplateDecl, common, LazySpecializations)) {
     uint32_t numLazySpecs = lazySpecs? lazySpecs[0] : 0;
 
-    OUT_ATTR_STRING("LazySpecializations[0] (numLazySpecs)",
+    OUT_QATTR_STRING(qualifier, "LazySpecializations[0] (numLazySpecs)",
       numLazySpecs);
 
     for (uint32_t i=0; i < numLazySpecs; ++i) {
       // TODO: Interpret these integers.
-      OUT_ATTR_STRING("LazySpecializations[" << (i+1) << "]",
+      OUT_QATTR_STRING(qualifier, "LazySpecializations[" << (i+1) << "]",
         lazySpecs[i+1]);
     }
   }
   else {
-    OUT_ATTR_STRING("LazySpecializations", "null");
+    OUT_QATTR_STRING(qualifier, "LazySpecializations", "null");
   }
 
   if (clang::TemplateArgument *injectedArgs =
         SPY(RedeclarableTemplateDecl, common, InjectedArgs)) {
     unsigned numParams = decl->getTemplateParameters()->size();
     for (unsigned i=0; i < numParams; ++i) {
-      OUT_ATTR_STRING("InjectedArgs[" << i << "]",
+      OUT_QATTR_STRING(qualifier, "InjectedArgs[" << i << "]",
         doubleQuote(templateArgumentStr(injectedArgs[i])));
     }
   }
   else {
-    OUT_ATTR_STRING("InjectedArgs", "null");
+    OUT_QATTR_STRING(qualifier, "InjectedArgs", "null");
   }
 }
 
@@ -2452,10 +2456,12 @@ void PrintClangASTNodes::printFunctionTemplateDecl_Common(
 
   printRedeclarableTemplateDecl_CommonBase(common, decl);
 
+  char const *qualifier = "FTD::Common::";
+
   unsigned i = 0;
   for (clang::FunctionTemplateSpecializationInfo &ftsi :
          common->Specializations) {
-    OUT_ATTR_PTR("Specializations[" << i << "]",
+    OUT_QATTR_PTR(qualifier, "Specializations[" << i << "]",
 
       // The 'Specializations' data structure contains pointers, not
       // objects.  But the 'FoldingSetVector' interface exposes an
@@ -2468,7 +2474,7 @@ void PrintClangASTNodes::printFunctionTemplateDecl_Common(
     ++i;
   }
   if (i == 0) {
-    OUT_ATTR_STRING("Specializations", "empty");
+    OUT_QATTR_STRING(qualifier, "Specializations", "empty");
   }
 }
 
@@ -2483,31 +2489,33 @@ void PrintClangASTNodes::printClassTemplateDecl_Common(
 
   printRedeclarableTemplateDecl_CommonBase(common, decl);
 
+  char const *qualifier = "CTD::Common::";
+
   unsigned i = 0;
   for (clang::ClassTemplateSpecializationDecl &ctsd :
          common->Specializations) {
-    OUT_ATTR_PTR("Specializations[" << i << "]",
+    OUT_QATTR_PTR(qualifier, "Specializations[" << i << "]",
       getOrCreateDeclIDStr(&ctsd));
 
     ++i;
   }
   if (i == 0) {
-    OUT_ATTR_STRING("Specializations", "empty");
+    OUT_QATTR_STRING(qualifier, "Specializations", "empty");
   }
 
   i = 0;
   for (clang::ClassTemplatePartialSpecializationDecl &ctpsd :
          common->PartialSpecializations) {
-    OUT_ATTR_PTR("PartialSpecializations[" << i << "]",
+    OUT_QATTR_PTR(qualifier, "PartialSpecializations[" << i << "]",
       getOrCreateDeclIDStr(&ctpsd));
 
     ++i;
   }
   if (i == 0) {
-    OUT_ATTR_STRING("PartialSpecializations", "empty");
+    OUT_QATTR_STRING(qualifier, "PartialSpecializations", "empty");
   }
 
-  OUT_ATTR_JSON("InjectedClassNameType",
+  OUT_QATTR_JSON(qualifier, "InjectedClassNameType",
     qualTypeIDSyntaxJson(common->InjectedClassNameType));
 }
 
