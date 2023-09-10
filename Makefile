@@ -57,6 +57,9 @@ RUN_COMPARE_EXPECT := $(PYTHON3) ./run-compare-expect.py
 # https://github.com/smcpeak/ded
 DED := $(HOME)/wrk/ded/ded
 
+# My script to check some rules.  Not used by default.
+CHECK_SRCFILE_RULES := check-srcfile-rules
+
 
 # ---- llvm-config query results ----
 # Program to query the various LLVM configuration options.
@@ -254,6 +257,19 @@ check-nodes: $(TEST_CONFIRMATIONS)
 check: check-nodes
 
 
+# Check that the test source files follow my rules.
+#
+# Passing CHECK_SRCFILE_RULES_ARGS=--fix enables automatic fixes.
+out/%.cc.rules: in/src/%.cc
+	$(CREATE_OUTPUT_DIRECTORY)
+	cd in/src && $(CHECK_SRCFILE_RULES) $(CHECK_SRCFILE_RULES_ARGS) $*.cc
+	touch $@
+
+# This is not run by default since it requires my script
+.PHONY: check-srcfile-rules
+check-srcfile-rules: $(patsubst in/src/%,out/%.rules,$(TEST_INPUTS))
+
+
 # Check that a diagram's graph agrees with the diagram and with the
 # graph source.
 #
@@ -266,16 +282,36 @@ out/%.ded.cg: doc/ASTsForTemplatesImages/%.ded out/%.cc.abbrev.json
 	  doc/ASTsForTemplatesImages/$*.ded
 	touch $@
 
+# The diagrams that have "-types" in their names use the same JSON
+# source as the ones without "-types", but the Makefile rule does not
+# know that.  So, this rule lets 'make' think it can supply the needed
+# file even though it actually will not be used.
+out/%-types.cc.abbrev.json: out/%.cc.abbrev.json
+	cp $^ $@
+
+
 # The 'check-diagrams' target is *not* part of 'check' because that
 # would require having 'ded', which I do not want to require.
 .PHONY: check-diagrams
 
+# The diagrams are listed in the order they appear in ASTsForTemplates.rst.
 CHECKED_DIAGRAMS :=
 CHECKED_DIAGRAMS += ft-defn.ded
 CHECKED_DIAGRAMS += ft-inst.ded
 CHECKED_DIAGRAMS += oc-cont-ft-defn.ded
+CHECKED_DIAGRAMS += ct-defn.ded
+CHECKED_DIAGRAMS += ct-defn-types.ded
+CHECKED_DIAGRAMS += ct-inst.ded
+CHECKED_DIAGRAMS += ct-inst-types.ded
+CHECKED_DIAGRAMS += ct-cont-of-defn.ded
+CHECKED_DIAGRAMS += ct-cont-of-inst.ded
 
 check-diagrams: $(patsubst %,out/%.cg,$(CHECKED_DIAGRAMS))
+
+
+# Check all the optional stuff too.
+.PHONY: check-full
+check-full: check check-srcfile-rules check-diagrams
 
 
 .PHONY: clean

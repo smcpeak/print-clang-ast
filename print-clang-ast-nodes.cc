@@ -2715,7 +2715,7 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
     OUT_ATTR_STRING("Template",
       templateNameStr(tst->getTemplateName()));
-    OUT_ATTR_PTR("Template.TemplateDecl",
+    OUT_QATTR_PTR("Template.", "TemplateDecl",
       getOrCreateDeclIDStr(tst->getTemplateName().getAsTemplateDecl()));
 
     if (tst->isTypeAlias()) {

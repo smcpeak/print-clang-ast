@@ -1,4 +1,4 @@
-// ct-method.cc
+// ct-cont-of-inst.cc
 // Class template with a method.
 
 template <class T>
@@ -8,5 +8,10 @@ struct S {
     return t;
   }
 };
+
+int call(S<int> &s, int x)
+{
+  return s.identity(x);
+}
 
 // EOF
