@@ -179,8 +179,30 @@ out/unit-tests.ok: print-clang-ast.exe
 	./print-clang-ast.exe --unit-tests
 	touch $@
 
-# Test --print-ast-nodes.  This passes -std=c++20 because one test needs
-# that and it shouldn't cause problems for the others.
+
+# Generate a single JSON output from an input.
+#
+# This passes -std=c++20 because one test needs that and it shouldn't
+# cause problems for the others.
+out/%.json: in/src/% print-clang-ast.exe
+	$(CREATE_OUTPUT_DIRECTORY)
+	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
+	  -std=c++20 in/src/$* >$@
+
+
+# Inputs.
+TEST_INPUTS := $(wildcard in/src/*.cc)
+
+# Outputs.
+TEST_OUTPUTS := $(patsubst in/src/%,out/%.json,$(TEST_INPUTS))
+
+.PHONY: test-outputs
+test-outputs: $(TEST_OUTPUTS)
+
+check: test-outputs
+
+
+# Check that the output matches expected output.
 #
 # The --drop-lines allow the same output to work across Clang versions
 # (currently I'm only testing with Clang 16 and 17):
@@ -194,7 +216,7 @@ out/unit-tests.ok: print-clang-ast.exe
 # * I've been making changes to the 'EndRangeLoc' computation in my
 #   personal copy of Clang 17.
 #
-out/%.nodes: in/src/% in/exp/%.nodes print-clang-ast.exe
+out/%.nodes: out/%.json in/exp/%.nodes print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
 	$(RUN_COMPARE_EXPECT) \
 	  --actual $@ --expect in/exp/$*.nodes \
@@ -205,16 +227,14 @@ out/%.nodes: in/src/% in/exp/%.nodes print-clang-ast.exe
 	  --drop-lines 'EndRangeLoc":' \
 	  --drop-lines 'fixedEndLoc.*":' \
 	  --drop-lines 'DNLoc":' \
-	  ./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
-	    -std=c++20 in/src/$*
+	  cat out/$*.json
+
+
+# Check outputs against expected output.
+TEST_CONFIRMATIONS := $(patsubst in/src/%,out/%.nodes,$(TEST_INPUTS))
 
 .PHONY: check-nodes
-
-TEST_SRCS := $(wildcard in/src/*.cc)
-
-TEST_OUTS := $(patsubst in/src/%,out/%.nodes,$(TEST_SRCS))
-
-check-nodes: $(TEST_OUTS)
+check-nodes: $(TEST_CONFIRMATIONS)
 
 check: check-nodes
 
