@@ -169,15 +169,16 @@ hierarchy:
 
 Continuing the terminology:
 
-* A *member specialization* is a specialization of a class
-  template member that arises because the class template is
-  instantiated.  The member itself may or may not be a template, and its
-  specialization may be implicit or explicit.  If the member is a
-  template, specialization as a member (of the containing class
-  template) is distinct from specialization of the member template
-  itself.  In particular, the former may *cause* the latter.  See
-  `Diagram: Class template contains function template: Class scope specialization`_
-  for an example.
+* A *member specialization* is a specialization of a class template
+  member that arises because the class template is instantiated.  The
+  member itself may or may not be a template, and its specialization may
+  be implicit or explicit.  If the member is a template, specialization
+  as a member (of the containing class template) is distinct from
+  specialization of the member template itself.  For example, explicit
+  member specialization effectively replaces the entire member, whereas
+  explicit (template) specialization provides a definition for a
+  particular argument sequence.  Consequently, logically, member
+  specialization happens before template specialization.
 
 * A *class scope specialization* is an explicit specialization
   declaration that appears inside the body of a (possibly templated)
@@ -2134,15 +2135,33 @@ It has these novel fields and interpretations:
     Tuple of two elements:
 
     * ``ClassTemplatePartialSpecializationDecl *``:
-      [TODO]
+      If this partial specialization declaration was created by
+      instantiating a class scope partial specialization of a member
+      class template, this points at the instantiated member.  Otherwise
+      it is ``nullptr``.
 
-    * ``bool``:
-      [TODO]
+    * ``bool specdThisLevel``:
+      This flag, which is anonymous in the code but given a name in this
+      document for convenience, is set when the preceding pointer is not
+      ``nullptr``, but the definition of the partial specialization was
+      provided by an explicit member specialization.  See
+      `Diagram: Class template contains class template: Explicit member specialization of class scope partial specialization`_
+      for an example of this scenario.  Beware: This flag is queried via
+      the public
+      ``ClassTemplatePartialSpecializationDecl::isMemberSpecialization()``
+      method, but that name is slightly misleading because the flag is
+      only ``true`` when the specialization is *explicit*.  Furthermore,
+      in that case, there are two
+      ``ClassTemplatePartialSpecializationDecl`` objects (which are
+      redeclarations of each other), and the flag is only set on the one
+      that was *not* explicitly present in the source code.
 
 It is notable that ``ClassTemplatePartialSpecializationDecl`` does *not*
 contain a list of specializations.  Instead, instantiations of the
 partial go into the list of specializations of the primary, and it is
-not possible to explicitly specialize a partial specialization.
+not possible to explicitly specialize a partial specialization (ignoring
+member specialization, which effectively overrides the entire partial
+rather than specialize it).
 
 
 Diagram: Class template: Partial specialization
@@ -2822,6 +2841,49 @@ In the older versions, the type of ``i.u`` (visible in ``FieldDecl 33``)
 is computed as ``int*`` rather than ``float*``.
 
 
+Diagram: Class template contains class template: Explicit member specialization of class scope partial specialization
+---------------------------------------------------------------------------------------------------------------------
+
+A class scope partial specialization of a member class template can have
+an explicit member specialization:
+
+.. code-block:: c++
+
+    template <class T>
+    struct Outer {
+      template <class U>
+      struct Inner;
+
+      // Class scope partial specialization (cspspec).
+      template <class V>
+      struct Inner<V*>;
+    };
+
+    // Explicit member specialization (emspec) of the cspspec.
+    template <>
+    template <class V>
+    struct Outer<int>::Inner<V*> {
+      int t;
+      V *u;
+    };
+
+    // Instantiate the emspec.
+    Outer<int>::Inner<float*> i;
+
+The resulting object graph looks like this:
+
+.. image:: ASTsForTemplatesImages/ct-cont-ct-emspec-of-cspspec.ded.png
+
+The main feature that is new is that
+``ClassTemplatePartialSpecializationDecl 87`` (of which the focus node
+is treated as a redeclaration) has ``specdThisLevel=1``, thereby
+demonstrating the conditions required to set that flag.
+
+Beware: Like the previous example, this one does not work correctly in
+Clang-16 or earlier due to
+`Issue #60778 <https://github.com/llvm/llvm-project/issues/60778>`_.
+
+
 Index of examples
 =================
 
@@ -2944,5 +3006,6 @@ Two-level nested:
     * Partial member specialization: `Diagram: Class template contains class template: Partial member specialization`_
     * Class scope specialization: `Diagram: Class template contains class template: Class scope specialization`_
     * Class scope partial specialization: `Diagram: Class template contains class template: Class scope partial specialization`_
+    * EMSpec of CSPSpec: `Diagram: Class template contains class template: Explicit member specialization of class scope partial specialization`_
 
 .. EOF
