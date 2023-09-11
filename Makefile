@@ -31,20 +31,9 @@ endif
 -include pre-config.mk
 
 
-# ---- 'make' boilerplate ----
-# Eliminate all implicit rules.
-.SUFFIXES:
-
-# Delete a target when its recipe fails.
-.DELETE_ON_ERROR:
-
-# Do not remove "intermediate" targets.
-.SECONDARY:
-
-
 # ---- Helper definitions and scripts ----
-# Ensure the directory meant to hold the output file of a recipe exists.
-CREATE_OUTPUT_DIRECTORY = @mkdir -p $(dir $@)
+# CREATE_OUTPUT_DIRECTORY, etc.
+include sm-lib.mk
 
 # Python interpreter.
 PYTHON3 := python3
@@ -188,20 +177,28 @@ out/unit-tests.ok: print-clang-ast.exe
 	touch $@
 
 
+# Options for specific source files.  I cannot just pass '-std=c++20'
+# for all files due to
+# https://github.com/llvm/llvm-project/issues/63959.
+FILE_OPTS_bitfield_with_init := -std=c++20
+FILE_OPTS_function_requires_requires := -std=c++20
+
+define FILE_OPTS_FOR
+$(FILE_OPTS_$(call FILENAME_TO_VARNAME,$(1)))
+endef
+
+
 # Generate a single JSON output from an input.
-#
-# This passes -std=c++20 because one test needs that and it shouldn't
-# cause problems for the others.
 out/%.json: in/src/% print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
 	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
-	  -std=c++20 in/src/$* >$@
+	  $(call FILE_OPTS_FOR,$*) in/src/$* >$@
 
 # Same, but with abbreviated field names.
 out/%.abbrev.json: in/src/% print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
 	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
-	  --no-ast-field-qualifiers -std=c++20 in/src/$* >$@
+	  --no-ast-field-qualifiers $(call FILE_OPTS_FOR,$*) in/src/$* >$@
 
 
 # Inputs.
@@ -292,6 +289,11 @@ out/%-types.cc.abbrev.json: out/%.cc.abbrev.json
 
 # The 'check-diagrams' target is *not* part of 'check' because that
 # would require having 'ded', which I do not want to require.
+#
+# 2023-09-11: This is broken for the moment because the graphs are now
+# slightly different even though the diagram images should be
+# unaffected.  I need to modify 'ded' so it can easily add new graph
+# data and check image equality.
 .PHONY: check-diagrams
 
 # The diagrams are listed in the order they appear in ASTsForTemplates.rst.
