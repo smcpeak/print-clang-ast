@@ -325,6 +325,8 @@ CHECKED_DIAGRAMS += ct-cont-ft-csspec.ded
 CHECKED_DIAGRAMS += ct-cont-ct-inst.ded
 CHECKED_DIAGRAMS += ct-cont-ct-espec.ded
 CHECKED_DIAGRAMS += ct-cont-ct-pspec.ded
+CHECKED_DIAGRAMS += ct-cont-ct-emspec.ded
+CHECKED_DIAGRAMS += ct-cont-ct-pmspec.ded
 CHECKED_DIAGRAMS += ct-cont-ct-csspec.ded
 CHECKED_DIAGRAMS += ct-cont-ct-cspspec.ded
 

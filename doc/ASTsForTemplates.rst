@@ -2785,6 +2785,43 @@ Observations:
   `Diagram: Class template contains function template: Explicit member specialization`_.
 
 
+Diagram: Class template contains class template: Partial member specialization
+------------------------------------------------------------------------------
+
+We can partially specialize a member class template inside a class template:
+
+.. code-block:: c++
+
+    template <class T>
+    struct Outer {
+      template <class U>
+      struct Inner;
+    };
+
+    template <>
+    template <class V>
+    struct Outer<int>::Inner<V*> {
+      int t;
+      V *u;
+    };
+
+    Outer<int>::Inner<float*> i;
+
+The resulting object graph looks like this:
+
+.. image:: ASTsForTemplatesImages/ct-cont-ct-pmspec.ded.png
+
+As above, ``ClassTemplateDecl 25`` (which is no longer an *explicit*
+member specialization) arises just by mentioning ``Outer<int>``, but now
+our focus node, ``ClassTemplatePartialSpecializationDecl 47``, is
+attached to it as a partial specialization rather than a redeclaration.
+
+Beware: This example does not work correctly in Clang-16 or earlier due
+to `Issue #60778 <https://github.com/llvm/llvm-project/issues/60778>`_.
+In the older versions, the type of ``i.u`` (visible in ``FieldDecl 33``)
+is computed as ``int*`` rather than ``float*``.
+
+
 Index of examples
 =================
 
@@ -2904,7 +2941,7 @@ Two-level nested:
     * Explicit specialization: `Diagram: Class template contains class template: Explicit specialization`_
     * Partial specialization: `Diagram: Class template contains class template: Partial specialization`_
     * Explicit member specialization: `Diagram: Class template contains class template: Explicit member specialization`_
-    * Partial member specialization: [TODO]
+    * Partial member specialization: `Diagram: Class template contains class template: Partial member specialization`_
     * Class scope specialization: `Diagram: Class template contains class template: Class scope specialization`_
     * Class scope partial specialization: `Diagram: Class template contains class template: Class scope partial specialization`_
 
