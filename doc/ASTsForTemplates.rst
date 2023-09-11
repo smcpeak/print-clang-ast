@@ -360,6 +360,10 @@ fields stored in the low bits of pointers, are:
         flag is set.  See
         `Diagram: Class template contains function template: Explicit member specialization`_
         for an example.
+        Beware: The value of this flag is readable via the public method
+        ``RedeclarableTemplateDecl::isMemberSpecialization()``, but that
+        name is misleading because it is only true if the member
+        specialization is *explicit*.
 
     * ``uint32_t *LazySpecializations``: A pointer to an array of IDs
       that can be used to load specializations of this template from an
@@ -859,7 +863,7 @@ that it has a second ``FunctionDecl`` child with type ``int (int)``.
 We also have a ``FunctionDecl`` for ``caller``.
 
 
-``DeclRefExpr`` of an implicit instantiation
+``DeclRefExpr`` pointing at an instantiation
 --------------------------------------------
 
 A ``DeclRefExpr`` is an expression that refers to a declaration,
@@ -1519,10 +1523,10 @@ parameters, and canonical types, which exclusively use the depth/index
 scheme for template parameters.
 
 
-Class template implicit instantiation
--------------------------------------
+Class template instantiation
+----------------------------
 
-Now let's look at an implicit instantiation of a class template:
+Now let's look at an instantiation of a class template:
 
 .. code-block:: c++
 
@@ -1869,7 +1873,7 @@ in the place of what would otherwise be a concrete type.
 ``MemberSpecializationInfo``
 ----------------------------
 
-Let's consider implicit instantiation of a member:
+Let's consider instantiation of a member:
 
 .. code-block:: c++
 
@@ -2237,11 +2241,8 @@ specializations, and points at the member of the templated class that
 was specialized.
 
 
-Nested templates
-================
-
-We'll now look at cases where a template declaration is nested inside
-another template declaration.
+Class template contains function template
+=========================================
 
 
 Diagram: Class template contains function template: Definition
@@ -2513,6 +2514,10 @@ member specialization of ``ClassScopeFunctionSpecializationDecl 27``
 template specialization and member specialization.
 
 
+Class template contains class template
+======================================
+
+
 Diagram: Class template contains class template: Definition and instantiation
 -----------------------------------------------------------------------------
 
@@ -2741,6 +2746,45 @@ specialization and a member specialization because the member
 specialization is #78, but that is only a partial specialization.
 
 
+Diagram: Class template contains class template: Explicit member specialization
+-------------------------------------------------------------------------------
+
+We can explicitly specialize a member class template inside a class template:
+
+.. code-block:: c++
+
+    template <class T>
+    struct Outer {
+      template <class U>
+      struct Inner;
+    };
+
+    template <>
+    template <class U>
+    struct Outer<int>::Inner {
+      int t;
+      U u;
+    };
+
+    Outer<int>::Inner<float> i;
+
+The resulting object graph looks like this:
+
+.. image:: ASTsForTemplatesImages/ct-cont-ct-emspec.ded.png
+
+Observations:
+
+* We have two ``ClassTemplateDecl``\ s, similar to the case of explicitly
+  specializing a function template.  ``ClassTemplateDecl 25`` is created
+  as soon as we mention ``Outer<int>``, and then
+  ``ClassTemplateDecl 46`` (the user-defined focus node) is added as a
+  redeclaration afterwards.
+
+* ``ClassTemplateDecl::Common 70`` has ``explicitMemberSpec`` as
+  ``true``, like with
+  `Diagram: Class template contains function template: Explicit member specialization`_.
+
+
 Index of examples
 =================
 
@@ -2859,7 +2903,8 @@ Two-level nested:
     * Definition and instantiation: `Diagram: Class template contains class template: Definition and instantiation`_
     * Explicit specialization: `Diagram: Class template contains class template: Explicit specialization`_
     * Partial specialization: `Diagram: Class template contains class template: Partial specialization`_
-    * Explicit member specialization: [TODO]
+    * Explicit member specialization: `Diagram: Class template contains class template: Explicit member specialization`_
+    * Partial member specialization: [TODO]
     * Class scope specialization: `Diagram: Class template contains class template: Class scope specialization`_
     * Class scope partial specialization: `Diagram: Class template contains class template: Class scope partial specialization`_
 
