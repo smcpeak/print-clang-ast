@@ -204,6 +204,12 @@ out/%.abbrev.json: in/src/% print-clang-ast.exe
 # Inputs.
 TEST_INPUTS := $(wildcard in/src/*.cc)
 
+# There is one test that does not work in Clang-16 due to
+# https://github.com/llvm/llvm-project/issues/60778
+ifneq ($(USE_SOURCE_BUILD),1)
+TEST_INPUTS := $(filter-out in/src/ct-cont-ct-pmspec.cc,$(TEST_INPUTS))
+endif
+
 # Outputs.
 TEST_OUTPUTS := $(patsubst in/src/%,out/%.json,$(TEST_INPUTS))
 TEST_ABBREV_OUTPUTS := $(patsubst in/src/%,out/%.abbrev.json,$(TEST_INPUTS))
