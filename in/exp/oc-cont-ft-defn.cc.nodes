@@ -219,7 +219,7 @@
   "Redeclarable::redecls_size()": 1,
   "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
   "FunctionDecl::FunctionDeclBits": "IsInline HasWrittenPrototype HasODRHash",
-  "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 21" },
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 21" },
   "FunctionDecl::Body": { "ptr": "CompoundStmt 22" },
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplate",

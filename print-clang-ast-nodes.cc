@@ -949,7 +949,7 @@ void PrintClangASTNodes::printCXXCtorInitializer(
         "unknown?");
   }
 
-  OUT_QATTR_PTR(qualifier, "Init",
+  OUT_QATTR_PTR(qualifier, label << ".Init",
     getStmtIDStr(init->getInit()));
 
   OUT_QATTR_LOC(qualifier, label << ".MemberOrEllipsisLocation",
@@ -1427,8 +1427,11 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
 
   if (decl->getNumParams() > 0) {
     for (unsigned i=0; i < decl->getNumParams(); ++i) {
-      OUT_QATTR_PTR("FunctionDecl::", "ParamInfo[" << i << "]",
-        getDeclIDStr(decl->getParamDecl(i)));
+      // The name of the private data member is 'ParamInfo', but it can
+      // be unambiguously shortened to 'Param'.
+      OUT_QATTR_PTR("FunctionDecl::",
+        "Param[" << i << "]",
+          getDeclIDStr(decl->getParamDecl(i)));
     }
   }
   else {
@@ -1934,7 +1937,7 @@ void PrintClangASTNodes::printCXXConstructorDecl(
   unsigned i = 0;
   for (clang::CXXCtorInitializer const *init : decl->inits()) {
     printCXXCtorInitializer(qualifier,
-      stringb("CtorInitializer[" << (i++) << "]"),
+      stringb("Init[" << (i++) << "]"),
         init);
   }
 }
