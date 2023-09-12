@@ -1596,9 +1596,23 @@ right.  It has these novel fields or interpretations:
 * From base ``CXXRecordDecl``:
 
   * ``PointerUnion<...> TemplateOrInstantiation``:
-    For the ``CXXRecordDecl`` within a
-    ``ClassTemplateSpecializationDecl``, this is usually ``nullptr``;
-    but see [TODO] for a case where it is not.
+    Three cases:
+
+    * ``ClassTemplateDecl *``:
+      This is a templated class, and the pointer points to the template
+      declaration.  If this is *also* a member specialization, then the
+      ``ClassTemplateDecl`` has information about the original member.
+
+    * ``MemberSpecializationInfo *``:
+      This is a non-templated class that is a member of an instantiation
+      of a class template (that is, it is a member specialization).  The
+      MSI record points at the member of the class template that was
+      instantiated or the subject of explicit member specialization,
+      and indicates which of those it was.
+
+    * ``nullptr``:
+      None of the above applies; that is, this is not a templated class,
+      nor a member specialization of a class template member.
 
 * From base ``TypeDecl``:
 
@@ -1948,6 +1962,32 @@ Observations:
   absent in the template member.  That is because, in general, implicit
   conversions depend on the specific template argument types, so they
   typically do not appear in dependent contexts.
+
+
+Diagram: Class template contains ordinary class: Instantiation
+--------------------------------------------------------------
+
+A class template can contain an ordinary class as a member:
+
+.. code-block:: c++
+
+    template <class T>
+    struct Outer {
+      struct Inner {
+        T t;
+        float u;
+      };
+    };
+
+    Outer<int>::Inner i;
+
+The resulting object graph is:
+
+.. image:: ASTsForTemplatesImages/ct-cont-oc-inst.ded.png
+
+The main observation is that the instantiation, ``CXXRecordDecl 26``,
+has its ``MemberSpecializationInfo 57`` pointing back at the member
+class, ``CXXRecordDecl 19`` (the focus node).
 
 
 Explicit specialization
@@ -2973,7 +3013,13 @@ Two-level nested:
     * Class scope specialization: `Diagram: Class template contains function template: Class scope specialization`_
     * Class scope partial specialization: No syntax for this in C++.
 
-  * Inner ordinary class: [TODO]
+  * Inner ordinary class:
+
+    * Definition and instantiation: `Diagram: Class template contains ordinary class: Instantiation`_
+    * Explicit specialization: [TODO]
+    * Partial specialization: Not applicable (not a template).
+    * Explicit member specialization: [TODO]
+    * Class scope specialization: Not applicable (not a template).
 
   * Inner class template:
 
