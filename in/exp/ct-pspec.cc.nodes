@@ -154,6 +154,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "ClassTemplateDecl 14" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "ClassTemplateSpecializationDecl 18": {
@@ -188,6 +189,8 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "ClassTemplatePartialSpecializationDecl 40" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+  "CXXRecordDecl::needsImplicitDestructor()": true,
   "ClassTemplateSpecializationDecl::SpecializedTemplate.SpecializedPartialSpecialization->PartialSpecialization": { "ptr": "ClassTemplatePartialSpecializationDecl 40" },
   "ClassTemplateSpecializationDecl::SpecializedTemplate.SpecializedPartialSpecialization->TemplateArgs": "\"<int>\"",
   "ClassTemplateSpecializationDecl::ExplicitInfo": "null",
@@ -234,6 +237,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "FieldDecl 20": {
@@ -601,6 +605,8 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+  "CXXRecordDecl::needsImplicitDestructor()": true,
   "ClassTemplateSpecializationDecl::SpecializedTemplate.ClassTemplateDecl": { "ptr": "ClassTemplateDecl 14" },
   "ClassTemplateSpecializationDecl::ExplicitInfo->TypeAsWritten": "TemplateSpecialization(\"S<U *>\", <in/src/ct-pspec.cc:8:8, col:12>, NullTypeLoc)",
   "ClassTemplateSpecializationDecl::ExplicitInfo->ExternLoc": "<invalid loc>",
@@ -691,6 +697,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "FieldDecl 45": {

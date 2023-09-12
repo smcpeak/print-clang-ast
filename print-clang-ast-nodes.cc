@@ -1888,6 +1888,15 @@ void PrintClangASTNodes::printCXXRecordDecl(clang::CXXRecordDecl const *decl)
   OUT_QATTR_QUERY_DECL_PTR(qualifier,
     decl, getTemplateInstantiationPattern());
 
+  // More ad-hoc queries.
+
+  OUT_QATTR_QUERY_DECL_PTR(qualifier,
+    decl, getDestructor());
+
+  if (decl->isThisDeclarationADefinition()) {
+    OUT_QATTR_BOOL(qualifier, "needsImplicitDestructor()",
+      decl->needsImplicitDestructor());
+  }
 }
 
 

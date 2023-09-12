@@ -1,6 +1,7 @@
 // print-clang-ast.cc
 // Entry point for print-clang-ast.exe program.
 
+#include "decl-implicit.h"                                 // declareImplicitThings
 #include "file-util.h"                                     // file_util_unit_tests
 #include "map-util.h"                                      // mapInsertAll
 #include "pca-command-line-options.h"                      // PCACommandLineOptions
@@ -143,6 +144,10 @@ int main(int argc, char const **argv)
     // The errors should have been printed already.
     cerr << "clang reported errors, stopping\n";
     return 2;
+  }
+
+  if (options.m_forceImplicit) {
+    declareImplicitThings(ast.get());
   }
 
   if (options.m_dumpAST) {

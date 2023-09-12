@@ -138,6 +138,7 @@ LDFLAGS += $(LLVM_LDFLAGS_AND_SYSTEM_LIBS)
 
 OBJS :=
 OBJS += clang-util.o
+OBJS += decl-implicit.o
 OBJS += enum-util.o
 OBJS += file-util.o
 OBJS += file-util-test.o

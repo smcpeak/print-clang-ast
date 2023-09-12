@@ -154,6 +154,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "ClassTemplateDecl 14" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "ClassTemplateDecl 18": {
@@ -241,6 +242,8 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "ClassTemplateDecl 18" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+  "CXXRecordDecl::needsImplicitDestructor()": true,
 },
 
 "CXXRecordDecl 22": {
@@ -276,6 +279,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "ClassTemplateDecl 18" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "FieldDecl 23": {

@@ -79,6 +79,13 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
+  m_forceImplicit,
+  false,
+  "--force-implicit",
+  R"(Force the declaration of implicit class members.)"
+)
+
+BOOL_OPTION(
   m_printUsage,
   false,
   "--help",
