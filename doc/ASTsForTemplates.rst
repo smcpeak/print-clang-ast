@@ -1990,6 +1990,34 @@ has its ``MemberSpecializationInfo 57`` pointing back at the member
 class, ``CXXRecordDecl 19`` (the focus node).
 
 
+Diagram: Class template contains ordinary class: Explicit member specialization
+-------------------------------------------------------------------------------
+
+It is possible to provide an explicit member specialization for an
+ordinary class member of a class template:
+
+.. code-block:: c++
+
+    template <class T>
+    struct Outer {
+      struct Inner;
+    };
+
+    template <>
+    struct Outer<int>::Inner {
+      int t;
+      float u;
+    };
+
+The resulting object graph is:
+
+.. image:: ASTsForTemplatesImages/ct-cont-oc-emspec.ded.png
+
+Simply mentioning ``Outer<int>`` induces the creation of
+``CXXRecordDecl 22``.  Then, our focus node, ``CXXRecordDecl 23``,
+overrides the former's definition.
+
+
 Explicit specialization
 =======================
 
@@ -3016,9 +3044,9 @@ Two-level nested:
   * Inner ordinary class:
 
     * Definition and instantiation: `Diagram: Class template contains ordinary class: Instantiation`_
-    * Explicit specialization: [TODO]
+    * Explicit specialization: Not applicable (not a template).
     * Partial specialization: Not applicable (not a template).
-    * Explicit member specialization: [TODO]
+    * Explicit member specialization: `Diagram: Class template contains ordinary class: Explicit member specialization`_
     * Class scope specialization: Not applicable (not a template).
 
   * Inner class template:
