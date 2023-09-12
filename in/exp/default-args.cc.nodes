@@ -154,9 +154,16 @@
 },
 
 "CompoundStmt 19": {
+  "CompoundStmt::LBraceLoc": "in/src/default-args.cc:5:1",
+  "CompoundStmt::RBraceLoc": "in/src/default-args.cc:7:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 20" },
 },
 
 "ReturnStmt 20": {
+  "ReturnStmt::RetExpr": { "ptr": "ImplicitCastExpr 21" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/default-args.cc:6:3",
 },
 
 "ImplicitCastExpr 21": {
@@ -164,6 +171,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 22" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 22": {
@@ -243,9 +256,16 @@
 },
 
 "CompoundStmt 25": {
+  "CompoundStmt::LBraceLoc": "in/src/default-args.cc:10:1",
+  "CompoundStmt::RBraceLoc": "in/src/default-args.cc:12:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 26" },
 },
 
 "ReturnStmt 26": {
+  "ReturnStmt::RetExpr": { "ptr": "ImplicitCastExpr 27" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/default-args.cc:11:3",
 },
 
 "ImplicitCastExpr 27": {
@@ -253,6 +273,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 28" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 28": {
@@ -405,9 +431,16 @@
 },
 
 "CompoundStmt 34": {
+  "CompoundStmt::LBraceLoc": "in/src/default-args.cc:16:1",
+  "CompoundStmt::RBraceLoc": "in/src/default-args.cc:18:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 35" },
 },
 
 "ReturnStmt 35": {
+  "ReturnStmt::RetExpr": { "ptr": "ImplicitCastExpr 36" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/default-args.cc:17:3",
 },
 
 "ImplicitCastExpr 36": {
@@ -415,6 +448,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 37" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 37": {

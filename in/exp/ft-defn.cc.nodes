@@ -197,9 +197,16 @@
 },
 
 "CompoundStmt 20": {
+  "CompoundStmt::LBraceLoc": "in/src/ft-defn.cc:6:1",
+  "CompoundStmt::RBraceLoc": "in/src/ft-defn.cc:8:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 21" },
 },
 
 "ReturnStmt 21": {
+  "ReturnStmt::RetExpr": { "ptr": "DeclRefExpr 22" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ft-defn.cc:7:3",
 },
 
 "DeclRefExpr 22": {

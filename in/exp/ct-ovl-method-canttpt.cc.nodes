@@ -607,9 +607,16 @@
 },
 
 "CompoundStmt 39": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-ovl-method-canttpt.cc:13:1",
+  "CompoundStmt::RBraceLoc": "in/src/ct-ovl-method-canttpt.cc:15:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 40" },
 },
 
 "ReturnStmt 40": {
+  "ReturnStmt::RetExpr": { "ptr": "BinaryOperator 41" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ct-ovl-method-canttpt.cc:14:3",
 },
 
 "BinaryOperator 41": {
@@ -624,6 +631,11 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Value",
   "Expr::TR": { "ptr": "BuiltinType 25", "preview": "int" },
+  "CastExpr::CastExprBits": "Dependent",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "UnaryExprOrTypeTraitExpr 43" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
 },
 
 "UnaryExprOrTypeTraitExpr 43": {
@@ -655,6 +667,11 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Value",
   "Expr::TR": { "ptr": "BuiltinType 25", "preview": "int" },
+  "CastExpr::CastExprBits": "Dependent",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "UnaryExprOrTypeTraitExpr 47" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
 },
 
 "UnaryExprOrTypeTraitExpr 47": {
@@ -862,9 +879,16 @@
 },
 
 "CompoundStmt 59": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-ovl-method-canttpt.cc:19:1",
+  "CompoundStmt::RBraceLoc": "in/src/ct-ovl-method-canttpt.cc:21:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 60" },
 },
 
 "ReturnStmt 60": {
+  "ReturnStmt::RetExpr": { "ptr": "BinaryOperator 61" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ct-ovl-method-canttpt.cc:20:3",
 },
 
 "BinaryOperator 61": {
@@ -879,6 +903,11 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Value",
   "Expr::TR": { "ptr": "BuiltinType 25", "preview": "int" },
+  "CastExpr::CastExprBits": "Dependent",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "UnaryExprOrTypeTraitExpr 63" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
 },
 
 "UnaryExprOrTypeTraitExpr 63": {
@@ -910,6 +939,11 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Value",
   "Expr::TR": { "ptr": "BuiltinType 25", "preview": "int" },
+  "CastExpr::CastExprBits": "Dependent",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "UnaryExprOrTypeTraitExpr 67" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
 },
 
 "UnaryExprOrTypeTraitExpr 67": {

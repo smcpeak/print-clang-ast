@@ -147,9 +147,18 @@
 },
 
 "CompoundStmt 18": {
+  "CompoundStmt::LBraceLoc": "in/src/nested-function.cc:5:1",
+  "CompoundStmt::RBraceLoc": "in/src/nested-function.cc:16:1",
+  "CompoundStmt::NumStmts": 3,
+  "CompoundStmt::Stmt[0]": { "ptr": "DeclStmt 19" },
+  "CompoundStmt::Stmt[1]": { "ptr": "DeclStmt 28" },
+  "CompoundStmt::Stmt[2]": { "ptr": "ReturnStmt 48" },
 },
 
 "DeclStmt 19": {
+  "DeclStmt::DG": { "ptr": "CXXRecordDecl 20" },
+  "DeclStmt::StartLoc": "in/src/nested-function.cc:6:3",
+  "DeclStmt::EndLoc": "in/src/nested-function.cc:11:4",
 },
 
 "CXXRecordDecl 20": {
@@ -288,9 +297,16 @@
 },
 
 "CompoundStmt 24": {
+  "CompoundStmt::LBraceLoc": "in/src/nested-function.cc:8:5",
+  "CompoundStmt::RBraceLoc": "in/src/nested-function.cc:10:5",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 25" },
 },
 
 "ReturnStmt 25": {
+  "ReturnStmt::RetExpr": { "ptr": "ImplicitCastExpr 26" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/nested-function.cc:9:7",
 },
 
 "ImplicitCastExpr 26": {
@@ -298,6 +314,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 27" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 27": {
@@ -311,6 +333,9 @@
 },
 
 "DeclStmt 28": {
+  "DeclStmt::DG": { "ptr": "VarDecl 29" },
+  "DeclStmt::StartLoc": "in/src/nested-function.cc:13:3",
+  "DeclStmt::EndLoc": "in/src/nested-function.cc:13:35",
 },
 
 "VarDecl 29": {
@@ -455,9 +480,16 @@
 },
 
 "CompoundStmt 36": {
+  "CompoundStmt::LBraceLoc": "in/src/nested-function.cc:13:22",
+  "CompoundStmt::RBraceLoc": "in/src/nested-function.cc:13:34",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 37" },
 },
 
 "ReturnStmt 37": {
+  "ReturnStmt::RetExpr": { "ptr": "ImplicitCastExpr 38" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/nested-function.cc:13:24",
 },
 
 "ImplicitCastExpr 38": {
@@ -465,6 +497,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 39" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 39": {
@@ -617,6 +655,9 @@
 },
 
 "ReturnStmt 48": {
+  "ReturnStmt::RetExpr": { "ptr": "CallExpr 49" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/nested-function.cc:15:3",
 },
 
 "CallExpr 49": {
@@ -631,6 +672,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "PointerType 62", "preview": "int (*)(int)" },
+  "CastExpr::CastExprBits": "FunctionToPointerDecay",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 51" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 51": {
@@ -654,6 +701,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 54" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 54": {

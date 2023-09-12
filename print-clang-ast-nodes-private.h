@@ -163,6 +163,27 @@ public:      // methods
     std::string const &label,
     clang::DeclarationNameInfo dni);
 
+  // Print all the fields.
+  void printDeclarationNameInfo(
+    std::string const &qualifier,
+    std::string const &label,
+    clang::DeclarationNameInfo dni);
+
+  void printDeclGroupRef(
+    std::string const &qualifier,
+    std::string const &label,
+    clang::DeclGroupRef dgr);
+
+  void printCXXCtorInitializer(
+    std::string const &qualifier,
+    std::string const &label,
+    clang::CXXCtorInitializer const *init);
+
+  void printCXXBaseSpecifier(
+    std::string const &qualifier,
+    std::string const &label,
+    clang::CXXBaseSpecifier const *bspec);
+
   // Get JSON for an object like:
   //   {
   //     "ptr": "<type ID>",
@@ -262,10 +283,25 @@ public:      // methods
 
   // Print methods for statements.
   void printStmt(clang::Stmt const *stmt);                      // Stmt.h line   49
+  void printDeclStmt(clang::DeclStmt const *stmt);              // Stmt.h line 1297
+  void printCompoundStmt(clang::CompoundStmt const *stmt);      // Stmt.h line 1404
   void printValueStmt(clang::ValueStmt const *stmt);            // Stmt.h line 1785
+  void printReturnStmt(clang::ReturnStmt const *stmt);          // Stmt.h line 2765
+
+  // Expressions.
   void printExpr(clang::Expr const *expr);                      // Expr.h line  109
   void printDeclRefExpr(clang::DeclRefExpr const *expr);        // Expr.h line 1223
   void printMemberExpr(clang::MemberExpr const *expr);          // Expr.h line 3168
+  void printCastExpr(clang::CastExpr const *expr);              // Expr.h line 3479
+  void printImplicitCastExpr(                                   // Expr.h line 3624
+    clang::ImplicitCastExpr const *expr);
+  void printParenListExpr(clang::ParenListExpr const *expr);    // Expr.h line 5538
+
+  // C++ expressions.
+  void printCXXConstructExpr(                                   // ExprCXX.h line 1460
+    clang::CXXConstructExpr const *expr);
+  void printCXXDependentScopeMemberExpr(                        // ExprCXX.h line 3550
+    clang::CXXDependentScopeMemberExpr const *expr);
 };
 
 

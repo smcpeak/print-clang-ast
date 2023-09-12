@@ -13,6 +13,7 @@
 
 //#include "clang/AST/ASTDumper.h"                 // clang::ASTDumper
 #include "clang/AST/DeclContextInternals.h"      // clang::StoredDeclsMap::size
+#include "clang/AST/ExprCXX.h"                   // clang::CXXDependentScopeMemberExpr
 #include "clang/Lex/Lexer.h"                     // clang::Lexer
 
 #include "llvm/Support/raw_os_ostream.h"         // llvm::raw_os_ostream
@@ -100,9 +101,21 @@ static std::string jsonObject2(
 #define OUT_QATTR_PTR(qualifier, key, id)                             \
   OUT_QATTR_JSON(qualifier, key, jsonObject1("ptr", doubleQuote(id)))
 
+// Print an attribute that is a pointer to a statement.
+#define OUT_QATTR_STMT(qualifier, key, stmt) \
+  OUT_QATTR_PTR(qualifier, key, getStmtIDStr(stmt))
+
+// Print an attribute that is a pointer to a declaration.
+#define OUT_QATTR_DECL(qualifier, key, decl) \
+  OUT_QATTR_PTR(qualifier, key, getDeclIDStr(decl))
+
 // Print an attribute that has an integer value.
 #define OUT_QATTR_INT(qualifier, key, value) \
   OUT_QATTR_JSON(qualifier, key, (value))
+
+// Print an attribute that has a boolean value.
+#define OUT_QATTR_BOOL(qualifier, key, value) \
+  OUT_QATTR_JSON(qualifier, key, ((value)? "true" : "false"))
 
 // Print an attribute that has a null value.
 #define OUT_QATTR_NULL(qualifier, key)   \
@@ -111,6 +124,10 @@ static std::string jsonObject2(
 // Print an attribute that has a SourceLocation value.
 #define OUT_QATTR_LOC(qualifier, key, loc)      \
   OUT_QATTR_STRING(qualifier, key, locStr(loc))
+
+// Print an attribute that is a QualType.
+#define OUT_QATTR_QUALTYPE(qualifier, key, qt)                \
+    OUT_QATTR_JSON(qualifier, key, qualTypeIDSyntaxJson(qt))
 
 // Print a placeholder for a value that I haven't implemented.
 #define OUT_QATTR_TODO(qualifier, key)     \
@@ -128,9 +145,13 @@ static std::string jsonObject2(
 #define OUT_ATTR_JSON(key, json)    OUT_QATTR_JSON("", key, json)
 #define OUT_ATTR_STRING(key, value) OUT_QATTR_STRING("", key, value)
 #define OUT_ATTR_PTR(key, id)       OUT_QATTR_PTR("", key, id)
+#define OUT_ATTR_STMT(key, stmt)    OUT_QATTR_STMT("", key, stmt)
+#define OUT_ATTR_DECL(key, decl)    OUT_QATTR_DECL("", key, decl)
 #define OUT_ATTR_INT(key, value)    OUT_QATTR_INT("", key, value)
+#define OUT_ATTR_BOOL(key, value)   OUT_QATTR_BOOL("", key, value)
 #define OUT_ATTR_NULL(key)          OUT_QATTR_NULL("", key)
 #define OUT_ATTR_LOC(key, loc)      OUT_QATTR_LOC("", key, loc)
+#define OUT_ATTR_QUALTYPE(key, qt)  OUT_QATTR_QUALTYPE("", key, qt)
 #define OUT_ATTR_TODO(key)          OUT_QATTR_TODO("", key)
 #define OUT_ATTR_BITSET(key, value) OUT_QATTR_BITSET("", key, value)
 
@@ -393,8 +414,9 @@ namespace clang {
         OverloadToken<clang::ExplicitSpecifier>()))
   };
 
-  #define DeclRefExprSpy ASTStmtReader
-  #define MemberExprSpy  ASTStmtReader
+  #define DeclRefExprSpy                 ASTStmtReader
+  #define MemberExprSpy                  ASTStmtReader
+  #define CXXDependentScopeMemberExprSpy ASTStmtReader
   class DeclRefExprSpy {
   public:
     DEFINE_METHOD_GETTER(DeclRefExpr, hasFoundDecl)
@@ -403,6 +425,8 @@ namespace clang {
     DEFINE_BITS_GETTER(MemberExpr, HasQualifierOrFoundDecl)
     DEFINE_BITS_GETTER(MemberExpr, HasTemplateKWAndArgsInfo)
     DEFINE_BITS_GETTER(MemberExpr, HadMultipleCandidates)
+
+    DEFINE_FIELD_GETTER(CXXDependentScopeMemberExpr, Base)
   };
 
   #define InjectedClassNameTypeSpy ASTReader
@@ -674,20 +698,20 @@ void PrintClangASTNodes::printTemplateArgument(
       break;
 
     case clang::TemplateArgument::Type:
-      OUT_QATTR_JSON(qualifier, label << tovv,
-        qualTypeIDSyntaxJson(arg.getAsType()));
+      OUT_QATTR_QUALTYPE(qualifier, label << tovv,
+        arg.getAsType());
       break;
 
     case clang::TemplateArgument::Declaration:
-      OUT_QATTR_JSON(qualifier, label << ".DeclArg.QT",
-        qualTypeIDSyntaxJson(arg.getParamTypeForDecl()));
+      OUT_QATTR_QUALTYPE(qualifier, label << ".DeclArg.QT",
+        arg.getParamTypeForDecl());
       OUT_QATTR_PTR(qualifier, label << ".DeclArg.D",
         getDeclIDStr(arg.getAsDecl()));
       break;
 
     case clang::TemplateArgument::NullPtr:
-      OUT_QATTR_JSON(qualifier, label << tovv,
-        qualTypeIDSyntaxJson(arg.getNullPtrType()));
+      OUT_QATTR_QUALTYPE(qualifier, label << tovv,
+        arg.getNullPtrType());
       break;
 
     case clang::TemplateArgument::Integral: {
@@ -702,8 +726,8 @@ void PrintClangASTNodes::printTemplateArgument(
       OUT_QATTR_STRING(qualifier, label << ".Integer.IsUnsigned",
         value.isUnsigned());
 
-      OUT_QATTR_JSON(qualifier, label << ".Integer.Type",
-        qualTypeIDSyntaxJson(arg.getIntegralType()));
+      OUT_QATTR_QUALTYPE(qualifier, label << ".Integer.Type",
+        arg.getIntegralType());
       OUT_QATTR_STRING(qualifier, label << ".Integer.Value",
         apsIntStr(value));
       break;
@@ -858,6 +882,121 @@ void PrintClangASTNodes::printDeclarationNameInfoLocInfo(
 }
 
 
+void PrintClangASTNodes::printDeclarationNameInfo(
+  std::string const &qualifier,
+  std::string const &label,
+  clang::DeclarationNameInfo dni)
+{
+  OUT_QATTR_STRING(qualifier, label << ".Name",
+    declarationNameAndKindStr(dni.getName()));
+
+  OUT_QATTR_LOC(qualifier, label << ".NameLoc",
+    dni.getLoc());
+
+  printDeclarationNameInfoLocInfo(qualifier,
+    stringb(label << ".LocInfo"),
+      dni);
+}
+
+
+void PrintClangASTNodes::printDeclGroupRef(
+  std::string const &qualifier,
+  std::string const &label,
+  clang::DeclGroupRef dgr)
+{
+  if (dgr.isNull()) {
+    OUT_QATTR_NULL(qualifier, label);
+  }
+  else if (dgr.isSingleDecl()) {
+    OUT_QATTR_PTR(qualifier, label,
+      getDeclIDStr(dgr.getSingleDecl()));
+  }
+  else {
+    unsigned i = 0;
+    for (auto it = dgr.begin(); it != dgr.end(); ++it) {
+      OUT_QATTR_PTR(qualifier, label << "[" << (i++) << "]",
+        getDeclIDStr(*it));
+    }
+  }
+}
+
+
+void PrintClangASTNodes::printCXXCtorInitializer(
+  std::string const &qualifier,
+  std::string const &label,
+  clang::CXXCtorInitializer const *init)
+{
+  // Initializee.
+  if (clang::TypeSourceInfo const *tsi = init->getTypeSourceInfo()) {
+    OUT_QATTR_STRING(qualifier,
+      label << ".Initializee" << ifLongForm(".TypeSourceInfo"),
+        typeSourceInfoStr(tsi));
+  }
+  else if (clang::FieldDecl const *fieldDecl = init->getMember()) {
+    OUT_QATTR_PTR(qualifier,
+      label << ".Initializee" << ifLongForm(".FieldDecl"),
+        getDeclIDStr(fieldDecl));
+  }
+  else if (clang::IndirectFieldDecl const *ifd = init->getIndirectMember()) {
+    OUT_QATTR_PTR(qualifier,
+      label << ".Initializee" << ifLongForm(".IndirectFieldDecl"),
+        getDeclIDStr(fieldDecl));
+  }
+  else {
+    // Should not happen.
+    OUT_QATTR_STRING(qualifier,
+      label << ".Initializee",
+        "unknown?");
+  }
+
+  OUT_QATTR_PTR(qualifier, "Init",
+    getStmtIDStr(init->getInit()));
+
+  OUT_QATTR_LOC(qualifier, label << ".MemberOrEllipsisLocation",
+    init->getMemberLocation());
+  OUT_QATTR_LOC(qualifier, label << ".LParenLoc",
+    init->getLParenLoc());
+  OUT_QATTR_LOC(qualifier, label << ".RParenLoc",
+    init->getRParenLoc());
+
+  OUT_QATTR_BITSET(qualifier, label << ".Flags",
+    (init->isDelegatingInitializer()?
+         " IsDelegating": "") <<
+    (init->isBaseInitializer() && init->isBaseVirtual()?
+                                          " IsVirtual" : "") <<
+    (init->isWritten()?
+         " IsWritten" : ""));
+
+  OUT_QATTR_INT(qualifier, label << ".SourceOrder",
+    init->getSourceOrder());
+}
+
+
+void PrintClangASTNodes::printCXXBaseSpecifier(
+  std::string const &qualifier,
+  std::string const &label,
+  clang::CXXBaseSpecifier const *bspec)
+{
+  OUT_QATTR_STRING(qualifier, label << ".Range",
+    sourceRangeStr(bspec->getSourceRange()));
+
+  OUT_QATTR_LOC(qualifier, label << ".EllipsisLoc",
+    bspec->getEllipsisLoc());
+
+  OUT_QATTR_BITSET(qualifier, label << ".Flags",
+    accessSpecifierStr(bspec->getAccessSpecifierAsWritten()) <<
+    (bspec->isVirtual()?
+            " Virtual" : "") <<
+    (bspec->isBaseOfClass()?
+            " BaseOfClass" : "") <<
+    (bspec->getInheritConstructors()?
+             " InheritConstructors" : ""));
+
+  OUT_QATTR_STRING(qualifier, label << ".BaseTypeInfo",
+    typeSourceInfoStr(bspec->getTypeSourceInfo()));
+}
+
+
 std::string PrintClangASTNodes::typeIDSyntaxJson(
   clang::Type const * NULLABLE type)
 {
@@ -876,14 +1015,17 @@ std::string PrintClangASTNodes::typeIDSyntaxJson(
 std::string PrintClangASTNodes::qualTypeIDSyntaxJson(
   clang::QualType qualType)
 {
-  if (clang::Type const *type = qualType.getTypePtr()) {
+  if (qualType.isNull()) {
+    return "null";
+  }
+  else {
+    clang::Type const *type = qualType.getTypePtr();
+    assert(type);
+
     return jsonObject2(
       "ptr", doubleQuote(getOrCreateTypeIDStr(type)),
       "preview", doubleQuote(qualTypeStr(qualType))
     );
-  }
-  else {
-    return "null";
   }
 }
 
@@ -1076,8 +1218,8 @@ void PrintClangASTNodes::printNamedDecl(clang::NamedDecl const *decl)
 
 void PrintClangASTNodes::printValueDecl(clang::ValueDecl const *decl)
 {
-  OUT_QATTR_JSON("ValueDecl::", "DeclType",
-    qualTypeIDSyntaxJson(decl->getType()));
+  OUT_QATTR_QUALTYPE("ValueDecl::", "DeclType",
+    decl->getType());
 }
 
 
@@ -1763,10 +1905,12 @@ void PrintClangASTNodes::printCXXConstructorDecl(
   //clang::ExplicitSpecifier explicitSpecifier =
   //  SPY(CXXConstructorDecl, decl, getExplicitSpecifierInternal);
 
-  OUT_QATTR_STRING("CXXConstructorDecl::", "CXXConstructorDeclBits.NumCtorInitializers",
+  char const *qualifier = "CXXConstructorDecl::";
+
+  OUT_QATTR_STRING(qualifier, "CXXConstructorDeclBits.NumCtorInitializers",
     decl->getNumCtorInitializers());
 
-  OUT_QATTR_BITSET("CXXConstructorDecl::", "CXXConstructorDeclBits flags",
+  OUT_QATTR_BITSET(qualifier, "CXXConstructorDeclBits flags",
     (decl->isInheritingConstructor()?
          " IsInheritingConstructor" : "") <<
     (SPY(CXXConstructorDecl, decl, HasTrailingExplicitSpecifier)?
@@ -1774,10 +1918,16 @@ void PrintClangASTNodes::printCXXConstructorDecl(
     // Can't get 'IsSimpleExplicit'.
 
   // Unfortunately, querying the real data is challenging here.
-  OUT_QATTR_STRING("CXXConstructorDecl::", "getExplicitSpecifierInternal()", "TODO");
+  OUT_QATTR_STRING(qualifier, "getExplicitSpecifierInternal()", "TODO");
 
-  OUT_QATTR_STRING("CXXConstructorDecl::", "InheritedConstructor", "TODO");
-  OUT_QATTR_STRING("CXXConstructorDecl::", "CtorInitializers", "TODO");
+  OUT_QATTR_STRING(qualifier, "InheritedConstructor", "TODO");
+
+  unsigned i = 0;
+  for (clang::CXXCtorInitializer const *init : decl->inits()) {
+    printCXXCtorInitializer(qualifier,
+      stringb("CtorInitializer[" << (i++) << "]"),
+        init);
+  }
 }
 
 
@@ -2153,10 +2303,54 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
   }
 
   // Dispatch to subclass print routines.
+  PRINT_IF_SUBCLASS(stmt, DeclStmt)
+  PRINT_IF_SUBCLASS(stmt, CompoundStmt)
   PRINT_IF_SUBCLASS(stmt, ValueStmt)
+  PRINT_IF_SUBCLASS(stmt, ReturnStmt)
+
   PRINT_IF_SUBCLASS(stmt, Expr)
   PRINT_IF_SUBCLASS(stmt, DeclRefExpr)
   PRINT_IF_SUBCLASS(stmt, MemberExpr)
+  PRINT_IF_SUBCLASS(stmt, CastExpr)
+  PRINT_IF_SUBCLASS(stmt, ImplicitCastExpr)
+  PRINT_IF_SUBCLASS(stmt, ParenListExpr)
+
+  PRINT_IF_SUBCLASS(stmt, CXXConstructExpr)
+  PRINT_IF_SUBCLASS(stmt, CXXDependentScopeMemberExpr)
+}
+
+
+void PrintClangASTNodes::printDeclStmt(clang::DeclStmt const *stmt)
+{
+  char const *qualifier = "DeclStmt::";
+
+  printDeclGroupRef(qualifier, "DG",
+    stmt->getDeclGroup());
+
+  OUT_QATTR_LOC(qualifier, "StartLoc",
+    stmt->getBeginLoc());
+  OUT_QATTR_LOC(qualifier, "EndLoc",
+    stmt->getEndLoc());
+}
+
+
+void PrintClangASTNodes::printCompoundStmt(
+  clang::CompoundStmt const *stmt)
+{
+  char const *qualifier = "CompoundStmt::";
+
+  OUT_QATTR_LOC(qualifier, "LBraceLoc",
+    stmt->getLBracLoc());
+  OUT_QATTR_LOC(qualifier, "RBraceLoc",
+    stmt->getRBracLoc());
+
+  OUT_QATTR_INT(qualifier, "NumStmts",
+    stmt->size());
+
+  for (unsigned i=0; i < stmt->size(); ++i) {
+    OUT_QATTR_PTR(qualifier, "Stmt[" << i << "]",
+      getStmtIDStr(stmt->body_begin()[i]));
+  }
 }
 
 
@@ -2166,6 +2360,21 @@ void PrintClangASTNodes::printValueStmt(clang::ValueStmt const *stmt)
   // nodes in the type hierarchy.  It also has ValueStmt::getExprStmt()
   // with some logic for skipping labels and attributes, which should be
   // documented but isn't.
+}
+
+
+void PrintClangASTNodes::printReturnStmt(clang::ReturnStmt const *stmt)
+{
+  char const *qualifier = "ReturnStmt::";
+
+  OUT_QATTR_STMT(qualifier, "RetExpr",
+    stmt->getRetValue());
+
+  OUT_QATTR_DECL(qualifier, "NRVOCandidate",
+    stmt->getNRVOCandidate());
+
+  OUT_QATTR_LOC(qualifier, "RetLoc",
+    stmt->getReturnLoc());
 }
 
 
@@ -2180,8 +2389,8 @@ void PrintClangASTNodes::printExpr(clang::Expr const *expr)
   OUT_QATTR_STRING("Expr::ExprBits::", "Dependent",
     exprDependenceStr(expr->getDependence()));
 
-  OUT_QATTR_JSON("Expr::", "TR",
-    qualTypeIDSyntaxJson(expr->getType()));
+  OUT_QATTR_QUALTYPE("Expr::", "TR",
+    expr->getType());
 }
 
 
@@ -2316,6 +2525,149 @@ void PrintClangASTNodes::printMemberExpr(clang::MemberExpr const *expr)
 
   printDeclarationNameInfoLocInfo(qualifier, "MemberDNLoc",
     expr->getMemberNameInfo());
+}
+
+
+void PrintClangASTNodes::printCastExpr(clang::CastExpr const *expr)
+{
+  char const *qualifier = "CastExpr::";
+
+  OUT_QATTR_BITSET(qualifier, "CastExprBits",
+    expr->getCastKindName() <<
+    (expr->hasStoredFPFeatures()?
+               " HasFPFeatures" : ""));
+
+  OUT_QATTR_INT(qualifier, "BasePathSize",
+    expr->path_size());
+
+  unsigned i=0;
+  for (clang::CXXBaseSpecifier const *base : expr->path()) {
+    printCXXBaseSpecifier(qualifier,
+      stringb("BasePath[" << (i++) << "]"),
+        base);
+  }
+
+  OUT_QATTR_STMT(qualifier, "Op",
+    expr->getSubExpr());
+
+  OUT_QATTR_DECL(qualifier, "getConversionFunction()",
+    expr->getConversionFunction());
+
+  OUT_QATTR_TODO(qualifier, "getStoredFPFeatures())");
+}
+
+
+void PrintClangASTNodes::printImplicitCastExpr(
+  clang::ImplicitCastExpr const *expr)
+{
+  char const *qualifier = "ImplicitCastExpr::";
+
+  OUT_QATTR_BOOL(qualifier, "PartOfExplicitCast",
+    expr->isPartOfExplicitCast());
+
+  // Although 'ImplicitCastExpr' has some trailing objects that
+  // 'CastExpr' does not necessarily have, the accessors are all on
+  // 'CastExpr', so that is where they are printed.
+}
+
+
+void PrintClangASTNodes::printParenListExpr(
+  clang::ParenListExpr const *expr)
+{
+  char const *qualifier = "ParenListExpr::";
+
+  OUT_QATTR_INT(qualifier, "NumExprs",
+    expr->getNumExprs());
+
+  for (unsigned i=0; i < expr->getNumExprs(); ++i) {
+    clang::Expr const *e = expr->getExpr(i);
+    OUT_QATTR_PTR(qualifier, "Expr[" << i << "]",
+      getStmtIDStr(e));
+  }
+
+  OUT_QATTR_LOC(qualifier, "LParenLoc",
+    expr->getLParenLoc());
+  OUT_QATTR_LOC(qualifier, "RParenLoc",
+    expr->getRParenLoc());
+}
+
+
+static std::string constructionKindStr(
+  clang::CXXConstructExpr::ConstructionKind ck)
+{
+  ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::CXXConstructExpr::, ConstructionKind, ck,
+
+    CK_Complete,
+    CK_NonVirtualBase,
+    CK_VirtualBase,
+    CK_Delegating,
+  )
+}
+
+
+void PrintClangASTNodes::printCXXConstructExpr(
+  clang::CXXConstructExpr const *expr)
+{
+  char const *qualifier = "CXXConstructExpr::";
+
+  OUT_QATTR_LOC(qualifier, "Loc",
+    expr->getLocation());
+
+  OUT_QATTR_BITSET(qualifier, "CXXConstructExprBits",
+    constructionKindStr(expr->getConstructionKind()) <<
+    (expr->isElidable()?
+           " Elidable" : "") <<
+    (expr->hadMultipleCandidates()?
+         " HadMultipleCandidates" : "") <<
+    (expr->isListInitialization()?
+           " ListInitialization" : "") <<
+    (expr->isStdInitListInitialization()?
+           " StdInitListInitialization" : "") <<
+    (expr->requiresZeroInitialization()?
+                 " ZeroInitialization" : ""));
+
+  OUT_QATTR_PTR(qualifier, "Constructor",
+    getDeclIDStr(expr->getConstructor()));
+
+  OUT_QATTR_STRING(qualifier, "ParenOrBraceRange",
+    sourceRangeStr(expr->getParenOrBraceRange()));
+
+  OUT_QATTR_INT(qualifier, "NumArgs",
+    expr->getNumArgs());
+
+  unsigned i=0;
+  for (clang::Expr const *arg : expr->arguments()) {
+    OUT_QATTR_PTR(qualifier, "Arg[" << (i++) << "]",
+      getStmtIDStr(arg));
+  }
+}
+
+
+void PrintClangASTNodes::printCXXDependentScopeMemberExpr(
+  clang::CXXDependentScopeMemberExpr const *expr)
+{
+  char const *qualifier = "CXXDependentScopeMemberExpr::";
+
+  // I spy this field rather than using 'getBase()' because that
+  // requires it not be implicit, yet it is evidently possible for
+  // 'Base' to be non-null even in the implicit case.
+  OUT_QATTR_PTR(qualifier, "Base",
+    getStmtIDStr(SPY(CXXDependentScopeMemberExpr, expr, Base)));
+
+  OUT_QATTR_QUALTYPE(qualifier, "BaseType",
+    expr->getBaseType());
+
+  OUT_QATTR_STRING(qualifier, "QualifierLoc",
+    nestedNameSpecifierLocStr(expr->getQualifierLoc()));
+
+  printDeclarationNameInfo(qualifier, "MemberNameInfo",
+    expr->getMemberNameInfo());
+
+  // TODO: These trailing objects.
+  OUT_QATTR_TODO(qualifier, "ASTTemplateKWAndArgsInfo");
+  OUT_QATTR_TODO(qualifier, "TemplateArgumentLocs");
+  OUT_QATTR_TODO(qualifier, "FirstQualifierFoundInScope");
 }
 
 
@@ -2522,8 +2874,8 @@ void PrintClangASTNodes::printClassTemplateDecl_Common(
     OUT_QATTR_STRING(qualifier, "PartialSpecializations", "empty");
   }
 
-  OUT_QATTR_JSON(qualifier, "InjectedClassNameType",
-    qualTypeIDSyntaxJson(common->InjectedClassNameType));
+  OUT_QATTR_QUALTYPE(qualifier, "InjectedClassNameType",
+    common->InjectedClassNameType);
 }
 
 
@@ -2690,8 +3042,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
     // Print the CanonicalType if it is different than 'type'.
     if (!type->isCanonicalUnqualified()) {
-      OUT_ATTR_JSON(shortAndLongForms("Canon", "CanonicalType"),
-        qualTypeIDSyntaxJson(canonicalType));
+      OUT_ATTR_QUALTYPE(shortAndLongForms("Canon", "CanonicalType"),
+        canonicalType);
     }
   }
 
@@ -2707,8 +3059,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
         dyn_cast<clang::InjectedClassNameType>(type)) {
     OUT_ATTR_PTR("Decl",
       getOrCreateDeclIDStr(SPY(InjectedClassNameType, icnt, Decl)));
-    OUT_ATTR_JSON("InjectedType",
-      qualTypeIDSyntaxJson(icnt->getInjectedSpecializationType()));
+    OUT_ATTR_QUALTYPE("InjectedType",
+      icnt->getInjectedSpecializationType());
   }
 
   else if (auto tst = dyn_cast<clang::TemplateSpecializationType>(type)) {
@@ -2722,8 +3074,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
       OUT_ATTR_STRING("args[" << i << "]",
         templateArgumentAndKindStr(arg));
       if (arg.getKind() == clang::TemplateArgument::Type) {
-        OUT_ATTR_JSON("args[" << i << "].Type",
-          qualTypeIDSyntaxJson(arg.getAsType()));
+        OUT_ATTR_QUALTYPE("args[" << i << "].Type",
+          arg.getAsType());
       }
       ++i;
     }
@@ -2734,13 +3086,13 @@ void PrintClangASTNodes::printType(clang::Type const *type)
       getOrCreateDeclIDStr(tst->getTemplateName().getAsTemplateDecl()));
 
     if (tst->isTypeAlias()) {
-      OUT_ATTR_JSON("getAliasedType()",
-        qualTypeIDSyntaxJson(tst->getAliasedType()));
+      OUT_ATTR_QUALTYPE("getAliasedType()",
+        tst->getAliasedType());
     }
 
     // This is not always the same as 'getUnqualifiedDesugaredType()'.
-    OUT_ATTR_JSON("desugar()",
-      qualTypeIDSyntaxJson(tst->desugar()));
+    OUT_ATTR_QUALTYPE("desugar()",
+      tst->desugar());
   }
 
   else if (auto parmType = dyn_cast<clang::TemplateTypeParmType>(type)) {
@@ -2761,8 +3113,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
       sttpt->getIndex());
     OUT_ATTR_STRING("PackIndex",
       optionalToString(sttpt->getPackIndex(), "none"));
-    OUT_ATTR_JSON("getReplacementType()",
-      qualTypeIDSyntaxJson(sttpt->getReplacementType()));
+    OUT_ATTR_QUALTYPE("getReplacementType()",
+      sttpt->getReplacementType());
   }
 
   else if (auto tagType = dyn_cast<clang::TagType>(type)) {
@@ -2771,13 +3123,13 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   }
 
   else if (auto funcType = dyn_cast<clang::FunctionProtoType>(type)) {
-    OUT_ATTR_JSON("ResultType",
-      qualTypeIDSyntaxJson(funcType->getReturnType()));
+    OUT_ATTR_QUALTYPE("ResultType",
+      funcType->getReturnType());
 
     int i=0;
     for (clang::QualType paramType : funcType->param_types()) {
-      OUT_ATTR_JSON("paramType[" << i << "]",
-        qualTypeIDSyntaxJson(paramType));
+      OUT_ATTR_QUALTYPE("paramType[" << i << "]",
+        paramType);
       ++i;
     }
 
@@ -2793,13 +3145,13 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   }
 
   else if (auto refType = dyn_cast<clang::ReferenceType>(type)) {
-    OUT_ATTR_JSON("PointeeType",
-      qualTypeIDSyntaxJson(refType->getPointeeTypeAsWritten()));
+    OUT_ATTR_QUALTYPE("PointeeType",
+      refType->getPointeeTypeAsWritten());
   }
 
   else if (auto ptrType = dyn_cast<clang::PointerType>(type)) {
-    OUT_ATTR_JSON("PointeeType",
-      qualTypeIDSyntaxJson(ptrType->getPointeeType()));
+    OUT_ATTR_QUALTYPE("PointeeType",
+      ptrType->getPointeeType());
   }
 
   else if (auto elabType = dyn_cast<clang::ElaboratedType>(type)) {
@@ -2807,8 +3159,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
       elaboratedTypeKeywordStr(elabType->getKeyword()));
     OUT_ATTR_STRING("NNS",
       nestedNameSpecifierStr(elabType->getQualifier()));
-    OUT_ATTR_JSON("NamedType",
-      qualTypeIDSyntaxJson(elabType->getNamedType()));
+    OUT_ATTR_QUALTYPE("NamedType",
+      elabType->getNamedType());
   }
 }
 

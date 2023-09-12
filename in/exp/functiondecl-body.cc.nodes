@@ -160,9 +160,16 @@
 },
 
 "CompoundStmt 18": {
+  "CompoundStmt::LBraceLoc": "in/src/functiondecl-body.cc:10:9",
+  "CompoundStmt::RBraceLoc": "in/src/functiondecl-body.cc:10:21",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 19" },
 },
 
 "ReturnStmt 19": {
+  "ReturnStmt::RetExpr": { "ptr": "IntegerLiteral 20" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/functiondecl-body.cc:10:11",
 },
 
 "IntegerLiteral 20": {

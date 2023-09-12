@@ -316,9 +316,18 @@
 },
 
 "CompoundStmt 27": {
+  "CompoundStmt::LBraceLoc": "in/src/declrefexpr.cc:9:1",
+  "CompoundStmt::RBraceLoc": "in/src/declrefexpr.cc:21:1",
+  "CompoundStmt::NumStmts": 3,
+  "CompoundStmt::Stmt[0]": { "ptr": "DeclStmt 28" },
+  "CompoundStmt::Stmt[1]": { "ptr": "CXXMemberCallExpr 34" },
+  "CompoundStmt::Stmt[2]": { "ptr": "ReturnStmt 41" },
 },
 
 "DeclStmt 28": {
+  "DeclStmt::DG": { "ptr": "VarDecl 29" },
+  "DeclStmt::StartLoc": "in/src/declrefexpr.cc:14:3",
+  "DeclStmt::EndLoc": "in/src/declrefexpr.cc:14:39",
 },
 
 "VarDecl 29": {
@@ -398,6 +407,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "PointerType 24", "preview": "S *" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 38" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 38": {
@@ -415,6 +430,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "MemberPointerType 30", "preview": "int *(struct S::*)(void)" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 40" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 40": {
@@ -428,6 +449,9 @@
 },
 
 "ReturnStmt 41": {
+  "ReturnStmt::RetExpr": { "ptr": "ImplicitCastExpr 42" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/declrefexpr.cc:20:3",
 },
 
 "ImplicitCastExpr 42": {
@@ -435,6 +459,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 18", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 43" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 43": {

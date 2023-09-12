@@ -407,10 +407,12 @@
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
   "CXXConstructorDecl::InheritedConstructor": "TODO",
-  "CXXConstructorDecl::CtorInitializers": "TODO",
 },
 
 "CompoundStmt 33": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-pspec.cc:8:8",
+  "CompoundStmt::RBraceLoc": "in/src/ct-pspec.cc:8:8",
+  "CompoundStmt::NumStmts": 0,
 },
 
 "CXXConstructorDecl 34": {
@@ -456,7 +458,6 @@
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
   "CXXConstructorDecl::InheritedConstructor": "TODO",
-  "CXXConstructorDecl::CtorInitializers": "TODO",
 },
 
 "ParmVarDecl 35": {
@@ -534,7 +535,6 @@
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
   "CXXConstructorDecl::InheritedConstructor": "TODO",
-  "CXXConstructorDecl::CtorInitializers": "TODO",
 },
 
 "ParmVarDecl 38": {
@@ -858,6 +858,11 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "ElaboratedType 55", "preview": "S<int *>" },
+  "CXXConstructExpr::Loc": "in/src/ct-pspec.cc:15:9",
+  "CXXConstructExpr::CXXConstructExprBits": "CK_Complete HadMultipleCandidates",
+  "CXXConstructExpr::Constructor": { "ptr": "CXXConstructorDecl 32" },
+  "CXXConstructExpr::ParenOrBraceRange": "<<invalid sloc>>",
+  "CXXConstructExpr::NumArgs": 0,
 },
 
 "CXXRecordDecl 59": {

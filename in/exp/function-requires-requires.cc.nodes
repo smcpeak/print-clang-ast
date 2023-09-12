@@ -302,9 +302,16 @@
 },
 
 "CompoundStmt 27": {
+  "CompoundStmt::LBraceLoc": "in/src/function-requires-requires.cc:8:17",
+  "CompoundStmt::RBraceLoc": "in/src/function-requires-requires.cc:8:33",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 28" },
 },
 
 "ReturnStmt 28": {
+  "ReturnStmt::RetExpr": { "ptr": "BinaryOperator 29" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/function-requires-requires.cc:8:19",
 },
 
 "BinaryOperator 29": {

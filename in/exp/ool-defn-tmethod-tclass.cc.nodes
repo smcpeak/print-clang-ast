@@ -499,6 +499,9 @@
 },
 
 "CompoundStmt 35": {
+  "CompoundStmt::LBraceLoc": "in/src/ool-defn-tmethod-tclass.cc:16:1",
+  "CompoundStmt::RBraceLoc": "in/src/ool-defn-tmethod-tclass.cc:17:1",
+  "CompoundStmt::NumStmts": 0,
 },
 
 "FunctionDecl 36": {
@@ -552,9 +555,16 @@
 },
 
 "CompoundStmt 39": {
+  "CompoundStmt::LBraceLoc": "in/src/ool-defn-tmethod-tclass.cc:20:1",
+  "CompoundStmt::RBraceLoc": "in/src/ool-defn-tmethod-tclass.cc:22:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 40" },
 },
 
 "ReturnStmt 40": {
+  "ReturnStmt::RetExpr": { "ptr": "IntegerLiteral 41" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ool-defn-tmethod-tclass.cc:21:3",
 },
 
 "IntegerLiteral 41": {

@@ -266,9 +266,16 @@
 },
 
 "CompoundStmt 22": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-cont-of-defn.cc:7:3",
+  "CompoundStmt::RBraceLoc": "in/src/ct-cont-of-defn.cc:9:3",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 23" },
 },
 
 "ReturnStmt 23": {
+  "ReturnStmt::RetExpr": { "ptr": "DeclRefExpr 24" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ct-cont-of-defn.cc:8:5",
 },
 
 "DeclRefExpr 24": {

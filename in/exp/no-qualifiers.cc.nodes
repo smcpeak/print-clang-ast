@@ -117,9 +117,16 @@
 },
 
 "CompoundStmt 17": {
+  "LBraceLoc": "in/src/no-qualifiers.cc:7:1",
+  "RBraceLoc": "in/src/no-qualifiers.cc:9:1",
+  "NumStmts": 1,
+  "Stmt[0]": { "ptr": "ReturnStmt 18" },
 },
 
 "ReturnStmt 18": {
+  "RetExpr": { "ptr": "IntegerLiteral 19" },
+  "NRVOCandidate": { "ptr": "null" },
+  "RetLoc": "in/src/no-qualifiers.cc:8:3",
 },
 
 "IntegerLiteral 19": {

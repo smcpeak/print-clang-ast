@@ -480,9 +480,16 @@
 },
 
 "CompoundStmt 33": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-cont-ft-csspec.cc:11:3",
+  "CompoundStmt::RBraceLoc": "in/src/ct-cont-ft-csspec.cc:13:3",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 34" },
 },
 
 "ReturnStmt 34": {
+  "ReturnStmt::RetExpr": { "ptr": "BinaryOperator 35" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ct-cont-ft-csspec.cc:12:5",
 },
 
 "BinaryOperator 35": {
@@ -870,9 +877,16 @@
 },
 
 "CompoundStmt 53": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-cont-ft-csspec.cc:11:3",
+  "CompoundStmt::RBraceLoc": "in/src/ct-cont-ft-csspec.cc:13:3",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 54" },
 },
 
 "ReturnStmt 54": {
+  "ReturnStmt::RetExpr": { "ptr": "ImplicitCastExpr 55" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ct-cont-ft-csspec.cc:12:5",
 },
 
 "ImplicitCastExpr 55": {
@@ -880,6 +894,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 26", "preview": "int" },
+  "CastExpr::CastExprBits": "FloatingToIntegral",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "BinaryOperator 56" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "BinaryOperator 56": {
@@ -894,6 +914,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 32", "preview": "float" },
+  "CastExpr::CastExprBits": "IntegralToFloating",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "ImplicitCastExpr 58" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "ImplicitCastExpr 58": {
@@ -901,6 +927,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "SubstTemplateTypeParmType 47", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 59" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 59": {
@@ -918,6 +950,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 32", "preview": "float" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 61" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 61": {
@@ -1089,9 +1127,16 @@
 },
 
 "CompoundStmt 70": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-cont-ft-csspec.cc:17:1",
+  "CompoundStmt::RBraceLoc": "in/src/ct-cont-ft-csspec.cc:19:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 71" },
 },
 
 "ReturnStmt 71": {
+  "ReturnStmt::RetExpr": { "ptr": "CXXMemberCallExpr 72" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ct-cont-ft-csspec.cc:18:3",
 },
 
 "CXXMemberCallExpr 72": {
@@ -1129,6 +1174,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 26", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 76" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 76": {
@@ -1146,6 +1197,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 32", "preview": "float" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 78" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 78": {

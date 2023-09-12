@@ -197,9 +197,16 @@
 },
 
 "CompoundStmt 20": {
+  "CompoundStmt::LBraceLoc": "in/src/ft-inst.cc:6:1",
+  "CompoundStmt::RBraceLoc": "in/src/ft-inst.cc:8:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 21" },
 },
 
 "ReturnStmt 21": {
+  "ReturnStmt::RetExpr": { "ptr": "DeclRefExpr 22" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ft-inst.cc:7:3",
 },
 
 "DeclRefExpr 22": {
@@ -311,9 +318,16 @@
 },
 
 "CompoundStmt 29": {
+  "CompoundStmt::LBraceLoc": "in/src/ft-inst.cc:6:1",
+  "CompoundStmt::RBraceLoc": "in/src/ft-inst.cc:8:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 30" },
 },
 
 "ReturnStmt 30": {
+  "ReturnStmt::RetExpr": { "ptr": "ImplicitCastExpr 31" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ft-inst.cc:7:3",
 },
 
 "ImplicitCastExpr 31": {
@@ -321,6 +335,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 32" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 32": {
@@ -407,9 +427,16 @@
 },
 
 "CompoundStmt 36": {
+  "CompoundStmt::LBraceLoc": "in/src/ft-inst.cc:11:1",
+  "CompoundStmt::RBraceLoc": "in/src/ft-inst.cc:13:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 37" },
 },
 
 "ReturnStmt 37": {
+  "ReturnStmt::RetExpr": { "ptr": "CallExpr 38" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ft-inst.cc:12:3",
 },
 
 "CallExpr 38": {
@@ -424,6 +451,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "PointerType 48", "preview": "int (*)(int)" },
+  "CastExpr::CastExprBits": "FunctionToPointerDecay",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 40" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 40": {
@@ -442,6 +475,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 42" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
 "DeclRefExpr 42": {

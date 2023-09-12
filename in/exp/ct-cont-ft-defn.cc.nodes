@@ -351,9 +351,16 @@
 },
 
 "CompoundStmt 27": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-cont-ft-defn.cc:8:3",
+  "CompoundStmt::RBraceLoc": "in/src/ct-cont-ft-defn.cc:10:3",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 28" },
 },
 
 "ReturnStmt 28": {
+  "ReturnStmt::RetExpr": { "ptr": "BinaryOperator 29" },
+  "ReturnStmt::NRVOCandidate": { "ptr": "null" },
+  "ReturnStmt::RetLoc": "in/src/ct-cont-ft-defn.cc:9:5",
 },
 
 "BinaryOperator 29": {
