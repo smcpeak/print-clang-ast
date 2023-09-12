@@ -562,13 +562,12 @@ The fields of ``FunctionDecl`` are:
     in the documentation of ``DeclaratorDecl::getTypeSourceInfo()``.]
 
   * Optional ``ExtInfo *``: A structure with extra information needed
-    when a function [TODO: or variable? or class?] is defined outside
-    its class body, or has a trailing ``requires`` clause.  It has these
-    data members:
+    when a function [TODO: or variable?] is defined outside its class
+    body, or has a trailing ``requires`` clause.  It has these data
+    members:
 
     * From base ``QualifierInfo``, which describes the namespace and
-      class scope qualifiers appearing in front of the function
-      [TODO: or other member?] name:
+      class scope qualifiers appearing in front of the declared name:
 
       * ``NestedNameSpecifierLoc QualifierLoc``: The scope qualifier
         and its source location information.  This will be empty in the
@@ -607,8 +606,7 @@ The fields of ``FunctionDecl`` are:
 
   * ``StoredDeclsMap *LookupPtr``:
     Nullable pointer to a map of the context's members for efficient
-    lookup.  [TODO: When is this null?  It seems to always be null for
-    a ``FunctionDecl``.]
+    lookup.
 
   * ``Decl *FirstDecl, *LastDecl``: List of ``Decl`` objects directly
     contained by this ``DeclContext``.  For a ``FunctionDecl``, these
@@ -637,12 +635,7 @@ The fields of ``FunctionDecl`` are:
       remains set at the end of parsing.
 
   * ``ParmVarDecl **ParamInfo``: Owned array of pointers to the formal
-    parameters of this function.  The number of elements is equal to the
-    number of parameters in the type in ``DeclType``, taken to be zero
-    if it is a ``FunctionNoProtoType``.  If the number of parameters is
-    zero, then ``ParamInfo`` is ``nullptr``.  (Note: A comment on its
-    declaration says it is ``nullptr`` for prototypes (non-definitions),
-    but that is not true.)  [TODO: Fix the comment?]
+    parameters of this function.
 
   * Anonymous union discriminated by
     ``FunctionDeclBits.HasDefaultedFunctionInfo``:
@@ -661,14 +654,7 @@ The fields of ``FunctionDecl`` are:
 
   * ``unsigned ODRHash``: A hash of the AST structure, used to detect
     when definitions differ between translation units (i.e., violations
-    of the "One Definition Rule" (ODR)).  This is valid only if
-    ``FunctionDeclBits.HasODRHash`` is true (it will be computed if and
-    when it is needed).  The relevance to templates is if a function is
-    an instantiation, then it its ``ODRHash`` is the same as the
-    templated function from which it was instantiated.  [TODO: That is
-    how it is implemented.  I do not know if that is an optimization
-    because the hash would turn out the same, or a deliberate alteration
-    to what the naive calculation would produce.  Clarify.]
+    of the "One Definition Rule" (ODR)).
 
   * ``SourceLocation EndRangeLoc``: The location of the end of the
     (conceptual) declaration.  If a function body is present, then this
@@ -689,17 +675,17 @@ The fields of ``FunctionDecl`` are:
     * ``NamedDecl *`` that is a ``FunctionDecl *``
       (``TK_DependentNonTemplate``): This non-templated function is declared
       directly inside the body of a function template.  The pointer
-      points to the enclosing templated function.
+      points to the enclosing templated function.  [TODO: Need example.]
 
     * ``NamedDecl *`` that is a ``FunctionTemplateDecl *``
       (``TK_FunctionTemplate``): This is a templated function, and the
       pointer points to the enclosing function template.
 
     * ``MemberSpecializationInfo *`` (``TK_MemberSpecialization``):
-      This is a non-templated [TODO: right?] member function of a class
-      template.  The pointer points to additional information that
-      describes the relationship between this member function and its
-      containing class template.
+      This is a non-templated member function of a class template.  The
+      pointer points to additional information that describes the
+      relationship between this member function and its containing class
+      template.
 
     * ``FunctionTemplateSpecializationInfo *``
       (``TK_FunctionTemplateSpecialization``): This is a specialization
@@ -1411,7 +1397,7 @@ inside a class template are:
       the ``ClassTemplateDecl``.  The ``TemplateSpecializationType``
       is the most general way of naming the type, while the
       ``InjectedClassNameType`` is the convenience alias for use within
-      the class.  [TODO: Why is ``ElaboratedType`` used here?]
+      the class.  [TODO: Question: Why is ``ElaboratedType`` used here?]
 
     * Type written ``S<T>``, as for ``ptr2``:
       This is again an ``ElaboratedType``, but now it points directly to
@@ -1481,14 +1467,6 @@ In the above example, ``T1``, ``T2``, and ``T3`` all use
 ``CanTTPT(0,0)`` as their canonical type (which
 ``QualType::getAsString()`` renders as ``type-parameter-0-0``), while
 ``U1``, ``U2``, and ``U3`` all use ``CanTTPT(0,1)``.
-
-In the Clang compiler front end, the ``CanTTPT`` names should not appear
-in error messages and the like because they are meaningless to the user.
-However, at times (particularly during error recovery) it can be
-difficult to prevent the names from leaking.
-[TODO: Question: Should any instance of ``type-parameter-D-I`` appearing in an
-error message be regarded as a bug in the CFE?  Or perhaps only if the
-first error has it?]
 
 
 Diagram: Class template: Definition
