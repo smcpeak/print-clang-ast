@@ -27,9 +27,10 @@ Document scope
 
 This document assumes a general familiarity with at least the concept of
 an abstract syntax tree (AST), and moderate familiarity with C++
-templates.  Some familiarity with the Clang AST
-is helpful but not necessary; see :doc:`IntroductionToTheClangAST` and
-:doc:`InternalsManual` (section "The AST Library").
+templates.  Some familiarity with the Clang AST is helpful but not
+necessary; but see :doc:`IntroductionToTheClangAST` and
+:doc:`InternalsManual` (section "The AST Library") if you want some more
+background before diving in.
 
 The document's main focus is on how the language feature of templates is
 represented in the Clang AST, especially in the form it takes after
@@ -42,11 +43,22 @@ entirely.
 
 This document currently omits discussion of some topics:
 
+* Detailed discussion of the way templates affect the ``Expr``
+  hierarchy.  Instead, this document is focused on the ``Decl``
+  hierarchy.
+
 * Template non-type parameters and template template parameters.
 
 * Variable templates.
 
 * Type alias templates.
+
+* Lambdas.
+
+* Declaration nesting beyond two levels.  For example, it does not
+  examine the case of a function template that contains an ordinary
+  class, one of whose members is a template, as that is three levels of
+  nesting.
 
 * Template ``requires`` constraints.
 
@@ -169,13 +181,15 @@ hierarchy:
 
 Continuing the terminology:
 
-* A *member specialization* is a specialization of a class template
-  member that arises because the class template is instantiated.  The
-  member itself may or may not be a template, and its specialization may
-  be implicit or explicit.  If the member is a template, specialization
-  as a member (of the containing class template) is distinct from
-  specialization of the member template itself.  For example, explicit
-  member specialization effectively replaces the entire member, whereas
+* A *member specialization* is a specialization of an element of a
+  template that arises because the template is instantiated.  The
+  element could be a member of a class or it could be a declaration
+  inside a function template, although the terminology is based on the
+  former case.  The member itself may or may not be a template, and its
+  specialization may be implicit or explicit.  If the member is a
+  template, specialization as a member is distinct from specialization
+  of the member template itself.  For example, explicit member
+  specialization effectively replaces the entire member, whereas
   explicit (template) specialization provides a definition for a
   particular argument sequence.  Consequently, logically, member
   specialization happens before template specialization.
@@ -1022,6 +1036,51 @@ The changes from the function template case are:
 Thus, we can safely understand this case as being essentially the same
 as the function template case, just in a different scope.  Even when the
 method template is instantiated, there are no new features.
+
+
+Diagram: Function template contains ordinary class: Instantiation
+-----------------------------------------------------------------
+
+A function template can define and use an ordinary class in its body:
+
+.. code-block:: c++
+
+    template <class T>
+    T identity(T x)
+    {
+      struct S {
+        T m_t;
+
+        S(T t)
+          : m_t(t)
+        {}
+      };
+
+      S s(x);
+      return s.m_t;
+    }
+
+    int caller(int y)
+    {
+      return identity(y);
+    }
+
+The resulting object diagram is:
+
+.. image:: ASTsForTemplatesImages/ft-cont-oc-inst.ded.png
+
+The focus node, ``CXXRecordDecl 49``, is the instantiation of ``S``
+inside ``identity<int>``.  It is a member specialization of the
+original, ``CXXRecordDecl 22``.  Additionally, its member function
+``CXXConstructorDecl 53`` is a member specialization of the
+corresponding original, ``CXXConstructorDecl 25``.
+
+The diagram also includes ``CXXDependentScopeMemberExpr 39``, used to
+represent ``s.m_t`` in the template, where the type of ``m_t`` is
+dependent on the template parameter.  However, this document's scope
+currently excludes a detailed examination of how templates affect
+classes in the ``Expr`` hierarchy, so for now we just note this feature
+in passing.
 
 
 Class templates
@@ -2933,6 +2992,11 @@ Clang-16 or earlier due to
 Index of examples
 =================
 
+[TODO: This section is mostly for my own use while building the
+document.  I'm thinking I would remove it once everything is filled out,
+since the table of contents should be sufficient for readers to find
+examples of interest.]
+
 This section links to the examples diagrammed in this document, within
 an exhaustive enumeration of this product space:
 
@@ -3002,7 +3066,7 @@ Two-level nested:
   * Inner ordinary function: Not legal C++.  [TODO: At least ``clang``
     rejects this.  But then what is ``TK_DependentNonTemplate``?]
   * Inner function template: Not legal C++.
-  * Inner ordinary class: [TODO]
+  * Inner ordinary class: `Diagram: Function template contains ordinary class: Instantiation`_
   * Inner class template: Not legal C++.
   * Explicit member specialization: Not applicable (not in a class).
   * Class scope specialization: Not applicable (not in a class).
