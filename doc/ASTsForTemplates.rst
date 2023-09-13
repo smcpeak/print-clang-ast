@@ -76,7 +76,8 @@ Definitions of terms
 --------------------
 
 The terms used within the Clang AST generally align with those used in
-the C++ standard.  Some key terms are listed below:
+the C++ standard.  Some key terms are listed below; the annotation
+"(Clang)" means the term is specific to the Clang implementation:
 
 * A *declaration* is, typically, a piece of syntax that introduces an
   entity such as a function or class into the program.  It also usually
@@ -89,12 +90,12 @@ the C++ standard.  Some key terms are listed below:
   of the declared entity, such as the body of a function or the members
   of a class.  Every definition is also a declaration.
 
-* A *canonical declaration* is one particular declaration (usually the
-  first in the translation unit) chosen to represent the entire set of
-  declarations that all pertain to the same *semantic* entity.  The
-  canonical declaration can thus be thought of as representing that
-  semantic entity (as well as being one particular syntactic declaration
-  of it).
+* (Clang) A *canonical declaration* is one particular declaration
+  (usually the first in the translation unit) chosen to represent the
+  entire set of declarations that all pertain to the same *semantic*
+  entity.  The canonical declaration can thus be thought of as
+  representing that semantic entity (as well as being one particular
+  syntactic declaration of it).
 
 * A *type* is a semantic property of an expression or declared entity.
   A non-dependent type constrains the set of allowable operations on the
@@ -115,13 +116,13 @@ the C++ standard.  Some key terms are listed below:
   operations and less information about size and interpretation of their
   representation than do non-dependent types.
 
-* A *canonical type* is one constructed in such a way that two canonical
-  types are semantically equivalent if and only if they are structurally
-  identical.  For example, after ``typedef int MyInt;``, ``MyInt`` is
-  semantically equivalent to ``int`` but (in the Clang AST) is not
-  structurally identical because ``MyInt`` knows its user-defined name
-  and declaration location, so it is not canonical.  Given an arbitrary
-  type, the Clang API has methods (such as
+* (Clang) A *canonical type* is one constructed in such a way that two
+  canonical types are semantically equivalent if and only if they are
+  structurally identical.  For example, after ``typedef int MyInt;``,
+  ``MyInt`` is semantically equivalent to ``int`` but (in the Clang AST)
+  is not structurally identical because ``MyInt`` knows its user-defined
+  name and declaration location, so it is not canonical.  Given an
+  arbitrary type, the Clang API has methods (such as
   ``QualType::getCanonicalType()``) to get the corresponding canonical
   type.
 
@@ -142,8 +143,13 @@ the C++ standard.  Some key terms are listed below:
   supplied.  We say "templated class" to emphasize that we are referring
   to the class inside the template declaration.
 
-* A *pattern* is another name for a templated declaration.  This term is
-  used to emphasize the role it plays as the basis of instantiation.
+  * (Clang) The standard term "templated" applies to anything inside the
+    template declaration, but in Clang AST terminology it refers to the
+    one declaration immediately inside.
+
+* (Clang) A *pattern* is another name for a templated declaration.  This
+  term is used to emphasize the role it plays as the basis of
+  instantiation.
 
 * An *instantiation* of a template is a declaration synthesized, by the
   compiler, by substituting template arguments for corresponding
@@ -189,12 +195,19 @@ Continuing the terminology:
   specialization may be implicit or explicit.  If the member is a
   template, specialization as a member is distinct from specialization
   of the member template itself.  For example, explicit member
-  specialization effectively replaces the entire member, whereas
-  explicit (template) specialization provides a definition for a
-  particular argument sequence.  Consequently, logically, member
-  specialization happens before template specialization.
+  specialization effectively replaces the entire member within its
+  containing class, whereas explicit (template) specialization provides
+  a definition of that member for a particular template argument
+  sequence.  Consequently, logically, member specialization happens
+  before template specialization.
 
-* A *class scope specialization* is an explicit specialization
+  * (Clang) The standard does not use the term "member specialization"
+    directly, but it's a modest extrapolation from
+    `temp.expl.spec <https://wg21.link/temp.expl.spec>`_.  However,
+    that extrapolation does not include elements inside a function
+    template, whereas the Clang term does.
+
+* (Clang) A *class scope specialization* is an explicit specialization
   declaration that appears inside the body of a (possibly templated)
   class definition.  When the enclosing class is templated, the
   semantics are different from an explicit specialization outside the
