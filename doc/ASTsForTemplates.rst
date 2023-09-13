@@ -66,8 +66,6 @@ This document currently omits discussion of some topics:
 
 * Concepts.
 
-* [TODO: There are others.]
-
 There is some overlap between material here and the comments in the
 source code.  This document is meant to provide a complimentary overview
 of the most important structures, while source code comments go into
@@ -474,8 +472,7 @@ The fields of ``TemplateTypeParmDecl`` are:
     parameter is not added to the list of child declarations of its (or
     any) ``DeclContext``, presumably because it is very different from
     the normal declaration children of a function (namely, parameters)
-    or class (namely, class members).  [TODO: Question: Why not make
-    ``TemplateDecl`` be a ``DeclContext``?]
+    or class (namely, class members).
 
 * From ``TypeDecl``:
 
@@ -498,8 +495,7 @@ The fields of ``TemplateTypeParmDecl`` are:
 * In ``TemplateTypeParmDecl`` itself:
 
   * ``bool Typename``: True if ``typename`` was used to declare the
-    parameter, false if ``class`` was.  [TODO: But there is an exception
-    involving type constraints.]
+    parameter, false if ``class`` was.
 
   * ``bool HasTypeConstraint``: True if there is a type constraint,
     which means there is an associated ``TypeConstraint`` member.
@@ -585,13 +581,11 @@ The fields of ``FunctionDecl`` are:
   * ``TypeSourceInfo *TInfo``: Augments the ``DeclType`` with source
     location information, indicating where in the source code this
     particular declaration denotes the type.  It can be ``nullptr``, for
-    example for the destructor of a lambda.  [TODO: That fact could be stated
-    in the documentation of ``DeclaratorDecl::getTypeSourceInfo()``.]
+    example for the destructor of a lambda.
 
   * Optional ``ExtInfo *``: A structure with extra information needed
-    when a function [TODO: or variable?] is defined outside its class
-    body, or has a trailing ``requires`` clause.  It has these data
-    members:
+    when a function is defined outside its class body, or has a trailing
+    ``requires`` clause.  It has these data members:
 
     * From base ``QualifierInfo``, which describes the namespace and
       class scope qualifiers appearing in front of the declared name:
@@ -702,7 +696,9 @@ The fields of ``FunctionDecl`` are:
     * ``NamedDecl *`` that is a ``FunctionDecl *``
       (``TK_DependentNonTemplate``): This non-templated function is declared
       directly inside the body of a function template.  The pointer
-      points to the enclosing templated function.  [TODO: Need example.]
+      points to the enclosing templated function.
+      [TODO: Question: What is an example?  I've so far been unable to
+      discover how to make this happen.]
 
     * ``NamedDecl *`` that is a ``FunctionTemplateDecl *``
       (``TK_FunctionTemplate``): This is a templated function, and the
@@ -720,10 +716,14 @@ The fields of ``FunctionDecl`` are:
       about the specialization, including the template arguments.
 
     * ``DependentFunctionTemplateSpecializationInfo *``
-      (``TK_DependentFunctionTemplateSpecialization``): This is a
-      function template specialization that hasn't yet been resolved to
-      a particular specialized [TODO: Hmm?] function template.  The
-      pointer has additional information.
+      (``TK_DependentFunctionTemplateSpecialization``): This can only
+      appear as the target of a ``friend`` declaration, and represents a
+      set of candidate templates and a sequence of dependent template
+      arguments.  Resolution of both, to a particular concrete
+      specialization, is delayed until the enclosing class template is
+      instantiated.  See
+      `Diagram: Class template contains friend function template specialization`_
+      for an example.
 
   * ``DeclarationNameLoc DNLoc``: Additional location and type
     information for the ``NamedDecl::Name`` field.  For example, if this
@@ -2092,6 +2092,120 @@ Simply mentioning ``Outer<int>`` induces the creation of
 overrides the former's definition.
 
 
+``DependentFunctionTemplateSpecializationInfo``
+-----------------------------------------------
+
+It is possible to befriend a function template specialization where the
+argument list is dependent:
+
+.. code-block:: c++
+
+    template <class T>
+    T identity(T t);
+
+    template <class T>
+    class A {
+      friend T identity<T>(T t);
+    };      // ^^^^^^^^^^^ DependentFunctionTemplateSpecializationInfo
+
+In the C++ syntax, the template arguments can be fully explicit, as in
+this example, or partially or completely deduced from the signature, but
+in all cases, at least a pair of angle brackets must be present, since
+otherwise the befriended declaration is an ordinary function.
+
+This is represented in the AST as a
+``DependentFunctionTemplateSpecializationInfo``, which at a high level,
+stores a sequence of template arguments and a set of overloaded
+candidate templates to which the arguments could apply.  The arguments
+stored are only those syntactically present, since deduction only
+happens when the surrounding class template is instantiated.
+
+The inheritance hierarchy of
+``DependentFunctionTemplateSpecializationInfo`` is::
+
+    Class Name                                   Header             Novel?
+    -------------------------------------------  ----------------   ------------
+    DependentFunctionTemplateSpecializationInfo  DeclTemplate.h     yes
+      TrailingObjects<...>                       TrailingObjects.h  no
+        TemplateArgumentLoc                      TemplateBase.h     yes
+        FunctionTemplateDecl*                    (built-in pointer)
+
+Its fields are:
+
+* ``unsigned NumTemplates``:
+  The number of overloaded candidate templates.
+
+* Trailing object sequence of ``FunctionTemplateDecl*``:
+  Pointers to the ``NumTemplates`` candidates.
+
+* ``unsigned NumArgs``:
+  The number of template arguments.
+
+* Trailing object sequence of ``TemplateArgumentLoc``\ s, giving the
+  template arguments.  Each ``TemplateArgumentLoc`` has these fields:
+
+  * ``TemplateArgument Argument``:
+    The argument itself.
+
+  * ``TemplateArgumentLocInfo LocInfo``:
+    Source location information for the argument, represented as a
+    discriminated union of pointers based on the kind of template
+    parameter.  For type parameters, it is a ``TypeSourceInfo*``, which
+    has location information for layer of declarator structure within
+    the type description.  Other kinds of parameters are currently
+    outside the scope of this document.
+
+* ``SourceRange AngleLocs``:
+  The locations of the left and right angle brackets.
+
+
+Diagram: Class template contains friend function template specialization
+------------------------------------------------------------------------
+
+This example declares and instantiates a class template that befriends
+a function template specialization:
+
+.. code-block:: c++
+
+    template <class T>
+    T identity(T t);
+
+    template <class T>
+    class A {
+      friend T identity<T>(T t);
+      T m_t;
+    };
+
+    template <class T>
+    T identity(T t)
+    {
+      A<T> a;
+      a.m_t = t;
+      return a.m_t;
+    }
+
+    int caller(int x)
+    {
+      return identity(x);
+    }
+
+The resulting object graph is:
+
+.. image:: ASTsForTemplatesImages/ct-cont-friend-ft-spec-inst.ded.png
+
+The focus node, ``DependentFunctionTemplateSpecializationInfo 107``,
+has the template argument list ``<T>`` and a pointer to the (in this
+case only) candidate, ``FunctionTemplateDecl 14``.
+
+In the instantation of ``A<int>``, the ``friend`` declaration refers to
+``FunctionDecl 20``, a redeclaration of the definition instantiation
+``identity<int>`` at ``FunctionDecl 26``.
+
+Like in the case of a member specialization of a non-static data member,
+member specialization of a friend declaration does not have a pointer
+back to the originating declaration.
+
+
 Explicit specialization
 =======================
 
@@ -3060,6 +3174,7 @@ Non-nested:
 
   * Definition: `Diagram: Class template: Definition`_
   * Instantiation: `Diagram: Class template: Instantiation`_
+  * DFTSI: `Diagram: Class template contains friend function template specialization`_
   * Explicit specialization: `Diagram: Class template: Explicit specialization`_
   * Partial specialization: `Diagram: Class template: Partial specialization`_
   * Explicit member specialization: Not applicable (not in a class).
