@@ -68,6 +68,8 @@
     },
     {
       "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "attributesWrapTextIndentSpaces": 4,
+      "attributesWrapTextPolicy": "Sentence",
       "fillColor": "Focus Node",
       "loc": {
         "x": 50,
@@ -270,6 +272,20 @@
         "h": 170,
         "w": 115
       }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "fillColor": "Type",
+      "loc": {
+        "x": 190,
+        "y": 435
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "TemplateSpecializationType 19",
+      "size": {
+        "h": 60,
+        "w": 185
+      }
     }
   ],
   "inheritances": [],
@@ -364,7 +380,7 @@
       "RD::First": {"ptr": "CXXRecordDecl 17"},
       "RD::Prev": {"ptr": "CXXRecordDecl 17"},
       "RecordDeclBits": "APK_CanPassInRegs",
-      "TagDeclBits": "TTK_Struct IsFreeStanding MayHaveOutOfDateDef",
+      "TagDeclBits": "TTK_Struct IsFreeStanding",
       "TypeForDecl": {
         "preview": "S<T>",
         "ptr": "InjectedClassNameType 35"
@@ -372,6 +388,7 @@
       "TypedefNameDeclOrQualifier.name": {"ptr": "null"},
       "getDependentLambdaCallOperator()": {"ptr": "null"},
       "getDescribedClassTemplate()": {"ptr": "ClassTemplateDecl 14"},
+      "getDestructor()": {"ptr": "null"},
       "getInstantiatedFromMemberClass()": {"ptr": "null"},
       "getTemplateInstantiationPattern()": {"ptr": "null"},
       "moduleOwnershipKind": "Unowned"
@@ -400,7 +417,7 @@
       "RD::First": {"ptr": "CXXRecordDecl 21"},
       "RD::Prev": {"ptr": "CXXRecordDecl 21"},
       "RecordDeclBits": "APK_CanPassInRegs",
-      "TagDeclBits": "TTK_Struct MayHaveOutOfDateDef",
+      "TagDeclBits": "TTK_Struct",
       "TemplateOrInstantiation": "null",
       "TypeForDecl": {
         "preview": "struct S<int>",
@@ -409,6 +426,7 @@
       "TypedefNameDeclOrQualifier.name": {"ptr": "null"},
       "getDependentLambdaCallOperator()": {"ptr": "null"},
       "getDescribedClassTemplate()": {"ptr": "null"},
+      "getDestructor()": {"ptr": "null"},
       "getInstantiatedFromMemberClass()": {"ptr": "null"},
       "getTemplateInstantiationPattern()": {"ptr": "null"},
       "moduleOwnershipKind": "Unowned"
@@ -463,6 +481,7 @@
       "DeclKind": "ClassTemplateSpecializationDecl",
       "DefinitionData": {"ptr": "DefinitionData 36"},
       "EI->ExternLoc": "<invalid loc>",
+      "EI->TAW->Ty": {"ptr": "TemplateSpecializationType 19"},
       "EI->TemplateKeywordLoc": "in/src/ct-espec.cc:7:1",
       "EI->TypeAsWritten": "TemplateSpecialization(\"S<int>\", <in/src/ct-espec.cc:8:8, col:13>, NullTypeLoc)",
       "FirstDecl": {"ptr": "CXXRecordDecl 21"},
@@ -496,12 +515,14 @@
       },
       "getDependentLambdaCallOperator()": {"ptr": "null"},
       "getDescribedClassTemplate()": {"ptr": "null"},
+      "getDestructor()": {"ptr": "null"},
       "getInstantiatedFrom()": null,
       "getInstantiatedFromMemberClass()": {"ptr": "null"},
       "getSpecializedOrPartial().CTD": {"ptr": "ClassTemplateDecl 14"},
       "getSpecializedTemplate()": {"ptr": "ClassTemplateDecl 14"},
       "getTemplateInstantiationPattern()": {"ptr": "null"},
       "moduleOwnershipKind": "Unowned",
+      "needsImplicitDestructor()": true,
       "q->NumTemplParamLists": "1",
       "q->QualifierLoc": "AbsentNNSLoc",
       "q->TemplParamLists[0]": "\"template <>\""
@@ -532,7 +553,6 @@
         "HasOnlyCMembers",
         "HasUninitializedFields",
         "HasIrrelevantDestructor",
-        "DefaultedDefaultConstructorIsConstexpr",
         "DefaultedDestructorIsConstexpr",
         "StructuralIfLiteral",
         "ImplicitCopyConstructorCanHaveConstParamForVBase",
@@ -873,7 +893,8 @@
       "SpecializationKind",
       "TemplateSpecializationKind",
       "q->TemplParamLists[0]",
-      "args[0].Type"
+      "args[0].Type",
+      "EI->TAW->Ty"
     ]
   },
   "objectGraphSourceFile": "../../out/ct-espec.cc.abbrev.json",
@@ -1073,6 +1094,25 @@
       "end": {"entityRef": 1},
       "label": "TdD",
       "start": {"entityRef": 0}
+    },
+    {
+      "end": {"entityRef": 20},
+      "label": "EI->TAW->Ty",
+      "start": {"entityRef": 5}
+    },
+    {
+      "end": {"entityRef": 4},
+      "label": "TemplateDecl",
+      "start": {"entityRef": 20}
+    },
+    {
+      "controlPts": [{
+        "x": 600,
+        "y": 200
+      }],
+      "end": {"entityRef": 12},
+      "label": "Canon",
+      "start": {"entityRef": 20}
     }
   ],
   "type": "Diagram Editor Diagram",

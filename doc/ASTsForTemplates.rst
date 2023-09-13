@@ -1283,8 +1283,7 @@ The novel fields (and novel meanings of fields for this context) of
     arguments for all parameters:
 
     * ``CXXRecordDecl *Decl``: Pointer to the templated
-      ``CXXRecordDecl``.  [TODO: Question: Couldn't this be computed as
-      ``InjectedType->getAs<TemplateSpecializationType>()->Template.getAsTemplateDecl().TemplatedDecl``?]
+      ``CXXRecordDecl``.
 
     * ``QualType InjectedType``: A ``TemplateSpecializationType``
       with fields:
@@ -1400,8 +1399,7 @@ The novel fields (and novel meanings of fields for this context) of
     * ``ClassTemplateDecl *``: This is a templated class, and the
       pointer refers to the enclosing template declaration.  The
       injected-class-name *also* points to the enclosing template
-      declaration.  [TODO: Question: Why?  I would expect the ICN to have
-      ``nullptr``, following the analogy of a member ``typedef``.]
+      declaration.
 
     * ``MemberSpecializationInfo *``:
       For a member specialization of a member of a template class, the
@@ -1449,7 +1447,7 @@ inside a class template are:
       the ``ClassTemplateDecl``.  The ``TemplateSpecializationType``
       is the most general way of naming the type, while the
       ``InjectedClassNameType`` is the convenience alias for use within
-      the class.  [TODO: Question: Why is ``ElaboratedType`` used here?]
+      the class.
 
     * Type written ``S<T>``, as for ``ptr2``:
       This is again an ``ElaboratedType``, but now it points directly to
@@ -1714,20 +1712,24 @@ right.  It has these novel fields or interpretations:
     * ``nullptr`` is *not* a possibility here.
 
   * ``ExplicitSpecializationInfo *ExplicitInfo``:
-    For an implicit specialization, such as in the example we are
-    currently studying, this is ``nullptr``.
-    For an explicit specialization (including a partial specialization),
-    this points to an ``ExplicitSpecializationInfo`` structure, which
-    contains:
+    For an implicit instantiation, such as in the example we are
+    currently studying, this is ``nullptr``.  For an explicit
+    specialization (including a partial specialization), or an explicit
+    instantiation, this points to an ``ExplicitSpecializationInfo``
+    structure, which contains:
 
     * ``TypeSourceInfo *TypeAsWritten``:
-      [TODO]
+      The specialization type as written in the source code, along with
+      location information for various syntactic elements of that type
+      description.  Usually this is a ``TemplateSpecializationType``.
 
     * ``SourceLocation ExternLoc``:
-      [TODO]
+      If this is an explicit instantiation, this is set to the location
+      of the ``extern`` keyword; otherwise it is invalid.
 
     * ``SourceLocation TemplateKeywordLoc``:
-      [TODO]
+      The location of the ``template`` keyword that introduced this
+      explicit specialization or instantiation.
 
   * ``const TemplateArgumentList *TemplateArgs``:
     Template arguments, corresponding to the parameters of the primary
@@ -1736,7 +1738,6 @@ right.  It has these novel fields or interpretations:
 
   * ``SourceLocation PointOfInstantiation``:
     The point where this template was instantiated.
-    [TODO: The source comment suggests it could be invalid.  Why?]
 
   * ``TemplateSpecializationKind SpecializationKind``:
     Distinguishes explicit specialization and the various kinds of
