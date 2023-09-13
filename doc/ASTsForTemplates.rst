@@ -731,9 +731,6 @@ The fields of ``FunctionDecl`` are:
     ``DNLoc`` has details about where and how ``int**`` was described,
     although interpreting those details requires the name itself; see
     the ``getNameInfo()`` method.
-    [Note: The documentation says it pertains to the name in the
-    ``DeclaratorDecl`` base class, but I think that should say
-    ``NamedDecl``.]
 
 
 ``ParmVarDecl``
@@ -777,12 +774,18 @@ Its fields are:
 
     * ``unsigned DefaultArgKind : 2``: A value of an enumeration, also
       called ``DefaultArgKind``.  One of the possibilities is
-      ``DAK_Uninstantiated``, [TODO: meaning what?]
+      ``DAK_Uninstantiated``, which signifies a default argument whose
+      instantiation has been delayed.  This is used for tricky cases
+      like a lambda with a default argument that is itself a lambda with
+      dependent type, all inside a template.  Since it involves lambda,
+      further details are outside the current scope of this document.
 
 * From ``ParmVarDecl``:
 
   * ``ParmVarDeclBits``: A set of flags and small fields, none of which
     is directly relevant to templates.
+
+.. comment: Sema::SubstParmVarDecl() has an example of DAK_Uninstantiated.
 
 
 Diagram: Function template: Definition
@@ -940,15 +943,18 @@ contains these fields:
   the context of its template.
 
 * ``const ASTTemplateArgumentListInfo *TemplateArgumentsAsWritten``:
-  Optional pointer to template argument syntax.  [TODO: When is it not
-  null?]
+  Optional pointer to template argument syntax.
 
 * ``SourceLocation PointOfInstantiation``:
   The point at which this function template specialization was
-  first instantiated.  [TODO: In a chain of instantiations, is this the
-  first or last element of the chain?]
+  first instantiated.
 
-* Optional trailing object ``MemberSpecializationInfo *``: [TODO]
+* Optional trailing object ``MemberSpecializationInfo *``:
+  When present in an FTSI, this is an explicit specialization that arose
+  via member specialization, and the ``MemberSpecializationInfo`` record
+  has the details of the member specialization. See
+  `Diagram: Class template contains function template: Class scope specialization`_
+  for an example.
 
 
 The instantiation ``FunctionDecl``
@@ -1191,25 +1197,17 @@ at the specialization ``FunctionDecl``, for classes, the
 ``Specializations`` set directly contains the
 ``ClassTemplateSpecializationDecl`` nodes.
 
-Design rationale: The reason for this difference is that
-``FunctionDecl`` has a subclass hierarchy for various kinds of methods
-that is orthogonal to template-ness, so we cannot subclass it to
-represent template specializations (without creating an "inheritance
-diamond problem"), and therefore use a separate auxiliary structure (the
-FTSI) to store the data related to specialization.  But, in a universe
-without templates, ``CXXRecordDecl`` does not have any subclasses, so we
-can represent specializations by subclassing.
+* Design rationale: The reason for this difference is that
+  ``FunctionDecl`` has a subclass hierarchy for various kinds of methods
+  that is orthogonal to template-ness, so we cannot subclass it to
+  represent template specializations (without creating an "inheritance
+  diamond problem"), and therefore use a separate auxiliary structure
+  (the FTSI) to store the data related to specialization.  But, in a
+  universe without templates, ``CXXRecordDecl`` does not have any
+  subclasses, so we can represent specializations by subclassing.
 
 ``Common::InjectedClassNameType`` is a ``TemplateSpecializationType``
 whose ``Template`` member refers to the canonical ``ClassTemplateDecl``.
-That is, we have this invariant::
-
-    forall ClassTemplateDecl *decl:
-      decl->Common->InjectedClassNameType->
-        getAs<TemplateSpecializationType>()->
-          Template.getAsTemplateDecl()           ==
-      decl->getCanonicalDecl()
-
 Note the difference between ``InjectedClassNameType`` (ICNT) and
 ``TemplateSpecializationType`` (TST): An ICNT is syntactically denoted
 ``C``, while a TST is denoted ``C<T>``.  The ICNT is specifically a
@@ -1219,25 +1217,7 @@ that was legal).
 
 Furthermore, the templated ``CXXRecordDecl`` has as its
 ``Type *TypeDecl::TypeForDecl`` an ``InjectedClassNameType`` whose
-``InjectedType`` is the same as ``Common::InjectedClassNameType``.  That
-is, we also have this invariant::
-
-    forall ClassTemplateDecl *decl:
-      decl->TemplatedDecl->TypeForDecl->
-        getAs<InjectedClassNameType>()->
-          InjectedType                           ==
-      decl->Common->InjectedClassNameType
-
-Note: In the above, the word ``InjectedClassNameType`` is used both as
-the name of a type (``clang::InjectedClassNameType`` declared in
-``Type.h``) and the name of a data member
-(``clang::ClassTemplateDecl::Common::InjectedClassNameType`` declared in
-``DeclTemplate.h``) in the C++ clang implementation.
-
-[TODO: Question: The second invariant, if accurate, seemingly suggests that
-the ICNT could just as easily be retrieved from the templated
-declaration as from the ``Common`` structure.  So why redundantly store
-it in the latter?]
+``InjectedType`` is the same as ``Common::InjectedClassNameType``.
 
 
 ``CXXRecordDecl``
