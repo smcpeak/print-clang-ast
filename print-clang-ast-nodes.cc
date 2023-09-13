@@ -33,27 +33,26 @@ using clang::dyn_cast;
 using std::string;
 
 
-// Print a failed assertion message to the output.
-#define PRINT_ASSERT_FAIL(msg) {         \
-  ++m_failedAssertions;                  \
-  m_os << "\nAssertion failed: " << msg; \
-}
+// Print a failed assertion message to the output, and yield false.
+#define PRINT_ASSERT_FAIL(msg)              \
+  (++m_failedAssertions,                    \
+   (m_os << "\nAssertion failed: " << msg), \
+   false)
 
-#define PRINT_ASSERT_FAILED_NOPREFIX(msg) { \
-  ++m_failedAssertions;                     \
-  m_os << msg;                              \
-}
+#define PRINT_ASSERT_FAILED_NOPREFIX(msg) \
+  (++m_failedAssertions,                  \
+   (m_os << msg),                         \
+   false)
 
 
 // Check an assertion during AST printing.  If it fails, we emit the
 // failure into the output and record that it happened, but do not stop.
-#define PRINT_ASSERT(cond)    \
-  if (cond) {                 \
-    ++m_passedAssertions;     \
-  }                           \
-  else {                      \
-    PRINT_ASSERT_FAIL(#cond); \
-  }
+// Yield the condition as a boolean so this can be used as the condition
+// of an 'if' statement to only proceed if the assertion passes.
+#define PRINT_ASSERT(cond)          \
+  ((cond)?                          \
+     (++m_passedAssertions, true) : \
+     PRINT_ASSERT_FAIL(#cond))
 
 
 // If 'node' is 'SubclassName', print it as such.
@@ -2091,6 +2090,19 @@ void PrintClangASTNodes::printClassTemplateSpecializationDecl(
       locStr(esi->ExternLoc));
     OUT_QATTR_STRING(qualifier, label << "->TemplateKeywordLoc",
       locStr(esi->TemplateKeywordLoc));
+
+    // Inspect 'TypeAsWritten' more closely.
+    clang::QualType qtaw = esi->TypeAsWritten->getType();
+    if (PRINT_ASSERT(!qtaw.isNull())) {
+      // Usually this is a TemplateSpecializationType, but there are
+      // also dependent variants, and it might be possible to use a
+      // typedef for this too.
+      clang::Type const *taw = qtaw.getTypePtr();
+
+      // Print it as a Type.
+      OUT_QATTR_PTR(qualifier, label << "->TAW->Ty",
+        getTypeIDStr(taw));
+    }
   }
   else {
     // If this is null, spell it out rather than using the abbreviation.

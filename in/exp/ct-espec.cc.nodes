@@ -197,6 +197,7 @@
   "ClassTemplateSpecializationDecl::ExplicitInfo->TypeAsWritten": "TemplateSpecialization(\"S<int>\", <in/src/ct-espec.cc:8:8, col:13>, NullTypeLoc)",
   "ClassTemplateSpecializationDecl::ExplicitInfo->ExternLoc": "<invalid loc>",
   "ClassTemplateSpecializationDecl::ExplicitInfo->TemplateKeywordLoc": "in/src/ct-espec.cc:7:1",
+  "ClassTemplateSpecializationDecl::ExplicitInfo->TAW->Ty": { "ptr": "TemplateSpecializationType 19" },
   "ClassTemplateSpecializationDecl::TemplateArgs": "\"<int>\"",
   "ClassTemplateSpecializationDecl::PointOfInstantiation": "<invalid loc>",
   "ClassTemplateSpecializationDecl::SpecializationKind": "TSK_ExplicitSpecialization",
