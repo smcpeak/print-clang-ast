@@ -565,6 +565,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "SubstTemplateTypeParmType 29", "preview": "int" },
+  "CallExpr::CallExprBits": "",
+  "CallExpr::OffsetToTrailingObjects": 24,
+  "CallExpr::NumArgs": 1,
+  "CallExpr::RParenLoc": "in/src/oc-cont-ft-inst.cc:14:22",
+  "CallExpr::Callee": { "ptr": "MemberExpr 45" },
+  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 47" },
 },
 
 "MemberExpr 45": {

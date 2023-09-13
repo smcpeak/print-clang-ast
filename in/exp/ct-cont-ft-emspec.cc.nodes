@@ -1230,6 +1230,13 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 26", "preview": "unsigned int" },
+  "CallExpr::CallExprBits": "",
+  "CallExpr::OffsetToTrailingObjects": 24,
+  "CallExpr::NumArgs": 2,
+  "CallExpr::RParenLoc": "in/src/ct-cont-ft-emspec.cc:20:20",
+  "CallExpr::Callee": { "ptr": "MemberExpr 79" },
+  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 81" },
+  "CallExpr::Arg[1]": { "ptr": "ImplicitCastExpr 83" },
 },
 
 "MemberExpr 79": {

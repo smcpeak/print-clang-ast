@@ -480,6 +480,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Type|Value",
   "Expr::TR": { "ptr": "BuiltinType 99", "preview": "<dependent type>" },
+  "CallExpr::CallExprBits": "",
+  "CallExpr::OffsetToTrailingObjects": 24,
+  "CallExpr::NumArgs": 1,
+  "CallExpr::RParenLoc": "in/src/ft-cont-lambda-inst.cc:12:13",
+  "CallExpr::Callee": { "ptr": "DeclRefExpr 40" },
+  "CallExpr::Arg[0]": { "ptr": "DeclRefExpr 41" },
 },
 
 "DeclRefExpr 40": {
@@ -955,6 +961,13 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "SubstTemplateTypeParmType 56", "preview": "int" },
+  "CallExpr::CallExprBits": "",
+  "CallExpr::OffsetToTrailingObjects": 32,
+  "CallExpr::NumArgs": 2,
+  "CallExpr::RParenLoc": "in/src/ft-cont-lambda-inst.cc:12:13",
+  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 72" },
+  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 74" },
+  "CallExpr::Arg[1]": { "ptr": "ImplicitCastExpr 76" },
 },
 
 "ImplicitCastExpr 72": {
@@ -1117,6 +1130,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "SubstTemplateTypeParmType 45", "preview": "int" },
+  "CallExpr::CallExprBits": "",
+  "CallExpr::OffsetToTrailingObjects": 24,
+  "CallExpr::NumArgs": 1,
+  "CallExpr::RParenLoc": "in/src/ft-cont-lambda-inst.cc:17:20",
+  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 84" },
+  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 86" },
 },
 
 "ImplicitCastExpr 84": {

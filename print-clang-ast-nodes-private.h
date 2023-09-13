@@ -228,6 +228,10 @@ public:      // methods
   void printMemberSpecializationInfo(
     clang::MemberSpecializationInfo const *msi);
 
+  // Print 'dftsi'.
+  void printDependentFunctionTemplateSpecializationInfo(
+    clang::DependentFunctionTemplateSpecializationInfo const *dftsi);
+
   // Print a CXXRecordDecl::DefinitionData record.
   void printFake_CXXRecordDecl_DefinitionData(
     clang::Fake_CXXRecordDecl_DefinitionData const *fakeData);
@@ -249,8 +253,8 @@ public:      // methods
   // maintain this list in the same order as they are declared in the
   // clang headers.  The line numbers here come from Clang+LLVM 14.0.0.
 
-  // Print methods for declarations.
   void printDecl(clang::Decl const *decl);                      // DeclBase.h line 83
+
   void printNamedDecl(clang::NamedDecl const *decl);            // Decl.h line  247
   void printValueDecl(clang::ValueDecl const *decl);            // Decl.h line  674
   void printDeclaratorDecl(clang::DeclaratorDecl const *decl);  // Decl.h line  726
@@ -261,10 +265,14 @@ public:      // methods
   void printTypeDecl(clang::TypeDecl const *decl);              // Decl.h line 3141
   void printTagDecl(clang::TagDecl const *decl);                // Decl.h line 3331
   void printRecordDecl(clang::RecordDecl const *decl);          // Decl.h line 3866
+
   void printCXXRecordDecl(clang::CXXRecordDecl const *decl);    // DeclCXX.h line  254
   void printCXXMethodDecl(clang::CXXMethodDecl const *decl);    // DeclCXX.h line 1950
   void printCXXConstructorDecl(                                 // DeclCXX.h line 2403
     clang::CXXConstructorDecl const *decl);
+
+  void printFriendDecl(clang::FriendDecl const *decl);          // DeclFriend.h line 53
+
   void printTemplateDecl(clang::TemplateDecl const *decl);      // DeclTemplate.h line  400
   void printRedeclarableTemplateDecl(                           // DeclTemplate.h line  753
     clang::RedeclarableTemplateDecl const *decl);
@@ -281,23 +289,21 @@ public:      // methods
   void printClassScopeFunctionSpecializationDecl(               // DeclTemplate.h line 2604
     clang::ClassScopeFunctionSpecializationDecl const *decl);
 
-  // Print methods for statements.
   void printStmt(clang::Stmt const *stmt);                      // Stmt.h line   49
   void printDeclStmt(clang::DeclStmt const *stmt);              // Stmt.h line 1297
   void printCompoundStmt(clang::CompoundStmt const *stmt);      // Stmt.h line 1404
   void printValueStmt(clang::ValueStmt const *stmt);            // Stmt.h line 1785
   void printReturnStmt(clang::ReturnStmt const *stmt);          // Stmt.h line 2765
 
-  // Expressions.
   void printExpr(clang::Expr const *expr);                      // Expr.h line  109
   void printDeclRefExpr(clang::DeclRefExpr const *expr);        // Expr.h line 1223
+  void printCallExpr(clang::CallExpr const *expr);              // Expr.h line 2801
   void printMemberExpr(clang::MemberExpr const *expr);          // Expr.h line 3168
   void printCastExpr(clang::CastExpr const *expr);              // Expr.h line 3479
   void printImplicitCastExpr(                                   // Expr.h line 3624
     clang::ImplicitCastExpr const *expr);
   void printParenListExpr(clang::ParenListExpr const *expr);    // Expr.h line 5538
 
-  // C++ expressions.
   void printCXXConstructExpr(                                   // ExprCXX.h line 1460
     clang::CXXConstructExpr const *expr);
   void printCXXDependentScopeMemberExpr(                        // ExprCXX.h line 3550

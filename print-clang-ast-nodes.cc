@@ -13,6 +13,7 @@
 
 //#include "clang/AST/ASTDumper.h"                 // clang::ASTDumper
 #include "clang/AST/DeclContextInternals.h"      // clang::StoredDeclsMap::size
+#include "clang/AST/DeclFriend.h"                // clang::FriendDecl
 #include "clang/AST/ExprCXX.h"                   // clang::CXXDependentScopeMemberExpr
 #include "clang/Lex/Lexer.h"                     // clang::Lexer
 
@@ -266,6 +267,15 @@ namespace clang {
     static auto bitsName(clang::className const *p) \
       { return p->className##Bits.bitsName; }
 
+  // Variant for when the method is not marked 'const'.  One example is
+  // the method might load a lazy pointer, which I consider to still be
+  // within the spirit of what 'const' conveys, and anyway there will
+  // not be any lazy pointers since I'm only using this on parsed (not
+  // loaded) ASTs.
+  #define DEFINE_CONST_CAST_METHOD_GETTER(className, methodName) \
+    static auto methodName(clang::className const *p) \
+      { return const_cast<clang::className*>(p)->methodName(); }
+
   // Concrete class, technical ODR violation.
   #define DeclContextSpy ASTWriter
   class DeclContextSpy {
@@ -348,6 +358,7 @@ namespace clang {
   #define ClassTemplateSpecializationDeclSpy        ASTDeclReader
   #define ClassTemplatePartialSpecializationDeclSpy ASTDeclReader
   #define CXXConstructorDeclSpy                     ASTDeclReader
+  #define FriendDeclSpy                             ASTDeclReader
   class TemplateTypeParmDeclSpy {
   public:
     DEFINE_FIELD_GETTER(TemplateTypeParmDecl, Typename)
@@ -412,6 +423,8 @@ namespace clang {
     DEFINE_EXPR_GETTER(CXXConstructorDecl, HasTrailingExplicitSpecifier,
       numTrailingObjects(clang::ASTConstraintSatisfaction::
         OverloadToken<clang::ExplicitSpecifier>()))
+
+    DEFINE_CONST_CAST_METHOD_GETTER(FriendDecl, getNextFriend)
   };
 
   #define DeclRefExprSpy                 ASTStmtReader
@@ -1198,6 +1211,7 @@ void PrintClangASTNodes::printDecl(clang::Decl const *decl)
   PRINT_IF_SUBCLASS(decl, CXXRecordDecl)
   PRINT_IF_SUBCLASS(decl, CXXMethodDecl)
   PRINT_IF_SUBCLASS(decl, CXXConstructorDecl)
+  PRINT_IF_SUBCLASS(decl, FriendDecl)
   PRINT_IF_SUBCLASS(decl, TemplateDecl)
   PRINT_IF_SUBCLASS(decl, RedeclarableTemplateDecl)
   PRINT_IF_SUBCLASS(decl, FunctionTemplateDecl)
@@ -1943,6 +1957,39 @@ void PrintClangASTNodes::printCXXConstructorDecl(
 }
 
 
+void PrintClangASTNodes::printFriendDecl(clang::FriendDecl const *decl)
+{
+  char const *qualifier = "FriendDecl::";
+
+  if (clang::TypeSourceInfo const *tsi = decl->getFriendType()) {
+    OUT_QATTR_STRING(qualifier, "Friend.TSI",
+      typeSourceInfoStr(decl->getFriendType()));
+  }
+  else {
+    OUT_QATTR_DECL(qualifier, "Friend.ND",
+      decl->getFriendDecl());
+  }
+
+  OUT_QATTR_DECL(qualifier, "NextFriend",
+    SPY(FriendDecl, decl, getNextFriend));
+
+  OUT_QATTR_LOC(qualifier, "FriendLoc",
+    decl->getFriendLoc());
+
+  OUT_QATTR_BOOL(qualifier, "UnsupportedFriend",
+    decl->isUnsupportedFriend());
+
+  OUT_QATTR_INT(qualifier, "NumTPLists",
+    decl->getFriendTypeNumTemplateParameterLists());
+
+  for (unsigned i=0; i < decl->getFriendTypeNumTemplateParameterLists(); ++i) {
+    printTemplateParameterList(qualifier,
+      shortAndLongForms("TP", "TemplateParams"),
+        decl->getFriendTypeTemplateParameterList(i));
+  }
+}
+
+
 void PrintClangASTNodes::printTemplateDecl(clang::TemplateDecl const *decl)
 {
   OUT_QATTR_PTR("TemplateDecl::", shortAndLongForms("TdD", "TemplatedDecl"),
@@ -2322,6 +2369,7 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
 
   PRINT_IF_SUBCLASS(stmt, Expr)
   PRINT_IF_SUBCLASS(stmt, DeclRefExpr)
+  PRINT_IF_SUBCLASS(stmt, CallExpr)
   PRINT_IF_SUBCLASS(stmt, MemberExpr)
   PRINT_IF_SUBCLASS(stmt, CastExpr)
   PRINT_IF_SUBCLASS(stmt, ImplicitCastExpr)
@@ -2468,6 +2516,60 @@ void PrintClangASTNodes::printDeclRefExpr(clang::DeclRefExpr const *expr)
         stringb("TemplateArgumentLoc[" << i << "]"),
         expr->getTemplateArgs() + i);
     }
+  }
+}
+
+
+void PrintClangASTNodes::printCallExpr(clang::CallExpr const *expr)
+{
+  char const *qualifier = "CallExpr::";
+
+  llvm::ArrayRef<clang::Stmt*> rawSubExprs =
+    const_cast<clang::CallExpr *>(expr)->getRawSubExprs();
+
+  // The number of "raw" subexpressions should be either one or two
+  // more than the "actual" arguments.  The first one is the callee.
+  // The purpose of the second is unknown to me.
+  PRINT_ASSERT(rawSubExprs.size() == 1 + expr->getNumArgs() ||
+               rawSubExprs.size() == 2 + expr->getNumArgs());
+
+  // There isn't a particularly easy way to spy on this flag, so I will
+  // compute it from the publicly available information.
+  bool hasPreArg = (rawSubExprs.size() == 2 + expr->getNumArgs());
+
+  // This also is not easy to spy.
+  unsigned OffsetToTrailingObjects =
+    reinterpret_cast<char const*>(expr->getArgs() - 1 - (hasPreArg?1:0)) -
+    reinterpret_cast<char const*>(expr);
+
+  OUT_QATTR_BITSET(qualifier, "CallExprBits",
+    (hasPreArg?
+      " hasPreArg" : "") <<
+    (expr->usesADL()?
+         " UsesADL" : "") <<
+    (expr->hasStoredFPFeatures()?
+               " hasFPFeatures" : ""));
+
+  OUT_QATTR_INT(qualifier, "OffsetToTrailingObjects",
+    OffsetToTrailingObjects);
+
+  OUT_QATTR_INT(qualifier, "NumArgs",
+    expr->getNumArgs());
+
+  OUT_QATTR_LOC(qualifier, "RParenLoc",
+    expr->getRParenLoc());
+
+  OUT_QATTR_STMT(qualifier, "Callee",
+    expr->getCallee());
+
+  if (hasPreArg) {
+    OUT_QATTR_STMT(qualifier, "PreArg",
+      rawSubExprs[1]);
+  }
+
+  for (unsigned i=0; i < expr->getNumArgs(); ++i) {
+    OUT_QATTR_STMT(qualifier, "Arg[" << i << "]",
+      expr->getArg(i));
   }
 }
 
@@ -2908,6 +3010,36 @@ void PrintClangASTNodes::printMemberSpecializationInfo(
 }
 
 
+void PrintClangASTNodes::printDependentFunctionTemplateSpecializationInfo(
+  clang::DependentFunctionTemplateSpecializationInfo const *dftsi)
+{
+  OUT_OBJECT(getDependentFunctionTemplateSpecializationInfoIDStr(dftsi));
+
+  OUT_ATTR_INT("NumTemplates",
+    dftsi->getNumTemplates());
+
+  OUT_ATTR_INT("NumArgs",
+    dftsi->getNumTemplateArgs());
+
+  OUT_ATTR_LOC("AngleLocs.Begin",
+    dftsi->getLAngleLoc());
+  OUT_ATTR_LOC("AngleLocs.End",
+    dftsi->getRAngleLoc());
+
+  for (unsigned i=0; i < dftsi->getNumTemplateArgs(); ++i) {
+    printTemplateArgumentLoc(
+      "",
+      stringb("Arg[" << i << "]"),
+      &(dftsi->getTemplateArg(i)));
+  }
+
+  for (unsigned i=0; i < dftsi->getNumTemplates(); ++i) {
+    OUT_ATTR_DECL("Template[" << i << "]",
+      dftsi->getTemplate(i));
+  }
+}
+
+
 void PrintClangASTNodes::printFake_CXXRecordDecl_DefinitionData(
   clang::Fake_CXXRecordDecl_DefinitionData const *fakeData)
 {
@@ -3202,7 +3334,7 @@ void PrintClangASTNodes::printAllNodes()
     PRINT_IF_ID_IS(Stmt)
     PRINT_IF_ID_IS(FunctionTemplateSpecializationInfo)
     PRINT_IF_ID_IS(MemberSpecializationInfo)
-    // TODO: Print DependentFunctionTemplateSpecializationInfo
+    PRINT_IF_ID_IS(DependentFunctionTemplateSpecializationInfo)
     PRINT_IF_ID_IS(FunctionTemplateDecl_Common)
     PRINT_IF_ID_IS(ClassTemplateDecl_Common)
     PRINT_IF_ID_IS(Fake_CXXRecordDecl_DefinitionData)

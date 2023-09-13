@@ -982,6 +982,13 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 24", "preview": "unsigned int" },
+  "CallExpr::CallExprBits": "",
+  "CallExpr::OffsetToTrailingObjects": 24,
+  "CallExpr::NumArgs": 2,
+  "CallExpr::RParenLoc": "in/src/ct-cont-ft-inst.cc:15:30",
+  "CallExpr::Callee": { "ptr": "MemberExpr 68" },
+  "CallExpr::Arg[0]": { "ptr": "IntegerLiteral 70" },
+  "CallExpr::Arg[1]": { "ptr": "FloatingLiteral 71" },
 },
 
 "MemberExpr 68": {

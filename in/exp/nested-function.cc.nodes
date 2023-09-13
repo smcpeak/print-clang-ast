@@ -670,6 +670,12 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "CallExpr::CallExprBits": "",
+  "CallExpr::OffsetToTrailingObjects": 24,
+  "CallExpr::NumArgs": 1,
+  "CallExpr::RParenLoc": "in/src/nested-function.cc:15:16",
+  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 50" },
+  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 53" },
 },
 
 "ImplicitCastExpr 50": {
