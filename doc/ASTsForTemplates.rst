@@ -53,6 +53,8 @@ This document currently omits discussion of some topics:
 
 * Type alias templates.
 
+* Variadic templates (and therefore parameter packs).
+
 * Lambdas.
 
 * Declaration nesting beyond two levels.  For example, it does not
@@ -447,7 +449,6 @@ The class hierarchy for ``TemplateTypeParmDecl`` is::
           Decl                              DeclBase.h         contextually
       TrailingObjects<..., TypeConstraint>  TrailingObjects.h  yes
         TypeConstraint                      ASTConcept.h       yes
-          ConceptReference                  ASTConcept.h       yes
 
 In this table, "Novel?" indicates whether the class is novel in the
 sense of not having already been discussed previously in this document.
@@ -473,9 +474,8 @@ The fields of ``TemplateTypeParmDecl`` are:
     parameter is not added to the list of child declarations of its (or
     any) ``DeclContext``, presumably because it is very different from
     the normal declaration children of a function (namely, parameters)
-    or class (namely, class members).  [TODO: What about template
-    variables?]  [TODO: Question: Why not make ``TemplateDecl`` be a
-    ``DeclContext``?]
+    or class (namely, class members).  [TODO: Question: Why not make
+    ``TemplateDecl`` be a ``DeclContext``?]
 
 * From ``TypeDecl``:
 
@@ -490,13 +490,10 @@ The fields of ``TemplateTypeParmDecl`` are:
     declaration.  In ``template <class T> ...``, the start of the
     template type parameter declaration is the "c" in ``class``.
 
-* From ``ConceptReference`` (when present):
-
-  * [TODO]
-
 * From ``TypeConstraint`` (when present):
 
-  * [TODO]
+  * Imposes a constraint on any template argument for this parameter.
+    The details are, for now, beyond the scope of this document.
 
 * In ``TemplateTypeParmDecl`` itself:
 
@@ -507,13 +504,16 @@ The fields of ``TemplateTypeParmDecl`` are:
   * ``bool HasTypeConstraint``: True if there is a type constraint,
     which means there is an associated ``TypeConstraint`` member.
 
-  * ``bool TypeConstraintInitialized``: [TODO]
+  * ``bool TypeConstraintInitialized``:
+    If false, which can be due to a syntax error, the type constraint is
+    effectively ignored.
 
-  * ``bool ExpandedParameterPack``: [TODO]
+  * ``bool ExpandedParameterPack``:
+    True if this parameter is an expanded parameter pack.  Parameter
+    packs are, for now, outside the scope of this document.
 
   * ``unsigned NumExpanded``: The number of type parameters in an
-    expanded parameter pack.  [TODO: Explain more.  Where are those
-    parameters?]
+    expanded parameter pack.
 
 It is also worth noting that ``TemplateTypeParmDecl`` does not have a
 direct pointer to its ``TemplateDecl``.  Instead, to navigate to the
@@ -1811,7 +1811,9 @@ field of interest is ``QualType ValueDecl::DeclType``:
       parameter that was substituted.
 
     * ``unsigned PackIndex``:
-      [TODO]
+      Identifies the substituted element within a parameter pack, if
+      any.  The details are, for now, outside the scope of this
+      document.
 
   * ``Decl *AssociatedDecl``:
     Comments at the declaration site explain that this is
