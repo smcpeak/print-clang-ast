@@ -2344,7 +2344,10 @@ It has these novel fields and interpretations:
     template in its own right.
 
   * ``const ASTTemplateArgumentListInfo *ArgsAsWritten``:
-    [TODO]
+    Source location information for the template arguments pattern
+    (``ClassTemplateSpecializationDecl::TemplateArgs``).  As noted in a
+    comment in the source code, this is potentially redundant with
+    ``ClassTemplateSpecializationDecl::ExplicitSpecializationInfo::TypeAsWritten``.
 
   * ``PointerIntPair<...> InstantiatedFromMember``:
     Tuple of two elements:
@@ -2708,8 +2711,7 @@ than those it inherits):
 
 Note that CSFSD is only used when the specialization is inside a class
 template.  Inside an ordinary class, the equivalent case is represented
-with just a ``CXXMethodDecl``.  [TODO: Why wouldn't that work for the
-case of a class template?]
+with just a ``CXXMethodDecl``.
 
 
 Diagram: Class template contains function template: Class scope specialization
@@ -3097,142 +3099,3 @@ demonstrating the conditions required to set that flag.
 Beware: Like the previous example, this one does not work correctly in
 Clang-16 or earlier due to
 `Issue #60778 <https://github.com/llvm/llvm-project/issues/60778>`_.
-
-
-Index of examples
-=================
-
-[TODO: This section is mostly for my own use while building the
-document.  I'm thinking I would remove it once everything is filled out,
-since the table of contents should be sufficient for readers to find
-examples of interest.]
-
-This section links to the examples diagrammed in this document, within
-an exhaustive enumeration of this product space:
-
-* Nesting: one of:
-
-  * Non-nested templated thing
-  * Two-level nested; choice at both levels:
-
-    * Templated thing
-    * Ordinary function
-    * Ordinary class
-
-* What is done with the innermost templated thing: one of:
-
-  * Definition
-  * Implicit instantiation
-  * Explicit instantiation: Excluded, uninteresting.
-  * Explicit specialization outside any parent class scope
-  * Partial specialization outside any parent class scope
-  * Explicit member specialization
-  * Class scope specialization
-  * Class scope partial specialization
-
-where "Templated thing" is one of:
-
-  * Function
-  * Class
-
-Here, "uninteresting" means that examining the case would not reveal
-important or novel structure or relationships within the AST, from the
-perspective of an AST consumer running after parsing and semantic
-analysis are complete.
-
-Non-nested:
-
-* Function template
-
-  * Definition: `Diagram: Function template: Definition`_
-  * Instantiation: `Diagram: Function template: Instantiation`_
-  * Explicit specialization: `Diagram: Function template: Explicit specialization`_
-  * Partial specialization: No syntax for this in C++.
-  * Explicit member specialization: Not applicable (not in a class).
-  * Class scope specialization: Not applicable (not in a class).
-
-* Class template
-
-  * Definition: `Diagram: Class template: Definition`_
-  * Instantiation: `Diagram: Class template: Instantiation`_
-  * DFTSI: `Diagram: Class template contains friend function template specialization`_
-  * Explicit specialization: `Diagram: Class template: Explicit specialization`_
-  * Partial specialization: `Diagram: Class template: Partial specialization`_
-  * Explicit member specialization: Not applicable (not in a class).
-  * Class scope specialization: Not applicable (not in a class).
-
-Two-level nested:
-
-* Outer ordinary function
-
-  * Inner ordinary function: Not legal C++.
-  * Inner function template: Not legal C++.
-  * Inner ordinary class: Uninteresting.
-  * Inner class template: Not legal C++.
-  * Explicit member specialization: Not applicable (not in a class).
-  * Class scope specialization: Not applicable (not in a class).
-
-* Outer function template
-
-  * Inner ordinary function: Not legal C++.  [TODO: At least ``clang``
-    rejects this.  But then what is ``TK_DependentNonTemplate``?]
-  * Inner function template: Not legal C++.
-  * Inner ordinary class: `Diagram: Function template contains ordinary class: Instantiation`_
-  * Inner class template: Not legal C++.
-  * Explicit member specialization: Not applicable (not in a class).
-  * Class scope specialization: Not applicable (not in a class).
-
-* Outer ordinary class
-
-  * Inner ordinary function: Uninteresting.
-
-  * Inner function template
-
-    * Definition: `Diagram: Ordinary class contains function template: Definition`_
-    * Instantiation, etc: Not significantly different from non-nested function templates.
-
-  * Inner ordinary class: Uninteresting.
-
-  * Inner class template: Uninteresting.
-
-* Outer class template
-
-  * Inner ordinary function
-
-    * Definition: `Diagram: Class template contains ordinary function: Definition`_
-    * Instantiation: `Diagram: Class template contains ordinary function: Instantiation`_
-    * Explicit specialization: `Diagram: Class template contains ordinary function: Explicit specialization`_
-    * Partial specialization: No syntax for this in C++.
-    * Explicit member specialization: Not applicable (not a template).
-    * Class scope specialization: Not applicable (not a template).
-
-  * Inner function (method) template:
-
-    * Definition: `Diagram: Class template contains function template: Definition`_
-    * Instantiation: `Diagram: Class template contains function template: Instantiation`_
-    * Explicit specialization: `Diagram: Class template contains function template: Explicit specialization`_
-    * Partial specialization: No syntax for this in C++.
-    * Explicit member specialization: `Diagram: Class template contains function template: Explicit member specialization`_
-    * Class scope specialization: `Diagram: Class template contains function template: Class scope specialization`_
-    * Class scope partial specialization: No syntax for this in C++.
-
-  * Inner ordinary class:
-
-    * Definition and instantiation: `Diagram: Class template contains ordinary class: Instantiation`_
-    * Explicit specialization: Not applicable (not a template).
-    * Partial specialization: Not applicable (not a template).
-    * Explicit member specialization: `Diagram: Class template contains ordinary class: Explicit member specialization`_
-    * Class scope specialization: Not applicable (not a template).
-
-  * Inner class template:
-
-    * Definition and instantiation: `Diagram: Class template contains class template: Definition and instantiation`_
-    * Explicit specialization: `Diagram: Class template contains class template: Explicit specialization`_
-    * Partial specialization: `Diagram: Class template contains class template: Partial specialization`_
-    * Explicit member specialization: `Diagram: Class template contains class template: Explicit member specialization`_
-    * Partial member specialization: `Diagram: Class template contains class template: Partial member specialization`_
-    * Class scope specialization: `Diagram: Class template contains class template: Class scope specialization`_
-    * Class scope partial specialization: `Diagram: Class template contains class template: Class scope partial specialization`_
-    * EMSpec of CSPSpec: `Diagram: Class template contains class template: Explicit member specialization of class scope partial specialization`_
-
-.. EOF
