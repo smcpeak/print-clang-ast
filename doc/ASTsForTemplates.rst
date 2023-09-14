@@ -72,6 +72,29 @@ of the most important structures, while source code comments go into
 greater detail, especially on more ancillary topics.
 
 
+Documentation strategy
+----------------------
+
+The overall approach taken here is to focus on documenting the private
+data members of the relevant AST classes, with only secondary importance
+given to the public APIs.  This contrasts with the Doxygen-generated API
+documentation, which only shows the APIs and omits private data
+entirely.  The reason for the focus on the data is that it provides the
+"ground truth" and conceptual framework needed to truly understand the
+design.  On top of that foundation, the APIs can easily be learned
+individually as needed.
+
+We also document some physical memory allocation patterns, such as
+trailing objects and "owner" pointers.  The reason is that, although an
+AST consumer generally does not care where things are in memory, they
+*do* care whether a piece of data is potentially shared with other AST
+nodes, since that affects both how it is interpreted and what
+modifications might be possible (for those trying to do source-to-source
+using Clang at the AST level).  Trailing objects and owner pointers are
+specifically *not* shared, and documenting them as such conveys the
+non-shared nature.
+
+
 Definitions of terms
 --------------------
 
