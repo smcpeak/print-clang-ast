@@ -127,10 +127,10 @@ the C++ standard.  Some key terms are listed below; the annotation
   type.
 
 * A *template* is a kind of declaration, represented as an object that
-  is a subtype of ``TemplateDecl``.  It corresponds to the
-  ``template <class T> ...`` syntax.  Its effect is to define a family
-  of classes, functions, or a few other kinds of things, related by the
-  parameterization in the template declaration.  We say (e.g.)
+  is (in most cases) a subtype of ``TemplateDecl``.  It corresponds to
+  the ``template <class T> ...`` syntax.  Its effect is to define a
+  family of classes, functions, or a few other kinds of things, related
+  by the parameterization in the template declaration.  We say (e.g.)
   "class template", not "template class", to emphasize that we are
   referring to the template.
 
@@ -191,15 +191,19 @@ Continuing the terminology:
   template that arises because the template is instantiated.  The
   element could be a member of a class or it could be a declaration
   inside a function template, although the terminology is based on the
-  former case.  The member itself may or may not be a template, and its
-  specialization may be implicit or explicit.  If the member is a
+  former case.  The member itself may or may not be a template, and the
+  member specialization may be implicit or explicit.  If the member is a
   template, specialization as a member is distinct from specialization
   of the member template itself.  For example, explicit member
   specialization effectively replaces the entire member within its
   containing class, whereas explicit (template) specialization provides
   a definition of that member for a particular template argument
   sequence.  Consequently, logically, member specialization happens
-  before template specialization.
+  before template specialization.  Another way to think about it is to
+  regard member specialization as specialization with respect to the
+  template parameters of the containing the template, while template
+  specialization operates with respect to the parameters of the template
+  itself (if it is one).
 
   * (Clang) The standard does not use the term "member specialization"
     directly, but it's a modest extrapolation from
@@ -226,9 +230,9 @@ node in an external source.  When a node is loaded from an external
 source, the ID in a lazy pointer is replaced by an ordinary pointer, and
 subsequent accesses follow the pointer normally.
 
-In this document, we will largely ignore the possibility of loading from
-an external source, and assume the AST was created by parsing source
-code.  Consequently, we document "lazy" pointers as if they were always
+In this document, we will ignore the possibility of loading from an
+external source, and assume the AST was created by parsing source code.
+Consequently, we document "lazy" pointers as if they were always
 ordinary pointers.
 
 
@@ -357,7 +361,8 @@ fields stored in the low bits of pointers, are:
 
     * An optional ``requires`` clause, as an ``Expr *``.
 
-* From base class ``Redeclarable<decl_type=RedeclarableTemplateDecl>``:
+* From base class ``Redeclarable<RedeclarableTemplateDecl>``, which uses
+  the name ``decl_type`` to refer to its template parameter:
 
   * ``decl_type *First`` and ``decl_type *Previous``: Pointers to the
     first and previous elements in a circular list of declarations of
@@ -701,8 +706,6 @@ The fields of ``FunctionDecl`` are:
       (``TK_DependentNonTemplate``): This non-templated function is declared
       directly inside the body of a function template.  The pointer
       points to the enclosing templated function.
-      [TODO: Question: What is an example?  I've so far been unable to
-      discover how to make this happen.]
 
     * ``NamedDecl *`` that is a ``FunctionTemplateDecl *``
       (``TK_FunctionTemplate``): This is a templated function, and the
@@ -1031,15 +1034,13 @@ The changes from the function template case are:
   class is neither templated nor a specialization.
 
 * The ``CXXRecordDecl`` has an associated ``DefinitionData`` structure.
-  However, ``DefinitionData`` doesn't have anything relevant to
-  templates except for the relatively obscure
-  ``LambdaDefinitionData::DependencyKind``, so we will mostly ignore the
-  contents of ``DefinitionData`` in this document.  But all
-  redeclarations of a given class share the same ``DefinitionData``
+  All redeclarations of a given class share the same ``DefinitionData``
   instance (or are all ``nullptr`` if there is no definition), and
   ``DefinitionData::Definition`` points back to a particular
-  ``CXXRecordDecl``, so we'll look at how those relationships are
-  affected by templates in `CXXRecordDecl`_.
+  ``CXXRecordDecl``.  However, ``DefinitionData`` doesn't have anything
+  relevant to templates except for the relatively obscure
+  ``LambdaDefinitionData::DependencyKind``, so we will mostly ignore the
+  contents of ``DefinitionData`` in this document.
 
 * The first member is another ``CXXRecordDecl``.  This represents the
   "injected class name".  For class templates, this is plays an
@@ -1059,51 +1060,6 @@ The changes from the function template case are:
 Thus, we can safely understand this case as being essentially the same
 as the function template case, just in a different scope.  Even when the
 method template is instantiated, there are no new features.
-
-
-Diagram: Function template contains ordinary class: Instantiation
------------------------------------------------------------------
-
-A function template can define and use an ordinary class in its body:
-
-.. code-block:: c++
-
-    template <class T>
-    T identity(T x)
-    {
-      struct S {
-        T m_t;
-
-        S(T t)
-          : m_t(t)
-        {}
-      };
-
-      S s(x);
-      return s.m_t;
-    }
-
-    int caller(int y)
-    {
-      return identity(y);
-    }
-
-The resulting object diagram is:
-
-.. image:: ASTsForTemplatesImages/ft-cont-oc-inst.ded.png
-
-The focus node, ``CXXRecordDecl 49``, is the instantiation of ``S``
-inside ``identity<int>``.  It is a member specialization of the
-original, ``CXXRecordDecl 22``.  Additionally, its member function
-``CXXConstructorDecl 53`` is a member specialization of the
-corresponding original, ``CXXConstructorDecl 25``.
-
-The diagram also includes ``CXXDependentScopeMemberExpr 39``, used to
-represent ``s.m_t`` in the template, where the type of ``m_t`` is
-dependent on the template parameter.  However, this document's scope
-currently excludes a detailed examination of how templates affect
-classes in the ``Expr`` hierarchy, so for now we just note this feature
-in passing.
 
 
 Class templates
@@ -1728,8 +1684,10 @@ right.  It has these novel fields or interpretations:
       description.  Usually this is a ``TemplateSpecializationType``.
 
     * ``SourceLocation ExternLoc``:
-      If this is an explicit instantiation, this is set to the location
-      of the ``extern`` keyword; otherwise it is invalid.
+      If this is an
+      `explicit instantiation declaration <https://wg21.link/temp.explicit#2>`_,
+      this is set to the location of the ``extern`` keyword; otherwise
+      it is invalid.
 
     * ``SourceLocation TemplateKeywordLoc``:
       The location of the ``template`` keyword that introduced this
@@ -1953,9 +1911,9 @@ Its fields are:
   * ``NamedDecl *Member``:
     The member of the template that was specialized; never ``nullptr``.
     The example above features an implicit specialization, but this also
-    applies to explicit specializations of members, an example of which
+    applies to explicit member specialization, an example of which
     is shown in
-    `Diagram: Class template contains ordinary function: Explicit specialization`_.
+    `Diagram: Class template contains ordinary function: Explicit member specialization`_.
 
   * ``TemplateSpecializationKind TSK``:
     Implicit versus explicit specialization, etc.
@@ -2314,13 +2272,17 @@ It has these novel fields and interpretations:
   * ``void *NextInFoldingSetBucket``:
     Pointer that allows a ``ClassTemplatePartialSpecializationDecl`` to
     be stored in the ``ClassTemplateDecl::Common::PartialSpecializations``
-    set.
+    set.  This is the same pointer that would allow a
+    ``ClassTemplateSpecializationDecl`` object (that isn't also a CTPSD)
+    to be stored in ``ClassTemplateDecl::Common::Specializations``; a
+    given CTSD/CTPSD object can only be in one of them, and for CTPSD,
+    it's in the list of partials.
 
 * Base ``CXXRecordDecl``:
   In this context, the ``CXXRecordDecl`` is the templated declaration,
   analogous to the ``CXXRecordDecl`` inside a ``ClassTemplateDecl``.
   In contrast, the ``CXXRecordDecl`` inside a non-partial
-  ``ClassTemplateSpecializationDecl`` is a concrete definition.
+  ``ClassTemplateSpecializationDecl`` is a concrete declaration.
 
 * From base ``TypeDecl``:
 
@@ -2336,10 +2298,7 @@ It has these novel fields and interpretations:
     instantiations' arguments will be matched to see if this
     explicit specialization applies.  The pattern uses canonical
     ``TemplateTypeParmType`` nodes, for example,
-    ``<type-parameter-0-0 *>``.  [TODO: Question: Is there a strong
-    reason not to use non-canonical types here?  Naively it seems like
-    there shouldn't be a problem using the parameters declared with the
-    partial, and canonical types are not user-friendly.]
+    ``<type-parameter-0-0 *>``.
 
 * In ``ClassTemplatePartialSpecializationDecl`` itself:
 
@@ -2383,7 +2342,7 @@ contain a list of specializations.  Instead, instantiations of the
 partial go into the list of specializations of the primary, and it is
 not possible to explicitly specialize a partial specialization (ignoring
 member specialization, which effectively overrides the entire partial
-rather than specialize it).
+rather than specialize it as a template).
 
 
 Diagram: Class template: Partial specialization
@@ -2426,15 +2385,17 @@ When instantiated, the resulting ``ClassTemplateSpecializationDecl``
 (node #18) is in most respects like an instantiation of a primary class
 template, with the key difference that its ``SpecializedTemplate`` field
 now points at a ``SpecializedPartialSpecialization`` (SPS) instead of
-directly at the primary ``ClassTemplateDecl``.  As explained above, the
-SPS points at the ``ClassTemplatePartialSpecializationDecl`` and has
-the ``TemplateArgumentList`` that applies to it.
+directly at the primary ``ClassTemplateDecl``.  As explained above,
+under `ClassTemplateSpecializationDecl`_, the SPS points at the
+``ClassTemplatePartialSpecializationDecl`` and has the
+``TemplateArgumentList`` that applies to it.
 
 To emphasize:
 
 * ``ClassTemplateSpecializationDecl::TemplateArgs`` has the arguments
   the apply to the *primary*.  These arguments are the *name* of this
-  specialization within the context of the primary.
+  specialization within the context of the primary.  For a CTPSD, the
+  name is a pattern that includes template parameters.
 
 * ``ClassTemplateSpecializationDecl::SpecializedTemplate.SPS->TemplateArgs``
   has the arguments that apply to the *partial*.  These arguments are
@@ -2442,11 +2403,11 @@ To emphasize:
   contents.
 
 
-Diagram: Class template contains ordinary function: Explicit specialization
----------------------------------------------------------------------------
+Diagram: Class template contains ordinary function: Explicit member specialization
+----------------------------------------------------------------------------------
 
-A non-template member function of a class template can be explicitly
-specialized:
+A non-templated member function of a class template can have an explicit
+member specialization:
 
 .. code-block:: c++
 
@@ -2477,9 +2438,69 @@ declaration (node #29) with the members of the class template (node
 #19).  These two are redeclarations of each other.
 
 Each of the explicit specialization declarations has an associated
-``MemberSpecializationInfo`` that indicates they are explicit
+``MemberSpecializationInfo`` that indicates they are explicit member
 specializations, and points at the member of the templated class that
 was specialized.
+
+
+Function template contains ordinary class
+=========================================
+
+.. comment: This slightly awkward section exists to contain the
+            following diagram and present it at a point in the document
+            where the reader is prepared for its complexity.  In
+            contrast, putting it at the end of "Function templates"
+            would be too abrupt.
+
+Diagram: Function template contains ordinary class: Instantiation
+-----------------------------------------------------------------
+
+A function template can define and use an ordinary class in its body:
+
+.. code-block:: c++
+
+    template <class T>
+    T identity(T x)
+    {
+      struct S {
+        T m_t;
+
+        S(T t)
+          : m_t(t)
+        {}
+      };
+
+      S s(x);
+      return s.m_t;
+    }
+
+    int caller(int y)
+    {
+      return identity(y);
+    }
+
+The resulting object diagram is:
+
+.. image:: ASTsForTemplatesImages/ft-cont-oc-inst.ded.png
+
+The focus node, ``CXXRecordDecl 49``, is the instantiation of ``S``
+inside ``identity<int>``.  It is a member specialization of the
+original, ``CXXRecordDecl 22``.  Additionally, its member function
+``CXXConstructorDecl 53`` is a member specialization of the
+corresponding original, ``CXXConstructorDecl 25``.
+
+The diagram also includes ``CXXDependentScopeMemberExpr 39``, used to
+represent ``s.m_t`` in the template, where the type of ``m_t`` is
+dependent on the template parameter.  However, this document's scope
+currently excludes a detailed examination of how templates affect
+classes in the ``Expr`` hierarchy, so for now we just note this feature
+in passing.
+
+Finally, note that the body of ``CXXConstructorDecl 53``,
+``CompoundStmt 31``, is physically shared with the member from which it
+was instantiated, ``CXXConstructorDecl 22``, since that part of the
+template is not dependent on the template parameters (as it is
+completely empty in this example).
 
 
 Class template contains function template
@@ -2489,7 +2510,7 @@ Class template contains function template
 Diagram: Class template contains function template: Definition
 --------------------------------------------------------------
 
-Consider this translation unit:
+A class template can contain a member function template:
 
 .. code-block:: c++
 
@@ -2502,17 +2523,14 @@ Consider this translation unit:
       }
     };
 
-Class template ``S`` contains method template ``sum``.  However, nothing
-is instantiated yet.
-
-The resulting object graph looks like this:
+The resulting object graph, without any instantiations, looks like this:
 
 .. image:: ASTsForTemplatesImages/ct-cont-ft-defn.ded.png
 
-The peach-colored node is the method template.  It contains the
-templated method, and is contained by the templated class.  Its template
-parameter, ``U``, has as its canonical form ``type-parameter-1-0``
-because it is nested one level deep.
+The peach-colored node is the member function template.  It contains the
+templated function, and is contained by the templated class.  Its
+template parameter, ``U``, has as its canonical form
+``type-parameter-1-0`` because it is nested one level deep.
 
 
 Diagram: Class template contains function template: Instantiation
@@ -2556,7 +2574,8 @@ If we had a pointer to ``CXXMethodDecl 43``, how would we navigate back
 to the original definition at ``CXXMethodDecl 22``?  One might suspect
 we could call ``FunctionDecl::getInstantiatedFromMemberFunction()``, but
 that returns ``nullptr`` here because that is for the case of an
-instantiation of a *non-templated* method.
+instantiation of a *non-templated* member function.  (It is also
+``nullptr`` for ``CXXMethodDecl 37``.)
 
 Instead, starting from ``CXXMethodDecl 43``, we must:
 
@@ -2573,8 +2592,8 @@ Instead, starting from ``CXXMethodDecl 43``, we must:
   ``FunctionTemplateDecl::Common 84``.
 
 * Follow ``RedeclarableTemplateDecl::CommonBase::InstantiatedFromMember``
-  to reach ``FunctionTemplateDecl 19``, which (unlike #34) actually
-  appears in the code.
+  to reach ``FunctionTemplateDecl 19``, which (unlike #34) corresponds
+  directly to syntax in the source code.
 
 * Follow ``TemplateDecl::TemplatedDecl`` to, finally, reach
   ``CXXMethodDecl 22``.
@@ -2624,7 +2643,8 @@ we must pass ``false`` as the ``ForDefinition`` parameter of
 Diagram: Class template contains function template: Explicit member specialization
 ----------------------------------------------------------------------------------
 
-It is possible for a member specialization to be explicit:
+It is possible for a member specialization of a member template to be
+explicit:
 
 .. code-block:: c++
 
@@ -2662,7 +2682,7 @@ The focus node, ``FunctionTemplateDecl 55``, is the user-written
 explicit member specialization.  Its ``Common`` (#96) structure points
 at the member that it specializes, and has ``explicitMemberSpec`` set to
 ``true``.  This is the first example we've looked at that has that flag
-set.  (Recall that ``explicitMemberSpec`` is the name I've chosen to
+set.  (Recall that ``explicitMemberSpec`` is the name we've chosen to
 give to the otherwise anonymous ``bool`` value stored in
 ``RedeclarableTemplateDecl::CommonBase::InstantiatedFromMember``.)
 
@@ -2747,11 +2767,12 @@ The resulting object graph looks like this:
 
 .. image:: ASTsForTemplatesImages/ct-cont-ft-csspec.ded.png
 
-``CXXMethodDecl 48`` is both a (template) specialization of
-``FunctionTemplateDecl 40`` (representing ``S<int>::add<U>``) and also a
-member specialization of ``ClassScopeFunctionSpecializationDecl 27``
-(representing ``S<T>::add<float>``).  This demonstrates simultaneous
-template specialization and member specialization.
+``CXXMethodDecl 48`` (representing ``S<int>::add<float>``) is both a
+(template) specialization of ``FunctionTemplateDecl 40`` (representing
+``S<int>::add<U>``) and also a member specialization of
+``ClassScopeFunctionSpecializationDecl 27`` (representing
+``S<T>::add<float>``).  This demonstrates simultaneous template
+specialization and member specialization.
 
 
 Class template contains class template
@@ -2804,7 +2825,8 @@ template only has one level of parameterization, so both are at depth 0.
 Diagram: Class template contains class template: Explicit specialization
 ------------------------------------------------------------------------
 
-We can explicitly specialize a class template inside a class template:
+We can explicitly specialize a class template inside a class template
+specialization:
 
 .. code-block:: c++
 
@@ -2832,13 +2854,34 @@ difference that the ``ClassTemplateSpecializationDecl`` of interest
 ``TSK_ImplicitInstantiation``.
 
 Note that, although we are explicitly specializing ``Inner<float>``,
-its containing class, ``Outer<int>`` is still implicitly instantiated.
+its containing class, ``Outer<int>`` is still implicitly specialized.
 
-Unlike for function specializations, there isn't a method to navigate
-back to the unspecialized declaration in a single step here, since
+Unlike for function specializations as shown in
+`Diagram: Class template contains function template: Explicit specialization`_,
+there isn't a method to navigate from ``ClassTemplateSpecializationDecl
+29`` back to the unspecialized declaration ``ClassTemplateDecl 19`` in a
+single step here, since
 ``CXXRecordDecl::getTemplateInstantiationPattern()`` does not have a
 ``ForDefinition`` parameter the way
 ``FunctionDecl::getTemplateInstantiationPattern()`` does.
+
+It is not possible to explicitly (fully) specialize a member class
+template of the unspecialized containing class template using a
+declaration outside the containing class template, for example:
+
+.. code-block:: c++
+
+    template <class T>
+    template <>
+    struct Outer<T>::Inner<float> {
+                  // ^ error: cannot specialize (with 'template<>') a member of an unspecialized template
+      T t;
+      float u;
+    };
+
+It is possible to do so inside the containing class template, however,
+as shown in
+`Diagram: Class template contains class template: Class scope specialization`_.
 
 
 Diagram: Class template contains class template: Partial specialization
@@ -2989,7 +3032,7 @@ specialization is #78, but that is only a partial specialization.
 Diagram: Class template contains class template: Explicit member specialization
 -------------------------------------------------------------------------------
 
-We can explicitly specialize a member class template inside a class template:
+A member class template can have an explicit member specialization:
 
 .. code-block:: c++
 
@@ -3028,7 +3071,8 @@ Observations:
 Diagram: Class template contains class template: Partial member specialization
 ------------------------------------------------------------------------------
 
-We can partially specialize a member class template inside a class template:
+A member class template can have an explicit member specialization that
+is a partial specialization:
 
 .. code-block:: c++
 

@@ -1044,7 +1044,7 @@
     {
       "controlPts": [{
         "x": 175,
-        "y": 425
+        "y": 540
       }],
       "end": {"entityRef": 5},
       "label": "Specializations[0]",
