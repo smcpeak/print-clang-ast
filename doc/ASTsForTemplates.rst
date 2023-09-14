@@ -399,9 +399,14 @@ fields stored in the low bits of pointers, are:
       rather than loading.
 
     * ``TemplateArgument *InjectedArgs``: An array of "injected"
-      template arguments.  [TODO: What does that mean?]  The number of
-      elements is the same as the number of template parameters in
-      ``TemplateParams``.
+      template arguments.  For each template parameter, its injected
+      argument is a template argument that simply uses that parameter as
+      the argument.  This allows substituting a parameter for itself,
+      which is useful when we want to substitute arguments for
+      parameters at one level while leaving those at another level
+      unaffected.  This pointer is only non-``nullptr`` if
+      ``RedeclarableTemplateDecl::getInjectedTemplateArgs()`` has been
+      called.
 
   * When the ``RedeclarableTemplateDecl`` is a
     ``FunctionTemplateDecl``, then the ``Common`` pointer points to an
@@ -412,7 +417,6 @@ fields stored in the low bits of pointers, are:
       Specializations``: Set of specializations (both explicit and
       implicit) of this function template.  When a specialization has
       multiple declarations, only one of them appears in this list.
-
 
 For the example fragment above, the most important relations are:
 
