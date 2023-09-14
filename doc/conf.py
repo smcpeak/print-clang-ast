@@ -5,13 +5,13 @@
 # disabled the sidebar, so maybe this does not appear anywhere.)
 project = 'clang'
 
-# Match the style of InternalsManual.html.
-#
-# but it is so ugly...
-#html_theme = "haiku"
+if True:
+  # Match the style of InternalsManual.html.
+  html_theme = "haiku"
 
-# Overriding some things in the Alabaster theme.
-html_static_path = ["custom.css"]
+else:
+  # Overriding some things in the Alabaster theme.
+  html_static_path = ["custom.css"]
 
 # This affects the syntax highlighting.
 pygments_style = "friendly"
