@@ -1782,10 +1782,7 @@ field of interest is ``QualType ValueDecl::DeclType``:
       If true, the replacement type is non-canonical, and stored as a
       trailing object.  Otherwise, the replacement is simply the
       canonical type, which is stored in the
-      ``ExtQualsTypeCommonBase::CanonicalType`` field.  [TODO: Question: Can
-      this flag ever be set?  I have not been able to make it happen,
-      since it seems like template arguments always get canonicalized
-      before landing in a ``SubstTemplateTypeParmType``.]
+      ``ExtQualsTypeCommonBase::CanonicalType`` field.
 
     * ``unsigned Index``:
       The index, within the instantiated template, of the template
@@ -1797,13 +1794,10 @@ field of interest is ``QualType ValueDecl::DeclType``:
       document.
 
   * ``Decl *AssociatedDecl``:
-    Comments at the declaration site explain that this is
-    "[a] template-like entity which owns the whole pattern being substituted.
-    This will usually own a set of template parameters, or in some
-    cases might even be a template parameter itself."
+    Typically, this is the instantiation created by substituting the
+    template argument for its parameter in the specialized template.
     In this case, it points at the ``ClassTemplateSpecializationDecl``,
     from which it is possible to navigate to the template.
-    [TODO: Clarify.]
 
   * The substituted ``QualType``, stored either as a trailing object or
     in ``ExtQualsTypeCommonBase::CanonicalType``, and available from the
@@ -1940,13 +1934,14 @@ Let's consider instantiation of a member:
 
 The parameter type ``S<int>`` causes the class template data to be
 instantiated, then the call to ``identity`` causes its ``identity``
-method to also be instantiated.
+method to also be instantiated as a *member specialization* (see the
+`Definitions of terms`_ section).
 
-When a **non-templated** class or function member of a class template is
+When a class or function member of a class template is member
 specialized (implicitly or explicitly), the AST records the relationship
 between the specialization and the original member in a
-``MemberSpecializationInfo`` structure (declared in
-``DeclTemplate.h``).  Its fields are:
+``MemberSpecializationInfo`` structure (declared in ``DeclTemplate.h``).
+Its fields are:
 
 * ``PointerIntPair<NamedDecl *, 2> MemberAndTSK``:
   Two values:
@@ -1962,25 +1957,30 @@ between the specialization and the original member in a
     Implicit versus explicit specialization, etc.
 
 * ``SourceLocation PointOfInstantiation``:
+  The point at which this member was first instantiated.
   For an explicit specialization, this is invalid.
-  [TODO: What about implicit specialization?]
 
-A ``MemberSpecialization`` can appear in these places:
+A ``MemberSpecializationInfo`` can appear in these places:
 
 * Pointed to by ``FunctionDecl::TemplateOrSpecialization``:
-  For a member function of a class template specialization, it points at
-  the corresponding member of the class template.
+  For a non-templated member function of a class template instantiation,
+  it points at the corresponding original member of the class template.
 
 * As a trailing object on a ``FunctionTemplateSpecializationInfo``:
-  [TODO]
+  For a templated member function of a class template instantiation, it
+  points at the original member template.
 
 * Pointed to by ``CXXRecordDecl::TemplateOrInstantiation``:
-  [TODO]
+  For a non-templated member class of a class template instantiation,
+  this points at the corresponding original member.
 
-* Somehow associated with static data?  [TODO]
+* Plus a couple more cases that are currently outside the scope of this
+  document.
 
-* Pointed to by ``EnumDecl::SpecializationInfo``:
-  [TODO]
+Finally, for a templated member class, the member specialization
+relationship is directly recorded in the
+``ClassTemplateDecl::InstantiatedFromMember`` field, without using any
+``MemberSpecializationInfo`` structure.
 
 
 Diagram: Class template contains ordinary function: Instantiation
