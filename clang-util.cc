@@ -1552,6 +1552,36 @@ clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
 }
 
 
+/*static*/ clang::FunctionDecl const *ClangUtil::getUserWrittenFunctionDecl(
+  clang::FunctionDecl const *fd)
+{
+  assert(fd);
+
+  // I'm not sure if this has precisely the semantics I want yet.
+  clang::FunctionDecl const *pattern =
+    fd->getTemplateInstantiationPattern();
+
+  return pattern? pattern : fd;
+}
+
+
+/*static*/ clang::FunctionDecl *ClangUtil::getUserWrittenFunctionDecl(
+  clang::FunctionDecl *fd)
+{
+  return const_cast<clang::FunctionDecl*>(
+    getUserWrittenFunctionDecl(
+      const_cast<clang::FunctionDecl const *>(fd)));
+}
+
+
+// True if 'fd == getUserWrittenFunctionDecl(fd)'.
+/*static*/ bool ClangUtil::isUserWrittenFunctionDecl(
+  clang::FunctionDecl const *fd)
+{
+  return fd == getUserWrittenFunctionDecl(fd);
+}
+
+
 std::string stringRefRange(
   llvm::StringRef const &sr, unsigned begin, unsigned end)
 {

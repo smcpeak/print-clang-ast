@@ -431,6 +431,17 @@ public:      // methods
   // Get the location of the token that precedes 'decl'.
   clang::SourceLocation getDeclPrecedingTokenLoc(
     clang::Decl const *decl) const;
+
+  // Is 'fd' is result of instantiating a template or member of a
+  // template, return the user-written declaration from which it was
+  // instantiated.  Otherwise return 'fd' itself.
+  static clang::FunctionDecl const *getUserWrittenFunctionDecl(
+    clang::FunctionDecl const *fd);
+  static clang::FunctionDecl *getUserWrittenFunctionDecl(
+    clang::FunctionDecl *fd);
+
+  // True if 'fd == getUserWrittenFunctionDecl(fd)'.
+  static bool isUserWrittenFunctionDecl(clang::FunctionDecl const *fd);
 };
 
 
