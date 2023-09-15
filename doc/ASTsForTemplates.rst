@@ -43,9 +43,10 @@ entirely.
 
 This document currently omits discussion of some topics:
 
-* Detailed discussion of the way templates affect the ``Expr``
-  hierarchy.  Instead, this document is focused on the ``Decl``
-  hierarchy.
+* Exhaustive discussion of the way templates affect the ``Expr``,
+  ``Stmt``, and ``Type`` hierarchies.  Instead, this document focuses on
+  the ``Decl`` hierarchy, covering the others only as needed to fully
+  understand ``Decl``.
 
 * Template non-type parameters and template template parameters.
 
