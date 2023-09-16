@@ -53,6 +53,9 @@ public:      // methods
   unsigned getUpperBound() const { return m_upperBound; }
   unsigned getCursor() const { return m_cursor; }
 
+  // True if there is still text to scan.
+  bool hasText() const { return m_cursor < m_upperBound; }
+
   // Set the offsets.  This asserts that the invariants hold.
   void setCursorAndBounds(
     unsigned cursor, unsigned lowerBound, unsigned upperBound);
