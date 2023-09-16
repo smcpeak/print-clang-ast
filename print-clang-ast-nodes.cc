@@ -1188,6 +1188,14 @@ void PrintClangASTNodes::printDecl(clang::Decl const *decl)
        linkageStr(SPY(Decl, decl, getCachedLinkage))
        : string("(not set)")));
 
+  if (decl->hasAttrs()) {
+    unsigned i = 0;
+    for (clang::Attr *attr : decl->attrs()) {
+      OUT_QATTR_PTR("Decl::", "Attr[" << (i++) << "]",
+        getAttrIDStr(attr));
+    }
+  }
+
   if (auto declContext = dyn_cast<clang::DeclContext>(decl)) {
     printDeclContext(declContext);
   }
@@ -2797,6 +2805,26 @@ void PrintClangASTNodes::printCXXDependentScopeMemberExpr(
 }
 
 
+void PrintClangASTNodes::printAttr(clang::Attr const *attr)
+{
+  OUT_OBJECT(getAttrIDStr(attr));
+
+  // This is just some incomplete, experimental dabbling.
+
+  OUT_ATTR_INT("AttrKind", attr->getParsedKind());
+
+  OUT_ATTR_STRING("getAttrName()->getName()",
+    attr->getAttrName()->getName().str());
+
+  OUT_ATTR_STRING("getSpelling()", attr->getSpelling());
+
+  if (auto da = dyn_cast<clang::DeprecatedAttr>(attr)) {
+    OUT_QATTR_STRING("DeprecatedAttr::", "message",
+      da->getMessage().str());
+  }
+}
+
+
 // ----------------- PrintClangASTNodes: final passes ------------------
 void PrintClangASTNodes::printFunctionTemplateSpecializationInfo(
   clang::FunctionTemplateSpecializationInfo const *ftsi)
@@ -3344,6 +3372,7 @@ void PrintClangASTNodes::printAllNodes()
     PRINT_IF_ID_IS(Type)
     PRINT_IF_ID_IS(Decl)
     PRINT_IF_ID_IS(Stmt)
+    PRINT_IF_ID_IS(Attr)
     PRINT_IF_ID_IS(FunctionTemplateSpecializationInfo)
     PRINT_IF_ID_IS(MemberSpecializationInfo)
     PRINT_IF_ID_IS(DependentFunctionTemplateSpecializationInfo)

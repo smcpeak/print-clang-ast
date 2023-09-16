@@ -308,6 +308,8 @@ public:      // methods
     clang::CXXConstructExpr const *expr);
   void printCXXDependentScopeMemberExpr(                        // ExprCXX.h line 3550
     clang::CXXDependentScopeMemberExpr const *expr);
+
+  void printAttr(clang::Attr const *attr);                      // Attr.h line 41
 };
 
 

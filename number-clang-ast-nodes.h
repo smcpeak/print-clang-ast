@@ -9,6 +9,7 @@
 
 #include "clang/AST/ASTContext.h"                // clang::ASTContext
 #include "clang/AST/ASTFwd.h"                    // clang::FunctionDecl [n]
+#include "clang/AST/Attr.h"                      // clang::Attr [n]
 
 #include "sm-pp-util.h"                          // SM_PP_MAP_LIST
 
@@ -31,6 +32,7 @@ namespace clang {
   Type,                                          \
   Decl,                                          \
   Stmt,                                          \
+  Attr,                                          \
   FunctionTemplateSpecializationInfo,            \
   MemberSpecializationInfo,                      \
   DependentFunctionTemplateSpecializationInfo,   \
