@@ -462,9 +462,9 @@ namespace clang {
 
 // Get the name of the dynamic type of the argument.  We have one
 // overload for each class hierarchy root.
-char const *getDynamicTypeClassName(clang::Type const *type);
-char const *getDynamicTypeClassName(clang::Decl const *decl);
-char const *getDynamicTypeClassName(clang::Stmt const *stmt);
+std::string getDynamicTypeClassName(clang::Type const *type);
+std::string getDynamicTypeClassName(clang::Decl const *decl);
+std::string getDynamicTypeClassName(clang::Stmt const *stmt);
 
 
 // Report an attempt to dyn_cast a null pointer.
@@ -477,7 +477,7 @@ void assert_dyn_cast_null(
 // Report a failed assert_dyn_cast.
 void assert_dyn_cast_failed(
   char const *destTypeName,
-  char const *srcTypeName,
+  std::string const &srcTypeName,
   char const *sourceFile,
   int sourceLine);
 

@@ -1603,21 +1603,19 @@ int compare(clang::SourceRange const &a, clang::SourceRange const &b)
 }
 
 
-char const *getDynamicTypeClassName(clang::Type const *type)
+std::string getDynamicTypeClassName(clang::Type const *type)
 {
-  // This lacks the suffix "Type".
-  return type->getTypeClassName();
+  return stringb(type->getTypeClassName() << "Type");
 }
 
 
-char const *getDynamicTypeClassName(clang::Decl const *decl)
+std::string getDynamicTypeClassName(clang::Decl const *decl)
 {
-  // This lacks the suffix "Decl".
-  return decl->getDeclKindName();
+  return stringb(decl->getDeclKindName() << "Decl");
 }
 
 
-char const *getDynamicTypeClassName(clang::Stmt const *stmt)
+std::string getDynamicTypeClassName(clang::Stmt const *stmt)
 {
   return stmt->getStmtClassName();
 }
@@ -1635,7 +1633,7 @@ void assert_dyn_cast_null(
 
 void assert_dyn_cast_failed(
   char const *destTypeName,
-  char const *srcTypeName,
+  std::string const &srcTypeName,
   char const *sourceFile,
   int sourceLine)
 {
