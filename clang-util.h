@@ -13,6 +13,7 @@
 #include "clang/AST/ExternalASTSource.h"                   // clang::ExternalASTSource
 #include "clang/AST/Type.h"                                // clang::QualType
 #include "clang/Basic/Lambda.h"                            // clang::LambdaCaptureDefault
+#include "clang/Basic/OperatorKinds.h"                     // clang::OverloadedOperatorKind
 #include "clang/Basic/SourceLocation.h"                    // clang::FileID
 #include "clang/Basic/SourceManager.h"                     // clang::SourceManager
 #include "clang/Basic/Specifiers.h"                        // clang::InClassInitStyle
@@ -210,6 +211,10 @@ public:      // methods
   // Stringify 'est'.
   static std::string exceptionSpecificationTypeStr(
     clang::ExceptionSpecificationType est);
+
+  // Stringify 'op'.
+  static std::string overloadedOperatorKindStr(
+    clang::OverloadedOperatorKind op);
 
   // Cast 'dc' to the associated Decl pointer.  Asserts that the
   // conversion succeeds, unless 'dc' is null, in which case null is

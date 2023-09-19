@@ -556,6 +556,37 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
+/*static*/ std::string ClangUtil::overloadedOperatorKindStr(
+  clang::OverloadedOperatorKind op)
+{
+  // This is almost the same as 'clang::getOperatorSpelling()', but this
+  // function does not assert if 'op' is invalid.
+
+  static struct Entry {
+    clang::OverloadedOperatorKind m_op;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(name) { clang::name, #name }
+
+    ENTRY(OO_None),
+
+    #define OVERLOADED_OPERATOR(Name,Spelling,Token,Unary,Binary,MemberOnly) \
+      ENTRY(OO_##Name),
+    #include "clang/Basic/OperatorKinds.def"
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_op == op) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("OverloadedOperatorKind(" << (int)op << ")");
+}
+
+
 /*static*/ clang::Decl const *ClangUtil::declFromDC(
   clang::DeclContext const * NULLABLE dc)
 {
