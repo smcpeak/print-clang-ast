@@ -428,6 +428,30 @@ static void test_skipCppCommentIf()
 }
 
 
+static void test_skipCommentsAndWhitespace()
+{
+  static struct TestCase {
+    char const *m_text;
+    bool m_expectResult;
+  } const tests[] = {
+    { "[S][E]", false },
+    { "[S][E]x", false },
+    { "[S][E]/", false },
+    { "[S] [E]/", true },
+
+    { "[S] //\n/*blah\nblah*/ [E]x", true },
+    { "[S] //\n/*blah\nblah*/ //\n/*blah\nblah*/[E]x", true },
+  };
+
+  for (auto t : tests) {
+    testOne_prependNL(t.m_text, "skipCommentsAndWhitespace", t.m_expectResult,
+      [](StringRefParse &p) -> bool {
+        return p.skipCommentsAndWhitespace();
+      });
+  }
+}
+
+
 static void test_skipIncludeIf()
 {
   static struct TestCase {
@@ -565,6 +589,7 @@ void stringref_parse_unit_tests()
   test_skipNonWS();
   test_skipCCommentIf();
   test_skipCppCommentIf();
+  test_skipCommentsAndWhitespace();
   test_skipIncludeIf();
   test_skipStringIf();
   test_searchFor();

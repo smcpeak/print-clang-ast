@@ -135,6 +135,10 @@ public:      // methods
   // return false.
   bool skipCppCommentIf();
 
+  // Skip all comments and whitespace, returning true if any was
+  // skipped.
+  bool skipCommentsAndWhitespace();
+
   // If the cursor is on "#include", skip past that line.
   bool skipIncludeIf();
 

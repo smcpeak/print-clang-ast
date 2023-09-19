@@ -317,6 +317,19 @@ bool StringRefParse::skipCCommentIf()
 }
 
 
+bool StringRefParse::skipCommentsAndWhitespace()
+{
+  bool skippedAny = false;
+  while (skipWS() ||
+         skipCCommentIf() ||
+         skipCppCommentIf()) {
+    skippedAny = true;
+  }
+
+  return skippedAny;
+}
+
+
 bool StringRefParse::skipCppCommentIf()
 {
   if (lookingAt("//")) {
