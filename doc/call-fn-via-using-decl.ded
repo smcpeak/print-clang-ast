@@ -1,0 +1,655 @@
+{
+  "drawFileName": true,
+  "entities": [
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 40,
+        "y": 40
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "FunctionDecl 26",
+      "size": {
+        "h": 600,
+        "w": 335
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 425,
+        "y": 315
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "CompoundStmt 29",
+      "size": {
+        "h": 110,
+        "w": 160
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 635,
+        "y": 345
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "ReturnStmt 30",
+      "size": {
+        "h": 50,
+        "w": 100
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 400,
+        "y": 440
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "CallExpr 31",
+      "size": {
+        "h": 180,
+        "w": 295
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 730,
+        "y": 455
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "ImplicitCastExpr 32",
+      "size": {
+        "h": 165,
+        "w": 105
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 865,
+        "y": 465
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "DeclRefExpr 33",
+      "size": {
+        "h": 180,
+        "w": 300
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 775,
+        "y": 125
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "UsingShadowDecl 25",
+      "size": {
+        "h": 220,
+        "w": 315
+      }
+    }
+  ],
+  "inheritances": [],
+  "objectGraph": {
+    "BuiltinType 10": {"syntax": "\"char\""},
+    "BuiltinType 20": {"syntax": "\"int\""},
+    "BuiltinType 3": {"syntax": "\"__int128\""},
+    "BuiltinType 5": {"syntax": "\"unsigned __int128\""},
+    "CXXRecordDecl 38": {"skipping reserved": "\"__NSConstantString_tag\""},
+    "CXXRecordDecl 39": {"skipping reserved": "\"__va_list_tag\""},
+    "CallExpr 31": {
+      "Arg[0]": {"ptr": "ImplicitCastExpr 34"},
+      "Arg[1]": {"ptr": "ImplicitCastExpr 36"},
+      "CallExprBits": "",
+      "Callee": {"ptr": "ImplicitCastExpr 32"},
+      "Dependent": "None",
+      "NumArgs": 2,
+      "ObjectKind": "OK_Ordinary",
+      "OffsetToTrailingObjects": 24,
+      "RParenLoc": "in/src/call-fn-via-using-decl.cc:15:19",
+      "TR": {
+        "preview": "int",
+        "ptr": "BuiltinType 20"
+      },
+      "ValueKind": "VK_PRValue"
+    },
+    "CompoundStmt 29": {
+      "LBraceLoc": "in/src/call-fn-via-using-decl.cc:14:3",
+      "NumStmts": 1,
+      "RBraceLoc": "in/src/call-fn-via-using-decl.cc:16:3",
+      "Stmt[0]": {"ptr": "ReturnStmt 30"}
+    },
+    "ConstantArrayType 12": {"syntax": "\"struct __va_list_tag[1]\""},
+    "DeclRefExpr 33": {
+      "D": {"ptr": "FunctionDecl 16"},
+      "DNLoc": "(none)",
+      "DeclRefExprBits": "HasFoundDecl",
+      "Dependent": "None",
+      "FoundDecl": {"ptr": "UsingShadowDecl 25"},
+      "Loc": "in/src/call-fn-via-using-decl.cc:15:12",
+      "ObjectKind": "OK_Ordinary",
+      "TR": {
+        "preview": "int (E, E)",
+        "ptr": "FunctionProtoType 19"
+      },
+      "ValueKind": "VK_LValue"
+    },
+    "DeclRefExpr 35": {
+      "D": {"ptr": "ParmVarDecl 28"},
+      "DNLoc": "(none)",
+      "DeclRefExprBits": "",
+      "Dependent": "None",
+      "Loc": "in/src/call-fn-via-using-decl.cc:15:15",
+      "ObjectKind": "OK_Ordinary",
+      "TR": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "ValueKind": "VK_LValue"
+    },
+    "DeclRefExpr 37": {
+      "D": {"ptr": "ParmVarDecl 28"},
+      "DNLoc": "(none)",
+      "DeclRefExprBits": "",
+      "Dependent": "None",
+      "Loc": "in/src/call-fn-via-using-decl.cc:15:18",
+      "ObjectKind": "OK_Ordinary",
+      "TR": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "ValueKind": "VK_LValue"
+    },
+    "ElaboratedType 21": {
+      "Canon": {
+        "preview": "enum E",
+        "ptr": "EnumType 22"
+      },
+      "Keyword": "ETK_None",
+      "NNS": "null",
+      "NamedType": {
+        "preview": "enum E",
+        "ptr": "EnumType 22"
+      },
+      "getUnqualifiedDesugaredType()": {
+        "preview": "enum E",
+        "ptr": "EnumType 22"
+      },
+      "syntax": "\"E\""
+    },
+    "EnumDecl 14": {
+      "Access": "AS_none",
+      "Bits.IsCompleteDefinition": "true",
+      "BraceRange": "<in/src/call-fn-via-using-decl.cc:4:8, col:9>",
+      "DC": {"ptr": "TranslationUnitDecl 1"},
+      "Decl::flags": "Referenced",
+      "DeclContextBits": "",
+      "DeclKind": "EnumDecl",
+      "FirstDecl": {"ptr": "null"},
+      "IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+      "LDC": {"ptr": "TranslationUnitDecl 1"},
+      "LastDecl": {"ptr": "null"},
+      "Linkage": "ExternalLinkage",
+      "Loc": "in/src/call-fn-via-using-decl.cc:4:6",
+      "LocStart": "in/src/call-fn-via-using-decl.cc:4:1",
+      "LookupPtr": "null",
+      "Name": "\"E\"",
+      "NextInContext": {"ptr": "NamespaceDecl 15"},
+      "RD::First": {"ptr": "EnumDecl 14"},
+      "RD::Prev": {"ptr": "EnumDecl 14"},
+      "TagDeclBits": "TTK_Enum IsCompleteDefinition IsFreeStanding IsCompleteDefinitionRequired",
+      "TypeForDecl": {
+        "preview": "enum E",
+        "ptr": "EnumType 22"
+      },
+      "TypedefNameDeclOrQualifier.name": {"ptr": "null"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "EnumType 22": {
+      "decl": {"ptr": "EnumDecl 14"},
+      "syntax": "\"enum E\""
+    },
+    "FunctionDecl 16": {
+      "Access": "AS_none",
+      "Body": {"ptr": "null"},
+      "DC": {"ptr": "NamespaceDecl 15"},
+      "DNLoc": "(none)",
+      "Decl::flags": "Used Referenced",
+      "DeclContextBits": "",
+      "DeclKind": "FunctionDecl",
+      "DeclType": {
+        "preview": "int (E, E)",
+        "ptr": "FunctionProtoType 19"
+      },
+      "DefaultKWLoc": "<invalid loc>",
+      "EndRangeLoc": "in/src/call-fn-via-using-decl.cc:7:14",
+      "ExtInfo": "absent",
+      "FirstDecl": {"ptr": "null"},
+      "FunctionDeclBits": "HasWrittenPrototype",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InnerLocStart": "in/src/call-fn-via-using-decl.cc:7:3",
+      "LDC": {"ptr": "NamespaceDecl 15"},
+      "LastDecl": {"ptr": "null"},
+      "Linkage": "ExternalLinkage",
+      "Loc": "in/src/call-fn-via-using-decl.cc:7:7",
+      "LookupPtr": "null",
+      "Name": "\"fn\"",
+      "NextInContext": {"ptr": "null"},
+      "ODRHash": "0",
+      "Param[0]": {"ptr": "ParmVarDecl 17"},
+      "Param[1]": {"ptr": "ParmVarDecl 18"},
+      "RD::First": {"ptr": "FunctionDecl 16"},
+      "RD::Prev": {"ptr": "FunctionDecl 16"},
+      "SClass": "SC_None",
+      "TInfo": "FunctionProto(\"int (E, E)\", <in/src/call-fn-via-using-decl.cc:7:3, col:14>, Builtin(\"int\", <in/src/call-fn-via-using-decl.cc:7:3>, NullTypeLoc))",
+      "TemplateOrSpecialization": "null",
+      "getDescribedFunctionTemplate()": {"ptr": "null"},
+      "getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "getMemberSpecializationInfo()": {"ptr": "null"},
+      "getPrimaryTemplate()": {"ptr": "null"},
+      "getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "getTemplateSpecializationInfo()": {"ptr": "null"},
+      "getTemplatedKind()": "TK_NonTemplate",
+      "moduleOwnershipKind": "Unowned"
+    },
+    "FunctionDecl 26": {
+      "Access": "AS_none",
+      "Body": {"ptr": "CompoundStmt 29"},
+      "DC": {"ptr": "NamespaceDecl 23"},
+      "DNLoc": "(none)",
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "FunctionDecl",
+      "DeclType": {
+        "preview": "int (E)",
+        "ptr": "FunctionProtoType 27"
+      },
+      "DefaultKWLoc": "<invalid loc>",
+      "EndRangeLoc": "in/src/call-fn-via-using-decl.cc:16:3",
+      "ExtInfo": "absent",
+      "FirstDecl": {"ptr": "ParmVarDecl 28"},
+      "FunctionDeclBits": "HasWrittenPrototype",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InnerLocStart": "in/src/call-fn-via-using-decl.cc:13:3",
+      "LDC": {"ptr": "NamespaceDecl 23"},
+      "LastDecl": {"ptr": "ParmVarDecl 28"},
+      "Linkage": "ExternalLinkage",
+      "Loc": "in/src/call-fn-via-using-decl.cc:13:7",
+      "LookupPtr": "null",
+      "Name": "\"caller\"",
+      "NextInContext": {"ptr": "null"},
+      "ODRHash": "0",
+      "Param[0]": {"ptr": "ParmVarDecl 28"},
+      "RD::First": {"ptr": "FunctionDecl 26"},
+      "RD::Prev": {"ptr": "FunctionDecl 26"},
+      "SClass": "SC_None",
+      "TInfo": "FunctionProto(\"int (E)\", <in/src/call-fn-via-using-decl.cc:13:3, col:17>, Builtin(\"int\", <in/src/call-fn-via-using-decl.cc:13:3>, NullTypeLoc))",
+      "TemplateOrSpecialization": "null",
+      "getDescribedFunctionTemplate()": {"ptr": "null"},
+      "getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "getMemberSpecializationInfo()": {"ptr": "null"},
+      "getPrimaryTemplate()": {"ptr": "null"},
+      "getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "getTemplateSpecializationInfo()": {"ptr": "null"},
+      "getTemplatedKind()": "TK_NonTemplate",
+      "moduleOwnershipKind": "Unowned"
+    },
+    "FunctionProtoType 19": {
+      "Canon": {
+        "preview": "int (enum E, enum E)",
+        "ptr": "FunctionProtoType 40"
+      },
+      "ResultType": {
+        "preview": "int",
+        "ptr": "BuiltinType 20"
+      },
+      "paramType[0]": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "paramType[1]": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "syntax": "\"int (E, E)\""
+    },
+    "FunctionProtoType 27": {
+      "Canon": {
+        "preview": "int (enum E)",
+        "ptr": "FunctionProtoType 41"
+      },
+      "ResultType": {
+        "preview": "int",
+        "ptr": "BuiltinType 20"
+      },
+      "paramType[0]": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "syntax": "\"int (E)\""
+    },
+    "FunctionProtoType 40": {
+      "ResultType": {
+        "preview": "int",
+        "ptr": "BuiltinType 20"
+      },
+      "paramType[0]": {
+        "preview": "enum E",
+        "ptr": "EnumType 22"
+      },
+      "paramType[1]": {
+        "preview": "enum E",
+        "ptr": "EnumType 22"
+      },
+      "syntax": "\"int (enum E, enum E)\""
+    },
+    "FunctionProtoType 41": {
+      "ResultType": {
+        "preview": "int",
+        "ptr": "BuiltinType 20"
+      },
+      "paramType[0]": {
+        "preview": "enum E",
+        "ptr": "EnumType 22"
+      },
+      "syntax": "\"int (enum E)\""
+    },
+    "ImplicitCastExpr 32": {
+      "BasePathSize": 0,
+      "CastExprBits": "FunctionToPointerDecay",
+      "Dependent": "None",
+      "ObjectKind": "OK_Ordinary",
+      "Op": {"ptr": "DeclRefExpr 33"},
+      "PartOfExplicitCast": false,
+      "TR": {
+        "preview": "int (*)(E, E)",
+        "ptr": "PointerType 42"
+      },
+      "ValueKind": "VK_PRValue",
+      "getConversionFunction()": {"ptr": "null"},
+      "getStoredFPFeatures())": "TODO"
+    },
+    "ImplicitCastExpr 34": {
+      "BasePathSize": 0,
+      "CastExprBits": "LValueToRValue",
+      "Dependent": "None",
+      "ObjectKind": "OK_Ordinary",
+      "Op": {"ptr": "DeclRefExpr 35"},
+      "PartOfExplicitCast": false,
+      "TR": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "ValueKind": "VK_PRValue",
+      "getConversionFunction()": {"ptr": "null"},
+      "getStoredFPFeatures())": "TODO"
+    },
+    "ImplicitCastExpr 36": {
+      "BasePathSize": 0,
+      "CastExprBits": "LValueToRValue",
+      "Dependent": "None",
+      "ObjectKind": "OK_Ordinary",
+      "Op": {"ptr": "DeclRefExpr 37"},
+      "PartOfExplicitCast": false,
+      "TR": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "ValueKind": "VK_PRValue",
+      "getConversionFunction()": {"ptr": "null"},
+      "getStoredFPFeatures())": "TODO"
+    },
+    "NamespaceDecl 15": {
+      "Access": "AS_none",
+      "DC": {"ptr": "TranslationUnitDecl 1"},
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "NamespaceDecl",
+      "FirstDecl": {"ptr": "FunctionDecl 16"},
+      "IdentifierNamespace": "IDNS_Namespace",
+      "LDC": {"ptr": "TranslationUnitDecl 1"},
+      "LastDecl": {"ptr": "FunctionDecl 16"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-fn-via-using-decl.cc:6:11",
+      "LookupPtr": "StoredDeclsMap with 1 entries",
+      "Name": "\"NS1\"",
+      "NextInContext": {"ptr": "NamespaceDecl 23"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "NamespaceDecl 23": {
+      "Access": "AS_none",
+      "DC": {"ptr": "TranslationUnitDecl 1"},
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "NamespaceDecl",
+      "FirstDecl": {"ptr": "UsingDecl 24"},
+      "IdentifierNamespace": "IDNS_Namespace",
+      "LDC": {"ptr": "TranslationUnitDecl 1"},
+      "LastDecl": {"ptr": "FunctionDecl 26"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-fn-via-using-decl.cc:10:11",
+      "LookupPtr": "StoredDeclsMap with 2 entries",
+      "Name": "\"NS2\"",
+      "NextInContext": {"ptr": "null"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "ParmVarDecl 17": {
+      "ARCPseudoStrong": "0",
+      "Access": "AS_none",
+      "DC": {"ptr": "FunctionDecl 16"},
+      "Decl::flags": "",
+      "DeclType": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "DefaultArgKind": "DAK_Normal",
+      "ExtInfo": "absent",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InitStmt": {"ptr": "null"},
+      "InitStyle": "CInit",
+      "InnerLocStart": "in/src/call-fn-via-using-decl.cc:7:10",
+      "LDC": {"ptr": "FunctionDecl 16"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-fn-via-using-decl.cc:7:11",
+      "Name": "\"\"",
+      "NextInContext": {"ptr": "null"},
+      "ParameterIndex": "0",
+      "ParmVarDeclBits flags": "",
+      "SClass": "SC_None",
+      "ScopeDepthOrObjCQuals": "0",
+      "TInfo": "Elaborated(\"E\", <in/src/call-fn-via-using-decl.cc:7:10>, Enum(\"enum E\", <in/src/call-fn-via-using-decl.cc:7:10>, NullTypeLoc))",
+      "TSCSpec": "TSCS_unspecified",
+      "moduleOwnershipKind": "Unowned"
+    },
+    "ParmVarDecl 18": {
+      "ARCPseudoStrong": "0",
+      "Access": "AS_none",
+      "DC": {"ptr": "FunctionDecl 16"},
+      "Decl::flags": "",
+      "DeclType": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "DefaultArgKind": "DAK_Normal",
+      "ExtInfo": "absent",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InitStmt": {"ptr": "null"},
+      "InitStyle": "CInit",
+      "InnerLocStart": "in/src/call-fn-via-using-decl.cc:7:13",
+      "LDC": {"ptr": "FunctionDecl 16"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-fn-via-using-decl.cc:7:14",
+      "Name": "\"\"",
+      "NextInContext": {"ptr": "null"},
+      "ParameterIndex": "1",
+      "ParmVarDeclBits flags": "",
+      "SClass": "SC_None",
+      "ScopeDepthOrObjCQuals": "0",
+      "TInfo": "Elaborated(\"E\", <in/src/call-fn-via-using-decl.cc:7:13>, Enum(\"enum E\", <in/src/call-fn-via-using-decl.cc:7:13>, NullTypeLoc))",
+      "TSCSpec": "TSCS_unspecified",
+      "moduleOwnershipKind": "Unowned"
+    },
+    "ParmVarDecl 28": {
+      "ARCPseudoStrong": "0",
+      "Access": "AS_none",
+      "DC": {"ptr": "FunctionDecl 26"},
+      "Decl::flags": "Used Referenced",
+      "DeclType": {
+        "preview": "E",
+        "ptr": "ElaboratedType 21"
+      },
+      "DefaultArgKind": "DAK_Normal",
+      "ExtInfo": "absent",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InitStmt": {"ptr": "null"},
+      "InitStyle": "CInit",
+      "InnerLocStart": "in/src/call-fn-via-using-decl.cc:13:14",
+      "LDC": {"ptr": "FunctionDecl 26"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-fn-via-using-decl.cc:13:16",
+      "Name": "\"e\"",
+      "NextInContext": {"ptr": "null"},
+      "ParameterIndex": "0",
+      "ParmVarDeclBits flags": "",
+      "SClass": "SC_None",
+      "ScopeDepthOrObjCQuals": "0",
+      "TInfo": "Elaborated(\"E\", <in/src/call-fn-via-using-decl.cc:13:14>, Enum(\"enum E\", <in/src/call-fn-via-using-decl.cc:13:14>, NullTypeLoc))",
+      "TSCSpec": "TSCS_unspecified",
+      "moduleOwnershipKind": "Unowned"
+    },
+    "PointerType 42": {
+      "Canon": {
+        "preview": "int (*)(enum E, enum E)",
+        "ptr": "PointerType 43"
+      },
+      "PointeeType": {
+        "preview": "int (E, E)",
+        "ptr": "FunctionProtoType 19"
+      },
+      "syntax": "\"int (*)(E, E)\""
+    },
+    "PointerType 43": {
+      "PointeeType": {
+        "preview": "int (enum E, enum E)",
+        "ptr": "FunctionProtoType 40"
+      },
+      "syntax": "\"int (*)(enum E, enum E)\""
+    },
+    "PointerType 9": {
+      "PointeeType": {
+        "preview": "char",
+        "ptr": "BuiltinType 10"
+      },
+      "syntax": "\"char *\""
+    },
+    "RecordType 13": {
+      "decl": {"ptr": "CXXRecordDecl 39"},
+      "syntax": "\"struct __va_list_tag\""
+    },
+    "RecordType 7": {
+      "decl": {"ptr": "CXXRecordDecl 38"},
+      "syntax": "\"struct __NSConstantString_tag\""
+    },
+    "ReturnStmt 30": {
+      "NRVOCandidate": {"ptr": "null"},
+      "RetExpr": {"ptr": "CallExpr 31"},
+      "RetLoc": "in/src/call-fn-via-using-decl.cc:15:5"
+    },
+    "TranslationUnitDecl 1": {
+      "Access": "AS_none",
+      "DC": {"ptr": "null"},
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "TranslationUnitDecl",
+      "FirstDecl": {"ptr": "TypedefDecl 2"},
+      "IdentifierNamespace": "0",
+      "LDC": {"ptr": "null"},
+      "LastDecl": {"ptr": "NamespaceDecl 23"},
+      "Linkage": "(not set)",
+      "Loc": "<invalid loc>",
+      "LookupPtr": "StoredDeclsMap with 8 entries",
+      "NextInContext": {"ptr": "null"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "TypedefDecl 11": {"skipping reserved": "\"__builtin_va_list\""},
+    "TypedefDecl 2": {"skipping reserved": "\"__int128_t\""},
+    "TypedefDecl 4": {"skipping reserved": "\"__uint128_t\""},
+    "TypedefDecl 6": {"skipping reserved": "\"__NSConstantString\""},
+    "TypedefDecl 8": {"skipping reserved": "\"__builtin_ms_va_list\""},
+    "UsingDecl 24": {
+      "Access": "AS_none",
+      "DC": {"ptr": "NamespaceDecl 23"},
+      "Decl::flags": "",
+      "IdentifierNamespace": "IDNS_Using",
+      "LDC": {"ptr": "NamespaceDecl 23"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-fn-via-using-decl.cc:11:14",
+      "Name": "\"fn\"",
+      "NextInContext": {"ptr": "UsingShadowDecl 25"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "UsingShadowDecl 25": {
+      "Access": "AS_none",
+      "DC": {"ptr": "NamespaceDecl 23"},
+      "Decl::Implicit": "true",
+      "Decl::flags": "Implicit",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "LDC": {"ptr": "NamespaceDecl 23"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-fn-via-using-decl.cc:11:14",
+      "Name": "\"fn\"",
+      "NextInContext": {"ptr": "FunctionDecl 26"},
+      "moduleOwnershipKind": "Unowned"
+    }
+  },
+  "objectGraphConfig": {
+    "newNodeAttributes": null,
+    "newNodeName": null,
+    "showFields": []
+  },
+  "objectGraphSourceFile": "../out/call-fn-via-using-decl.cc.abbrev.json",
+  "relations": [
+    {
+      "end": {"entityRef": 1},
+      "label": "Body",
+      "start": {"entityRef": 0}
+    },
+    {
+      "end": {"entityRef": 2},
+      "label": "Stmt[0]",
+      "start": {"entityRef": 1}
+    },
+    {
+      "end": {"entityRef": 3},
+      "label": "RetExpr",
+      "start": {"entityRef": 2}
+    },
+    {
+      "end": {"entityRef": 4},
+      "label": "Callee",
+      "start": {"entityRef": 3}
+    },
+    {
+      "end": {"entityRef": 5},
+      "label": "Op",
+      "start": {"entityRef": 4}
+    },
+    {
+      "end": {"entityRef": 6},
+      "label": "FoundDecl",
+      "start": {"entityRef": 5}
+    }
+  ],
+  "type": "Diagram Editor Diagram",
+  "version": 30,
+  "windowSize": {
+    "h": 675,
+    "w": 1191
+  }
+}
