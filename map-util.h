@@ -12,19 +12,24 @@
 
 
 // I don't like to have to say 'make_pair' all the time, and I'm
-// ambivalent about using the initializer list syntax.
+// ambivalent about using the initializer list syntax, so this function
+// encapsulates insertion.
+//
+// Returns true if the item was inserted (otherwise, it was already in
+// the set).
 template <class K, class V>
-void mapInsert(std::map<K,V> &m, K const &k, V const &v)
+bool mapInsert(std::map<K,V> &m, K const &k, V const &v)
 {
-  m.insert(std::make_pair(k, v));
+  auto res = m.insert(std::make_pair(k, v));
+  return res.second;
 }
 
 
 template <class K, class V>
 void mapInsertUnique(std::map<K,V> &m, K const &k, V const &v)
 {
-  auto res = m.insert(std::make_pair(k, v));
-  assert(res.second);
+  bool res = mapInsert(m, k, v);
+  assert(res);
 }
 
 
