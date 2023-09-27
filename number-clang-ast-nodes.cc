@@ -5,7 +5,7 @@
 
 #include "map-util.h"                            // mapInsertUnique
 #include "util.h"                                // stringb
-#include "trace.h"                               // INIT_TRACE_LEVEL_ONCE
+#include "trace.h"                               // INIT_TRACE
 
 #include "clang/Basic/LLVM.h"                    // clang::isa
 
@@ -18,6 +18,9 @@ using std::string;
 
 // Avoid having to write the qualifier in return types.
 typedef ClangASTNodeNumbering::NodeID NodeID;
+
+
+INIT_TRACE("number-clang-ast-nodes");
 
 
 // --------------- ClangASTNodeNumbering::NumberingMap -----------------
@@ -208,9 +211,7 @@ ClangASTNodeNumbering::ClangASTNodeNumbering()
       CLANG_AST_NODE_NUMBERING_TRACKED_TYPES)
 
     #undef INIT_MAP_DATA
-{
-  INIT_TRACE_LEVEL_ONCE("NODE_NUMBERING_TRACE");
-}
+{}
 
 
 ClangASTNodeNumbering::~ClangASTNodeNumbering()

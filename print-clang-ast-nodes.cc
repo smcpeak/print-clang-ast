@@ -8,7 +8,7 @@
 #include "map-util.h"                            // mapFindOpt
 #include "optional-util.h"                       // optionalToString
 #include "spy-private.h"                         // ACCESS_PRIVATE_FIELD
-#include "trace.h"                               // INIT_TRACE_LEVEL_ONCE
+#include "trace.h"                               // INIT_TRACE
 #include "util.h"                                // doubleQuote, stringb
 
 //#include "clang/AST/ASTDumper.h"                 // clang::ASTDumper
@@ -31,6 +31,9 @@ using clang::isa;
 using clang::dyn_cast;
 
 using std::string;
+
+
+INIT_TRACE("print-clang-ast-nodes");
 
 
 // Print a failed assertion message to the output, and yield false.
@@ -178,9 +181,7 @@ PrintClangASTNodes::PrintClangASTNodes(
     m_passedAssertions(0),
     m_failedAssertions(0),
     m_objectIsOpen(false)
-{
-  INIT_TRACE_LEVEL_ONCE("PRINT_NODES_TRACE");
-}
+{}
 
 
 PrintClangASTNodes::~PrintClangASTNodes()

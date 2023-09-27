@@ -8,7 +8,7 @@
 #include "print-clang-ast-nodes.h"                         // printClangASTNodes
 #include "sm-pp-util.h"                                    // test_sm_pp_util
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
-#include "trace.h"                                         // INIT_TRACE_LEVEL_ONCE
+#include "trace.h"                                         // INIT_TRACE, trace_unit_tests
 #include "util.h"                                          // util_unit_tests
 
 #include "clang/Basic/Diagnostic.h"                        // clang::DiagnosticsEngine
@@ -29,20 +29,22 @@ using std::cout;
 using std::string;
 
 
+INIT_TRACE("print-clang-ast");
+
+
 static void all_unit_tests()
 {
   file_util_unit_tests();
   pca_command_line_options_unit_tests();
   stringref_parse_unit_tests();
   test_sm_pp_util();
+  trace_unit_tests();
   util_unit_tests();
 }
 
 
 int main(int argc, char const **argv)
 {
-  INIT_TRACE_LEVEL_ONCE("PCA_TRACE");
-
   // Command line options parser.
   PCACommandLineOptions options;
   int firstClangArg = 1;
