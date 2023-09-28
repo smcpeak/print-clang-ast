@@ -31,7 +31,7 @@ private:     // data
 
 public:      // methods
   // The upper bound is set to 'text.size()'.
-  StringRefParse(
+  explicit StringRefParse(
     llvm::StringRef const &text,
     unsigned cursor = 0,
     unsigned lowerBound = 0);
@@ -43,9 +43,7 @@ public:      // methods
     unsigned upperBound);
 
   StringRefParse(StringRefParse const &obj) = default;
-
-  // This requires that 'obj' have the same 'm_text'.
-  StringRefParse operator= (StringRefParse const &obj);
+  StringRefParse& operator= (StringRefParse const &obj) = default;
 
   // Getters.
   llvm::StringRef getText() const { return m_text; }
@@ -103,8 +101,9 @@ public:      // methods
   // If the character before the cursor is whitespace, move it backward
   // to the first WS character in the contiguous sequence.
   //
-  // Back up through any C++ comments as well (but not C comments).
-  void backupToWSStart();
+  // If 'throughCppComments', back up through any C++ comments as well
+  // (but not C comments).
+  void backupToWSStart(bool throughCppComments);
 
   // Move backward until we are just past a newline.
   void backupToLineStart();
@@ -158,6 +157,11 @@ public:      // methods
   // one in the returned text.  Return "" if there are no more
   // non-whitespace characters before the upper bound.
   std::string getNextWSSeparatedToken();
+
+  // Return all text from the cursor up to, but not including, the
+  // character at 'end', or at the upper bound, whichever is less.  If
+  // 'end' is at or less than the cursor, return the empty string.
+  std::string textUpTo(unsigned end);
 
   // Return the 1-based line/col of the current cursor position, taking
   // the lower bound position as the (1,1) start position.  This does a

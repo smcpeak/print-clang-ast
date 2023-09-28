@@ -138,6 +138,17 @@ std::string removeDefaultArguments(std::string text,
 std::string removeDefaultTemplateArguments(std::string text);
 
 
+// Given the text of a C++ comment, including the leading "//", remove
+// that leading syntax, plus any whitespace after it, and any whitespace
+// at the end.
+std::string trimCppCommentText(std::string comment);
+
+// Given the text of a C comment, starting with "/*" and ending with
+// "*/", remove the comment delimiters and then remove any leading and
+// trailing whitespace from what remains.
+std::string trimCCommentText(std::string comment);
+
+
 // Join all of the 'strings' with 'sep'.
 std::string commaSeparate(std::set<std::string> const &strings,
                           char const *sep = ", ");

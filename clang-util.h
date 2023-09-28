@@ -327,7 +327,7 @@ public:      // methods
   static bool isPrivateHeaderEntry(clang::FileEntry const *entry);
 
   // Turn a FileID into a string.
-  std::string getFnameForFileID(clang::FileID fileID);
+  std::string getFnameForFileID(clang::FileID fileID) const;
 
   // Get the string representation of 'qualType' for use when printing
   // parameter types.

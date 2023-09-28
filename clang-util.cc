@@ -1052,7 +1052,7 @@ string ClangUtil::getIncludeSyntax(
 }
 
 
-string ClangUtil::getFnameForFileID(clang::FileID fileID)
+string ClangUtil::getFnameForFileID(clang::FileID fileID) const
 {
   clang::FileEntry const *entry = m_srcMgr.getFileEntryForID(fileID);
   assert(entry);

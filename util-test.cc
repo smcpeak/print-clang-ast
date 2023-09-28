@@ -266,6 +266,32 @@ static void test_removeDefaultTemplateArguments()
 }
 
 
+static void ttcppct1(char const *text, string expect)
+{
+  string actual = trimCppCommentText(text);
+  expectEq("trimCppCommentText", text, expect, actual);
+}
+
+static void test_trimCppCommentText()
+{
+  ttcppct1("//", "");
+  ttcppct1("// hello! ", "hello!");
+}
+
+
+static void ttcct1(char const *text, string expect)
+{
+  string actual = trimCCommentText(text);
+  expectEq("trimCCommentText", text, expect, actual);
+}
+
+static void test_trimCCommentText()
+{
+  ttcct1("/**/", "");
+  ttcct1("/* hello! */", "hello!");
+}
+
+
 static void tai1(char const *text, char const *indent, string expect)
 {
   string actual = addIndentation(text, indent);
@@ -307,6 +333,8 @@ void util_unit_tests()
   test_removeIndentation();
   test_removeDefaultArguments();
   test_removeDefaultTemplateArguments();
+  test_trimCppCommentText();
+  test_trimCCommentText();
   test_addIndentation();
   test_joinWithPrefixes();
 }

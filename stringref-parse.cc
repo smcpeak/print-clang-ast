@@ -36,18 +36,6 @@ StringRefParse::StringRefParse(
 }
 
 
-StringRefParse StringRefParse::operator= (StringRefParse const &obj)
-{
-  if (this != &obj) {
-    assert(&m_text == &(obj.m_text));
-    m_cursor = obj.m_cursor;
-    m_lowerBound = obj.m_lowerBound;
-    m_upperBound = obj.m_upperBound;
-  }
-  return *this;
-}
-
-
 void StringRefParse::setCursorAndBounds(
   unsigned cursor, unsigned lowerBound, unsigned upperBound)
 {
@@ -182,7 +170,7 @@ void StringRefParse::advancePastNextNL()
 }
 
 
-void StringRefParse::backupToWSStart()
+void StringRefParse::backupToWSStart(bool throughCppComments)
 {
   // Back up once to get into the WS area, if there is any.
   if (m_cursor > m_lowerBound && isCWhitespace(m_text[m_cursor-1])) {
@@ -198,12 +186,13 @@ void StringRefParse::backupToWSStart()
       --m_cursor;
     }
 
-    if (backupToCppCommentStart()) {
+    if (throughCppComments && backupToCppCommentStart()) {
       // Keep going backward.
       continue;
     }
     else {
-      // We are not at the end of a comment, so stop.
+      // We are not at the end of a comment (or that is not relevant),
+      // so stop.
       break;
     }
   }
@@ -423,6 +412,19 @@ std::string StringRefParse::getNextWSSeparatedToken()
   assert(tokenEnd > tokenStart);
 
   return string(m_text.data() + tokenStart, tokenEnd-tokenStart);
+}
+
+
+std::string StringRefParse::textUpTo(unsigned end)
+{
+  if (end > m_upperBound) {
+    end = m_upperBound;
+  }
+  if (end < m_cursor) {
+    end = m_cursor;
+  }
+
+  return m_text.substr(m_cursor, end - m_cursor).str();
 }
 
 
