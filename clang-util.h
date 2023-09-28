@@ -96,7 +96,8 @@ public:      // methods
   std::string declLocStr(clang::Decl const *decl) const;
 
   // Render 'decl' with qualifiers and signature.
-  std::string namedDeclStr(clang::NamedDecl const *namedDecl) const;
+  std::string namedDeclStr(
+    clang::NamedDecl const * NULLABLE namedDecl) const;
 
   // Stringify the declaration syntax and its location.
   std::string namedDeclAtLocStr(

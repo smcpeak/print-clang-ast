@@ -93,8 +93,12 @@ std::string ClangUtil::declLocStr(clang::Decl const *decl) const
 
 
 std::string ClangUtil::namedDeclStr(
-  clang::NamedDecl const *namedDecl) const
+  clang::NamedDecl const * NULLABLE namedDecl) const
 {
+  if (!namedDecl) {
+    return "null";
+  }
+
   std::ostringstream oss;
 
   oss << namedDecl->getQualifiedNameAsString();
