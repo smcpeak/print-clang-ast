@@ -1,0 +1,226 @@
+---- stdout ----
+{
+
+"TranslationUnitDecl 1": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "null" },
+  "Decl::lexicalDeclContext": { "ptr": "null" },
+  "Decl::Loc": "<invalid loc>",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "0",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "TranslationUnitDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 6 entries",
+  "DeclContext::FirstDecl": { "ptr": "TypedefDecl 2" },
+  "DeclContext::LastDecl": { "ptr": "CXXRecordDecl 14" },
+},
+
+"TypedefDecl 2": {
+  "skipping reserved": "\"__int128_t\"",
+},
+
+"BuiltinType 3": {
+  "syntax": "\"__int128\"",
+},
+
+"TypedefDecl 4": {
+  "skipping reserved": "\"__uint128_t\"",
+},
+
+"BuiltinType 5": {
+  "syntax": "\"unsigned __int128\"",
+},
+
+"TypedefDecl 6": {
+  "skipping reserved": "\"__NSConstantString\"",
+},
+
+"RecordType 7": {
+  "syntax": "\"struct __NSConstantString_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 20" },
+},
+
+"TypedefDecl 8": {
+  "skipping reserved": "\"__builtin_ms_va_list\"",
+},
+
+"PointerType 9": {
+  "syntax": "\"char *\"",
+  "PointeeType": { "ptr": "BuiltinType 10", "preview": "char" },
+},
+
+"BuiltinType 10": {
+  "syntax": "\"char\"",
+},
+
+"TypedefDecl 11": {
+  "skipping reserved": "\"__builtin_va_list\"",
+},
+
+"ConstantArrayType 12": {
+  "syntax": "\"struct __va_list_tag[1]\"",
+},
+
+"RecordType 13": {
+  "syntax": "\"struct __va_list_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 21" },
+},
+
+"CXXRecordDecl 14": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/struct-with-array-member.cc:4:8",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXRecordDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 2 entries",
+  "DeclContext::FirstDecl": { "ptr": "CXXRecordDecl 15" },
+  "DeclContext::LastDecl": { "ptr": "FieldDecl 16" },
+  "NamedDecl::Name": "\"HasArray\"",
+  "TypeDecl::TypeForDecl": { "ptr": "RecordType 22", "preview": "struct HasArray" },
+  "TypeDecl::LocStart": "in/src/struct-with-array-member.cc:4:1",
+  "Redeclarable::Previous": { "ptr": "CXXRecordDecl 14" },
+  "Redeclarable::First": { "ptr": "CXXRecordDecl 14" },
+  "Redeclarable::redecls_size()": 1,
+  "TagDecl::TagDeclBits": "TTK_Struct IsCompleteDefinition IsFreeStanding",
+  "TagDecl::TagDeclBits.IsCompleteDefinition": "true",
+  "TagDecl::BraceRange": "<in/src/struct-with-array-member.cc:4:17, line:6:1>",
+  "TagDecl::TypedefNameDeclOrQualifier.name": { "ptr": "null" },
+  "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
+  "CXXRecordDecl::DefinitionData": { "ptr": "DefinitionData 23" },
+  "CXXRecordDecl::TemplateOrInstantiation": "null",
+  "CXXRecordDecl::getDependentLambdaCallOperator()": { "ptr": "null" },
+  "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
+  "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
+  "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+  "CXXRecordDecl::needsImplicitDestructor()": true,
+},
+
+"CXXRecordDecl 15": {
+  "Decl::NextInContext": { "ptr": "FieldDecl 16" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 14" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 14" },
+  "Decl::Loc": "in/src/struct-with-array-member.cc:4:8",
+  "Decl::flags": "Implicit",
+  "Decl::Implicit": "true",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXRecordDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"HasArray\"",
+  "TypeDecl::TypeForDecl": { "ptr": "RecordType 22", "preview": "struct HasArray" },
+  "TypeDecl::LocStart": "in/src/struct-with-array-member.cc:4:1",
+  "Redeclarable::Previous": { "ptr": "CXXRecordDecl 15" },
+  "Redeclarable::First": { "ptr": "CXXRecordDecl 15" },
+  "Redeclarable::redecls_size()": 1,
+  "TagDecl::TagDeclBits": "TTK_Struct",
+  "TagDecl::TagDeclBits.IsCompleteDefinition": "false",
+  "TagDecl::BraceRange": "<<invalid sloc>>",
+  "TagDecl::TypedefNameDeclOrQualifier.name": { "ptr": "null" },
+  "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
+  "CXXRecordDecl::DefinitionData": { "ptr": "null" },
+  "CXXRecordDecl::TemplateOrInstantiation": "null",
+  "CXXRecordDecl::getDependentLambdaCallOperator()": { "ptr": "null" },
+  "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
+  "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
+  "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+},
+
+"FieldDecl 16": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 14" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 14" },
+  "Decl::Loc": "in/src/struct-with-array-member.cc:5:7",
+  "Decl::flags": "",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Member",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"arr\"",
+  "ValueDecl::DeclType": { "ptr": "ConstantArrayType 17", "preview": "int[2]" },
+  "DeclaratorDecl::TInfo": "ConstantArray(\"int[2]\", <in/src/struct-with-array-member.cc:5:3, col:12>, Builtin(\"int\", <in/src/struct-with-array-member.cc:5:3>, NullTypeLoc))",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/struct-with-array-member.cc:5:3",
+  "FieldDecl flags": "",
+  "FieldDecl::CachedFieldIndex": "0",
+  "FieldDecl::InitStorageKind": "ICIS_NoInit",
+},
+
+"ConstantArrayType 17": {
+  "syntax": "\"int[2]\"",
+},
+
+"BuiltinType 18": {
+  "syntax": "\"int\"",
+},
+
+"IntegerLiteral 19": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 18", "preview": "int" },
+},
+
+"CXXRecordDecl 20": {
+  "skipping reserved": "\"__NSConstantString_tag\"",
+},
+
+"CXXRecordDecl 21": {
+  "skipping reserved": "\"__va_list_tag\"",
+},
+
+"RecordType 22": {
+  "syntax": "\"struct HasArray\"",
+  "decl": { "ptr": "CXXRecordDecl 14" },
+},
+
+"DefinitionData 23": {
+  "flags": [
+    "Aggregate",
+    "PlainOldData",
+    "IsStandardLayout",
+    "IsCXX11StandardLayout",
+    "HasPublicFields",
+    "HasOnlyCMembers",
+    "HasUninitializedFields",
+    "HasIrrelevantDestructor",
+    "DefaultedDestructorIsConstexpr",
+    "StructuralIfLiteral",
+    "ImplicitCopyConstructorCanHaveConstParamForVBase",
+    "ImplicitCopyConstructorCanHaveConstParamForNonVBase",
+    "ImplicitCopyAssignmentHasConstParam",
+  ],
+  "UserDeclaredSpecialMembers": "SMF_None",
+  "HasTrivialSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+  "HasTrivialSpecialMembersForCall": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+  "DeclaredNonTrivialSpecialMembers": "SMF_None",
+  "DeclaredNonTrivialSpecialMembersForCall": "SMF_None",
+  "DeclaredSpecialMembers": "SMF_None",
+  "NumBases": "0",
+  "NumVBases": "0",
+  "Bases": "TODO",
+  "VBases": "TODO",
+  "Conversions": "TODO",
+  "VisibleConversions": "TODO",
+  "Definition": { "ptr": "CXXRecordDecl 14" },
+  "FirstFriend": "TODO",
+},
+}
+---- stderr ----
+---- exit status ----
+Exit 0

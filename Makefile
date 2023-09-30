@@ -231,6 +231,18 @@ test-abbrev-outputs: $(TEST_ABBREV_OUTPUTS)
 check: test-abbrev-outputs
 
 
+# Check that we can parse all inputs with --force-implicit without
+# crashing.
+out/%.fi.ok: in/src/% print-clang-ast.exe
+	$(CREATE_OUTPUT_DIRECTORY)
+	./print-clang-ast.exe --force-implicit \
+	  $(call FILE_OPTS_FOR,$*) in/src/$* >$@
+
+.PHONY: test-force-implicit
+test-force-implicit: $(patsubst in/src/%,out/%.fi.ok,$(TEST_INPUTS))
+check: test-force-implicit
+
+
 # Check that the output matches expected output.
 #
 # The --drop-lines allow the same output to work across Clang versions

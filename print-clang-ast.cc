@@ -149,7 +149,7 @@ int main(int argc, char const **argv)
   }
 
   if (options.m_forceImplicit) {
-    declareImplicitThings(ast.get());
+    declareImplicitThings(ast.get(), true /*defineAlso*/);
   }
 
   if (options.m_dumpAST) {
