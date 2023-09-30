@@ -195,17 +195,27 @@ $(FILE_OPTS_$(call FILENAME_TO_VARNAME,$(1)))
 endef
 
 
+# General options to PCA for the tests.
+PCA_OPTIONS :=
+PCA_OPTIONS += --print-ast-nodes
+PCA_OPTIONS += --suppress-addresses
+
+# This option is mainly aimed at struct-with-fwd.cc, but should be fine
+# for all of them.
+PCA_OPTIONS += --force-implicit
+
+
 # Generate a single JSON output from an input.
 out/%.json: in/src/% print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
-	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
+	./print-clang-ast.exe $(PCA_OPTIONS) \
 	  $(call FILE_OPTS_FOR,$*) in/src/$* >$@
 
 # Same, but with abbreviated field names.
 out/%.abbrev.json: in/src/% print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
-	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
-	  --no-ast-field-qualifiers $(call FILE_OPTS_FOR,$*) in/src/$* >$@
+	./print-clang-ast.exe $(PCA_OPTIONS) --no-ast-field-qualifiers \
+	  $(call FILE_OPTS_FOR,$*) in/src/$* >$@
 
 
 # Inputs.
@@ -229,18 +239,6 @@ check: test-outputs
 .PHONY: test-abbrev-outputs
 test-abbrev-outputs: $(TEST_ABBREV_OUTPUTS)
 check: test-abbrev-outputs
-
-
-# Check that we can parse all inputs with --force-implicit without
-# crashing.
-out/%.fi.ok: in/src/% print-clang-ast.exe
-	$(CREATE_OUTPUT_DIRECTORY)
-	./print-clang-ast.exe --force-implicit \
-	  $(call FILE_OPTS_FOR,$*) in/src/$* >$@
-
-.PHONY: test-force-implicit
-test-force-implicit: $(patsubst in/src/%,out/%.fi.ok,$(TEST_INPUTS))
-check: test-force-implicit
 
 
 # Check that the output matches expected output.

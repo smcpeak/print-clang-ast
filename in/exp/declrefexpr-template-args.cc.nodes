@@ -15,7 +15,7 @@
   "DeclContext::DeclContextBits": "",
   "DeclContext::LookupPtr": "StoredDeclsMap with 10 entries",
   "DeclContext::FirstDecl": { "ptr": "TypedefDecl 2" },
-  "DeclContext::LastDecl": { "ptr": "FunctionDecl 84" },
+  "DeclContext::LastDecl": { "ptr": "FunctionDecl 101" },
 },
 
 "TypedefDecl 2": {
@@ -40,7 +40,7 @@
 
 "RecordType 7": {
   "syntax": "\"struct __NSConstantString_tag\"",
-  "decl": { "ptr": "CXXRecordDecl 110" },
+  "decl": { "ptr": "CXXRecordDecl 126" },
 },
 
 "TypedefDecl 8": {
@@ -66,7 +66,7 @@
 
 "RecordType 13": {
   "syntax": "\"struct __va_list_tag\"",
-  "decl": { "ptr": "CXXRecordDecl 111" },
+  "decl": { "ptr": "CXXRecordDecl 127" },
 },
 
 "FunctionTemplateDecl 14": {
@@ -93,7 +93,7 @@
   "Redeclarable::First": { "ptr": "FunctionTemplateDecl 14" },
   "Redeclarable::redecls_size()": 1,
   "RedeclarableTemplateDecl::getInstantiatedFromMemberTemplate()": { "ptr": "null" },
-  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 112" },
+  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 128" },
 },
 
 "TemplateTypeParmDecl 15": {
@@ -115,7 +115,7 @@
 
 "TemplateTypeParmType 16": {
   "syntax": "\"T\"",
-  "CanonicalType": { "ptr": "TemplateTypeParmType 113", "preview": "type-parameter-0-0" },
+  "CanonicalType": { "ptr": "TemplateTypeParmType 129", "preview": "type-parameter-0-0" },
   "TTPDecl": { "ptr": "TemplateTypeParmDecl 15" },
   "Depth": "0",
   "Index": "0",
@@ -164,7 +164,7 @@
 
 "FunctionProtoType 18": {
   "syntax": "\"T (T)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 114", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
+  "CanonicalType": { "ptr": "FunctionProtoType 130", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
   "ResultType": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
@@ -297,7 +297,7 @@
 
 "FunctionProtoType 26": {
   "syntax": "\"int (int)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 85", "preview": "int (int)" },
+  "CanonicalType": { "ptr": "FunctionProtoType 102", "preview": "int (int)" },
   "ResultType": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
@@ -377,7 +377,7 @@
   "Redeclarable::First": { "ptr": "FunctionTemplateDecl 33" },
   "Redeclarable::redecls_size()": 1,
   "RedeclarableTemplateDecl::getInstantiatedFromMemberTemplate()": { "ptr": "null" },
-  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 115" },
+  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 131" },
 },
 
 "NonTypeTemplateParmDecl 34": {
@@ -567,7 +567,7 @@
   "Redeclarable::First": { "ptr": "FunctionTemplateDecl 46" },
   "Redeclarable::redecls_size()": 1,
   "RedeclarableTemplateDecl::getInstantiatedFromMemberTemplate()": { "ptr": "null" },
-  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 116" },
+  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 132" },
 },
 
 "TemplateTypeParmDecl 47": {
@@ -589,7 +589,7 @@
 
 "TemplateTypeParmType 48": {
   "syntax": "\"CLASS\"",
-  "CanonicalType": { "ptr": "TemplateTypeParmType 113", "preview": "type-parameter-0-0" },
+  "CanonicalType": { "ptr": "TemplateTypeParmType 129", "preview": "type-parameter-0-0" },
   "TTPDecl": { "ptr": "TemplateTypeParmDecl 47" },
   "Depth": "0",
   "Index": "0",
@@ -653,7 +653,7 @@
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Type|Value",
-  "Expr::TR": { "ptr": "BuiltinType 117", "preview": "<dependent type>" },
+  "Expr::TR": { "ptr": "BuiltinType 133", "preview": "<dependent type>" },
   "CallExpr::CallExprBits": "",
   "CallExpr::OffsetToTrailingObjects": 24,
   "CallExpr::NumArgs": 1,
@@ -666,7 +666,7 @@
   "Expr::ExprBits::ValueKind": "VK_LValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Type|Value",
-  "Expr::TR": { "ptr": "BuiltinType 117", "preview": "<dependent type>" },
+  "Expr::TR": { "ptr": "BuiltinType 133", "preview": "<dependent type>" },
 },
 
 "IntegerLiteral 54": {
@@ -756,7 +756,7 @@
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
-  "Expr::TR": { "ptr": "PointerType 118", "preview": "int (*)(int)" },
+  "Expr::TR": { "ptr": "PointerType 134", "preview": "int (*)(int)" },
   "CastExpr::CastExprBits": "FunctionToPointerDecay",
   "CastExpr::BasePathSize": 0,
   "CastExpr::Op": { "ptr": "DeclRefExpr 61" },
@@ -799,7 +799,7 @@
 },
 
 "CXXRecordDecl 64": {
-  "Decl::NextInContext": { "ptr": "FunctionDecl 84" },
+  "Decl::NextInContext": { "ptr": "FunctionDecl 101" },
   "Decl::moduleOwnershipKind": "Unowned",
   "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
   "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
@@ -810,9 +810,9 @@
   "Decl::Linkage": "ExternalLinkage",
   "DeclContext::DeclKind": "CXXRecordDecl",
   "DeclContext::DeclContextBits": "",
-  "DeclContext::LookupPtr": "StoredDeclsMap with 2 entries",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 5 entries",
   "DeclContext::FirstDecl": { "ptr": "CXXRecordDecl 65" },
-  "DeclContext::LastDecl": { "ptr": "FunctionTemplateDecl 66" },
+  "DeclContext::LastDecl": { "ptr": "CXXDestructorDecl 99" },
   "NamedDecl::Name": "\"HasTMethod\"",
   "TypeDecl::TypeForDecl": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
   "TypeDecl::LocStart": "in/src/declrefexpr-template-args.cc:22:1",
@@ -824,14 +824,14 @@
   "TagDecl::BraceRange": "<in/src/declrefexpr-template-args.cc:22:19, line:28:1>",
   "TagDecl::TypedefNameDeclOrQualifier.name": { "ptr": "null" },
   "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
-  "CXXRecordDecl::DefinitionData": { "ptr": "DefinitionData 119" },
+  "CXXRecordDecl::DefinitionData": { "ptr": "DefinitionData 135" },
   "CXXRecordDecl::TemplateOrInstantiation": "null",
   "CXXRecordDecl::getDependentLambdaCallOperator()": { "ptr": "null" },
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
-  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
-  "CXXRecordDecl::needsImplicitDestructor()": true,
+  "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 99" },
+  "CXXRecordDecl::needsImplicitDestructor()": false,
 },
 
 "CXXRecordDecl 65": {
@@ -871,7 +871,7 @@
 },
 
 "FunctionTemplateDecl 66": {
-  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::NextInContext": { "ptr": "CXXConstructorDecl 84" },
   "Decl::moduleOwnershipKind": "Unowned",
   "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 64" },
   "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 64" },
@@ -894,7 +894,7 @@
   "Redeclarable::First": { "ptr": "FunctionTemplateDecl 66" },
   "Redeclarable::redecls_size()": 1,
   "RedeclarableTemplateDecl::getInstantiatedFromMemberTemplate()": { "ptr": "null" },
-  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 120" },
+  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 136" },
 },
 
 "TemplateTypeParmDecl 67": {
@@ -916,7 +916,7 @@
 
 "TemplateTypeParmType 68": {
   "syntax": "\"T\"",
-  "CanonicalType": { "ptr": "TemplateTypeParmType 113", "preview": "type-parameter-0-0" },
+  "CanonicalType": { "ptr": "TemplateTypeParmType 129", "preview": "type-parameter-0-0" },
   "TTPDecl": { "ptr": "TemplateTypeParmDecl 67" },
   "Depth": "0",
   "Index": "0",
@@ -965,7 +965,7 @@
 
 "FunctionProtoType 70": {
   "syntax": "\"T (T)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 114", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
+  "CanonicalType": { "ptr": "FunctionProtoType 130", "preview": "type-parameter-0-0 (type-parameter-0-0)" },
   "ResultType": { "ptr": "TemplateTypeParmType 68", "preview": "T" },
   "paramType[0]": { "ptr": "TemplateTypeParmType 68", "preview": "T" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
@@ -1098,7 +1098,7 @@
 
 "FunctionProtoType 78": {
   "syntax": "\"int (int)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 85", "preview": "int (int)" },
+  "CanonicalType": { "ptr": "FunctionProtoType 102", "preview": "int (int)" },
   "ResultType": { "ptr": "SubstTemplateTypeParmType 79", "preview": "int" },
   "paramType[0]": { "ptr": "SubstTemplateTypeParmType 79", "preview": "int" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
@@ -1150,7 +1150,414 @@
   "DeclRefExpr::D": { "ptr": "ParmVarDecl 76" },
 },
 
-"FunctionDecl 84": {
+"CXXConstructorDecl 84": {
+  "Decl::NextInContext": { "ptr": "CXXConstructorDecl 86" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "Implicit Used",
+  "Decl::Implicit": "true",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXConstructorDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"HasTMethod\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 137", "preview": "void (void) noexcept" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "Redeclarable::Previous": { "ptr": "CXXConstructorDecl 84" },
+  "Redeclarable::First": { "ptr": "CXXConstructorDecl 84" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+  "FunctionDecl::ParamInfo": "(empty)",
+  "FunctionDecl::Body": { "ptr": "CompoundStmt 85" },
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+  "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+  "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+  "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+  "CXXConstructorDecl::InheritedConstructor": "TODO",
+},
+
+"CompoundStmt 85": {
+  "CompoundStmt::LBraceLoc": "in/src/declrefexpr-template-args.cc:22:8",
+  "CompoundStmt::RBraceLoc": "in/src/declrefexpr-template-args.cc:22:8",
+  "CompoundStmt::NumStmts": 0,
+},
+
+"CXXConstructorDecl 86": {
+  "Decl::NextInContext": { "ptr": "CXXMethodDecl 91" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "Implicit Used",
+  "Decl::Implicit": "true",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXConstructorDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"HasTMethod\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 138", "preview": "void (const HasTMethod &) noexcept" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "Redeclarable::Previous": { "ptr": "CXXConstructorDecl 86" },
+  "Redeclarable::First": { "ptr": "CXXConstructorDecl 86" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted Constexpr",
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 87" },
+  "FunctionDecl::Body": { "ptr": "CompoundStmt 90" },
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+  "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+  "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+  "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+  "CXXConstructorDecl::InheritedConstructor": "TODO",
+},
+
+"ParmVarDecl 87": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXConstructorDecl 86" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXConstructorDecl 86" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"\"",
+  "ValueDecl::DeclType": { "ptr": "LValueReferenceType 88", "preview": "const HasTMethod &" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+  "ParmVarDecl::ParmVarDeclBits flags": "",
+  "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+  "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+  "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+},
+
+"LValueReferenceType 88": {
+  "syntax": "\"const HasTMethod &\"",
+  "CanonicalType": { "ptr": "LValueReferenceType 139", "preview": "const struct HasTMethod &" },
+  "PointeeType": { "ptr": "ElaboratedType 89", "preview": "const HasTMethod" },
+},
+
+"ElaboratedType 89": {
+  "syntax": "\"HasTMethod\"",
+  "CanonicalType": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
+  "getUnqualifiedDesugaredType()": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
+  "Keyword": "ETK_None",
+  "NNS": "null",
+  "NamedType": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
+},
+
+"CompoundStmt 90": {
+  "CompoundStmt::LBraceLoc": "in/src/declrefexpr-template-args.cc:22:8",
+  "CompoundStmt::RBraceLoc": "in/src/declrefexpr-template-args.cc:22:8",
+  "CompoundStmt::NumStmts": 0,
+},
+
+"CXXMethodDecl 91": {
+  "Decl::NextInContext": { "ptr": "CXXConstructorDecl 93" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "Implicit",
+  "Decl::Implicit": "true",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXMethodDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"operator=\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 140", "preview": "HasTMethod &(const HasTMethod &)" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "Redeclarable::Previous": { "ptr": "CXXMethodDecl 91" },
+  "Redeclarable::First": { "ptr": "CXXMethodDecl 91" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 92" },
+  "FunctionDecl::Body": { "ptr": "null" },
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
+},
+
+"ParmVarDecl 92": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXMethodDecl 91" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXMethodDecl 91" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"\"",
+  "ValueDecl::DeclType": { "ptr": "LValueReferenceType 88", "preview": "const HasTMethod &" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+  "ParmVarDecl::ParmVarDeclBits flags": "",
+  "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+  "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+  "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+},
+
+"CXXConstructorDecl 93": {
+  "Decl::NextInContext": { "ptr": "CXXMethodDecl 97" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "Implicit Used",
+  "Decl::Implicit": "true",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXConstructorDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"HasTMethod\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 141", "preview": "void (HasTMethod &&) noexcept" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "Redeclarable::Previous": { "ptr": "CXXConstructorDecl 93" },
+  "Redeclarable::First": { "ptr": "CXXConstructorDecl 93" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted Constexpr",
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 94" },
+  "FunctionDecl::Body": { "ptr": "CompoundStmt 96" },
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+  "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+  "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+  "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+  "CXXConstructorDecl::InheritedConstructor": "TODO",
+},
+
+"ParmVarDecl 94": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXConstructorDecl 93" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXConstructorDecl 93" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"\"",
+  "ValueDecl::DeclType": { "ptr": "RValueReferenceType 95", "preview": "HasTMethod &&" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+  "ParmVarDecl::ParmVarDeclBits flags": "",
+  "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+  "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+  "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+},
+
+"RValueReferenceType 95": {
+  "syntax": "\"HasTMethod &&\"",
+  "CanonicalType": { "ptr": "RValueReferenceType 142", "preview": "struct HasTMethod &&" },
+  "PointeeType": { "ptr": "ElaboratedType 89", "preview": "HasTMethod" },
+},
+
+"CompoundStmt 96": {
+  "CompoundStmt::LBraceLoc": "in/src/declrefexpr-template-args.cc:22:8",
+  "CompoundStmt::RBraceLoc": "in/src/declrefexpr-template-args.cc:22:8",
+  "CompoundStmt::NumStmts": 0,
+},
+
+"CXXMethodDecl 97": {
+  "Decl::NextInContext": { "ptr": "CXXDestructorDecl 99" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "Implicit",
+  "Decl::Implicit": "true",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXMethodDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"operator=\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 143", "preview": "HasTMethod &(HasTMethod &&)" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "Redeclarable::Previous": { "ptr": "CXXMethodDecl 97" },
+  "Redeclarable::First": { "ptr": "CXXMethodDecl 97" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 98" },
+  "FunctionDecl::Body": { "ptr": "null" },
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
+},
+
+"ParmVarDecl 98": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXMethodDecl 97" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXMethodDecl 97" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"\"",
+  "ValueDecl::DeclType": { "ptr": "RValueReferenceType 95", "preview": "HasTMethod &&" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+  "ParmVarDecl::ParmVarDeclBits flags": "",
+  "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+  "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+  "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+},
+
+"CXXDestructorDecl 99": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::lexicalDeclContext": { "ptr": "CXXRecordDecl 64" },
+  "Decl::Loc": "in/src/declrefexpr-template-args.cc:22:8",
+  "Decl::flags": "Implicit Used",
+  "Decl::Implicit": "true",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "CXXDestructorDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "null" },
+  "DeclContext::LastDecl": { "ptr": "null" },
+  "NamedDecl::Name": "\"~HasTMethod\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 137", "preview": "void (void) noexcept" },
+  "DeclaratorDecl::TInfo": "NullTSI",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:22:8",
+  "Redeclarable::Previous": { "ptr": "CXXDestructorDecl 99" },
+  "Redeclarable::First": { "ptr": "CXXDestructorDecl 99" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted",
+  "FunctionDecl::ParamInfo": "(empty)",
+  "FunctionDecl::Body": { "ptr": "CompoundStmt 100" },
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+},
+
+"CompoundStmt 100": {
+  "CompoundStmt::LBraceLoc": "in/src/declrefexpr-template-args.cc:22:8",
+  "CompoundStmt::RBraceLoc": "in/src/declrefexpr-template-args.cc:22:8",
+  "CompoundStmt::NumStmts": 0,
+},
+
+"FunctionDecl 101": {
   "Decl::NextInContext": { "ptr": "null" },
   "Decl::moduleOwnershipKind": "Unowned",
   "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
@@ -1163,20 +1570,20 @@
   "DeclContext::DeclKind": "FunctionDecl",
   "DeclContext::DeclContextBits": "",
   "DeclContext::LookupPtr": "null",
-  "DeclContext::FirstDecl": { "ptr": "ParmVarDecl 86" },
-  "DeclContext::LastDecl": { "ptr": "ParmVarDecl 86" },
+  "DeclContext::FirstDecl": { "ptr": "ParmVarDecl 103" },
+  "DeclContext::LastDecl": { "ptr": "ParmVarDecl 103" },
   "NamedDecl::Name": "\"call\"",
-  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 85", "preview": "int (int)" },
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 102", "preview": "int (int)" },
   "DeclaratorDecl::TInfo": "FunctionProto(\"int (int)\", <in/src/declrefexpr-template-args.cc:30:1, col:15>, Builtin(\"int\", <in/src/declrefexpr-template-args.cc:30:1>, NullTypeLoc))",
   "DeclaratorDecl::ExtInfo": "absent",
   "DeclaratorDecl::InnerLocStart": "in/src/declrefexpr-template-args.cc:30:1",
-  "Redeclarable::Previous": { "ptr": "FunctionDecl 84" },
-  "Redeclarable::First": { "ptr": "FunctionDecl 84" },
+  "Redeclarable::Previous": { "ptr": "FunctionDecl 101" },
+  "Redeclarable::First": { "ptr": "FunctionDecl 101" },
   "Redeclarable::redecls_size()": 1,
   "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
   "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
-  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 86" },
-  "FunctionDecl::Body": { "ptr": "CompoundStmt 87" },
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 103" },
+  "FunctionDecl::Body": { "ptr": "CompoundStmt 104" },
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
   "FunctionDecl::TemplateOrSpecialization": "null",
@@ -1190,18 +1597,18 @@
   "FunctionDecl::getExceptionSpecType()": "EST_None",
 },
 
-"FunctionProtoType 85": {
+"FunctionProtoType 102": {
   "syntax": "\"int (int)\"",
   "ResultType": { "ptr": "BuiltinType 28", "preview": "int" },
   "paramType[0]": { "ptr": "BuiltinType 28", "preview": "int" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"ParmVarDecl 86": {
+"ParmVarDecl 103": {
   "Decl::NextInContext": { "ptr": "null" },
   "Decl::moduleOwnershipKind": "Unowned",
-  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 84" },
-  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 84" },
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 101" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 101" },
   "Decl::Loc": "in/src/declrefexpr-template-args.cc:30:14",
   "Decl::flags": "Used Referenced",
   "Decl::Access": "AS_none",
@@ -1223,41 +1630,41 @@
   "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
 },
 
-"CompoundStmt 87": {
+"CompoundStmt 104": {
   "CompoundStmt::LBraceLoc": "in/src/declrefexpr-template-args.cc:31:1",
   "CompoundStmt::RBraceLoc": "in/src/declrefexpr-template-args.cc:37:1",
   "CompoundStmt::NumStmts": 1,
-  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 88" },
+  "CompoundStmt::Stmt[0]": { "ptr": "ReturnStmt 105" },
 },
 
-"ReturnStmt 88": {
-  "ReturnStmt::RetExpr": { "ptr": "BinaryOperator 89" },
+"ReturnStmt 105": {
+  "ReturnStmt::RetExpr": { "ptr": "BinaryOperator 106" },
   "ReturnStmt::NRVOCandidate": { "ptr": "null" },
   "ReturnStmt::RetLoc": "in/src/declrefexpr-template-args.cc:32:3",
 },
 
-"BinaryOperator 89": {
+"BinaryOperator 106": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
 },
 
-"BinaryOperator 90": {
+"BinaryOperator 107": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
 },
 
-"BinaryOperator 91": {
+"BinaryOperator 108": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
 },
 
-"CallExpr 92": {
+"CallExpr 109": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
@@ -1266,24 +1673,24 @@
   "CallExpr::OffsetToTrailingObjects": 24,
   "CallExpr::NumArgs": 1,
   "CallExpr::RParenLoc": "in/src/declrefexpr-template-args.cc:33:15",
-  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 93" },
-  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 95" },
+  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 110" },
+  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 112" },
 },
 
-"ImplicitCastExpr 93": {
+"ImplicitCastExpr 110": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
-  "Expr::TR": { "ptr": "PointerType 121", "preview": "int (*)(int)" },
+  "Expr::TR": { "ptr": "PointerType 144", "preview": "int (*)(int)" },
   "CastExpr::CastExprBits": "FunctionToPointerDecay",
   "CastExpr::BasePathSize": 0,
-  "CastExpr::Op": { "ptr": "DeclRefExpr 94" },
+  "CastExpr::Op": { "ptr": "DeclRefExpr 111" },
   "CastExpr::getConversionFunction()": { "ptr": "null" },
   "CastExpr::getStoredFPFeatures())": "TODO",
   "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
-"DeclRefExpr 94": {
+"DeclRefExpr 111": {
   "Expr::ExprBits::ValueKind": "VK_LValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
@@ -1294,30 +1701,30 @@
   "DeclRefExpr::FoundDecl": { "ptr": "FunctionTemplateDecl 14" },
 },
 
-"ImplicitCastExpr 95": {
+"ImplicitCastExpr 112": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
   "CastExpr::CastExprBits": "LValueToRValue",
   "CastExpr::BasePathSize": 0,
-  "CastExpr::Op": { "ptr": "DeclRefExpr 96" },
+  "CastExpr::Op": { "ptr": "DeclRefExpr 113" },
   "CastExpr::getConversionFunction()": { "ptr": "null" },
   "CastExpr::getStoredFPFeatures())": "TODO",
   "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
-"DeclRefExpr 96": {
+"DeclRefExpr 113": {
   "Expr::ExprBits::ValueKind": "VK_LValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/declrefexpr-template-args.cc:33:14",
-  "DeclRefExpr::D": { "ptr": "ParmVarDecl 86" },
+  "DeclRefExpr::D": { "ptr": "ParmVarDecl 103" },
 },
 
-"CallExpr 97": {
+"CallExpr 114": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
@@ -1326,24 +1733,24 @@
   "CallExpr::OffsetToTrailingObjects": 24,
   "CallExpr::NumArgs": 1,
   "CallExpr::RParenLoc": "in/src/declrefexpr-template-args.cc:34:20",
-  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 98" },
-  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 100" },
+  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 115" },
+  "CallExpr::Arg[0]": { "ptr": "ImplicitCastExpr 117" },
 },
 
-"ImplicitCastExpr 98": {
+"ImplicitCastExpr 115": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
-  "Expr::TR": { "ptr": "PointerType 121", "preview": "int (*)(int)" },
+  "Expr::TR": { "ptr": "PointerType 144", "preview": "int (*)(int)" },
   "CastExpr::CastExprBits": "FunctionToPointerDecay",
   "CastExpr::BasePathSize": 0,
-  "CastExpr::Op": { "ptr": "DeclRefExpr 99" },
+  "CastExpr::Op": { "ptr": "DeclRefExpr 116" },
   "CastExpr::getConversionFunction()": { "ptr": "null" },
   "CastExpr::getStoredFPFeatures())": "TODO",
   "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
-"DeclRefExpr 99": {
+"DeclRefExpr 116": {
   "Expr::ExprBits::ValueKind": "VK_LValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
@@ -1360,30 +1767,30 @@
   "DeclRefExpr::TemplateArgumentLoc[0]::LocInfo::TypeSourceInfo": "Builtin(\"int\", <in/src/declrefexpr-template-args.cc:34:14>, NullTypeLoc)",
 },
 
-"ImplicitCastExpr 100": {
+"ImplicitCastExpr 117": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
   "CastExpr::CastExprBits": "LValueToRValue",
   "CastExpr::BasePathSize": 0,
-  "CastExpr::Op": { "ptr": "DeclRefExpr 101" },
+  "CastExpr::Op": { "ptr": "DeclRefExpr 118" },
   "CastExpr::getConversionFunction()": { "ptr": "null" },
   "CastExpr::getStoredFPFeatures())": "TODO",
   "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
-"DeclRefExpr 101": {
+"DeclRefExpr 118": {
   "Expr::ExprBits::ValueKind": "VK_LValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
   "DeclRefExpr::DeclRefExprBits": "",
   "DeclRefExpr::Loc": "in/src/declrefexpr-template-args.cc:34:19",
-  "DeclRefExpr::D": { "ptr": "ParmVarDecl 86" },
+  "DeclRefExpr::D": { "ptr": "ParmVarDecl 103" },
 },
 
-"CallExpr 102": {
+"CallExpr 119": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
@@ -1392,23 +1799,23 @@
   "CallExpr::OffsetToTrailingObjects": 24,
   "CallExpr::NumArgs": 0,
   "CallExpr::RParenLoc": "in/src/declrefexpr-template-args.cc:35:13",
-  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 103" },
+  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 120" },
 },
 
-"ImplicitCastExpr 103": {
+"ImplicitCastExpr 120": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
-  "Expr::TR": { "ptr": "PointerType 122", "preview": "int (*)(void)" },
+  "Expr::TR": { "ptr": "PointerType 145", "preview": "int (*)(void)" },
   "CastExpr::CastExprBits": "FunctionToPointerDecay",
   "CastExpr::BasePathSize": 0,
-  "CastExpr::Op": { "ptr": "DeclRefExpr 104" },
+  "CastExpr::Op": { "ptr": "DeclRefExpr 121" },
   "CastExpr::getConversionFunction()": { "ptr": "null" },
   "CastExpr::getStoredFPFeatures())": "TODO",
   "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
-"DeclRefExpr 104": {
+"DeclRefExpr 121": {
   "Expr::ExprBits::ValueKind": "VK_LValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
@@ -1422,17 +1829,17 @@
   "DeclRefExpr::ASTTemplateKWAndArgsInfo::RAngleLoc": "in/src/declrefexpr-template-args.cc:35:11",
   "DeclRefExpr::ASTTemplateKWAndArgsInfo::NumTemplateArgs": "1",
   "DeclRefExpr::TemplateArgumentLoc[0]::Argument": "\"7\"",
-  "DeclRefExpr::TemplateArgumentLoc[0]::LocInfo::Expr": { "ptr": "IntegerLiteral 105" },
+  "DeclRefExpr::TemplateArgumentLoc[0]::LocInfo::Expr": { "ptr": "IntegerLiteral 122" },
 },
 
-"IntegerLiteral 105": {
+"IntegerLiteral 122": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
 },
 
-"CallExpr 106": {
+"CallExpr 123": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
@@ -1441,23 +1848,23 @@
   "CallExpr::OffsetToTrailingObjects": 24,
   "CallExpr::NumArgs": 0,
   "CallExpr::RParenLoc": "in/src/declrefexpr-template-args.cc:36:31",
-  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 107" },
+  "CallExpr::Callee": { "ptr": "ImplicitCastExpr 124" },
 },
 
-"ImplicitCastExpr 107": {
+"ImplicitCastExpr 124": {
   "Expr::ExprBits::ValueKind": "VK_PRValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
-  "Expr::TR": { "ptr": "PointerType 122", "preview": "int (*)(void)" },
+  "Expr::TR": { "ptr": "PointerType 145", "preview": "int (*)(void)" },
   "CastExpr::CastExprBits": "FunctionToPointerDecay",
   "CastExpr::BasePathSize": 0,
-  "CastExpr::Op": { "ptr": "DeclRefExpr 108" },
+  "CastExpr::Op": { "ptr": "DeclRefExpr 125" },
   "CastExpr::getConversionFunction()": { "ptr": "null" },
   "CastExpr::getStoredFPFeatures())": "TODO",
   "ImplicitCastExpr::PartOfExplicitCast": false,
 },
 
-"DeclRefExpr 108": {
+"DeclRefExpr 125": {
   "Expr::ExprBits::ValueKind": "VK_LValue",
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
@@ -1474,24 +1881,15 @@
   "DeclRefExpr::TemplateArgumentLoc[0]::LocInfo::TypeSourceInfo": "Elaborated(\"HasTMethod\", <in/src/declrefexpr-template-args.cc:36:19>, Record(\"struct HasTMethod\", <in/src/declrefexpr-template-args.cc:36:19>, NullTypeLoc))",
 },
 
-"ElaboratedType 109": {
-  "syntax": "\"HasTMethod\"",
-  "CanonicalType": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
-  "getUnqualifiedDesugaredType()": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
-  "Keyword": "ETK_None",
-  "NNS": "null",
-  "NamedType": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
-},
-
-"CXXRecordDecl 110": {
+"CXXRecordDecl 126": {
   "skipping reserved": "\"__NSConstantString_tag\"",
 },
 
-"CXXRecordDecl 111": {
+"CXXRecordDecl 127": {
   "skipping reserved": "\"__va_list_tag\"",
 },
 
-"FunctionTemplateDecl::Common 112": {
+"FunctionTemplateDecl::Common 128": {
   "associated decl": { "ptr": "FunctionTemplateDecl 14" },
   "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
   "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
@@ -1499,7 +1897,7 @@
   "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 25" },
 },
 
-"TemplateTypeParmType 113": {
+"TemplateTypeParmType 129": {
   "syntax": "\"type-parameter-0-0\"",
   "TTPDecl": { "ptr": "null" },
   "Depth": "0",
@@ -1507,14 +1905,14 @@
   "isParameterPack": "0",
 },
 
-"FunctionProtoType 114": {
+"FunctionProtoType 130": {
   "syntax": "\"type-parameter-0-0 (type-parameter-0-0)\"",
-  "ResultType": { "ptr": "TemplateTypeParmType 113", "preview": "type-parameter-0-0" },
-  "paramType[0]": { "ptr": "TemplateTypeParmType 113", "preview": "type-parameter-0-0" },
+  "ResultType": { "ptr": "TemplateTypeParmType 129", "preview": "type-parameter-0-0" },
+  "paramType[0]": { "ptr": "TemplateTypeParmType 129", "preview": "type-parameter-0-0" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"FunctionTemplateDecl::Common 115": {
+"FunctionTemplateDecl::Common 131": {
   "associated decl": { "ptr": "FunctionTemplateDecl 33" },
   "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
   "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
@@ -1522,7 +1920,7 @@
   "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 41" },
 },
 
-"FunctionTemplateDecl::Common 116": {
+"FunctionTemplateDecl::Common 132": {
   "associated decl": { "ptr": "FunctionTemplateDecl 46" },
   "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
   "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
@@ -1530,17 +1928,17 @@
   "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 56" },
 },
 
-"BuiltinType 117": {
+"BuiltinType 133": {
   "syntax": "\"<dependent type>\"",
 },
 
-"PointerType 118": {
+"PointerType 134": {
   "syntax": "\"int (*)(int)\"",
-  "CanonicalType": { "ptr": "PointerType 123", "preview": "int (*)(int)" },
+  "CanonicalType": { "ptr": "PointerType 146", "preview": "int (*)(int)" },
   "PointeeType": { "ptr": "FunctionProtoType 78", "preview": "int (int)" },
 },
 
-"DefinitionData 119": {
+"DefinitionData 135": {
   "flags": [
     "Aggregate",
     "PlainOldData",
@@ -1548,19 +1946,24 @@
     "IsStandardLayout",
     "IsCXX11StandardLayout",
     "HasIrrelevantDestructor",
+    "HasConstexprNonCopyMoveConstructor",
+    "HasDefaultedDefaultConstructor",
     "DefaultedDefaultConstructorIsConstexpr",
+    "HasConstexprDefaultConstructor",
     "DefaultedDestructorIsConstexpr",
     "StructuralIfLiteral",
     "ImplicitCopyConstructorCanHaveConstParamForVBase",
     "ImplicitCopyConstructorCanHaveConstParamForNonVBase",
     "ImplicitCopyAssignmentHasConstParam",
+    "HasDeclaredCopyConstructorWithConstParam",
+    "HasDeclaredCopyAssignmentWithConstParam",
   ],
   "UserDeclaredSpecialMembers": "SMF_None",
   "HasTrivialSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "HasTrivialSpecialMembersForCall": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "DeclaredNonTrivialSpecialMembers": "SMF_None",
   "DeclaredNonTrivialSpecialMembersForCall": "SMF_None",
-  "DeclaredSpecialMembers": "SMF_None",
+  "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "NumBases": "0",
   "NumVBases": "0",
   "Bases": "TODO",
@@ -1571,7 +1974,7 @@
   "FirstFriend": "TODO",
 },
 
-"FunctionTemplateDecl::Common 120": {
+"FunctionTemplateDecl::Common 136": {
   "associated decl": { "ptr": "FunctionTemplateDecl 66" },
   "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
   "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
@@ -1579,20 +1982,111 @@
   "FTD::Common::Specializations[0]": { "ptr": "FunctionTemplateSpecializationInfo 77" },
 },
 
-"PointerType 121": {
+"FunctionProtoType 137": {
+  "syntax": "\"void (void) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 147", "preview": "void" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"FunctionProtoType 138": {
+  "syntax": "\"void (const HasTMethod &) noexcept\"",
+  "CanonicalType": { "ptr": "FunctionProtoType 148", "preview": "void (const struct HasTMethod &) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 147", "preview": "void" },
+  "paramType[0]": { "ptr": "LValueReferenceType 88", "preview": "const HasTMethod &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"LValueReferenceType 139": {
+  "syntax": "\"const struct HasTMethod &\"",
+  "PointeeType": { "ptr": "RecordType 63", "preview": "const struct HasTMethod" },
+},
+
+"FunctionProtoType 140": {
+  "syntax": "\"HasTMethod &(const HasTMethod &)\"",
+  "CanonicalType": { "ptr": "FunctionProtoType 149", "preview": "struct HasTMethod &(const struct HasTMethod &)" },
+  "ResultType": { "ptr": "LValueReferenceType 150", "preview": "HasTMethod &" },
+  "paramType[0]": { "ptr": "LValueReferenceType 88", "preview": "const HasTMethod &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
+},
+
+"FunctionProtoType 141": {
+  "syntax": "\"void (HasTMethod &&) noexcept\"",
+  "CanonicalType": { "ptr": "FunctionProtoType 151", "preview": "void (struct HasTMethod &&) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 147", "preview": "void" },
+  "paramType[0]": { "ptr": "RValueReferenceType 95", "preview": "HasTMethod &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"RValueReferenceType 142": {
+  "syntax": "\"struct HasTMethod &&\"",
+  "PointeeType": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
+},
+
+"FunctionProtoType 143": {
+  "syntax": "\"HasTMethod &(HasTMethod &&)\"",
+  "CanonicalType": { "ptr": "FunctionProtoType 152", "preview": "struct HasTMethod &(struct HasTMethod &&)" },
+  "ResultType": { "ptr": "LValueReferenceType 150", "preview": "HasTMethod &" },
+  "paramType[0]": { "ptr": "RValueReferenceType 95", "preview": "HasTMethod &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
+},
+
+"PointerType 144": {
   "syntax": "\"int (*)(int)\"",
-  "CanonicalType": { "ptr": "PointerType 123", "preview": "int (*)(int)" },
+  "CanonicalType": { "ptr": "PointerType 146", "preview": "int (*)(int)" },
   "PointeeType": { "ptr": "FunctionProtoType 26", "preview": "int (int)" },
 },
 
-"PointerType 122": {
+"PointerType 145": {
   "syntax": "\"int (*)(void)\"",
   "PointeeType": { "ptr": "FunctionProtoType 36", "preview": "int (void)" },
 },
 
-"PointerType 123": {
+"PointerType 146": {
   "syntax": "\"int (*)(int)\"",
-  "PointeeType": { "ptr": "FunctionProtoType 85", "preview": "int (int)" },
+  "PointeeType": { "ptr": "FunctionProtoType 102", "preview": "int (int)" },
+},
+
+"BuiltinType 147": {
+  "syntax": "\"void\"",
+},
+
+"FunctionProtoType 148": {
+  "syntax": "\"void (const struct HasTMethod &) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 147", "preview": "void" },
+  "paramType[0]": { "ptr": "LValueReferenceType 139", "preview": "const struct HasTMethod &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"FunctionProtoType 149": {
+  "syntax": "\"struct HasTMethod &(const struct HasTMethod &)\"",
+  "ResultType": { "ptr": "LValueReferenceType 153", "preview": "struct HasTMethod &" },
+  "paramType[0]": { "ptr": "LValueReferenceType 139", "preview": "const struct HasTMethod &" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+},
+
+"LValueReferenceType 150": {
+  "syntax": "\"HasTMethod &\"",
+  "CanonicalType": { "ptr": "LValueReferenceType 153", "preview": "struct HasTMethod &" },
+  "PointeeType": { "ptr": "ElaboratedType 89", "preview": "HasTMethod" },
+},
+
+"FunctionProtoType 151": {
+  "syntax": "\"void (struct HasTMethod &&) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 147", "preview": "void" },
+  "paramType[0]": { "ptr": "RValueReferenceType 142", "preview": "struct HasTMethod &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"FunctionProtoType 152": {
+  "syntax": "\"struct HasTMethod &(struct HasTMethod &&)\"",
+  "ResultType": { "ptr": "LValueReferenceType 153", "preview": "struct HasTMethod &" },
+  "paramType[0]": { "ptr": "RValueReferenceType 142", "preview": "struct HasTMethod &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+},
+
+"LValueReferenceType 153": {
+  "syntax": "\"struct HasTMethod &\"",
+  "PointeeType": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
 },
 }
 ---- stderr ----

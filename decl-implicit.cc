@@ -34,9 +34,16 @@ clang::Sema &DeclareImplicitThings::getSema()
 bool DeclareImplicitThings::VisitCXXRecordDecl(clang::CXXRecordDecl *decl)
 {
   INIT_TRACE("DeclareImplicitThings::VisitCXXRecordDecl");
-  TRACE1("class: " << namedDeclAtLocStr(decl));
 
-  getSema().ForceDeclarationOfImplicitMembers(decl);
+  // Only force declarations when looking at the definition.  Otherwise,
+  // the new members can end up with source locations derived from a
+  // forward declaration, which is wrong from a dependency point of
+  // view.
+  if (decl->isThisDeclarationADefinition()) {
+    TRACE1("class: " << namedDeclAtLocStr(decl));
+    getSema().ForceDeclarationOfImplicitMembers(decl);
+  }
+
   return true;
 }
 
