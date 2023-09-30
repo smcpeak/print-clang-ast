@@ -154,6 +154,8 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "ClassTemplateDecl 14" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+  "CXXRecordDecl::needsImplicitDestructor()": true,
 },
 
 "CXXRecordDecl 18": {
@@ -189,6 +191,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "ClassTemplateDecl 14" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "ClassTemplateDecl 19": {
@@ -276,6 +279,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "ClassTemplateDecl 19" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "ClassTemplateSpecializationDecl 23": {
@@ -310,6 +314,8 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "CXXRecordDecl 17" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+  "CXXRecordDecl::needsImplicitDestructor()": true,
   "ClassTemplateSpecializationDecl::SpecializedTemplate.ClassTemplateDecl": { "ptr": "ClassTemplateDecl 14" },
   "ClassTemplateSpecializationDecl::ExplicitInfo": "null",
   "ClassTemplateSpecializationDecl::TemplateArgs": "\"<int>\"",
@@ -355,6 +361,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "ClassTemplateDecl 25": {
@@ -442,6 +449,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "ClassTemplateDecl 25" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "ClassTemplateSpecializationDecl 29": {
@@ -476,6 +484,8 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "ClassTemplatePartialSpecializationDecl 47" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+  "CXXRecordDecl::needsImplicitDestructor()": true,
   "ClassTemplateSpecializationDecl::SpecializedTemplate.SpecializedPartialSpecialization->PartialSpecialization": { "ptr": "ClassTemplatePartialSpecializationDecl 47" },
   "ClassTemplateSpecializationDecl::SpecializedTemplate.SpecializedPartialSpecialization->TemplateArgs": "\"<float>\"",
   "ClassTemplateSpecializationDecl::ExplicitInfo": "null",
@@ -522,6 +532,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "FieldDecl 31": {
@@ -631,10 +642,12 @@
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
   "CXXConstructorDecl::InheritedConstructor": "TODO",
-  "CXXConstructorDecl::CtorInitializers": "TODO",
 },
 
 "CompoundStmt 38": {
+  "CompoundStmt::LBraceLoc": "in/src/ct-cont-ct-pmspec.cc:12:20",
+  "CompoundStmt::RBraceLoc": "in/src/ct-cont-ct-pmspec.cc:12:20",
+  "CompoundStmt::NumStmts": 0,
 },
 
 "CXXConstructorDecl 39": {
@@ -663,7 +676,7 @@
   "Redeclarable::redecls_size()": 1,
   "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
   "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted Constexpr",
-  "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 40" },
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 40" },
   "FunctionDecl::Body": { "ptr": "null" },
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
@@ -680,7 +693,6 @@
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
   "CXXConstructorDecl::InheritedConstructor": "TODO",
-  "CXXConstructorDecl::CtorInitializers": "TODO",
 },
 
 "ParmVarDecl 40": {
@@ -755,7 +767,7 @@
   "Redeclarable::redecls_size()": 1,
   "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
   "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted Constexpr",
-  "FunctionDecl::ParamInfo[0]": { "ptr": "ParmVarDecl 45" },
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 45" },
   "FunctionDecl::Body": { "ptr": "null" },
   "FunctionDecl::DefaultKWLoc": "<invalid loc>",
   "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
@@ -772,7 +784,6 @@
   "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
   "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
   "CXXConstructorDecl::InheritedConstructor": "TODO",
-  "CXXConstructorDecl::CtorInitializers": "TODO",
 },
 
 "ParmVarDecl 45": {
@@ -841,15 +852,18 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
+  "CXXRecordDecl::needsImplicitDestructor()": true,
   "ClassTemplateSpecializationDecl::SpecializedTemplate.ClassTemplateDecl": { "ptr": "ClassTemplateDecl 25" },
   "ClassTemplateSpecializationDecl::ExplicitInfo->TypeAsWritten": "TemplateSpecialization(\"Inner<V *>\", <in/src/ct-cont-ct-pmspec.cc:12:20, col:28>, NullTypeLoc)",
   "ClassTemplateSpecializationDecl::ExplicitInfo->ExternLoc": "<invalid loc>",
   "ClassTemplateSpecializationDecl::ExplicitInfo->TemplateKeywordLoc": "in/src/ct-cont-ct-pmspec.cc:10:1",
+  "ClassTemplateSpecializationDecl::ExplicitInfo->TAW->Ty": { "ptr": "TemplateSpecializationType 82" },
   "ClassTemplateSpecializationDecl::TemplateArgs": "\"<type-parameter-0-0 *>\"",
   "ClassTemplateSpecializationDecl::PointOfInstantiation": "<invalid loc>",
   "ClassTemplateSpecializationDecl::SpecializationKind": "TSK_ExplicitSpecialization",
   "ClassTemplateSpecializationDecl::TemplateArgs[0].Kind": "Type",
-  "ClassTemplateSpecializationDecl::TemplateArgs[0].TypeOrValue.V": { "ptr": "PointerType 82", "preview": "type-parameter-0-0 *" },
+  "ClassTemplateSpecializationDecl::TemplateArgs[0].TypeOrValue.V": { "ptr": "PointerType 83", "preview": "type-parameter-0-0 *" },
   "ClassTemplateSpecializationDecl::getSpecializedTemplate()": { "ptr": "ClassTemplateDecl 25" },
   "ClassTemplateSpecializationDecl::getInstantiatedFrom()": null,
   "ClassTemplateSpecializationDecl::getSpecializedOrPartial().CTD": { "ptr": "ClassTemplateDecl 25" },
@@ -894,7 +908,7 @@
 
 "PointerType 50": {
   "syntax": "\"V *\"",
-  "CanonicalType": { "ptr": "PointerType 82", "preview": "type-parameter-0-0 *" },
+  "CanonicalType": { "ptr": "PointerType 83", "preview": "type-parameter-0-0 *" },
   "PointeeType": { "ptr": "TemplateTypeParmType 49", "preview": "V" },
 },
 
@@ -944,6 +958,7 @@
   "CXXRecordDecl::getInstantiatedFromMemberClass()": { "ptr": "null" },
   "CXXRecordDecl::getDescribedClassTemplate()": { "ptr": "null" },
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
+  "CXXRecordDecl::getDestructor()": { "ptr": "null" },
 },
 
 "FieldDecl 53": {
@@ -1055,6 +1070,11 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "ElaboratedType 56", "preview": "Outer<int>::Inner<float *>" },
+  "CXXConstructExpr::Loc": "in/src/ct-cont-ct-pmspec.cc:17:27",
+  "CXXConstructExpr::CXXConstructExprBits": "CK_Complete HadMultipleCandidates",
+  "CXXConstructExpr::Constructor": { "ptr": "CXXConstructorDecl 37" },
+  "CXXConstructExpr::ParenOrBraceRange": "<<invalid sloc>>",
+  "CXXConstructExpr::NumArgs": 0,
 },
 
 "CXXRecordDecl 61": {
@@ -1072,7 +1092,7 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 23" },
   "CTD::Common::PartialSpecializations": "empty",
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 83", "preview": "Outer<T>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 84", "preview": "Outer<T>" },
 },
 
 "TemplateTypeParmType 64": {
@@ -1086,7 +1106,7 @@
 "InjectedClassNameType 65": {
   "syntax": "\"Outer<T>\"",
   "Decl": { "ptr": "CXXRecordDecl 17" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 83", "preview": "Outer<T>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 84", "preview": "Outer<T>" },
 },
 
 "DefinitionData 66": {
@@ -1127,7 +1147,7 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations": "empty",
   "CTD::Common::PartialSpecializations": "empty",
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 84", "preview": "Inner<U>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 85", "preview": "Inner<U>" },
 },
 
 "TemplateTypeParmType 68": {
@@ -1141,7 +1161,7 @@
 "InjectedClassNameType 69": {
   "syntax": "\"Inner<U>\"",
   "Decl": { "ptr": "CXXRecordDecl 22" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 84", "preview": "Inner<U>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 85", "preview": "Inner<U>" },
 },
 
 "RecordType 70": {
@@ -1187,13 +1207,13 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 29" },
   "CTD::Common::PartialSpecializations[0]": { "ptr": "ClassTemplatePartialSpecializationDecl 47" },
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 85", "preview": "Inner<U>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 86", "preview": "Inner<U>" },
 },
 
 "InjectedClassNameType 73": {
   "syntax": "\"Inner<U>\"",
   "Decl": { "ptr": "CXXRecordDecl 28" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 85", "preview": "Inner<U>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 86", "preview": "Inner<U>" },
 },
 
 "DefinitionData 74": {
@@ -1232,14 +1252,14 @@
 
 "FunctionProtoType 75": {
   "syntax": "\"void (void) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 86", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 87", "preview": "void" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 76": {
   "syntax": "\"void (const Inner<float *> &)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 87", "preview": "void (const struct Outer<int>::Inner<float *> &)" },
-  "ResultType": { "ptr": "BuiltinType 86", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 88", "preview": "void (const struct Outer<int>::Inner<float *> &)" },
+  "ResultType": { "ptr": "BuiltinType 87", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 41", "preview": "const Inner<float *> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
@@ -1251,8 +1271,8 @@
 
 "FunctionProtoType 78": {
   "syntax": "\"void (Inner<float *> &&)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 88", "preview": "void (struct Outer<int>::Inner<float *> &&)" },
-  "ResultType": { "ptr": "BuiltinType 86", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 89", "preview": "void (struct Outer<int>::Inner<float *> &&)" },
+  "ResultType": { "ptr": "BuiltinType 87", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 46", "preview": "Inner<float *> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
@@ -1265,7 +1285,7 @@
 "InjectedClassNameType 80": {
   "syntax": "\"Inner<type-parameter-0-0 *>\"",
   "Decl": { "ptr": "ClassTemplatePartialSpecializationDecl 47" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 89", "preview": "Inner<type-parameter-0-0 *>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 90", "preview": "Inner<type-parameter-0-0 *>" },
 },
 
 "DefinitionData 81": {
@@ -1301,78 +1321,101 @@
   "FirstFriend": "TODO",
 },
 
-"PointerType 82": {
+"TemplateSpecializationType 82": {
+  "syntax": "\"Inner<V *>\"",
+  "CanonicalType": { "ptr": "TemplateSpecializationType 91", "preview": "Inner<type-parameter-0-0 *>" },
+  "Bits.TypeAlias": "0",
+  "Bits.NumArgs": "1",
+  "args[0]": "\"V *\" (ArgKind::Type)",
+  "args[0].Type": { "ptr": "PointerType 50", "preview": "V *" },
+  "Template": "Inner",
+  "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
+  "desugar()": { "ptr": "TemplateSpecializationType 91", "preview": "Inner<type-parameter-0-0 *>" },
+},
+
+"PointerType 83": {
   "syntax": "\"type-parameter-0-0 *\"",
   "PointeeType": { "ptr": "TemplateTypeParmType 64", "preview": "type-parameter-0-0" },
 },
 
-"TemplateSpecializationType 83": {
+"TemplateSpecializationType 84": {
   "syntax": "\"Outer<T>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 90", "preview": "Outer<type-parameter-0-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 92", "preview": "Outer<type-parameter-0-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"T\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "Template": "Outer",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 14" },
-  "desugar()": { "ptr": "TemplateSpecializationType 90", "preview": "Outer<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 92", "preview": "Outer<type-parameter-0-0>" },
 },
 
-"TemplateSpecializationType 84": {
+"TemplateSpecializationType 85": {
   "syntax": "\"Inner<U>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 91", "preview": "Inner<type-parameter-1-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 93", "preview": "Inner<type-parameter-1-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"U\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 21", "preview": "U" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 91", "preview": "Inner<type-parameter-1-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 93", "preview": "Inner<type-parameter-1-0>" },
 },
 
-"TemplateSpecializationType 85": {
+"TemplateSpecializationType 86": {
   "syntax": "\"Inner<U>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 92", "preview": "Inner<type-parameter-0-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 94", "preview": "Inner<type-parameter-0-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"U\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 27", "preview": "U" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 92", "preview": "Inner<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 94", "preview": "Inner<type-parameter-0-0>" },
 },
 
-"BuiltinType 86": {
+"BuiltinType 87": {
   "syntax": "\"void\"",
 },
 
-"FunctionProtoType 87": {
+"FunctionProtoType 88": {
   "syntax": "\"void (const struct Outer<int>::Inner<float *> &)\"",
-  "ResultType": { "ptr": "BuiltinType 86", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 87", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 77", "preview": "const struct Outer<int>::Inner<float *> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"FunctionProtoType 88": {
+"FunctionProtoType 89": {
   "syntax": "\"void (struct Outer<int>::Inner<float *> &&)\"",
-  "ResultType": { "ptr": "BuiltinType 86", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 87", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 79", "preview": "struct Outer<int>::Inner<float *> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"TemplateSpecializationType 89": {
+"TemplateSpecializationType 90": {
   "syntax": "\"Inner<type-parameter-0-0 *>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 93", "preview": "Inner<type-parameter-0-0 *>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 91", "preview": "Inner<type-parameter-0-0 *>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"type-parameter-0-0 *\" (ArgKind::Type)",
-  "args[0].Type": { "ptr": "PointerType 82", "preview": "type-parameter-0-0 *" },
+  "args[0].Type": { "ptr": "PointerType 83", "preview": "type-parameter-0-0 *" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 93", "preview": "Inner<type-parameter-0-0 *>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 91", "preview": "Inner<type-parameter-0-0 *>" },
 },
 
-"TemplateSpecializationType 90": {
+"TemplateSpecializationType 91": {
+  "syntax": "\"Inner<type-parameter-0-0 *>\"",
+  "Bits.TypeAlias": "0",
+  "Bits.NumArgs": "1",
+  "args[0]": "\"type-parameter-0-0 *\" (ArgKind::Type)",
+  "args[0].Type": { "ptr": "PointerType 83", "preview": "type-parameter-0-0 *" },
+  "Template": "Inner",
+  "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
+  "desugar()": { "ptr": "TemplateSpecializationType 91", "preview": "Inner<type-parameter-0-0 *>" },
+},
+
+"TemplateSpecializationType 92": {
   "syntax": "\"Outer<type-parameter-0-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -1380,10 +1423,10 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 64", "preview": "type-parameter-0-0" },
   "Template": "Outer",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 14" },
-  "desugar()": { "ptr": "TemplateSpecializationType 90", "preview": "Outer<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 92", "preview": "Outer<type-parameter-0-0>" },
 },
 
-"TemplateSpecializationType 91": {
+"TemplateSpecializationType 93": {
   "syntax": "\"Inner<type-parameter-1-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -1391,10 +1434,10 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 68", "preview": "type-parameter-1-0" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 91", "preview": "Inner<type-parameter-1-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 93", "preview": "Inner<type-parameter-1-0>" },
 },
 
-"TemplateSpecializationType 92": {
+"TemplateSpecializationType 94": {
   "syntax": "\"Inner<type-parameter-0-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -1402,18 +1445,7 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 64", "preview": "type-parameter-0-0" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 92", "preview": "Inner<type-parameter-0-0>" },
-},
-
-"TemplateSpecializationType 93": {
-  "syntax": "\"Inner<type-parameter-0-0 *>\"",
-  "Bits.TypeAlias": "0",
-  "Bits.NumArgs": "1",
-  "args[0]": "\"type-parameter-0-0 *\" (ArgKind::Type)",
-  "args[0].Type": { "ptr": "PointerType 82", "preview": "type-parameter-0-0 *" },
-  "Template": "Inner",
-  "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 93", "preview": "Inner<type-parameter-0-0 *>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 94", "preview": "Inner<type-parameter-0-0>" },
 },
 }
 ---- stderr ----
