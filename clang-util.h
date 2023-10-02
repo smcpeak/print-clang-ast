@@ -217,6 +217,9 @@ public:      // methods
   static std::string overloadedOperatorKindStr(
     clang::OverloadedOperatorKind op);
 
+  // Stringify 'ckind'.
+  static std::string castKindStr(clang::CastKind ckind);
+
   // Cast 'dc' to the associated Decl pointer.  Asserts that the
   // conversion succeeds, unless 'dc' is null, in which case null is
   // returned.

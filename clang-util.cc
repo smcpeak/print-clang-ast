@@ -591,6 +591,30 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
+/*static*/ std::string ClangUtil::castKindStr(clang::CastKind ckind)
+{
+  static struct Entry {
+    clang::CastKind m_ckind;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(name) { clang::name, #name }
+
+    #define CAST_OPERATION(Name) ENTRY(CK_##Name),
+    #include "clang/AST/OperationKinds.def"
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_ckind == ckind) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("CastKind(" << (int)ckind << ")");
+}
+
+
 /*static*/ clang::Decl const *ClangUtil::declFromDC(
   clang::DeclContext const * NULLABLE dc)
 {
