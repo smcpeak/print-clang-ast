@@ -217,6 +217,14 @@ public:      // methods
   static std::string overloadedOperatorKindStr(
     clang::OverloadedOperatorKind op);
 
+  // Stringify 'op'.
+  static std::string binaryOperatorKindStr(
+    clang::BinaryOperatorKind op);
+
+  // Stringify 'op'.
+  static std::string unaryOperatorKindStr(
+    clang::UnaryOperatorKind op);
+
   // Stringify 'ckind'.
   static std::string castKindStr(clang::CastKind ckind);
 

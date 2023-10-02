@@ -591,6 +591,58 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
+/*static*/ std::string ClangUtil::binaryOperatorKindStr(
+  clang::BinaryOperatorKind op)
+{
+  static struct Entry {
+    clang::BinaryOperatorKind m_op;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(name) { clang::name, #name }
+
+    #define BINARY_OPERATION(Name, Spelling) \
+      ENTRY(BO_##Name),
+    #include "clang/AST/OperationKinds.def"
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_op == op) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("BinaryOperatorKind(" << (int)op << ")");
+}
+
+
+/*static*/ std::string ClangUtil::unaryOperatorKindStr(
+  clang::UnaryOperatorKind op)
+{
+  static struct Entry {
+    clang::UnaryOperatorKind m_op;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(name) { clang::name, #name }
+
+    #define UNARY_OPERATION(Name, Spelling) \
+      ENTRY(UO_##Name),
+    #include "clang/AST/OperationKinds.def"
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_op == op) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("UnaryOperatorKind(" << (int)op << ")");
+}
+
+
 /*static*/ std::string ClangUtil::castKindStr(clang::CastKind ckind)
 {
   static struct Entry {
