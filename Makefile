@@ -140,6 +140,10 @@ all:
 %.o: %.cc
 	$(CXX) -c -o $@ $(GENDEPS_FLAGS) $(CXXFLAGS) $<
 
+# Preprocess a C++ source file, for debugging etc.
+%.ii: %.cc
+	$(CXX) -E -o $@ $(GENDEPS_FLAGS) $(CXXFLAGS) $<
+
 OBJS :=
 OBJS += clang-util.o
 OBJS += decl-implicit.o

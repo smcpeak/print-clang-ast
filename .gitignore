@@ -1,6 +1,7 @@
 *.bak
 *.exe
 *.d
+*.ii
 *.o
 config.mk
 doc/html
