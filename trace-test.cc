@@ -121,6 +121,14 @@ void trace_unit_tests()
   // caller actually sets TRACE.
   SomeClass sc;
   sc.foo();
+
+  // Test SCOPED tracing.
+  INIT_TRACE("trace_unit_tests");
+  {
+    TRACE1_SCOPED("start of scoped section");
+    TRACE1("inside scoped section");
+  }
+  TRACE1("after scoped section");
 }
 
 

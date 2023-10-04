@@ -89,4 +89,40 @@ int innerGetTraceLevel(
 }
 
 
+int g_traceIndentationLevel = 0;
+
+
+ScopedTraceIndentationLevel::ScopedTraceIndentationLevel(bool enabled)
+  : m_enabled(enabled)
+{
+  if (m_enabled) {
+    ++g_traceIndentationLevel;
+  }
+}
+
+ScopedTraceIndentationLevel::~ScopedTraceIndentationLevel()
+{
+  if (m_enabled) {
+    --g_traceIndentationLevel;
+  }
+}
+
+
+std::ostream *g_traceOutputStream = nullptr;
+
+
+std::ostream &beginTraceOutput(char const *traceScope)
+{
+  std::ostream *os =
+    g_traceOutputStream? g_traceOutputStream : &std::clog;
+
+  *os << "### ";
+  for (int i=0; i < g_traceIndentationLevel; ++i) {
+    *os << "  ";
+  }
+  *os << traceScope << ": ";
+  return *os;
+}
+
+
 // EOF
