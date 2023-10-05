@@ -359,6 +359,28 @@ std::string removeDefaultTemplateArguments(std::string text)
 }
 
 
+std::string trimCppCommentText(std::string comment)
+{
+  assert(comment.size() >= 2 &&
+         comment[0] == '/' &&
+         comment[1] == '/');
+
+  return trimWhitespace(comment.substr(2));
+}
+
+
+std::string trimCCommentText(std::string comment)
+{
+  assert(comment.size() >= 4 &&
+         comment[0] == '/' &&
+         comment[1] == '*' &&
+         comment[comment.size()-2] == '*' &&
+         comment[comment.size()-1] == '/');
+
+  return trimWhitespace(comment.substr(2, comment.size()-4));
+}
+
+
 template <class CONTAINER>
 string genericCommaSeparate(CONTAINER const &strings,
                             char const *sep)

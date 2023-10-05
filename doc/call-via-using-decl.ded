@@ -1,0 +1,436 @@
+{
+  "drawFileName": true,
+  "entities": [
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 40,
+        "y": 40
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "FunctionDecl 25",
+      "size": {
+        "h": 600,
+        "w": 335
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 425,
+        "y": 315
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "CompoundStmt 26",
+      "size": {
+        "h": 110,
+        "w": 160
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 635,
+        "y": 345
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "ReturnStmt 27",
+      "size": {
+        "h": 50,
+        "w": 100
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 400,
+        "y": 440
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "CallExpr 28",
+      "size": {
+        "h": 180,
+        "w": 295
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 730,
+        "y": 455
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "ImplicitCastExpr 29",
+      "size": {
+        "h": 165,
+        "w": 105
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 865,
+        "y": 465
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "DeclRefExpr 30",
+      "size": {
+        "h": 180,
+        "w": 300
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 775,
+        "y": 125
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "UsingShadowDecl 23",
+      "size": {
+        "h": 220,
+        "w": 315
+      }
+    }
+  ],
+  "inheritances": [],
+  "objectGraph": {
+    "BuiltinType 10": {"syntax": "\"char\""},
+    "BuiltinType 17": {"syntax": "\"int\""},
+    "BuiltinType 3": {"syntax": "\"__int128\""},
+    "BuiltinType 5": {"syntax": "\"unsigned __int128\""},
+    "CXXRecordDecl 31": {"skipping reserved": "\"__NSConstantString_tag\""},
+    "CXXRecordDecl 32": {"skipping reserved": "\"__va_list_tag\""},
+    "CallExpr 28": {
+      "CallExprBits": "",
+      "Callee": {"ptr": "ImplicitCastExpr 29"},
+      "Dependent": "None",
+      "NumArgs": 0,
+      "ObjectKind": "OK_Ordinary",
+      "OffsetToTrailingObjects": 24,
+      "RParenLoc": "in/src/call-via-using-decl.cc:18:19",
+      "TR": {
+        "preview": "int",
+        "ptr": "BuiltinType 17"
+      },
+      "ValueKind": "VK_PRValue"
+    },
+    "CompoundStmt 18": {
+      "LBraceLoc": "in/src/call-via-using-decl.cc:6:3",
+      "NumStmts": 1,
+      "RBraceLoc": "in/src/call-via-using-decl.cc:8:3",
+      "Stmt[0]": {"ptr": "ReturnStmt 19"}
+    },
+    "CompoundStmt 26": {
+      "LBraceLoc": "in/src/call-via-using-decl.cc:17:3",
+      "NumStmts": 1,
+      "RBraceLoc": "in/src/call-via-using-decl.cc:19:3",
+      "Stmt[0]": {"ptr": "ReturnStmt 27"}
+    },
+    "ConstantArrayType 12": {"syntax": "\"struct __va_list_tag[1]\""},
+    "DeclRefExpr 30": {
+      "D": {"ptr": "FunctionDecl 15"},
+      "DNLoc": "(none)",
+      "DeclRefExprBits": "HasFoundDecl",
+      "Dependent": "None",
+      "FoundDecl": {"ptr": "UsingShadowDecl 23"},
+      "Loc": "in/src/call-via-using-decl.cc:18:12",
+      "ObjectKind": "OK_Ordinary",
+      "TR": {
+        "preview": "int (void)",
+        "ptr": "FunctionProtoType 16"
+      },
+      "ValueKind": "VK_LValue"
+    },
+    "FunctionDecl 15": {
+      "Access": "AS_none",
+      "Body": {"ptr": "CompoundStmt 18"},
+      "DC": {"ptr": "NamespaceDecl 14"},
+      "DNLoc": "(none)",
+      "Decl::flags": "Used Referenced",
+      "DeclContextBits": "",
+      "DeclKind": "FunctionDecl",
+      "DeclType": {
+        "preview": "int (void)",
+        "ptr": "FunctionProtoType 16"
+      },
+      "DefaultKWLoc": "<invalid loc>",
+      "EndRangeLoc": "in/src/call-via-using-decl.cc:8:3",
+      "ExtInfo": "absent",
+      "FirstDecl": {"ptr": "null"},
+      "FunctionDeclBits": "HasWrittenPrototype",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InnerLocStart": "in/src/call-via-using-decl.cc:5:3",
+      "LDC": {"ptr": "NamespaceDecl 14"},
+      "LastDecl": {"ptr": "null"},
+      "Linkage": "ExternalLinkage",
+      "Loc": "in/src/call-via-using-decl.cc:5:7",
+      "LookupPtr": "null",
+      "Name": "\"callee\"",
+      "NextInContext": {"ptr": "null"},
+      "ODRHash": "0",
+      "ParamInfo": "(empty)",
+      "RD::First": {"ptr": "FunctionDecl 15"},
+      "RD::Prev": {"ptr": "FunctionDecl 15"},
+      "SClass": "SC_None",
+      "TInfo": "FunctionProto(\"int (void)\", <in/src/call-via-using-decl.cc:5:3, col:14>, Builtin(\"int\", <in/src/call-via-using-decl.cc:5:3>, NullTypeLoc))",
+      "TemplateOrSpecialization": "null",
+      "getDescribedFunctionTemplate()": {"ptr": "null"},
+      "getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "getMemberSpecializationInfo()": {"ptr": "null"},
+      "getPrimaryTemplate()": {"ptr": "null"},
+      "getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "getTemplateSpecializationInfo()": {"ptr": "null"},
+      "getTemplatedKind()": "TK_NonTemplate",
+      "moduleOwnershipKind": "Unowned"
+    },
+    "FunctionDecl 25": {
+      "Access": "AS_none",
+      "Body": {"ptr": "CompoundStmt 26"},
+      "DC": {"ptr": "NamespaceDecl 24"},
+      "DNLoc": "(none)",
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "FunctionDecl",
+      "DeclType": {
+        "preview": "int (void)",
+        "ptr": "FunctionProtoType 16"
+      },
+      "DefaultKWLoc": "<invalid loc>",
+      "EndRangeLoc": "in/src/call-via-using-decl.cc:19:3",
+      "ExtInfo": "absent",
+      "FirstDecl": {"ptr": "null"},
+      "FunctionDeclBits": "HasWrittenPrototype",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "InnerLocStart": "in/src/call-via-using-decl.cc:16:3",
+      "LDC": {"ptr": "NamespaceDecl 24"},
+      "LastDecl": {"ptr": "null"},
+      "Linkage": "ExternalLinkage",
+      "Loc": "in/src/call-via-using-decl.cc:16:7",
+      "LookupPtr": "null",
+      "Name": "\"caller\"",
+      "NextInContext": {"ptr": "null"},
+      "ODRHash": "0",
+      "ParamInfo": "(empty)",
+      "RD::First": {"ptr": "FunctionDecl 25"},
+      "RD::Prev": {"ptr": "FunctionDecl 25"},
+      "SClass": "SC_None",
+      "TInfo": "FunctionProto(\"int (void)\", <in/src/call-via-using-decl.cc:16:3, col:14>, Builtin(\"int\", <in/src/call-via-using-decl.cc:16:3>, NullTypeLoc))",
+      "TemplateOrSpecialization": "null",
+      "getDescribedFunctionTemplate()": {"ptr": "null"},
+      "getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "getMemberSpecializationInfo()": {"ptr": "null"},
+      "getPrimaryTemplate()": {"ptr": "null"},
+      "getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "getTemplateSpecializationInfo()": {"ptr": "null"},
+      "getTemplatedKind()": "TK_NonTemplate",
+      "moduleOwnershipKind": "Unowned"
+    },
+    "FunctionProtoType 16": {
+      "ResultType": {
+        "preview": "int",
+        "ptr": "BuiltinType 17"
+      },
+      "syntax": "\"int (void)\""
+    },
+    "ImplicitCastExpr 29": {
+      "BasePathSize": 0,
+      "CastExprBits": "FunctionToPointerDecay",
+      "Dependent": "None",
+      "ObjectKind": "OK_Ordinary",
+      "Op": {"ptr": "DeclRefExpr 30"},
+      "PartOfExplicitCast": false,
+      "TR": {
+        "preview": "int (*)(void)",
+        "ptr": "PointerType 33"
+      },
+      "ValueKind": "VK_PRValue",
+      "getConversionFunction()": {"ptr": "null"},
+      "getStoredFPFeatures())": "TODO"
+    },
+    "IntegerLiteral 20": {
+      "Dependent": "None",
+      "ObjectKind": "OK_Ordinary",
+      "TR": {
+        "preview": "int",
+        "ptr": "BuiltinType 17"
+      },
+      "ValueKind": "VK_PRValue"
+    },
+    "NamespaceDecl 14": {
+      "Access": "AS_none",
+      "DC": {"ptr": "TranslationUnitDecl 1"},
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "NamespaceDecl",
+      "FirstDecl": {"ptr": "FunctionDecl 15"},
+      "IdentifierNamespace": "IDNS_Namespace",
+      "LDC": {"ptr": "TranslationUnitDecl 1"},
+      "LastDecl": {"ptr": "FunctionDecl 15"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-via-using-decl.cc:4:11",
+      "LookupPtr": "StoredDeclsMap with 1 entries",
+      "Name": "\"NS1\"",
+      "NextInContext": {"ptr": "NamespaceDecl 21"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "NamespaceDecl 21": {
+      "Access": "AS_none",
+      "DC": {"ptr": "TranslationUnitDecl 1"},
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "NamespaceDecl",
+      "FirstDecl": {"ptr": "UsingDecl 22"},
+      "IdentifierNamespace": "IDNS_Namespace",
+      "LDC": {"ptr": "TranslationUnitDecl 1"},
+      "LastDecl": {"ptr": "UsingShadowDecl 23"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-via-using-decl.cc:11:11",
+      "LookupPtr": "StoredDeclsMap with 2 entries",
+      "Name": "\"NS2\"",
+      "NextInContext": {"ptr": "NamespaceDecl 24"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "NamespaceDecl 24": {
+      "Access": "AS_none",
+      "DC": {"ptr": "TranslationUnitDecl 1"},
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "NamespaceDecl",
+      "FirstDecl": {"ptr": "FunctionDecl 25"},
+      "IdentifierNamespace": "IDNS_Namespace",
+      "LDC": {"ptr": "TranslationUnitDecl 1"},
+      "LastDecl": {"ptr": "FunctionDecl 25"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-via-using-decl.cc:15:11",
+      "LookupPtr": "null",
+      "Name": "\"NS2\"",
+      "NextInContext": {"ptr": "null"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "PointerType 33": {
+      "PointeeType": {
+        "preview": "int (void)",
+        "ptr": "FunctionProtoType 16"
+      },
+      "syntax": "\"int (*)(void)\""
+    },
+    "PointerType 9": {
+      "PointeeType": {
+        "preview": "char",
+        "ptr": "BuiltinType 10"
+      },
+      "syntax": "\"char *\""
+    },
+    "RecordType 13": {
+      "decl": {"ptr": "CXXRecordDecl 32"},
+      "syntax": "\"struct __va_list_tag\""
+    },
+    "RecordType 7": {
+      "decl": {"ptr": "CXXRecordDecl 31"},
+      "syntax": "\"struct __NSConstantString_tag\""
+    },
+    "ReturnStmt 19": {
+      "NRVOCandidate": {"ptr": "null"},
+      "RetExpr": {"ptr": "IntegerLiteral 20"},
+      "RetLoc": "in/src/call-via-using-decl.cc:7:5"
+    },
+    "ReturnStmt 27": {
+      "NRVOCandidate": {"ptr": "null"},
+      "RetExpr": {"ptr": "CallExpr 28"},
+      "RetLoc": "in/src/call-via-using-decl.cc:18:5"
+    },
+    "TranslationUnitDecl 1": {
+      "Access": "AS_none",
+      "DC": {"ptr": "null"},
+      "Decl::flags": "",
+      "DeclContextBits": "",
+      "DeclKind": "TranslationUnitDecl",
+      "FirstDecl": {"ptr": "TypedefDecl 2"},
+      "IdentifierNamespace": "0",
+      "LDC": {"ptr": "null"},
+      "LastDecl": {"ptr": "NamespaceDecl 24"},
+      "Linkage": "(not set)",
+      "Loc": "<invalid loc>",
+      "LookupPtr": "StoredDeclsMap with 7 entries",
+      "NextInContext": {"ptr": "null"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "TypedefDecl 11": {"skipping reserved": "\"__builtin_va_list\""},
+    "TypedefDecl 2": {"skipping reserved": "\"__int128_t\""},
+    "TypedefDecl 4": {"skipping reserved": "\"__uint128_t\""},
+    "TypedefDecl 6": {"skipping reserved": "\"__NSConstantString\""},
+    "TypedefDecl 8": {"skipping reserved": "\"__builtin_ms_va_list\""},
+    "UsingDecl 22": {
+      "Access": "AS_none",
+      "DC": {"ptr": "NamespaceDecl 21"},
+      "Decl::flags": "",
+      "IdentifierNamespace": "IDNS_Using",
+      "LDC": {"ptr": "NamespaceDecl 21"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-via-using-decl.cc:12:14",
+      "Name": "\"callee\"",
+      "NextInContext": {"ptr": "UsingShadowDecl 23"},
+      "moduleOwnershipKind": "Unowned"
+    },
+    "UsingShadowDecl 23": {
+      "Access": "AS_none",
+      "DC": {"ptr": "NamespaceDecl 21"},
+      "Decl::Implicit": "true",
+      "Decl::flags": "Implicit",
+      "IdentifierNamespace": "IDNS_Ordinary",
+      "LDC": {"ptr": "NamespaceDecl 21"},
+      "Linkage": "(not set)",
+      "Loc": "in/src/call-via-using-decl.cc:12:14",
+      "Name": "\"callee\"",
+      "NextInContext": {"ptr": "null"},
+      "moduleOwnershipKind": "Unowned"
+    }
+  },
+  "objectGraphConfig": {
+    "newNodeAttributes": null,
+    "newNodeName": null,
+    "showFields": []
+  },
+  "objectGraphSourceFile": "../out/call-via-using-decl.cc.abbrev.json",
+  "relations": [
+    {
+      "end": {"entityRef": 1},
+      "label": "Body",
+      "start": {"entityRef": 0}
+    },
+    {
+      "end": {"entityRef": 2},
+      "label": "Stmt[0]",
+      "start": {"entityRef": 1}
+    },
+    {
+      "end": {"entityRef": 3},
+      "label": "RetExpr",
+      "start": {"entityRef": 2}
+    },
+    {
+      "end": {"entityRef": 4},
+      "label": "Callee",
+      "start": {"entityRef": 3}
+    },
+    {
+      "end": {"entityRef": 5},
+      "label": "Op",
+      "start": {"entityRef": 4}
+    },
+    {
+      "end": {"entityRef": 6},
+      "label": "FoundDecl",
+      "start": {"entityRef": 5}
+    }
+  ],
+  "type": "Diagram Editor Diagram",
+  "version": 30,
+  "windowSize": {
+    "h": 675,
+    "w": 1191
+  }
+}

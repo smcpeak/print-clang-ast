@@ -1,10 +1,5 @@
 # print-clang-ast/Makefile
 
-# Default target.
-all:
-.PHONY: all
-
-
 # ---- Configuration ----
 # Set to 1 if I am using a build from source, 0 for a binary
 # distribution.
@@ -90,7 +85,12 @@ CXXFLAGS += -Werror
 CXXFLAGS += -Wno-comment
 
 # Get llvm compilation flags.
-CXXFLAGS += $(LLVM_CXXFLAGS)
+#
+# Except, remove '-fno-exceptions' because I want to use std::regex but
+# that uses exceptions to report invalid regexes.  My understanding is
+# this should be OK as long as I don't let exceptions propagate through
+# the Clang+LLVM code.
+CXXFLAGS += $(filter-out -fno-exceptions,$(LLVM_CXXFLAGS))
 
 ifeq ($(USE_SOURCE_BUILD),1)
   # When using my own build, I need to separately point at clang includes.
@@ -129,6 +129,10 @@ LDFLAGS += $(LLVM_LDFLAGS_AND_SYSTEM_LIBS)
 
 
 # ---- Recipes ----
+# Default target.
+all:
+.PHONY: all
+
 # Pull in automatic dependencies.
 -include $(wildcard *.d)
 
@@ -136,22 +140,28 @@ LDFLAGS += $(LLVM_LDFLAGS_AND_SYSTEM_LIBS)
 %.o: %.cc
 	$(CXX) -c -o $@ $(GENDEPS_FLAGS) $(CXXFLAGS) $<
 
+# Preprocess a C++ source file, for debugging etc.
+%.ii: %.cc
+	$(CXX) -E -o $@ $(GENDEPS_FLAGS) $(CXXFLAGS) $<
+
 OBJS :=
 OBJS += clang-util.o
 OBJS += decl-implicit.o
 OBJS += enum-util.o
-OBJS += file-util.o
 OBJS += file-util-test.o
+OBJS += file-util.o
 OBJS += number-clang-ast-nodes.o
-OBJS += pca-command-line-options.o
 OBJS += pca-command-line-options-test.o
-OBJS += print-clang-ast.o
+OBJS += pca-command-line-options.o
 OBJS += print-clang-ast-nodes.o
+OBJS += print-clang-ast.o
 OBJS += sm-pp-util-test.o
-OBJS += stringref-parse.o
 OBJS += stringref-parse-test.o
-OBJS += util.o
+OBJS += stringref-parse.o
+OBJS += trace-test.o
+OBJS += trace.o
 OBJS += util-test.o
+OBJS += util.o
 
 # Executable.
 all: print-clang-ast.exe
@@ -189,17 +199,27 @@ $(FILE_OPTS_$(call FILENAME_TO_VARNAME,$(1)))
 endef
 
 
+# General options to PCA for the tests.
+PCA_OPTIONS :=
+PCA_OPTIONS += --print-ast-nodes
+PCA_OPTIONS += --suppress-addresses
+
+# This option is mainly aimed at struct-with-fwd.cc, but should be fine
+# for all of them.
+PCA_OPTIONS += --force-implicit
+
+
 # Generate a single JSON output from an input.
 out/%.json: in/src/% print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
-	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
+	./print-clang-ast.exe $(PCA_OPTIONS) \
 	  $(call FILE_OPTS_FOR,$*) in/src/$* >$@
 
 # Same, but with abbreviated field names.
 out/%.abbrev.json: in/src/% print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
-	./print-clang-ast.exe --print-ast-nodes --suppress-addresses \
-	  --no-ast-field-qualifiers $(call FILE_OPTS_FOR,$*) in/src/$* >$@
+	./print-clang-ast.exe $(PCA_OPTIONS) --no-ast-field-qualifiers \
+	  $(call FILE_OPTS_FOR,$*) in/src/$* >$@
 
 
 # Inputs.

@@ -13,6 +13,7 @@
 #include "clang/AST/ExternalASTSource.h"                   // clang::ExternalASTSource
 #include "clang/AST/Type.h"                                // clang::QualType
 #include "clang/Basic/Lambda.h"                            // clang::LambdaCaptureDefault
+#include "clang/Basic/OperatorKinds.h"                     // clang::OverloadedOperatorKind
 #include "clang/Basic/SourceLocation.h"                    // clang::FileID
 #include "clang/Basic/SourceManager.h"                     // clang::SourceManager
 #include "clang/Basic/Specifiers.h"                        // clang::InClassInitStyle
@@ -95,7 +96,8 @@ public:      // methods
   std::string declLocStr(clang::Decl const *decl) const;
 
   // Render 'decl' with qualifiers and signature.
-  std::string namedDeclStr(clang::NamedDecl const *namedDecl) const;
+  std::string namedDeclStr(
+    clang::NamedDecl const * NULLABLE namedDecl) const;
 
   // Stringify the declaration syntax and its location.
   std::string namedDeclAtLocStr(
@@ -211,6 +213,21 @@ public:      // methods
   static std::string exceptionSpecificationTypeStr(
     clang::ExceptionSpecificationType est);
 
+  // Stringify 'op'.
+  static std::string overloadedOperatorKindStr(
+    clang::OverloadedOperatorKind op);
+
+  // Stringify 'op'.
+  static std::string binaryOperatorKindStr(
+    clang::BinaryOperatorKind op);
+
+  // Stringify 'op'.
+  static std::string unaryOperatorKindStr(
+    clang::UnaryOperatorKind op);
+
+  // Stringify 'ckind'.
+  static std::string castKindStr(clang::CastKind ckind);
+
   // Cast 'dc' to the associated Decl pointer.  Asserts that the
   // conversion succeeds, unless 'dc' is null, in which case null is
   // returned.
@@ -322,7 +339,7 @@ public:      // methods
   static bool isPrivateHeaderEntry(clang::FileEntry const *entry);
 
   // Turn a FileID into a string.
-  std::string getFnameForFileID(clang::FileID fileID);
+  std::string getFnameForFileID(clang::FileID fileID) const;
 
   // Get the string representation of 'qualType' for use when printing
   // parameter types.
@@ -431,6 +448,17 @@ public:      // methods
   // Get the location of the token that precedes 'decl'.
   clang::SourceLocation getDeclPrecedingTokenLoc(
     clang::Decl const *decl) const;
+
+  // Is 'fd' is result of instantiating a template or member of a
+  // template, return the user-written declaration from which it was
+  // instantiated.  Otherwise return 'fd' itself.
+  static clang::FunctionDecl const *getUserWrittenFunctionDecl(
+    clang::FunctionDecl const *fd);
+  static clang::FunctionDecl *getUserWrittenFunctionDecl(
+    clang::FunctionDecl *fd);
+
+  // True if 'fd == getUserWrittenFunctionDecl(fd)'.
+  static bool isUserWrittenFunctionDecl(clang::FunctionDecl const *fd);
 };
 
 
@@ -451,9 +479,9 @@ namespace clang {
 
 // Get the name of the dynamic type of the argument.  We have one
 // overload for each class hierarchy root.
-char const *getDynamicTypeClassName(clang::Type const *type);
-char const *getDynamicTypeClassName(clang::Decl const *decl);
-char const *getDynamicTypeClassName(clang::Stmt const *stmt);
+std::string getDynamicTypeClassName(clang::Type const *type);
+std::string getDynamicTypeClassName(clang::Decl const *decl);
+std::string getDynamicTypeClassName(clang::Stmt const *stmt);
 
 
 // Report an attempt to dyn_cast a null pointer.
@@ -466,7 +494,7 @@ void assert_dyn_cast_null(
 // Report a failed assert_dyn_cast.
 void assert_dyn_cast_failed(
   char const *destTypeName,
-  char const *srcTypeName,
+  std::string const &srcTypeName,
   char const *sourceFile,
   int sourceLine);
 

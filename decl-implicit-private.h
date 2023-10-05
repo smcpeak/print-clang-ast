@@ -9,6 +9,7 @@
 #include "clang-util.h"                          // ClangUtil
 
 #include "clang/AST/RecursiveASTVisitor.h"       // clang::RecursiveASTVisitor
+#include "clang/Sema/Sema.h"                     // clang::Sema
 
 
 // Force declarations of all implicit things we can.
@@ -21,9 +22,15 @@ public:      // data
   // provides access to the 'Sema' object.
   clang::ASTUnit *m_astUnit;
 
+  // True to also provide definitions.
+  bool m_defineAlso;
+
 public:      // methods
-  DeclareImplicitThings(clang::ASTUnit *astUnit);
+  DeclareImplicitThings(clang::ASTUnit *astUnit, bool defineAlso);
   ~DeclareImplicitThings();
+
+  // Get the 'Sema' object from 'm_astUnit'.
+  clang::Sema &getSema();
 
   // Visit everything.
   bool shouldVisitTemplateInstantiations() const
@@ -32,6 +39,7 @@ public:      // methods
     { return true; }
 
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *decl);
+  bool VisitCXXMethodDecl(clang::CXXMethodDecl *decl);
 };
 
 

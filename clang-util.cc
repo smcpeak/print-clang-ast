@@ -93,8 +93,12 @@ std::string ClangUtil::declLocStr(clang::Decl const *decl) const
 
 
 std::string ClangUtil::namedDeclStr(
-  clang::NamedDecl const *namedDecl) const
+  clang::NamedDecl const * NULLABLE namedDecl) const
 {
+  if (!namedDecl) {
+    return "null";
+  }
+
   std::ostringstream oss;
 
   oss << namedDecl->getQualifiedNameAsString();
@@ -553,6 +557,113 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
     EST_Uninstantiated,
     EST_Unparsed,
   )
+}
+
+
+/*static*/ std::string ClangUtil::overloadedOperatorKindStr(
+  clang::OverloadedOperatorKind op)
+{
+  // This is almost the same as 'clang::getOperatorSpelling()', but this
+  // function does not assert if 'op' is invalid.
+
+  static struct Entry {
+    clang::OverloadedOperatorKind m_op;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(name) { clang::name, #name }
+
+    ENTRY(OO_None),
+
+    #define OVERLOADED_OPERATOR(Name,Spelling,Token,Unary,Binary,MemberOnly) \
+      ENTRY(OO_##Name),
+    #include "clang/Basic/OperatorKinds.def"
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_op == op) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("OverloadedOperatorKind(" << (int)op << ")");
+}
+
+
+/*static*/ std::string ClangUtil::binaryOperatorKindStr(
+  clang::BinaryOperatorKind op)
+{
+  static struct Entry {
+    clang::BinaryOperatorKind m_op;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(name) { clang::name, #name }
+
+    #define BINARY_OPERATION(Name, Spelling) \
+      ENTRY(BO_##Name),
+    #include "clang/AST/OperationKinds.def"
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_op == op) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("BinaryOperatorKind(" << (int)op << ")");
+}
+
+
+/*static*/ std::string ClangUtil::unaryOperatorKindStr(
+  clang::UnaryOperatorKind op)
+{
+  static struct Entry {
+    clang::UnaryOperatorKind m_op;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(name) { clang::name, #name }
+
+    #define UNARY_OPERATION(Name, Spelling) \
+      ENTRY(UO_##Name),
+    #include "clang/AST/OperationKinds.def"
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_op == op) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("UnaryOperatorKind(" << (int)op << ")");
+}
+
+
+/*static*/ std::string ClangUtil::castKindStr(clang::CastKind ckind)
+{
+  static struct Entry {
+    clang::CastKind m_ckind;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(name) { clang::name, #name }
+
+    #define CAST_OPERATION(Name) ENTRY(CK_##Name),
+    #include "clang/AST/OperationKinds.def"
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_ckind == ckind) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("CastKind(" << (int)ckind << ")");
 }
 
 
@@ -1021,7 +1132,7 @@ string ClangUtil::getIncludeSyntax(
 }
 
 
-string ClangUtil::getFnameForFileID(clang::FileID fileID)
+string ClangUtil::getFnameForFileID(clang::FileID fileID) const
 {
   clang::FileEntry const *entry = m_srcMgr.getFileEntryForID(fileID);
   assert(entry);
@@ -1552,6 +1663,36 @@ clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
 }
 
 
+/*static*/ clang::FunctionDecl const *ClangUtil::getUserWrittenFunctionDecl(
+  clang::FunctionDecl const *fd)
+{
+  assert(fd);
+
+  // I'm not sure if this has precisely the semantics I want yet.
+  clang::FunctionDecl const *pattern =
+    fd->getTemplateInstantiationPattern();
+
+  return pattern? pattern : fd;
+}
+
+
+/*static*/ clang::FunctionDecl *ClangUtil::getUserWrittenFunctionDecl(
+  clang::FunctionDecl *fd)
+{
+  return const_cast<clang::FunctionDecl*>(
+    getUserWrittenFunctionDecl(
+      const_cast<clang::FunctionDecl const *>(fd)));
+}
+
+
+// True if 'fd == getUserWrittenFunctionDecl(fd)'.
+/*static*/ bool ClangUtil::isUserWrittenFunctionDecl(
+  clang::FunctionDecl const *fd)
+{
+  return fd == getUserWrittenFunctionDecl(fd);
+}
+
+
 std::string stringRefRange(
   llvm::StringRef const &sr, unsigned begin, unsigned end)
 {
@@ -1573,21 +1714,19 @@ int compare(clang::SourceRange const &a, clang::SourceRange const &b)
 }
 
 
-char const *getDynamicTypeClassName(clang::Type const *type)
+std::string getDynamicTypeClassName(clang::Type const *type)
 {
-  // This lacks the suffix "Type".
-  return type->getTypeClassName();
+  return stringb(type->getTypeClassName() << "Type");
 }
 
 
-char const *getDynamicTypeClassName(clang::Decl const *decl)
+std::string getDynamicTypeClassName(clang::Decl const *decl)
 {
-  // This lacks the suffix "Decl".
-  return decl->getDeclKindName();
+  return stringb(decl->getDeclKindName() << "Decl");
 }
 
 
-char const *getDynamicTypeClassName(clang::Stmt const *stmt)
+std::string getDynamicTypeClassName(clang::Stmt const *stmt)
 {
   return stmt->getStmtClassName();
 }
@@ -1605,7 +1744,7 @@ void assert_dyn_cast_null(
 
 void assert_dyn_cast_failed(
   char const *destTypeName,
-  char const *srcTypeName,
+  std::string const &srcTypeName,
   char const *sourceFile,
   int sourceLine)
 {
