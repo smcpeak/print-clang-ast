@@ -341,6 +341,11 @@ public:      // methods
   // Turn a FileID into a string.
   std::string getFnameForFileID(clang::FileID fileID) const;
 
+  // If 'loc' is an expansion location, get the place where the
+  // expansion happened; otherwise use it as-is.  Then get the FileID
+  // from it.
+  clang::FileID getExpansionFileID(clang::SourceLocation loc) const;
+
   // Get the string representation of 'qualType' for use when printing
   // parameter types.
   std::string getParamTypeString(clang::QualType qualType) const;

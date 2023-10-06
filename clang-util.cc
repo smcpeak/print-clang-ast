@@ -1140,6 +1140,13 @@ string ClangUtil::getFnameForFileID(clang::FileID fileID) const
 }
 
 
+clang::FileID ClangUtil::getExpansionFileID(clang::SourceLocation loc) const
+{
+  loc = m_srcMgr.getExpansionLoc(loc);
+  return m_srcMgr.getFileID(loc);
+}
+
+
 string ClangUtil::getParamTypeString(clang::QualType qualType) const
 {
   clang::PrintingPolicy pp(m_printingPolicy);
