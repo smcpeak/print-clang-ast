@@ -304,6 +304,8 @@ public:      // methods
     clang::ImplicitCastExpr const *expr);
   void printParenListExpr(clang::ParenListExpr const *expr);    // Expr.h line 5538
 
+  void printCXXDefaultArgExpr(                                  // ExprCXX.h line 1241
+    clang::CXXDefaultArgExpr const *expr);
   void printCXXConstructExpr(                                   // ExprCXX.h line 1460
     clang::CXXConstructExpr const *expr);
   void printCXXDependentScopeMemberExpr(                        // ExprCXX.h line 3550

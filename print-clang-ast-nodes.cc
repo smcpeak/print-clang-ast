@@ -2396,6 +2396,7 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
   PRINT_IF_SUBCLASS(stmt, ImplicitCastExpr)
   PRINT_IF_SUBCLASS(stmt, ParenListExpr)
 
+  PRINT_IF_SUBCLASS(stmt, CXXDefaultArgExpr)
   PRINT_IF_SUBCLASS(stmt, CXXConstructExpr)
   PRINT_IF_SUBCLASS(stmt, CXXDependentScopeMemberExpr)
 }
@@ -2738,6 +2739,34 @@ static std::string constructionKindStr(
     CK_VirtualBase,
     CK_Delegating,
   )
+}
+
+
+void PrintClangASTNodes::printCXXDefaultArgExpr(
+  clang::CXXDefaultArgExpr const *expr)
+{
+  char const *qualifier = "CXXDefaultArgExpr::";
+
+  OUT_QATTR_LOC(qualifier, "Loc",
+    expr->getUsedLocation());
+
+  OUT_QATTR_BOOL(qualifier, "HasRewrittenInit",
+    expr->hasRewrittenInit());
+
+  OUT_QATTR_DECL(qualifier, "Param",
+    expr->getParam());
+
+  OUT_QATTR_DECL(qualifier, "UsedContext",
+    declFromDC(expr->getUsedContext()));
+
+  OUT_QATTR_STMT(qualifier, "getExpr()",
+    expr->getExpr());
+
+  OUT_QATTR_STMT(qualifier, "getRewrittenExpr()",
+    expr->getRewrittenExpr());
+
+  OUT_QATTR_STMT(qualifier, "getAdjustedRewrittenExpr()",
+    expr->getAdjustedRewrittenExpr());
 }
 
 
