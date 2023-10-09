@@ -137,7 +137,7 @@ std::string ClangUtil::namedDeclAndKindAtLocStr(
   clang::NamedDecl const * NULLABLE namedDecl) const
 {
   if (namedDecl) {
-    return stringb(namedDecl->getDeclKindName() << ' ' <<
+    return stringb(namedDecl->getDeclKindName() << "Decl " <<
                    namedDeclStr(namedDecl) <<
                    " at " << declLocStr(namedDecl));
   }
