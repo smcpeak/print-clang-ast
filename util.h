@@ -4,6 +4,8 @@
 #ifndef PCA_UTIL_H
 #define PCA_UTIL_H
 
+#include "sm-pp-util.h"                // SM_PP_CAT
+
 #include <cstddef>                     // std::size_t
 #include <map>                         // std::map
 #include <set>                         // std::set
@@ -204,6 +206,12 @@ public:      // methods
     this->m_variable = newValue;
   }
 };
+
+
+// SetRestore with a uniquely-named restorer object and deduced type.
+#define SET_RESTORE(variable, value) \
+  SetRestore<decltype(variable)> SM_PP_CAT(set_restore_,__LINE__) \
+    (variable, value) /* user ; */
 
 
 // Declare a bunch of a set-like operators for enum types.
