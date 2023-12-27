@@ -17,7 +17,7 @@
 
 // Construct a string in-place using ostream operators.
 #define stringb(stuff) \
-  (static_cast<std::ostringstream&>(std::ostringstream() << stuff).str())
+  (static_cast<std::ostringstream const &>(std::ostringstream() << stuff).str())
 
 
 // Pseudo-attribute meaning a pointer can be nullptr.
