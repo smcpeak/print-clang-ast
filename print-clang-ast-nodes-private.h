@@ -30,7 +30,7 @@
   The printing methods in this class are non-const for three reasons:
 
   1. Although the numbering object is currently separate, I'm
-     considering fold it into this class.  The numbering changes as
+     considering folding it into this class.  The numbering changes as
      nodes are discovered.
 
   2. I regard the act of printing as conceptully being a side effect,
