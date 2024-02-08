@@ -245,7 +245,7 @@
   "CanonicalType": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
   "getUnqualifiedDesugaredType()": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
 },
 
@@ -286,7 +286,7 @@
   "CanonicalType": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
   "getUnqualifiedDesugaredType()": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "TemplateSpecializationType 27", "preview": "S<T>" },
 },
 
@@ -450,7 +450,7 @@
   "CanonicalType": { "ptr": "RecordType 36", "preview": "struct S<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 36", "preview": "struct S<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 36", "preview": "struct S<int>" },
 },
 
@@ -490,7 +490,7 @@
   "CanonicalType": { "ptr": "RecordType 36", "preview": "struct S<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 36", "preview": "struct S<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "TemplateSpecializationType 40", "preview": "S<int>" },
 },
 
@@ -1228,7 +1228,7 @@
   "CanonicalType": { "ptr": "RecordType 36", "preview": "struct S<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 36", "preview": "struct S<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "TemplateSpecializationType 80", "preview": "S<int>" },
 },
 

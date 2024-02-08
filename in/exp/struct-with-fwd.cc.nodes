@@ -340,7 +340,7 @@
   "CanonicalType": { "ptr": "RecordType 25", "preview": "struct Foo" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 25", "preview": "struct Foo" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 25", "preview": "struct Foo" },
 },
 

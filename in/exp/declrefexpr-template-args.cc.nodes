@@ -1283,7 +1283,7 @@
   "CanonicalType": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 63", "preview": "struct HasTMethod" },
 },
 

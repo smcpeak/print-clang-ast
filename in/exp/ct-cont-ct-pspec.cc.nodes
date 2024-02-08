@@ -756,7 +756,7 @@
   "CanonicalType": { "ptr": "RecordType 44", "preview": "struct Outer<int>::Inner<float *>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 44", "preview": "struct Outer<int>::Inner<float *>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 44", "preview": "struct Outer<int>::Inner<float *>" },
 },
 
@@ -1350,7 +1350,7 @@
   "CanonicalType": { "ptr": "RecordType 76", "preview": "struct Outer<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 76", "preview": "struct Outer<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 76", "preview": "struct Outer<int>" },
 },
 
@@ -1866,7 +1866,7 @@
   "CanonicalType": { "ptr": "RecordType 44", "preview": "struct Outer<int>::Inner<float *>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 44", "preview": "struct Outer<int>::Inner<float *>" },
   "Keyword": "ETK_None",
-  "NNS": "\"Outer<int>::\"",
+  "NNS": { "ptr": "NestedNameSpecifier 136", "preview": "Outer<int>::" },
   "NamedType": { "ptr": "TemplateSpecializationType 101", "preview": "Inner<float *>" },
 },
 
@@ -1928,7 +1928,7 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 23" },
   "CTD::Common::PartialSpecializations": "empty",
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 136", "preview": "Outer<T>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 137", "preview": "Outer<T>" },
 },
 
 "TemplateTypeParmType 107": {
@@ -1942,7 +1942,7 @@
 "InjectedClassNameType 108": {
   "syntax": "\"Outer<T>\"",
   "Decl": { "ptr": "CXXRecordDecl 17" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 136", "preview": "Outer<T>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 137", "preview": "Outer<T>" },
 },
 
 "DefinitionData 109": {
@@ -1983,7 +1983,7 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations": "empty",
   "CTD::Common::PartialSpecializations[0]": { "ptr": "ClassTemplatePartialSpecializationDecl 88" },
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 137", "preview": "Inner<U>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 138", "preview": "Inner<U>" },
 },
 
 "TemplateTypeParmType 111": {
@@ -1997,7 +1997,7 @@
 "InjectedClassNameType 112": {
   "syntax": "\"Inner<U>\"",
   "Decl": { "ptr": "CXXRecordDecl 22" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 137", "preview": "Inner<U>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 138", "preview": "Inner<U>" },
 },
 
 "DefinitionData 113": {
@@ -2043,13 +2043,13 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 29" },
   "CTD::Common::PartialSpecializations[0]": { "ptr": "ClassTemplatePartialSpecializationDecl 117" },
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 138", "preview": "Inner<U>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 139", "preview": "Inner<U>" },
 },
 
 "InjectedClassNameType 115": {
   "syntax": "\"Inner<U>\"",
   "Decl": { "ptr": "CXXRecordDecl 28" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 138", "preview": "Inner<U>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 139", "preview": "Inner<U>" },
 },
 
 "DefinitionData 116": {
@@ -2103,7 +2103,7 @@
   "DeclContext::FirstDecl": { "ptr": "null" },
   "DeclContext::LastDecl": { "ptr": "null" },
   "NamedDecl::Name": "\"Inner\"",
-  "TypeDecl::TypeForDecl": { "ptr": "InjectedClassNameType 139", "preview": "Inner<type-parameter-0-0 *>" },
+  "TypeDecl::TypeForDecl": { "ptr": "InjectedClassNameType 140", "preview": "Inner<type-parameter-0-0 *>" },
   "TypeDecl::LocStart": "in/src/ct-cont-ct-pspec.cc:12:1",
   "Redeclarable::Previous": { "ptr": "ClassTemplatePartialSpecializationDecl 117" },
   "Redeclarable::First": { "ptr": "ClassTemplatePartialSpecializationDecl 117" },
@@ -2125,12 +2125,12 @@
   "ClassTemplateSpecializationDecl::ExplicitInfo->TypeAsWritten": "TemplateSpecialization(\"Inner<V *>\", <in/src/ct-cont-ct-pspec.cc:12:18, col:26>, NullTypeLoc)",
   "ClassTemplateSpecializationDecl::ExplicitInfo->ExternLoc": "<invalid loc>",
   "ClassTemplateSpecializationDecl::ExplicitInfo->TemplateKeywordLoc": "<invalid loc>",
-  "ClassTemplateSpecializationDecl::ExplicitInfo->TAW->Ty": { "ptr": "TemplateSpecializationType 140" },
+  "ClassTemplateSpecializationDecl::ExplicitInfo->TAW->Ty": { "ptr": "TemplateSpecializationType 141" },
   "ClassTemplateSpecializationDecl::TemplateArgs": "\"<type-parameter-0-0 *>\"",
   "ClassTemplateSpecializationDecl::PointOfInstantiation": "<invalid loc>",
   "ClassTemplateSpecializationDecl::SpecializationKind": "TSK_ExplicitSpecialization",
   "ClassTemplateSpecializationDecl::TemplateArgs[0].Kind": "Type",
-  "ClassTemplateSpecializationDecl::TemplateArgs[0].TypeOrValue.V": { "ptr": "PointerType 141", "preview": "type-parameter-0-0 *" },
+  "ClassTemplateSpecializationDecl::TemplateArgs[0].TypeOrValue.V": { "ptr": "PointerType 142", "preview": "type-parameter-0-0 *" },
   "ClassTemplateSpecializationDecl::getSpecializedTemplate()": { "ptr": "ClassTemplateDecl 25" },
   "ClassTemplateSpecializationDecl::getInstantiatedFrom()": null,
   "ClassTemplateSpecializationDecl::getSpecializedOrPartial().CTD": { "ptr": "ClassTemplateDecl 25" },
@@ -2140,7 +2140,7 @@
   "ClassTemplatePartialSpecializationDecl::TemplateParams->RAngleLoc": "in/src/ct-cont-ct-pspec.cc:11:18",
   "ClassTemplatePartialSpecializationDecl::TemplateParams->NumTParams": "1",
   "ClassTemplatePartialSpecializationDecl::TemplateParams->Flags": "",
-  "ClassTemplatePartialSpecializationDecl::TemplateParams->Param[0]": { "ptr": "TemplateTypeParmDecl 142" },
+  "ClassTemplatePartialSpecializationDecl::TemplateParams->Param[0]": { "ptr": "TemplateTypeParmDecl 143" },
   "ClassTemplatePartialSpecializationDecl::TemplateParams->Requires": { "ptr": "null" },
   "ClassTemplatePartialSpecializationDecl::ArgsAsWritten": "TODO",
   "ClassTemplatePartialSpecializationDecl::InstantiatedFromMember.specdThisLevel": 0,
@@ -2149,14 +2149,14 @@
 
 "FunctionProtoType 118": {
   "syntax": "\"void (void) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 119": {
   "syntax": "\"void (const Inner<float *> &) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 144", "preview": "void (const struct Outer<int>::Inner<float *> &) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 145", "preview": "void (const struct Outer<int>::Inner<float *> &) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 42", "preview": "const Inner<float *> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -2168,8 +2168,8 @@
 
 "FunctionProtoType 121": {
   "syntax": "\"void (Inner<float *> &&) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 145", "preview": "void (struct Outer<int>::Inner<float *> &&) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 146", "preview": "void (struct Outer<int>::Inner<float *> &&) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 54", "preview": "Inner<float *> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -2181,24 +2181,24 @@
 
 "FunctionProtoType 123": {
   "syntax": "\"Inner<float *> &(const Inner<float *> &)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 146", "preview": "struct Outer<int>::Inner<float *> &(const struct Outer<int>::Inner<float *> &)" },
-  "ResultType": { "ptr": "LValueReferenceType 147", "preview": "Inner<float *> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 147", "preview": "struct Outer<int>::Inner<float *> &(const struct Outer<int>::Inner<float *> &)" },
+  "ResultType": { "ptr": "LValueReferenceType 148", "preview": "Inner<float *> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 42", "preview": "const Inner<float *> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 124": {
   "syntax": "\"Inner<float *> &(Inner<float *> &&)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 148", "preview": "struct Outer<int>::Inner<float *> &(struct Outer<int>::Inner<float *> &&)" },
-  "ResultType": { "ptr": "LValueReferenceType 147", "preview": "Inner<float *> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 149", "preview": "struct Outer<int>::Inner<float *> &(struct Outer<int>::Inner<float *> &&)" },
+  "ResultType": { "ptr": "LValueReferenceType 148", "preview": "Inner<float *> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 54", "preview": "Inner<float *> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 125": {
   "syntax": "\"void (const Outer<int> &) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 149", "preview": "void (const struct Outer<int> &) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 150", "preview": "void (const struct Outer<int> &) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 74", "preview": "const Outer<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -2210,16 +2210,16 @@
 
 "FunctionProtoType 127": {
   "syntax": "\"Outer<int> &(const Outer<int> &)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 150", "preview": "struct Outer<int> &(const struct Outer<int> &)" },
-  "ResultType": { "ptr": "LValueReferenceType 151", "preview": "Outer<int> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 151", "preview": "struct Outer<int> &(const struct Outer<int> &)" },
+  "ResultType": { "ptr": "LValueReferenceType 152", "preview": "Outer<int> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 74", "preview": "const Outer<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 128": {
   "syntax": "\"void (Outer<int> &&) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 152", "preview": "void (struct Outer<int> &&) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 153", "preview": "void (struct Outer<int> &&) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 82", "preview": "Outer<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -2231,8 +2231,8 @@
 
 "FunctionProtoType 130": {
   "syntax": "\"Outer<int> &(Outer<int> &&)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 153", "preview": "struct Outer<int> &(struct Outer<int> &&)" },
-  "ResultType": { "ptr": "LValueReferenceType 151", "preview": "Outer<int> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 154", "preview": "struct Outer<int> &(struct Outer<int> &&)" },
+  "ResultType": { "ptr": "LValueReferenceType 152", "preview": "Outer<int> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 82", "preview": "Outer<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
@@ -2240,7 +2240,7 @@
 "InjectedClassNameType 131": {
   "syntax": "\"Inner<type-parameter-1-0 *>\"",
   "Decl": { "ptr": "ClassTemplatePartialSpecializationDecl 88" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 154", "preview": "Inner<type-parameter-1-0 *>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 155", "preview": "Inner<type-parameter-1-0 *>" },
 },
 
 "DefinitionData 132": {
@@ -2276,14 +2276,14 @@
 
 "TemplateSpecializationType 133": {
   "syntax": "\"Inner<V *>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 155", "preview": "Inner<type-parameter-1-0 *>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 156", "preview": "Inner<type-parameter-1-0 *>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"V *\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "PointerType 91", "preview": "V *" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 155", "preview": "Inner<type-parameter-1-0 *>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 156", "preview": "Inner<type-parameter-1-0 *>" },
 },
 
 "PointerType 134": {
@@ -2302,7 +2302,13 @@
   "desugar()": { "ptr": "TemplateSpecializationType 135", "preview": "Outer<type-parameter-0-0>" },
 },
 
-"TemplateSpecializationType 136": {
+"NestedNameSpecifier 136": {
+  "getKind()": "TypeSpec",
+  "Prefix.ptr": null,
+  "TypeSpec": { "ptr": "TemplateSpecializationType 100", "preview": "Outer<int>" },
+},
+
+"TemplateSpecializationType 137": {
   "syntax": "\"Outer<T>\"",
   "CanonicalType": { "ptr": "TemplateSpecializationType 135", "preview": "Outer<type-parameter-0-0>" },
   "Bits.TypeAlias": "0",
@@ -2314,54 +2320,54 @@
   "desugar()": { "ptr": "TemplateSpecializationType 135", "preview": "Outer<type-parameter-0-0>" },
 },
 
-"TemplateSpecializationType 137": {
+"TemplateSpecializationType 138": {
   "syntax": "\"Inner<U>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 156", "preview": "Inner<type-parameter-1-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 157", "preview": "Inner<type-parameter-1-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"U\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 21", "preview": "U" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 156", "preview": "Inner<type-parameter-1-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 157", "preview": "Inner<type-parameter-1-0>" },
 },
 
-"TemplateSpecializationType 138": {
+"TemplateSpecializationType 139": {
   "syntax": "\"Inner<U>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 157", "preview": "Inner<type-parameter-0-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 158", "preview": "Inner<type-parameter-0-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"U\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 27", "preview": "U" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 157", "preview": "Inner<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 158", "preview": "Inner<type-parameter-0-0>" },
 },
 
-"InjectedClassNameType 139": {
+"InjectedClassNameType 140": {
   "syntax": "\"Inner<type-parameter-0-0 *>\"",
   "Decl": { "ptr": "ClassTemplatePartialSpecializationDecl 117" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 158", "preview": "Inner<type-parameter-0-0 *>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 159", "preview": "Inner<type-parameter-0-0 *>" },
 },
 
-"TemplateSpecializationType 140": {
+"TemplateSpecializationType 141": {
   "syntax": "\"Inner<V *>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 159", "preview": "Inner<type-parameter-0-0 *>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 160", "preview": "Inner<type-parameter-0-0 *>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"V *\" (ArgKind::Type)",
-  "args[0].Type": { "ptr": "PointerType 160", "preview": "V *" },
+  "args[0].Type": { "ptr": "PointerType 161", "preview": "V *" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 159", "preview": "Inner<type-parameter-0-0 *>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 160", "preview": "Inner<type-parameter-0-0 *>" },
 },
 
-"PointerType 141": {
+"PointerType 142": {
   "syntax": "\"type-parameter-0-0 *\"",
   "PointeeType": { "ptr": "TemplateTypeParmType 107", "preview": "type-parameter-0-0" },
 },
 
-"TemplateTypeParmDecl 142": {
+"TemplateTypeParmDecl 143": {
   "Decl::NextInContext": { "ptr": "null" },
   "Decl::moduleOwnershipKind": "Unowned",
   "Decl::semanticDeclContext": { "ptr": "ClassTemplatePartialSpecializationDecl 117" },
@@ -2372,108 +2378,108 @@
   "Decl::IdentifierNamespace": "IDNS_Type|IDNS_Ordinary",
   "Decl::Linkage": "(not set)",
   "NamedDecl::Name": "\"V\"",
-  "TypeDecl::TypeForDecl": { "ptr": "TemplateTypeParmType 161", "preview": "V" },
+  "TypeDecl::TypeForDecl": { "ptr": "TemplateTypeParmType 162", "preview": "V" },
   "TypeDecl::LocStart": "in/src/ct-cont-ct-pspec.cc:11:11",
   "TemplateTypeParmDecl flags": "",
   "TemplateTypeParmDecl::NumExpanded": "0",
 },
 
-"BuiltinType 143": {
+"BuiltinType 144": {
   "syntax": "\"void\"",
 },
 
-"FunctionProtoType 144": {
-  "syntax": "\"void (const struct Outer<int>::Inner<float *> &) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
-  "paramType[0]": { "ptr": "LValueReferenceType 120", "preview": "const struct Outer<int>::Inner<float *> &" },
-  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
-},
-
 "FunctionProtoType 145": {
-  "syntax": "\"void (struct Outer<int>::Inner<float *> &&) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
-  "paramType[0]": { "ptr": "RValueReferenceType 122", "preview": "struct Outer<int>::Inner<float *> &&" },
+  "syntax": "\"void (const struct Outer<int>::Inner<float *> &) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
+  "paramType[0]": { "ptr": "LValueReferenceType 120", "preview": "const struct Outer<int>::Inner<float *> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 146": {
+  "syntax": "\"void (struct Outer<int>::Inner<float *> &&) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
+  "paramType[0]": { "ptr": "RValueReferenceType 122", "preview": "struct Outer<int>::Inner<float *> &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"FunctionProtoType 147": {
   "syntax": "\"struct Outer<int>::Inner<float *> &(const struct Outer<int>::Inner<float *> &)\"",
-  "ResultType": { "ptr": "LValueReferenceType 162", "preview": "struct Outer<int>::Inner<float *> &" },
+  "ResultType": { "ptr": "LValueReferenceType 163", "preview": "struct Outer<int>::Inner<float *> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 120", "preview": "const struct Outer<int>::Inner<float *> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"LValueReferenceType 147": {
+"LValueReferenceType 148": {
   "syntax": "\"Inner<float *> &\"",
-  "CanonicalType": { "ptr": "LValueReferenceType 162", "preview": "struct Outer<int>::Inner<float *> &" },
+  "CanonicalType": { "ptr": "LValueReferenceType 163", "preview": "struct Outer<int>::Inner<float *> &" },
   "PointeeType": { "ptr": "ElaboratedType 43", "preview": "Inner<float *>" },
 },
 
-"FunctionProtoType 148": {
+"FunctionProtoType 149": {
   "syntax": "\"struct Outer<int>::Inner<float *> &(struct Outer<int>::Inner<float *> &&)\"",
-  "ResultType": { "ptr": "LValueReferenceType 162", "preview": "struct Outer<int>::Inner<float *> &" },
+  "ResultType": { "ptr": "LValueReferenceType 163", "preview": "struct Outer<int>::Inner<float *> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 122", "preview": "struct Outer<int>::Inner<float *> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"FunctionProtoType 149": {
+"FunctionProtoType 150": {
   "syntax": "\"void (const struct Outer<int> &) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 126", "preview": "const struct Outer<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
-"FunctionProtoType 150": {
+"FunctionProtoType 151": {
   "syntax": "\"struct Outer<int> &(const struct Outer<int> &)\"",
-  "ResultType": { "ptr": "LValueReferenceType 163", "preview": "struct Outer<int> &" },
+  "ResultType": { "ptr": "LValueReferenceType 164", "preview": "struct Outer<int> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 126", "preview": "const struct Outer<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"LValueReferenceType 151": {
+"LValueReferenceType 152": {
   "syntax": "\"Outer<int> &\"",
-  "CanonicalType": { "ptr": "LValueReferenceType 163", "preview": "struct Outer<int> &" },
+  "CanonicalType": { "ptr": "LValueReferenceType 164", "preview": "struct Outer<int> &" },
   "PointeeType": { "ptr": "ElaboratedType 75", "preview": "Outer<int>" },
 },
 
-"FunctionProtoType 152": {
+"FunctionProtoType 153": {
   "syntax": "\"void (struct Outer<int> &&) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 143", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 144", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 129", "preview": "struct Outer<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
-"FunctionProtoType 153": {
+"FunctionProtoType 154": {
   "syntax": "\"struct Outer<int> &(struct Outer<int> &&)\"",
-  "ResultType": { "ptr": "LValueReferenceType 163", "preview": "struct Outer<int> &" },
+  "ResultType": { "ptr": "LValueReferenceType 164", "preview": "struct Outer<int> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 129", "preview": "struct Outer<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
-},
-
-"TemplateSpecializationType 154": {
-  "syntax": "\"Inner<type-parameter-1-0 *>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 155", "preview": "Inner<type-parameter-1-0 *>" },
-  "Bits.TypeAlias": "0",
-  "Bits.NumArgs": "1",
-  "args[0]": "\"type-parameter-1-0 *\" (ArgKind::Type)",
-  "args[0].Type": { "ptr": "PointerType 134", "preview": "type-parameter-1-0 *" },
-  "Template": "Inner",
-  "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 155", "preview": "Inner<type-parameter-1-0 *>" },
 },
 
 "TemplateSpecializationType 155": {
   "syntax": "\"Inner<type-parameter-1-0 *>\"",
+  "CanonicalType": { "ptr": "TemplateSpecializationType 156", "preview": "Inner<type-parameter-1-0 *>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"type-parameter-1-0 *\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "PointerType 134", "preview": "type-parameter-1-0 *" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 155", "preview": "Inner<type-parameter-1-0 *>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 156", "preview": "Inner<type-parameter-1-0 *>" },
 },
 
 "TemplateSpecializationType 156": {
+  "syntax": "\"Inner<type-parameter-1-0 *>\"",
+  "Bits.TypeAlias": "0",
+  "Bits.NumArgs": "1",
+  "args[0]": "\"type-parameter-1-0 *\" (ArgKind::Type)",
+  "args[0].Type": { "ptr": "PointerType 134", "preview": "type-parameter-1-0 *" },
+  "Template": "Inner",
+  "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
+  "desugar()": { "ptr": "TemplateSpecializationType 156", "preview": "Inner<type-parameter-1-0 *>" },
+},
+
+"TemplateSpecializationType 157": {
   "syntax": "\"Inner<type-parameter-1-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -2481,10 +2487,10 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 111", "preview": "type-parameter-1-0" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 156", "preview": "Inner<type-parameter-1-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 157", "preview": "Inner<type-parameter-1-0>" },
 },
 
-"TemplateSpecializationType 157": {
+"TemplateSpecializationType 158": {
   "syntax": "\"Inner<type-parameter-0-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -2492,53 +2498,53 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 107", "preview": "type-parameter-0-0" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 157", "preview": "Inner<type-parameter-0-0>" },
-},
-
-"TemplateSpecializationType 158": {
-  "syntax": "\"Inner<type-parameter-0-0 *>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 159", "preview": "Inner<type-parameter-0-0 *>" },
-  "Bits.TypeAlias": "0",
-  "Bits.NumArgs": "1",
-  "args[0]": "\"type-parameter-0-0 *\" (ArgKind::Type)",
-  "args[0].Type": { "ptr": "PointerType 141", "preview": "type-parameter-0-0 *" },
-  "Template": "Inner",
-  "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 159", "preview": "Inner<type-parameter-0-0 *>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 158", "preview": "Inner<type-parameter-0-0>" },
 },
 
 "TemplateSpecializationType 159": {
   "syntax": "\"Inner<type-parameter-0-0 *>\"",
+  "CanonicalType": { "ptr": "TemplateSpecializationType 160", "preview": "Inner<type-parameter-0-0 *>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"type-parameter-0-0 *\" (ArgKind::Type)",
-  "args[0].Type": { "ptr": "PointerType 141", "preview": "type-parameter-0-0 *" },
+  "args[0].Type": { "ptr": "PointerType 142", "preview": "type-parameter-0-0 *" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
-  "desugar()": { "ptr": "TemplateSpecializationType 159", "preview": "Inner<type-parameter-0-0 *>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 160", "preview": "Inner<type-parameter-0-0 *>" },
 },
 
-"PointerType 160": {
+"TemplateSpecializationType 160": {
+  "syntax": "\"Inner<type-parameter-0-0 *>\"",
+  "Bits.TypeAlias": "0",
+  "Bits.NumArgs": "1",
+  "args[0]": "\"type-parameter-0-0 *\" (ArgKind::Type)",
+  "args[0].Type": { "ptr": "PointerType 142", "preview": "type-parameter-0-0 *" },
+  "Template": "Inner",
+  "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 25" },
+  "desugar()": { "ptr": "TemplateSpecializationType 160", "preview": "Inner<type-parameter-0-0 *>" },
+},
+
+"PointerType 161": {
   "syntax": "\"V *\"",
-  "CanonicalType": { "ptr": "PointerType 141", "preview": "type-parameter-0-0 *" },
-  "PointeeType": { "ptr": "TemplateTypeParmType 161", "preview": "V" },
+  "CanonicalType": { "ptr": "PointerType 142", "preview": "type-parameter-0-0 *" },
+  "PointeeType": { "ptr": "TemplateTypeParmType 162", "preview": "V" },
 },
 
-"TemplateTypeParmType 161": {
+"TemplateTypeParmType 162": {
   "syntax": "\"V\"",
   "CanonicalType": { "ptr": "TemplateTypeParmType 107", "preview": "type-parameter-0-0" },
-  "TTPDecl": { "ptr": "TemplateTypeParmDecl 142" },
+  "TTPDecl": { "ptr": "TemplateTypeParmDecl 143" },
   "Depth": "0",
   "Index": "0",
   "isParameterPack": "0",
 },
 
-"LValueReferenceType 162": {
+"LValueReferenceType 163": {
   "syntax": "\"struct Outer<int>::Inner<float *> &\"",
   "PointeeType": { "ptr": "RecordType 44", "preview": "struct Outer<int>::Inner<float *>" },
 },
 
-"LValueReferenceType 163": {
+"LValueReferenceType 164": {
   "syntax": "\"struct Outer<int> &\"",
   "PointeeType": { "ptr": "RecordType 76", "preview": "struct Outer<int>" },
 },

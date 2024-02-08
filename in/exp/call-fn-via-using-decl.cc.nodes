@@ -225,7 +225,7 @@
   "CanonicalType": { "ptr": "EnumType 22", "preview": "enum E" },
   "getUnqualifiedDesugaredType()": { "ptr": "EnumType 22", "preview": "enum E" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "EnumType 22", "preview": "enum E" },
 },
 

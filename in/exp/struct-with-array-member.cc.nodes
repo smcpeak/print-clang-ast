@@ -316,7 +316,7 @@
   "CanonicalType": { "ptr": "RecordType 26", "preview": "struct HasArray" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 26", "preview": "struct HasArray" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 26", "preview": "struct HasArray" },
 },
 

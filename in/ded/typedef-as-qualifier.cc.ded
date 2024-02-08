@@ -1,0 +1,1733 @@
+{
+  "drawFileName": true,
+  "entities": [
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 25,
+        "y": 30
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "FunctionDecl 56",
+      "size": {
+        "h": 50,
+        "w": 415
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 25,
+        "y": 105
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "FunctionProtoType 57",
+      "size": {
+        "h": 80,
+        "w": 415
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 25,
+        "y": 210
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "ElaboratedType 58",
+      "size": {
+        "h": 105,
+        "w": 415
+      }
+    },
+    {
+      "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
+      "loc": {
+        "x": 25,
+        "y": 340
+      },
+      "name": "$(graphNodeID)",
+      "objectGraphNodeID": "NestedNameSpecifier 78",
+      "size": {
+        "h": 90,
+        "w": 415
+      }
+    }
+  ],
+  "inheritances": [],
+  "objectGraph": {
+    "BuiltinType 10": {"syntax": "\"char\""},
+    "BuiltinType 3": {"syntax": "\"__int128\""},
+    "BuiltinType 5": {"syntax": "\"unsigned __int128\""},
+    "BuiltinType 79": {"syntax": "\"void\""},
+    "CXXConstructorDecl 19": {
+      "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+      "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+      "CXXConstructorDecl::InheritedConstructor": "TODO",
+      "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "CXXConstructorDecl 21"},
+      "Decl::flags": "Implicit Used",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXConstructorDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "CompoundStmt 20"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::ParamInfo": "(empty)",
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"Inner\"",
+      "Redeclarable::First": {"ptr": "CXXConstructorDecl 19"},
+      "Redeclarable::Previous": {"ptr": "CXXConstructorDecl 19"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "void (void) noexcept",
+        "ptr": "FunctionProtoType 64"
+      }
+    },
+    "CXXConstructorDecl 21": {
+      "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+      "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+      "CXXConstructorDecl::InheritedConstructor": "TODO",
+      "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "CXXMethodDecl 27"},
+      "Decl::flags": "Implicit Used",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXConstructorDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "CompoundStmt 26"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::Param[0]": {"ptr": "ParmVarDecl 22"},
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"Inner\"",
+      "Redeclarable::First": {"ptr": "CXXConstructorDecl 21"},
+      "Redeclarable::Previous": {"ptr": "CXXConstructorDecl 21"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "void (const Inner &) noexcept",
+        "ptr": "FunctionProtoType 65"
+      }
+    },
+    "CXXConstructorDecl 29": {
+      "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+      "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+      "CXXConstructorDecl::InheritedConstructor": "TODO",
+      "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "CXXMethodDecl 33"},
+      "Decl::flags": "Implicit Used",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXConstructorDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "CompoundStmt 32"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::Param[0]": {"ptr": "ParmVarDecl 30"},
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"Inner\"",
+      "Redeclarable::First": {"ptr": "CXXConstructorDecl 29"},
+      "Redeclarable::Previous": {"ptr": "CXXConstructorDecl 29"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "void (Inner &&) noexcept",
+        "ptr": "FunctionProtoType 68"
+      }
+    },
+    "CXXConstructorDecl 37": {
+      "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+      "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+      "CXXConstructorDecl::InheritedConstructor": "TODO",
+      "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "CXXConstructorDecl 39"},
+      "Decl::flags": "Implicit Used",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXConstructorDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "CompoundStmt 38"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::ParamInfo": "(empty)",
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"A\"",
+      "Redeclarable::First": {"ptr": "CXXConstructorDecl 37"},
+      "Redeclarable::Previous": {"ptr": "CXXConstructorDecl 37"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "void (void) noexcept",
+        "ptr": "FunctionProtoType 64"
+      }
+    },
+    "CXXConstructorDecl 39": {
+      "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+      "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+      "CXXConstructorDecl::InheritedConstructor": "TODO",
+      "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "CXXMethodDecl 45"},
+      "Decl::flags": "Implicit Used",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXConstructorDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "CompoundStmt 44"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::Param[0]": {"ptr": "ParmVarDecl 40"},
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"A\"",
+      "Redeclarable::First": {"ptr": "CXXConstructorDecl 39"},
+      "Redeclarable::Previous": {"ptr": "CXXConstructorDecl 39"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "void (const A &) noexcept",
+        "ptr": "FunctionProtoType 71"
+      }
+    },
+    "CXXConstructorDecl 47": {
+      "CXXConstructorDecl::CXXConstructorDeclBits flags": "",
+      "CXXConstructorDecl::CXXConstructorDeclBits.NumCtorInitializers": "0",
+      "CXXConstructorDecl::InheritedConstructor": "TODO",
+      "CXXConstructorDecl::getExplicitSpecifierInternal()": "TODO",
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "CXXMethodDecl 51"},
+      "Decl::flags": "Implicit Used",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXConstructorDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "CompoundStmt 50"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::Param[0]": {"ptr": "ParmVarDecl 48"},
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"A\"",
+      "Redeclarable::First": {"ptr": "CXXConstructorDecl 47"},
+      "Redeclarable::Previous": {"ptr": "CXXConstructorDecl 47"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "void (A &&) noexcept",
+        "ptr": "FunctionProtoType 74"
+      }
+    },
+    "CXXDestructorDecl 35": {
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "Implicit Used",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXDestructorDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "CompoundStmt 36"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::ParamInfo": "(empty)",
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"~Inner\"",
+      "Redeclarable::First": {"ptr": "CXXDestructorDecl 35"},
+      "Redeclarable::Previous": {"ptr": "CXXDestructorDecl 35"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "void (void) noexcept",
+        "ptr": "FunctionProtoType 64"
+      }
+    },
+    "CXXDestructorDecl 53": {
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "Implicit Used",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXDestructorDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "CompoundStmt 54"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsTrivialForCall IsDefaulted",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::ParamInfo": "(empty)",
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_BasicNoexcept",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"~A\"",
+      "Redeclarable::First": {"ptr": "CXXDestructorDecl 53"},
+      "Redeclarable::Previous": {"ptr": "CXXDestructorDecl 53"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "void (void) noexcept",
+        "ptr": "FunctionProtoType 64"
+      }
+    },
+    "CXXMethodDecl 27": {
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "CXXConstructorDecl 29"},
+      "Decl::flags": "Implicit",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXMethodDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "null"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::Param[0]": {"ptr": "ParmVarDecl 28"},
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"operator=\"",
+      "Redeclarable::First": {"ptr": "CXXMethodDecl 27"},
+      "Redeclarable::Previous": {"ptr": "CXXMethodDecl 27"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "Inner &(const Inner &)",
+        "ptr": "FunctionProtoType 67"
+      }
+    },
+    "CXXMethodDecl 33": {
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "CXXDestructorDecl 35"},
+      "Decl::flags": "Implicit",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXMethodDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "null"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::Param[0]": {"ptr": "ParmVarDecl 34"},
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"operator=\"",
+      "Redeclarable::First": {"ptr": "CXXMethodDecl 33"},
+      "Redeclarable::Previous": {"ptr": "CXXMethodDecl 33"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "Inner &(Inner &&)",
+        "ptr": "FunctionProtoType 70"
+      }
+    },
+    "CXXMethodDecl 45": {
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "CXXConstructorDecl 47"},
+      "Decl::flags": "Implicit",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXMethodDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "null"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::Param[0]": {"ptr": "ParmVarDecl 46"},
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"operator=\"",
+      "Redeclarable::First": {"ptr": "CXXMethodDecl 45"},
+      "Redeclarable::Previous": {"ptr": "CXXMethodDecl 45"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "A &(const A &)",
+        "ptr": "FunctionProtoType 73"
+      }
+    },
+    "CXXMethodDecl 51": {
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "CXXDestructorDecl 53"},
+      "Decl::flags": "Implicit",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXMethodDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "FunctionDecl::Body": {"ptr": "null"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "FunctionDecl::FunctionDeclBits": "IsInline IsInlineSpecified HasWrittenPrototype IsTrivial IsDefaulted Constexpr",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::Param[0]": {"ptr": "ParmVarDecl 52"},
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_Unevaluated",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"operator=\"",
+      "Redeclarable::First": {"ptr": "CXXMethodDecl 51"},
+      "Redeclarable::Previous": {"ptr": "CXXMethodDecl 51"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "A &(A &&)",
+        "ptr": "FunctionProtoType 76"
+      }
+    },
+    "CXXRecordDecl 15": {
+      "CXXRecordDecl::DefinitionData": {"ptr": "DefinitionData 62"},
+      "CXXRecordDecl::TemplateOrInstantiation": "null",
+      "CXXRecordDecl::getDependentLambdaCallOperator()": {"ptr": "null"},
+      "CXXRecordDecl::getDescribedClassTemplate()": {"ptr": "null"},
+      "CXXRecordDecl::getDestructor()": {"ptr": "CXXDestructorDecl 53"},
+      "CXXRecordDecl::getInstantiatedFromMemberClass()": {"ptr": "null"},
+      "CXXRecordDecl::getTemplateInstantiationPattern()": {"ptr": "null"},
+      "CXXRecordDecl::needsImplicitDestructor()": false,
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+      "Decl::Linkage": "ExternalLinkage",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "TypedefDecl 55"},
+      "Decl::flags": "Referenced",
+      "Decl::lexicalDeclContext": {"ptr": "NamespaceDecl 14"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "NamespaceDecl 14"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXRecordDecl",
+      "DeclContext::FirstDecl": {"ptr": "CXXRecordDecl 16"},
+      "DeclContext::LastDecl": {"ptr": "CXXDestructorDecl 53"},
+      "DeclContext::LookupPtr": "StoredDeclsMap with 5 entries",
+      "NamedDecl::Name": "\"A\"",
+      "RecordDecl::ODRHash": "27114650",
+      "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
+      "Redeclarable::First": {"ptr": "CXXRecordDecl 15"},
+      "Redeclarable::Previous": {"ptr": "CXXRecordDecl 15"},
+      "Redeclarable::redecls_size()": 1,
+      "TagDecl::BraceRange": "<in/src/typedef-as-qualifier.cc:11:12, line:13:3>",
+      "TagDecl::TagDeclBits": "TTK_Struct IsCompleteDefinition IsFreeStanding IsCompleteDefinitionRequired",
+      "TagDecl::TagDeclBits.IsCompleteDefinition": "true",
+      "TagDecl::TypedefNameDeclOrQualifier.name": {"ptr": "null"},
+      "TypeDecl::LocStart": "in/src/typedef-as-qualifier.cc:11:3",
+      "TypeDecl::TypeForDecl": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      }
+    },
+    "CXXRecordDecl 16": {
+      "CXXRecordDecl::DefinitionData": {"ptr": "null"},
+      "CXXRecordDecl::TemplateOrInstantiation": "null",
+      "CXXRecordDecl::getDependentLambdaCallOperator()": {"ptr": "null"},
+      "CXXRecordDecl::getDescribedClassTemplate()": {"ptr": "null"},
+      "CXXRecordDecl::getDestructor()": {"ptr": "null"},
+      "CXXRecordDecl::getInstantiatedFromMemberClass()": {"ptr": "null"},
+      "CXXRecordDecl::getTemplateInstantiationPattern()": {"ptr": "null"},
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "CXXRecordDecl 17"},
+      "Decl::flags": "Implicit",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXRecordDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "NamedDecl::Name": "\"A\"",
+      "RecordDecl::ODRHash": "27114650",
+      "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
+      "Redeclarable::First": {"ptr": "CXXRecordDecl 16"},
+      "Redeclarable::Previous": {"ptr": "CXXRecordDecl 16"},
+      "Redeclarable::redecls_size()": 1,
+      "TagDecl::BraceRange": "<<invalid sloc>>",
+      "TagDecl::TagDeclBits": "TTK_Struct",
+      "TagDecl::TagDeclBits.IsCompleteDefinition": "false",
+      "TagDecl::TypedefNameDeclOrQualifier.name": {"ptr": "null"},
+      "TypeDecl::LocStart": "in/src/typedef-as-qualifier.cc:11:3",
+      "TypeDecl::TypeForDecl": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      }
+    },
+    "CXXRecordDecl 17": {
+      "CXXRecordDecl::DefinitionData": {"ptr": "DefinitionData 63"},
+      "CXXRecordDecl::TemplateOrInstantiation": "null",
+      "CXXRecordDecl::getDependentLambdaCallOperator()": {"ptr": "null"},
+      "CXXRecordDecl::getDescribedClassTemplate()": {"ptr": "null"},
+      "CXXRecordDecl::getDestructor()": {"ptr": "CXXDestructorDecl 35"},
+      "CXXRecordDecl::getInstantiatedFromMemberClass()": {"ptr": "null"},
+      "CXXRecordDecl::getTemplateInstantiationPattern()": {"ptr": "null"},
+      "CXXRecordDecl::needsImplicitDestructor()": false,
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+      "Decl::Linkage": "ExternalLinkage",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "CXXConstructorDecl 37"},
+      "Decl::flags": "Referenced",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXRecordDecl",
+      "DeclContext::FirstDecl": {"ptr": "CXXRecordDecl 18"},
+      "DeclContext::LastDecl": {"ptr": "CXXDestructorDecl 35"},
+      "DeclContext::LookupPtr": "StoredDeclsMap with 4 entries",
+      "NamedDecl::Name": "\"Inner\"",
+      "RecordDecl::ODRHash": "7466073",
+      "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
+      "Redeclarable::First": {"ptr": "CXXRecordDecl 17"},
+      "Redeclarable::Previous": {"ptr": "CXXRecordDecl 17"},
+      "Redeclarable::redecls_size()": 1,
+      "TagDecl::BraceRange": "<in/src/typedef-as-qualifier.cc:12:18, col:19>",
+      "TagDecl::TagDeclBits": "TTK_Struct IsCompleteDefinition IsFreeStanding IsCompleteDefinitionRequired",
+      "TagDecl::TagDeclBits.IsCompleteDefinition": "true",
+      "TagDecl::TypedefNameDeclOrQualifier.name": {"ptr": "null"},
+      "TypeDecl::LocStart": "in/src/typedef-as-qualifier.cc:12:5",
+      "TypeDecl::TypeForDecl": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      }
+    },
+    "CXXRecordDecl 18": {
+      "CXXRecordDecl::DefinitionData": {"ptr": "null"},
+      "CXXRecordDecl::TemplateOrInstantiation": "null",
+      "CXXRecordDecl::getDependentLambdaCallOperator()": {"ptr": "null"},
+      "CXXRecordDecl::getDescribedClassTemplate()": {"ptr": "null"},
+      "CXXRecordDecl::getDestructor()": {"ptr": "null"},
+      "CXXRecordDecl::getInstantiatedFromMemberClass()": {"ptr": "null"},
+      "CXXRecordDecl::getTemplateInstantiationPattern()": {"ptr": "null"},
+      "Decl::Access": "AS_public",
+      "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+      "Decl::Implicit": "true",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "CXXConstructorDecl 19"},
+      "Decl::flags": "Implicit",
+      "Decl::lexicalDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXRecordDecl 17"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "CXXRecordDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "NamedDecl::Name": "\"Inner\"",
+      "RecordDecl::ODRHash": "7466073",
+      "RecordDecl::RecordDeclBits": "APK_CanPassInRegs",
+      "Redeclarable::First": {"ptr": "CXXRecordDecl 18"},
+      "Redeclarable::Previous": {"ptr": "CXXRecordDecl 18"},
+      "Redeclarable::redecls_size()": 1,
+      "TagDecl::BraceRange": "<<invalid sloc>>",
+      "TagDecl::TagDeclBits": "TTK_Struct",
+      "TagDecl::TagDeclBits.IsCompleteDefinition": "false",
+      "TagDecl::TypedefNameDeclOrQualifier.name": {"ptr": "null"},
+      "TypeDecl::LocStart": "in/src/typedef-as-qualifier.cc:12:5",
+      "TypeDecl::TypeForDecl": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      }
+    },
+    "CXXRecordDecl 60": {"skipping reserved": "\"__NSConstantString_tag\""},
+    "CXXRecordDecl 61": {"skipping reserved": "\"__va_list_tag\""},
+    "CompoundStmt 20": {
+      "CompoundStmt::LBraceLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "CompoundStmt::NumStmts": 0,
+      "CompoundStmt::RBraceLoc": "in/src/typedef-as-qualifier.cc:12:12"
+    },
+    "CompoundStmt 26": {
+      "CompoundStmt::LBraceLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "CompoundStmt::NumStmts": 0,
+      "CompoundStmt::RBraceLoc": "in/src/typedef-as-qualifier.cc:12:12"
+    },
+    "CompoundStmt 32": {
+      "CompoundStmt::LBraceLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "CompoundStmt::NumStmts": 0,
+      "CompoundStmt::RBraceLoc": "in/src/typedef-as-qualifier.cc:12:12"
+    },
+    "CompoundStmt 36": {
+      "CompoundStmt::LBraceLoc": "in/src/typedef-as-qualifier.cc:12:12",
+      "CompoundStmt::NumStmts": 0,
+      "CompoundStmt::RBraceLoc": "in/src/typedef-as-qualifier.cc:12:12"
+    },
+    "CompoundStmt 38": {
+      "CompoundStmt::LBraceLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "CompoundStmt::NumStmts": 0,
+      "CompoundStmt::RBraceLoc": "in/src/typedef-as-qualifier.cc:11:10"
+    },
+    "CompoundStmt 44": {
+      "CompoundStmt::LBraceLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "CompoundStmt::NumStmts": 0,
+      "CompoundStmt::RBraceLoc": "in/src/typedef-as-qualifier.cc:11:10"
+    },
+    "CompoundStmt 50": {
+      "CompoundStmt::LBraceLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "CompoundStmt::NumStmts": 0,
+      "CompoundStmt::RBraceLoc": "in/src/typedef-as-qualifier.cc:11:10"
+    },
+    "CompoundStmt 54": {
+      "CompoundStmt::LBraceLoc": "in/src/typedef-as-qualifier.cc:11:10",
+      "CompoundStmt::NumStmts": 0,
+      "CompoundStmt::RBraceLoc": "in/src/typedef-as-qualifier.cc:11:10"
+    },
+    "ConstantArrayType 12": {"syntax": "\"struct __va_list_tag[1]\""},
+    "DefinitionData 62": {
+      "Bases": "TODO",
+      "Conversions": "TODO",
+      "DeclaredNonTrivialSpecialMembers": "SMF_None",
+      "DeclaredNonTrivialSpecialMembersForCall": "SMF_None",
+      "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+      "Definition": {"ptr": "CXXRecordDecl 15"},
+      "FirstFriend": "TODO",
+      "HasTrivialSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+      "HasTrivialSpecialMembersForCall": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+      "NumBases": "0",
+      "NumVBases": "0",
+      "ODRHash": "0",
+      "UserDeclaredSpecialMembers": "SMF_None",
+      "VBases": "TODO",
+      "VisibleConversions": "TODO",
+      "flags": [
+        "Aggregate",
+        "PlainOldData",
+        "Empty",
+        "IsStandardLayout",
+        "IsCXX11StandardLayout",
+        "HasOnlyCMembers",
+        "HasIrrelevantDestructor",
+        "HasConstexprNonCopyMoveConstructor",
+        "HasDefaultedDefaultConstructor",
+        "DefaultedDefaultConstructorIsConstexpr",
+        "HasConstexprDefaultConstructor",
+        "DefaultedDestructorIsConstexpr",
+        "StructuralIfLiteral",
+        "ImplicitCopyConstructorCanHaveConstParamForVBase",
+        "ImplicitCopyConstructorCanHaveConstParamForNonVBase",
+        "ImplicitCopyAssignmentHasConstParam",
+        "HasDeclaredCopyConstructorWithConstParam",
+        "HasDeclaredCopyAssignmentWithConstParam"
+      ]
+    },
+    "DefinitionData 63": {
+      "Bases": "TODO",
+      "Conversions": "TODO",
+      "DeclaredNonTrivialSpecialMembers": "SMF_None",
+      "DeclaredNonTrivialSpecialMembersForCall": "SMF_None",
+      "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+      "Definition": {"ptr": "CXXRecordDecl 17"},
+      "FirstFriend": "TODO",
+      "HasTrivialSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+      "HasTrivialSpecialMembersForCall": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
+      "NumBases": "0",
+      "NumVBases": "0",
+      "ODRHash": "0",
+      "UserDeclaredSpecialMembers": "SMF_None",
+      "VBases": "TODO",
+      "VisibleConversions": "TODO",
+      "flags": [
+        "Aggregate",
+        "PlainOldData",
+        "Empty",
+        "IsStandardLayout",
+        "IsCXX11StandardLayout",
+        "HasOnlyCMembers",
+        "HasIrrelevantDestructor",
+        "HasConstexprNonCopyMoveConstructor",
+        "HasDefaultedDefaultConstructor",
+        "DefaultedDefaultConstructorIsConstexpr",
+        "HasConstexprDefaultConstructor",
+        "DefaultedDestructorIsConstexpr",
+        "StructuralIfLiteral",
+        "ImplicitCopyConstructorCanHaveConstParamForVBase",
+        "ImplicitCopyConstructorCanHaveConstParamForNonVBase",
+        "ImplicitCopyAssignmentHasConstParam",
+        "HasDeclaredCopyConstructorWithConstParam",
+        "HasDeclaredCopyAssignmentWithConstParam"
+      ]
+    },
+    "ElaboratedType 24": {
+      "CanonicalType": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "Keyword": "ETK_None",
+      "NNS": null,
+      "NamedType": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "getUnqualifiedDesugaredType()": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "syntax": "\"Inner\""
+    },
+    "ElaboratedType 42": {
+      "CanonicalType": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      },
+      "Keyword": "ETK_None",
+      "NNS": null,
+      "NamedType": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      },
+      "getUnqualifiedDesugaredType()": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      },
+      "syntax": "\"A\""
+    },
+    "ElaboratedType 58": {
+      "CanonicalType": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "Keyword": "ETK_None",
+      "NNS": {
+        "preview": "B::",
+        "ptr": "NestedNameSpecifier 78"
+      },
+      "NamedType": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "getUnqualifiedDesugaredType()": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "syntax": "\"B::Inner\""
+    },
+    "FunctionDecl 56": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "ExternalLinkage",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:26:12",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "NamespaceDecl 14"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "NamespaceDecl 14"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "FunctionDecl",
+      "DeclContext::FirstDecl": {"ptr": "null"},
+      "DeclContext::LastDecl": {"ptr": "null"},
+      "DeclContext::LookupPtr": "null",
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:26:3",
+      "DeclaratorDecl::TInfo": "FunctionProto(\"B::Inner (void)\", <in/src/typedef-as-qualifier.cc:26:3, col:14>, Elaborated(\"B::Inner\", <in/src/typedef-as-qualifier.cc:26:3, col:6>, Record(\"struct ns::A::Inner\", <in/src/typedef-as-qualifier.cc:26:6>, NullTypeLoc)))",
+      "FunctionDecl::Body": {"ptr": "null"},
+      "FunctionDecl::DNLoc": "(none)",
+      "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+      "FunctionDecl::EndRangeLoc": "in/src/typedef-as-qualifier.cc:26:14",
+      "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
+      "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+      "FunctionDecl::ODRHash": "0",
+      "FunctionDecl::ParamInfo": "(empty)",
+      "FunctionDecl::TemplateOrSpecialization": "null",
+      "FunctionDecl::getDescribedFunctionTemplate()": {"ptr": "null"},
+      "FunctionDecl::getExceptionSpecType()": "EST_None",
+      "FunctionDecl::getInstantiatedFromMemberFunction()": {"ptr": "null"},
+      "FunctionDecl::getMemberSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getPrimaryTemplate()": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(false)": {"ptr": "null"},
+      "FunctionDecl::getTemplateInstantiationPattern(true)": {"ptr": "null"},
+      "FunctionDecl::getTemplateSpecializationInfo()": {"ptr": "null"},
+      "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+      "NamedDecl::Name": "\"f\"",
+      "Redeclarable::First": {"ptr": "FunctionDecl 56"},
+      "Redeclarable::Previous": {"ptr": "FunctionDecl 56"},
+      "Redeclarable::redecls_size()": 1,
+      "ValueDecl::DeclType": {
+        "preview": "B::Inner (void)",
+        "ptr": "FunctionProtoType 57"
+      }
+    },
+    "FunctionProtoType 57": {
+      "CanonicalType": {
+        "preview": "struct ns::A::Inner (void)",
+        "ptr": "FunctionProtoType 77"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+      "ResultType": {
+        "preview": "B::Inner",
+        "ptr": "ElaboratedType 58"
+      },
+      "syntax": "\"B::Inner (void)\""
+    },
+    "FunctionProtoType 64": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "syntax": "\"void (void) noexcept\""
+    },
+    "FunctionProtoType 65": {
+      "CanonicalType": {
+        "preview": "void (const struct ns::A::Inner &) noexcept",
+        "ptr": "FunctionProtoType 80"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "paramType[0]": {
+        "preview": "const Inner &",
+        "ptr": "LValueReferenceType 23"
+      },
+      "syntax": "\"void (const Inner &) noexcept\""
+    },
+    "FunctionProtoType 67": {
+      "CanonicalType": {
+        "preview": "struct ns::A::Inner &(const struct ns::A::Inner &)",
+        "ptr": "FunctionProtoType 81"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
+      "ResultType": {
+        "preview": "Inner &",
+        "ptr": "LValueReferenceType 82"
+      },
+      "paramType[0]": {
+        "preview": "const Inner &",
+        "ptr": "LValueReferenceType 23"
+      },
+      "syntax": "\"Inner &(const Inner &)\""
+    },
+    "FunctionProtoType 68": {
+      "CanonicalType": {
+        "preview": "void (struct ns::A::Inner &&) noexcept",
+        "ptr": "FunctionProtoType 83"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "paramType[0]": {
+        "preview": "Inner &&",
+        "ptr": "RValueReferenceType 31"
+      },
+      "syntax": "\"void (Inner &&) noexcept\""
+    },
+    "FunctionProtoType 70": {
+      "CanonicalType": {
+        "preview": "struct ns::A::Inner &(struct ns::A::Inner &&)",
+        "ptr": "FunctionProtoType 84"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
+      "ResultType": {
+        "preview": "Inner &",
+        "ptr": "LValueReferenceType 82"
+      },
+      "paramType[0]": {
+        "preview": "Inner &&",
+        "ptr": "RValueReferenceType 31"
+      },
+      "syntax": "\"Inner &(Inner &&)\""
+    },
+    "FunctionProtoType 71": {
+      "CanonicalType": {
+        "preview": "void (const struct ns::A &) noexcept",
+        "ptr": "FunctionProtoType 85"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "paramType[0]": {
+        "preview": "const A &",
+        "ptr": "LValueReferenceType 41"
+      },
+      "syntax": "\"void (const A &) noexcept\""
+    },
+    "FunctionProtoType 73": {
+      "CanonicalType": {
+        "preview": "struct ns::A &(const struct ns::A &)",
+        "ptr": "FunctionProtoType 86"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
+      "ResultType": {
+        "preview": "A &",
+        "ptr": "LValueReferenceType 87"
+      },
+      "paramType[0]": {
+        "preview": "const A &",
+        "ptr": "LValueReferenceType 41"
+      },
+      "syntax": "\"A &(const A &)\""
+    },
+    "FunctionProtoType 74": {
+      "CanonicalType": {
+        "preview": "void (struct ns::A &&) noexcept",
+        "ptr": "FunctionProtoType 88"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "paramType[0]": {
+        "preview": "A &&",
+        "ptr": "RValueReferenceType 49"
+      },
+      "syntax": "\"void (A &&) noexcept\""
+    },
+    "FunctionProtoType 76": {
+      "CanonicalType": {
+        "preview": "struct ns::A &(struct ns::A &&)",
+        "ptr": "FunctionProtoType 89"
+      },
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
+      "ResultType": {
+        "preview": "A &",
+        "ptr": "LValueReferenceType 87"
+      },
+      "paramType[0]": {
+        "preview": "A &&",
+        "ptr": "RValueReferenceType 49"
+      },
+      "syntax": "\"A &(A &&)\""
+    },
+    "FunctionProtoType 77": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+      "ResultType": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "syntax": "\"struct ns::A::Inner (void)\""
+    },
+    "FunctionProtoType 80": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "paramType[0]": {
+        "preview": "const struct ns::A::Inner &",
+        "ptr": "LValueReferenceType 66"
+      },
+      "syntax": "\"void (const struct ns::A::Inner &) noexcept\""
+    },
+    "FunctionProtoType 81": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+      "ResultType": {
+        "preview": "struct ns::A::Inner &",
+        "ptr": "LValueReferenceType 90"
+      },
+      "paramType[0]": {
+        "preview": "const struct ns::A::Inner &",
+        "ptr": "LValueReferenceType 66"
+      },
+      "syntax": "\"struct ns::A::Inner &(const struct ns::A::Inner &)\""
+    },
+    "FunctionProtoType 83": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "paramType[0]": {
+        "preview": "struct ns::A::Inner &&",
+        "ptr": "RValueReferenceType 69"
+      },
+      "syntax": "\"void (struct ns::A::Inner &&) noexcept\""
+    },
+    "FunctionProtoType 84": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+      "ResultType": {
+        "preview": "struct ns::A::Inner &",
+        "ptr": "LValueReferenceType 90"
+      },
+      "paramType[0]": {
+        "preview": "struct ns::A::Inner &&",
+        "ptr": "RValueReferenceType 69"
+      },
+      "syntax": "\"struct ns::A::Inner &(struct ns::A::Inner &&)\""
+    },
+    "FunctionProtoType 85": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "paramType[0]": {
+        "preview": "const struct ns::A &",
+        "ptr": "LValueReferenceType 72"
+      },
+      "syntax": "\"void (const struct ns::A &) noexcept\""
+    },
+    "FunctionProtoType 86": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+      "ResultType": {
+        "preview": "struct ns::A &",
+        "ptr": "LValueReferenceType 91"
+      },
+      "paramType[0]": {
+        "preview": "const struct ns::A &",
+        "ptr": "LValueReferenceType 72"
+      },
+      "syntax": "\"struct ns::A &(const struct ns::A &)\""
+    },
+    "FunctionProtoType 88": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+      "ResultType": {
+        "preview": "void",
+        "ptr": "BuiltinType 79"
+      },
+      "paramType[0]": {
+        "preview": "struct ns::A &&",
+        "ptr": "RValueReferenceType 75"
+      },
+      "syntax": "\"void (struct ns::A &&) noexcept\""
+    },
+    "FunctionProtoType 89": {
+      "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+      "ResultType": {
+        "preview": "struct ns::A &",
+        "ptr": "LValueReferenceType 91"
+      },
+      "paramType[0]": {
+        "preview": "struct ns::A &&",
+        "ptr": "RValueReferenceType 75"
+      },
+      "syntax": "\"struct ns::A &(struct ns::A &&)\""
+    },
+    "LValueReferenceType 23": {
+      "CanonicalType": {
+        "preview": "const struct ns::A::Inner &",
+        "ptr": "LValueReferenceType 66"
+      },
+      "PointeeType": {
+        "preview": "const Inner",
+        "ptr": "ElaboratedType 24"
+      },
+      "syntax": "\"const Inner &\""
+    },
+    "LValueReferenceType 41": {
+      "CanonicalType": {
+        "preview": "const struct ns::A &",
+        "ptr": "LValueReferenceType 72"
+      },
+      "PointeeType": {
+        "preview": "const A",
+        "ptr": "ElaboratedType 42"
+      },
+      "syntax": "\"const A &\""
+    },
+    "LValueReferenceType 66": {
+      "PointeeType": {
+        "preview": "const struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "syntax": "\"const struct ns::A::Inner &\""
+    },
+    "LValueReferenceType 72": {
+      "PointeeType": {
+        "preview": "const struct ns::A",
+        "ptr": "RecordType 43"
+      },
+      "syntax": "\"const struct ns::A &\""
+    },
+    "LValueReferenceType 82": {
+      "CanonicalType": {
+        "preview": "struct ns::A::Inner &",
+        "ptr": "LValueReferenceType 90"
+      },
+      "PointeeType": {
+        "preview": "Inner",
+        "ptr": "ElaboratedType 24"
+      },
+      "syntax": "\"Inner &\""
+    },
+    "LValueReferenceType 87": {
+      "CanonicalType": {
+        "preview": "struct ns::A &",
+        "ptr": "LValueReferenceType 91"
+      },
+      "PointeeType": {
+        "preview": "A",
+        "ptr": "ElaboratedType 42"
+      },
+      "syntax": "\"A &\""
+    },
+    "LValueReferenceType 90": {
+      "PointeeType": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "syntax": "\"struct ns::A::Inner &\""
+    },
+    "LValueReferenceType 91": {
+      "PointeeType": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      },
+      "syntax": "\"struct ns::A &\""
+    },
+    "NamespaceDecl 14": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Namespace",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:9:11",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "TranslationUnitDecl 1"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "TranslationUnitDecl 1"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "NamespaceDecl",
+      "DeclContext::FirstDecl": {"ptr": "CXXRecordDecl 15"},
+      "DeclContext::LastDecl": {"ptr": "FunctionDecl 56"},
+      "DeclContext::LookupPtr": "StoredDeclsMap with 3 entries",
+      "NamedDecl::Name": "\"ns\""
+    },
+    "NestedNameSpecifier 78": {
+      "Prefix.ptr": null,
+      "TypeSpec": {
+        "preview": "ns::B",
+        "ptr": "TypedefType 59"
+      },
+      "getKind()": "TypeSpec"
+    },
+    "ParmVarDecl 22": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "CXXConstructorDecl 21"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXConstructorDecl 21"},
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "NamedDecl::Name": "\"\"",
+      "ParmVarDecl::ParmVarDeclBits flags": "",
+      "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+      "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+      "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+      "ValueDecl::DeclType": {
+        "preview": "const Inner &",
+        "ptr": "LValueReferenceType 23"
+      },
+      "VarDecl::InitStmt": {"ptr": "null"},
+      "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+      "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+      "VarDecl::VarDeclBitfields::SClass": "SC_None",
+      "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified"
+    },
+    "ParmVarDecl 28": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "CXXMethodDecl 27"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXMethodDecl 27"},
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "NamedDecl::Name": "\"\"",
+      "ParmVarDecl::ParmVarDeclBits flags": "",
+      "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+      "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+      "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+      "ValueDecl::DeclType": {
+        "preview": "const Inner &",
+        "ptr": "LValueReferenceType 23"
+      },
+      "VarDecl::InitStmt": {"ptr": "null"},
+      "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+      "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+      "VarDecl::VarDeclBitfields::SClass": "SC_None",
+      "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified"
+    },
+    "ParmVarDecl 30": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "CXXConstructorDecl 29"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXConstructorDecl 29"},
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "NamedDecl::Name": "\"\"",
+      "ParmVarDecl::ParmVarDeclBits flags": "",
+      "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+      "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+      "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+      "ValueDecl::DeclType": {
+        "preview": "Inner &&",
+        "ptr": "RValueReferenceType 31"
+      },
+      "VarDecl::InitStmt": {"ptr": "null"},
+      "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+      "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+      "VarDecl::VarDeclBitfields::SClass": "SC_None",
+      "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified"
+    },
+    "ParmVarDecl 34": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:12:12",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "CXXMethodDecl 33"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXMethodDecl 33"},
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:12:12",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "NamedDecl::Name": "\"\"",
+      "ParmVarDecl::ParmVarDeclBits flags": "",
+      "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+      "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+      "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+      "ValueDecl::DeclType": {
+        "preview": "Inner &&",
+        "ptr": "RValueReferenceType 31"
+      },
+      "VarDecl::InitStmt": {"ptr": "null"},
+      "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+      "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+      "VarDecl::VarDeclBitfields::SClass": "SC_None",
+      "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified"
+    },
+    "ParmVarDecl 40": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "CXXConstructorDecl 39"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXConstructorDecl 39"},
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "NamedDecl::Name": "\"\"",
+      "ParmVarDecl::ParmVarDeclBits flags": "",
+      "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+      "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+      "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+      "ValueDecl::DeclType": {
+        "preview": "const A &",
+        "ptr": "LValueReferenceType 41"
+      },
+      "VarDecl::InitStmt": {"ptr": "null"},
+      "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+      "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+      "VarDecl::VarDeclBitfields::SClass": "SC_None",
+      "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified"
+    },
+    "ParmVarDecl 46": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "CXXMethodDecl 45"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXMethodDecl 45"},
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "NamedDecl::Name": "\"\"",
+      "ParmVarDecl::ParmVarDeclBits flags": "",
+      "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+      "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+      "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+      "ValueDecl::DeclType": {
+        "preview": "const A &",
+        "ptr": "LValueReferenceType 41"
+      },
+      "VarDecl::InitStmt": {"ptr": "null"},
+      "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+      "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+      "VarDecl::VarDeclBitfields::SClass": "SC_None",
+      "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified"
+    },
+    "ParmVarDecl 48": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "CXXConstructorDecl 47"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXConstructorDecl 47"},
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "NamedDecl::Name": "\"\"",
+      "ParmVarDecl::ParmVarDeclBits flags": "",
+      "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+      "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+      "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+      "ValueDecl::DeclType": {
+        "preview": "A &&",
+        "ptr": "RValueReferenceType 49"
+      },
+      "VarDecl::InitStmt": {"ptr": "null"},
+      "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+      "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+      "VarDecl::VarDeclBitfields::SClass": "SC_None",
+      "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified"
+    },
+    "ParmVarDecl 52": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:11:10",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "CXXMethodDecl 51"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "CXXMethodDecl 51"},
+      "DeclaratorDecl::ExtInfo": "absent",
+      "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:11:10",
+      "DeclaratorDecl::TInfo": "NullTSI",
+      "NamedDecl::Name": "\"\"",
+      "ParmVarDecl::ParmVarDeclBits flags": "",
+      "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+      "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+      "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+      "ValueDecl::DeclType": {
+        "preview": "A &&",
+        "ptr": "RValueReferenceType 49"
+      },
+      "VarDecl::InitStmt": {"ptr": "null"},
+      "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+      "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+      "VarDecl::VarDeclBitfields::SClass": "SC_None",
+      "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified"
+    },
+    "PointerType 9": {
+      "PointeeType": {
+        "preview": "char",
+        "ptr": "BuiltinType 10"
+      },
+      "syntax": "\"char *\""
+    },
+    "RValueReferenceType 31": {
+      "CanonicalType": {
+        "preview": "struct ns::A::Inner &&",
+        "ptr": "RValueReferenceType 69"
+      },
+      "PointeeType": {
+        "preview": "Inner",
+        "ptr": "ElaboratedType 24"
+      },
+      "syntax": "\"Inner &&\""
+    },
+    "RValueReferenceType 49": {
+      "CanonicalType": {
+        "preview": "struct ns::A &&",
+        "ptr": "RValueReferenceType 75"
+      },
+      "PointeeType": {
+        "preview": "A",
+        "ptr": "ElaboratedType 42"
+      },
+      "syntax": "\"A &&\""
+    },
+    "RValueReferenceType 69": {
+      "PointeeType": {
+        "preview": "struct ns::A::Inner",
+        "ptr": "RecordType 25"
+      },
+      "syntax": "\"struct ns::A::Inner &&\""
+    },
+    "RValueReferenceType 75": {
+      "PointeeType": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      },
+      "syntax": "\"struct ns::A &&\""
+    },
+    "RecordType 13": {
+      "decl": {"ptr": "CXXRecordDecl 61"},
+      "syntax": "\"struct __va_list_tag\""
+    },
+    "RecordType 25": {
+      "decl": {"ptr": "CXXRecordDecl 17"},
+      "syntax": "\"struct ns::A::Inner\""
+    },
+    "RecordType 43": {
+      "decl": {"ptr": "CXXRecordDecl 15"},
+      "syntax": "\"struct ns::A\""
+    },
+    "RecordType 7": {
+      "decl": {"ptr": "CXXRecordDecl 60"},
+      "syntax": "\"struct __NSConstantString_tag\""
+    },
+    "TranslationUnitDecl 1": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "0",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "<invalid loc>",
+      "Decl::NextInContext": {"ptr": "null"},
+      "Decl::flags": "",
+      "Decl::lexicalDeclContext": {"ptr": "null"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "null"},
+      "DeclContext::DeclContextBits": "",
+      "DeclContext::DeclKind": "TranslationUnitDecl",
+      "DeclContext::FirstDecl": {"ptr": "TypedefDecl 2"},
+      "DeclContext::LastDecl": {"ptr": "NamespaceDecl 14"},
+      "DeclContext::LookupPtr": "StoredDeclsMap with 6 entries"
+    },
+    "TypedefDecl 11": {"skipping reserved": "\"__builtin_va_list\""},
+    "TypedefDecl 2": {"skipping reserved": "\"__int128_t\""},
+    "TypedefDecl 4": {"skipping reserved": "\"__uint128_t\""},
+    "TypedefDecl 55": {
+      "Decl::Access": "AS_none",
+      "Decl::IdentifierNamespace": "IDNS_Type|IDNS_Ordinary",
+      "Decl::Linkage": "(not set)",
+      "Decl::Loc": "in/src/typedef-as-qualifier.cc:14:13",
+      "Decl::NextInContext": {"ptr": "FunctionDecl 56"},
+      "Decl::flags": "Referenced",
+      "Decl::lexicalDeclContext": {"ptr": "NamespaceDecl 14"},
+      "Decl::moduleOwnershipKind": "Unowned",
+      "Decl::semanticDeclContext": {"ptr": "NamespaceDecl 14"},
+      "NamedDecl::Name": "\"B\"",
+      "TypeDecl::LocStart": "in/src/typedef-as-qualifier.cc:14:3",
+      "TypeDecl::TypeForDecl": {
+        "preview": "ns::B",
+        "ptr": "TypedefType 59"
+      }
+    },
+    "TypedefDecl 6": {"skipping reserved": "\"__NSConstantString\""},
+    "TypedefDecl 8": {"skipping reserved": "\"__builtin_ms_va_list\""},
+    "TypedefType 59": {
+      "CanonicalType": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      },
+      "getUnqualifiedDesugaredType()": {
+        "preview": "struct ns::A",
+        "ptr": "RecordType 43"
+      },
+      "syntax": "\"ns::B\""
+    }
+  },
+  "objectGraphConfig": {
+    "newNodeAttributes": null,
+    "newNodeName": null,
+    "showFields": [
+      "NamedDecl::Name",
+      "syntax",
+      "CanonicalType",
+      "ResultType",
+      "NNS",
+      "NamedType",
+      "getUnqualifiedDesugaredType()",
+      "Prefix.ptr",
+      "getKind()",
+      "TypeSpec"
+    ]
+  },
+  "objectGraphSourceFile": "../../out/typedef-as-qualifier.cc.json",
+  "relations": [
+    {
+      "end": {"entityRef": 1},
+      "label": "ValueDecl::DeclType",
+      "start": {"entityRef": 0}
+    },
+    {
+      "end": {"entityRef": 2},
+      "label": "ResultType",
+      "start": {"entityRef": 1}
+    },
+    {
+      "end": {"entityRef": 3},
+      "label": "NNS",
+      "start": {"entityRef": 2}
+    }
+  ],
+  "type": "Diagram Editor Diagram",
+  "version": 30,
+  "windowSize": {
+    "h": 451,
+    "w": 463
+  }
+}

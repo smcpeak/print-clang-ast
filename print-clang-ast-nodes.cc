@@ -104,6 +104,10 @@ static std::string jsonObject2(
 #define OUT_QATTR_PTR(qualifier, key, id)                             \
   OUT_QATTR_JSON(qualifier, key, jsonObject1("ptr", doubleQuote(id)))
 
+// Print an attribute that is a pointer to a Type.
+#define OUT_QATTR_TYPE(qualifier, key, type) \
+  OUT_QATTR_JSON(qualifier, key, typeIDSyntaxJson(type))
+
 // Print an attribute that is a pointer to a statement.
 #define OUT_QATTR_STMT(qualifier, key, stmt) \
   OUT_QATTR_PTR(qualifier, key, getStmtIDStr(stmt))
@@ -148,6 +152,7 @@ static std::string jsonObject2(
 #define OUT_ATTR_JSON(key, json)    OUT_QATTR_JSON("", key, json)
 #define OUT_ATTR_STRING(key, value) OUT_QATTR_STRING("", key, value)
 #define OUT_ATTR_PTR(key, id)       OUT_QATTR_PTR("", key, id)
+#define OUT_ATTR_TYPE(key, type)    OUT_QATTR_TYPE("", key, type)
 #define OUT_ATTR_STMT(key, stmt)    OUT_QATTR_STMT("", key, stmt)
 #define OUT_ATTR_DECL(key, decl)    OUT_QATTR_DECL("", key, decl)
 #define OUT_ATTR_INT(key, value)    OUT_QATTR_INT("", key, value)
@@ -1010,13 +1015,24 @@ void PrintClangASTNodes::printCXXBaseSpecifier(
 }
 
 
+std::string PrintClangASTNodes::ptrAndPreview(
+  std::string const &ptrVal,
+  std::string const &previewVal)
+{
+  return jsonObject2(
+    "ptr", doubleQuote(ptrVal),
+    "preview", doubleQuote(previewVal)
+  );
+}
+
+
 std::string PrintClangASTNodes::typeIDSyntaxJson(
   clang::Type const * NULLABLE type)
 {
   if (type) {
-    return jsonObject2(
-      "ptr", doubleQuote(getOrCreateTypeIDStr(type)),
-      "preview", doubleQuote(typeStr(type))
+    return ptrAndPreview(
+      getOrCreateTypeIDStr(type),
+      typeStr(type)
     );
   }
   else {
@@ -1035,10 +1051,25 @@ std::string PrintClangASTNodes::qualTypeIDSyntaxJson(
     clang::Type const *type = qualType.getTypePtr();
     assert(type);
 
-    return jsonObject2(
-      "ptr", doubleQuote(getOrCreateTypeIDStr(type)),
-      "preview", doubleQuote(qualTypeStr(qualType))
+    return ptrAndPreview(
+      getOrCreateTypeIDStr(type),
+      qualTypeStr(qualType)
     );
+  }
+}
+
+
+std::string PrintClangASTNodes::nestedNameSpecifierIDSyntaxJson(
+  clang::NestedNameSpecifier const * NULLABLE nns)
+{
+  if (nns) {
+    return ptrAndPreview(
+      getNestedNameSpecifierIDStr(nns),
+      nestedNameSpecifierStr_nq(nns)
+    );
+  }
+  else {
+    return "null";
   }
 }
 
@@ -1686,8 +1717,8 @@ void PrintClangASTNodes::printTypeDecl(clang::TypeDecl const *decl)
 {
   clang::Type const *typeForDecl = decl->getTypeForDecl();
 
-  OUT_QATTR_JSON("TypeDecl::", "TypeForDecl",
-    typeIDSyntaxJson(typeForDecl));
+  OUT_QATTR_TYPE("TypeDecl::", "TypeForDecl",
+    typeForDecl);
   OUT_QATTR_STRING("TypeDecl::", "LocStart",
     locStr(decl->getBeginLoc()));
 }
@@ -2855,6 +2886,58 @@ void PrintClangASTNodes::printAttr(clang::Attr const *attr)
 }
 
 
+void PrintClangASTNodes::printNestedNameSpecifier(
+  clang::NestedNameSpecifier const *nns)
+{
+  OUT_OBJECT(getNestedNameSpecifierIDStr(nns));
+
+  // What is actually stored is a private enumeration packed into the
+  // low bits of the 'Prefix' pointer.  'getKind()' returns enough
+  // information to reconstruct the private value, but at the moment I
+  // do not care enough to do so here.
+  OUT_ATTR_STRING("getKind()",
+    nestedNameSpecifierKindStr(nns->getKind()));
+
+  // Note that the prefix can be nullptr even if the kind is not
+  // 'Global' because it describes the *syntax* of a nested name, which
+  // need not be absolute.
+  OUT_ATTR_JSON("Prefix" << ifLongForm(".ptr"),
+    nestedNameSpecifierIDSyntaxJson(nns->getPrefix()));
+
+  switch (nns->getKind()) {
+    case clang::NestedNameSpecifier::Identifier:
+      // I don't seem to have existing code that prints IdentifierInfos,
+      // so for the moment I omit printing it.
+      OUT_ATTR_TODO("IdentifierInfo");
+      break;
+
+    case clang::NestedNameSpecifier::Namespace:
+      OUT_ATTR_DECL("Namespace", nns->getAsNamespace());
+      break;
+
+    case clang::NestedNameSpecifier::NamespaceAlias:
+      OUT_ATTR_DECL("NamespaceAlias", nns->getAsNamespaceAlias());
+      break;
+
+    case clang::NestedNameSpecifier::TypeSpec:
+    case clang::NestedNameSpecifier::TypeSpecWithTemplate:
+      OUT_ATTR_TYPE("TypeSpec",
+        nns->getAsType());
+      break;
+
+    case clang::NestedNameSpecifier::Global:
+      // No info.
+      break;
+
+    case clang::NestedNameSpecifier::Super:
+      OUT_ATTR_DECL("RecordDecl", nns->getAsRecordDecl());
+      break;
+
+    // No default because this 'switch' is exhaustive.
+  }
+}
+
+
 // ----------------- PrintClangASTNodes: final passes ------------------
 void PrintClangASTNodes::printFunctionTemplateSpecializationInfo(
   clang::FunctionTemplateSpecializationInfo const *ftsi)
@@ -3264,8 +3347,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   {
     clang::Type const *desugared = type->getUnqualifiedDesugaredType();
     if (desugared != type) {
-      OUT_ATTR_JSON("getUnqualifiedDesugaredType()",
-        typeIDSyntaxJson(desugared));
+      OUT_ATTR_TYPE("getUnqualifiedDesugaredType()",
+        desugared);
     }
   }
 
@@ -3371,8 +3454,10 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   else if (auto elabType = dyn_cast<clang::ElaboratedType>(type)) {
     OUT_ATTR_STRING("Keyword",
       elaboratedTypeKeywordStr(elabType->getKeyword()));
-    OUT_ATTR_STRING("NNS",
-      nestedNameSpecifierStr(elabType->getQualifier()));
+
+    OUT_ATTR_JSON("NNS",
+      nestedNameSpecifierIDSyntaxJson(elabType->getQualifier()));
+
     OUT_ATTR_QUALTYPE("NamedType",
       elabType->getNamedType());
   }
@@ -3391,6 +3476,8 @@ void PrintClangASTNodes::printAllNodes()
     // How many nodes did we print this time?
     int numPrinted = 0;
 
+    // If 'id' is in the domain of the map for 'ClassName', print it as
+    // that kind of object.
     #define PRINT_IF_ID_IS(ClassName)                           \
       if (auto itOpt = mapFindOpt(                              \
             m_numbering.m_##ClassName##Map.m_inverseMap, id)) { \
@@ -3399,16 +3486,9 @@ void PrintClangASTNodes::printAllNodes()
         ++numPrinted;                                           \
       }
 
-    PRINT_IF_ID_IS(Type)
-    PRINT_IF_ID_IS(Decl)
-    PRINT_IF_ID_IS(Stmt)
-    PRINT_IF_ID_IS(Attr)
-    PRINT_IF_ID_IS(FunctionTemplateSpecializationInfo)
-    PRINT_IF_ID_IS(MemberSpecializationInfo)
-    PRINT_IF_ID_IS(DependentFunctionTemplateSpecializationInfo)
-    PRINT_IF_ID_IS(FunctionTemplateDecl_Common)
-    PRINT_IF_ID_IS(ClassTemplateDecl_Common)
-    PRINT_IF_ID_IS(Fake_CXXRecordDecl_DefinitionData)
+    // Check all of the maps.
+    SM_PP_MAP_LIST(PRINT_IF_ID_IS,
+      CLANG_AST_NODE_NUMBERING_TRACKED_TYPES);
 
     #undef PRINT_IF_ID_IS
 

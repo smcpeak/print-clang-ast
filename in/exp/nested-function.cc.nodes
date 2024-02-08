@@ -468,7 +468,7 @@
   "CanonicalType": { "ptr": "RecordType 34", "preview": "struct S" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 34", "preview": "struct S" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 34", "preview": "struct S" },
 },
 
@@ -1159,7 +1159,7 @@
   "CanonicalType": { "ptr": "RecordType 71", "preview": "class (lambda at in/src/nested-function.cc:13:12)" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 71", "preview": "class (lambda at in/src/nested-function.cc:13:12)" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 71", "preview": "class (lambda at in/src/nested-function.cc:13:12)" },
 },
 

@@ -25,14 +25,13 @@ namespace clang {
 }
 
 
-// The set of AST node types for which we create a numbering map.  In
-// general, the idea is to number nodes that could be referred to from
-// other nodes that are not their immediate parent in the tree.
+// The set of AST node types for which we create a numbering map.
 #define CLANG_AST_NODE_NUMBERING_TRACKED_TYPES ( \
   Type,                                          \
   Decl,                                          \
   Stmt,                                          \
   Attr,                                          \
+  NestedNameSpecifier,                           \
   FunctionTemplateSpecializationInfo,            \
   MemberSpecializationInfo,                      \
   DependentFunctionTemplateSpecializationInfo,   \

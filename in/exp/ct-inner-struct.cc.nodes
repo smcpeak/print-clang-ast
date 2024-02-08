@@ -607,7 +607,7 @@
   "CanonicalType": { "ptr": "RecordType 35", "preview": "struct S<int>::Inner" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 35", "preview": "struct S<int>::Inner" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 35", "preview": "struct S<int>::Inner" },
 },
 
@@ -1026,7 +1026,7 @@
   "CanonicalType": { "ptr": "RecordType 53", "preview": "struct S<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 53", "preview": "struct S<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 53", "preview": "struct S<int>" },
 },
 
@@ -1425,7 +1425,7 @@
   "CanonicalType": { "ptr": "RecordType 53", "preview": "struct S<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 53", "preview": "struct S<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "TemplateSpecializationType 74", "preview": "S<int>" },
 },
 
@@ -1483,7 +1483,7 @@
   "CanonicalType": { "ptr": "RecordType 35", "preview": "struct S<int>::Inner" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 35", "preview": "struct S<int>::Inner" },
   "Keyword": "ETK_None",
-  "NNS": "\"S<int>::\"",
+  "NNS": { "ptr": "NestedNameSpecifier 104", "preview": "S<int>::" },
   "NamedType": { "ptr": "RecordType 35", "preview": "struct S<int>::Inner" },
 },
 
@@ -1527,7 +1527,7 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 22" },
   "CTD::Common::PartialSpecializations": "empty",
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 104", "preview": "S<T>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 105", "preview": "S<T>" },
 },
 
 "TemplateTypeParmType 83": {
@@ -1541,7 +1541,7 @@
 "InjectedClassNameType 84": {
   "syntax": "\"S<T>\"",
   "Decl": { "ptr": "CXXRecordDecl 17" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 104", "preview": "S<T>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 105", "preview": "S<T>" },
 },
 
 "DefinitionData 85": {
@@ -1692,14 +1692,14 @@
 
 "FunctionProtoType 91": {
   "syntax": "\"void (void) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 92": {
   "syntax": "\"void (const Inner &) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 106", "preview": "void (const struct S<int>::Inner &) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 107", "preview": "void (const struct S<int>::Inner &) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 33", "preview": "const Inner &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -1711,8 +1711,8 @@
 
 "FunctionProtoType 94": {
   "syntax": "\"void (Inner &&) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 107", "preview": "void (struct S<int>::Inner &&) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 108", "preview": "void (struct S<int>::Inner &&) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 39", "preview": "Inner &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -1724,24 +1724,24 @@
 
 "FunctionProtoType 96": {
   "syntax": "\"Inner &(const Inner &)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 108", "preview": "struct S<int>::Inner &(const struct S<int>::Inner &)" },
-  "ResultType": { "ptr": "LValueReferenceType 109", "preview": "Inner &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 109", "preview": "struct S<int>::Inner &(const struct S<int>::Inner &)" },
+  "ResultType": { "ptr": "LValueReferenceType 110", "preview": "Inner &" },
   "paramType[0]": { "ptr": "LValueReferenceType 33", "preview": "const Inner &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 97": {
   "syntax": "\"Inner &(Inner &&)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 110", "preview": "struct S<int>::Inner &(struct S<int>::Inner &&)" },
-  "ResultType": { "ptr": "LValueReferenceType 109", "preview": "Inner &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 111", "preview": "struct S<int>::Inner &(struct S<int>::Inner &&)" },
+  "ResultType": { "ptr": "LValueReferenceType 110", "preview": "Inner &" },
   "paramType[0]": { "ptr": "RValueReferenceType 39", "preview": "Inner &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 98": {
   "syntax": "\"void (const S<int> &) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 111", "preview": "void (const struct S<int> &) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 112", "preview": "void (const struct S<int> &) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 51", "preview": "const S<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -1753,8 +1753,8 @@
 
 "FunctionProtoType 100": {
   "syntax": "\"void (S<int> &&) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 112", "preview": "void (struct S<int> &&) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 113", "preview": "void (struct S<int> &&) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 60", "preview": "S<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -1766,105 +1766,111 @@
 
 "FunctionProtoType 102": {
   "syntax": "\"S<int> &(const S<int> &)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 113", "preview": "struct S<int> &(const struct S<int> &)" },
-  "ResultType": { "ptr": "LValueReferenceType 114", "preview": "S<int> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 114", "preview": "struct S<int> &(const struct S<int> &)" },
+  "ResultType": { "ptr": "LValueReferenceType 115", "preview": "S<int> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 51", "preview": "const S<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 103": {
   "syntax": "\"S<int> &(S<int> &&)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 115", "preview": "struct S<int> &(struct S<int> &&)" },
-  "ResultType": { "ptr": "LValueReferenceType 114", "preview": "S<int> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 116", "preview": "struct S<int> &(struct S<int> &&)" },
+  "ResultType": { "ptr": "LValueReferenceType 115", "preview": "S<int> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 60", "preview": "S<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
-"TemplateSpecializationType 104": {
+"NestedNameSpecifier 104": {
+  "getKind()": "TypeSpec",
+  "Prefix.ptr": null,
+  "TypeSpec": { "ptr": "TemplateSpecializationType 78", "preview": "S<int>" },
+},
+
+"TemplateSpecializationType 105": {
   "syntax": "\"S<T>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 116", "preview": "S<type-parameter-0-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 117", "preview": "S<type-parameter-0-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"T\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "Template": "S",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 14" },
-  "desugar()": { "ptr": "TemplateSpecializationType 116", "preview": "S<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 117", "preview": "S<type-parameter-0-0>" },
 },
 
-"BuiltinType 105": {
+"BuiltinType 106": {
   "syntax": "\"void\"",
 },
 
-"FunctionProtoType 106": {
-  "syntax": "\"void (const struct S<int>::Inner &) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
-  "paramType[0]": { "ptr": "LValueReferenceType 93", "preview": "const struct S<int>::Inner &" },
-  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
-},
-
 "FunctionProtoType 107": {
-  "syntax": "\"void (struct S<int>::Inner &&) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
-  "paramType[0]": { "ptr": "RValueReferenceType 95", "preview": "struct S<int>::Inner &&" },
+  "syntax": "\"void (const struct S<int>::Inner &) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
+  "paramType[0]": { "ptr": "LValueReferenceType 93", "preview": "const struct S<int>::Inner &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 108": {
+  "syntax": "\"void (struct S<int>::Inner &&) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
+  "paramType[0]": { "ptr": "RValueReferenceType 95", "preview": "struct S<int>::Inner &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"FunctionProtoType 109": {
   "syntax": "\"struct S<int>::Inner &(const struct S<int>::Inner &)\"",
-  "ResultType": { "ptr": "LValueReferenceType 117", "preview": "struct S<int>::Inner &" },
+  "ResultType": { "ptr": "LValueReferenceType 118", "preview": "struct S<int>::Inner &" },
   "paramType[0]": { "ptr": "LValueReferenceType 93", "preview": "const struct S<int>::Inner &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"LValueReferenceType 109": {
+"LValueReferenceType 110": {
   "syntax": "\"Inner &\"",
-  "CanonicalType": { "ptr": "LValueReferenceType 117", "preview": "struct S<int>::Inner &" },
+  "CanonicalType": { "ptr": "LValueReferenceType 118", "preview": "struct S<int>::Inner &" },
   "PointeeType": { "ptr": "ElaboratedType 34", "preview": "Inner" },
 },
 
-"FunctionProtoType 110": {
+"FunctionProtoType 111": {
   "syntax": "\"struct S<int>::Inner &(struct S<int>::Inner &&)\"",
-  "ResultType": { "ptr": "LValueReferenceType 117", "preview": "struct S<int>::Inner &" },
+  "ResultType": { "ptr": "LValueReferenceType 118", "preview": "struct S<int>::Inner &" },
   "paramType[0]": { "ptr": "RValueReferenceType 95", "preview": "struct S<int>::Inner &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"FunctionProtoType 111": {
-  "syntax": "\"void (const struct S<int> &) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
-  "paramType[0]": { "ptr": "LValueReferenceType 99", "preview": "const struct S<int> &" },
-  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
-},
-
 "FunctionProtoType 112": {
-  "syntax": "\"void (struct S<int> &&) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 105", "preview": "void" },
-  "paramType[0]": { "ptr": "RValueReferenceType 101", "preview": "struct S<int> &&" },
+  "syntax": "\"void (const struct S<int> &) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
+  "paramType[0]": { "ptr": "LValueReferenceType 99", "preview": "const struct S<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 113": {
+  "syntax": "\"void (struct S<int> &&) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 106", "preview": "void" },
+  "paramType[0]": { "ptr": "RValueReferenceType 101", "preview": "struct S<int> &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"FunctionProtoType 114": {
   "syntax": "\"struct S<int> &(const struct S<int> &)\"",
-  "ResultType": { "ptr": "LValueReferenceType 118", "preview": "struct S<int> &" },
+  "ResultType": { "ptr": "LValueReferenceType 119", "preview": "struct S<int> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 99", "preview": "const struct S<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"LValueReferenceType 114": {
+"LValueReferenceType 115": {
   "syntax": "\"S<int> &\"",
-  "CanonicalType": { "ptr": "LValueReferenceType 118", "preview": "struct S<int> &" },
+  "CanonicalType": { "ptr": "LValueReferenceType 119", "preview": "struct S<int> &" },
   "PointeeType": { "ptr": "ElaboratedType 52", "preview": "S<int>" },
 },
 
-"FunctionProtoType 115": {
+"FunctionProtoType 116": {
   "syntax": "\"struct S<int> &(struct S<int> &&)\"",
-  "ResultType": { "ptr": "LValueReferenceType 118", "preview": "struct S<int> &" },
+  "ResultType": { "ptr": "LValueReferenceType 119", "preview": "struct S<int> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 101", "preview": "struct S<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"TemplateSpecializationType 116": {
+"TemplateSpecializationType 117": {
   "syntax": "\"S<type-parameter-0-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -1872,15 +1878,15 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 83", "preview": "type-parameter-0-0" },
   "Template": "S",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 14" },
-  "desugar()": { "ptr": "TemplateSpecializationType 116", "preview": "S<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 117", "preview": "S<type-parameter-0-0>" },
 },
 
-"LValueReferenceType 117": {
+"LValueReferenceType 118": {
   "syntax": "\"struct S<int>::Inner &\"",
   "PointeeType": { "ptr": "RecordType 35", "preview": "struct S<int>::Inner" },
 },
 
-"LValueReferenceType 118": {
+"LValueReferenceType 119": {
   "syntax": "\"struct S<int> &\"",
   "PointeeType": { "ptr": "RecordType 53", "preview": "struct S<int>" },
 },

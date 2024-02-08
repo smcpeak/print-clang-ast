@@ -1038,7 +1038,7 @@
   "CanonicalType": { "ptr": "RecordType 75", "preview": "class (lambda at in/src/ft-cont-lambda-inst.cc:8:5)" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 75", "preview": "class (lambda at in/src/ft-cont-lambda-inst.cc:8:5)" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 75", "preview": "class (lambda at in/src/ft-cont-lambda-inst.cc:8:5)" },
 },
 

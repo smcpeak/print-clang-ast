@@ -894,7 +894,7 @@
   "CanonicalType": { "ptr": "RecordType 48", "preview": "struct Outer<int>::Inner<float>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 48", "preview": "struct Outer<int>::Inner<float>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 48", "preview": "struct Outer<int>::Inner<float>" },
 },
 
@@ -1488,7 +1488,7 @@
   "CanonicalType": { "ptr": "RecordType 80", "preview": "struct Outer<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 80", "preview": "struct Outer<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 80", "preview": "struct Outer<int>" },
 },
 
@@ -1796,7 +1796,7 @@
   "CanonicalType": { "ptr": "RecordType 48", "preview": "struct Outer<int>::Inner<float>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 48", "preview": "struct Outer<int>::Inner<float>" },
   "Keyword": "ETK_None",
-  "NNS": "\"Outer<int>::\"",
+  "NNS": { "ptr": "NestedNameSpecifier 127", "preview": "Outer<int>::" },
   "NamedType": { "ptr": "TemplateSpecializationType 95", "preview": "Inner<float>" },
 },
 
@@ -1853,7 +1853,7 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 29" },
   "CTD::Common::PartialSpecializations": "empty",
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 127", "preview": "Outer<T>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 128", "preview": "Outer<T>" },
 },
 
 "TemplateTypeParmType 100": {
@@ -1867,7 +1867,7 @@
 "InjectedClassNameType 101": {
   "syntax": "\"Outer<T>\"",
   "Decl": { "ptr": "CXXRecordDecl 17" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 127", "preview": "Outer<T>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 128", "preview": "Outer<T>" },
 },
 
 "DefinitionData 102": {
@@ -1908,7 +1908,7 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 23" },
   "CTD::Common::PartialSpecializations": "empty",
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 128", "preview": "Inner<U>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 129", "preview": "Inner<U>" },
 },
 
 "TemplateTypeParmType 104": {
@@ -1922,7 +1922,7 @@
 "InjectedClassNameType 105": {
   "syntax": "\"Inner<U>\"",
   "Decl": { "ptr": "CXXRecordDecl 22" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 128", "preview": "Inner<U>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 129", "preview": "Inner<U>" },
 },
 
 "RecordType 106": {
@@ -2015,13 +2015,13 @@
   "CommonBase::LazySpecializations": "null",
   "CTD::Common::Specializations[0]": { "ptr": "ClassTemplateSpecializationDecl 35" },
   "CTD::Common::PartialSpecializations": "empty",
-  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 129", "preview": "Inner<U>" },
+  "CTD::Common::InjectedClassNameType": { "ptr": "TemplateSpecializationType 130", "preview": "Inner<U>" },
 },
 
 "InjectedClassNameType 111": {
   "syntax": "\"Inner<U>\"",
   "Decl": { "ptr": "CXXRecordDecl 34" },
-  "InjectedType": { "ptr": "TemplateSpecializationType 129", "preview": "Inner<U>" },
+  "InjectedType": { "ptr": "TemplateSpecializationType 130", "preview": "Inner<U>" },
 },
 
 "DefinitionData 112": {
@@ -2067,14 +2067,14 @@
 
 "FunctionProtoType 114": {
   "syntax": "\"void (void) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 115": {
   "syntax": "\"void (const Inner<float> &) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 131", "preview": "void (const struct Outer<int>::Inner<float> &) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 132", "preview": "void (const struct Outer<int>::Inner<float> &) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 46", "preview": "const Inner<float> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -2086,8 +2086,8 @@
 
 "FunctionProtoType 117": {
   "syntax": "\"void (Inner<float> &&) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 132", "preview": "void (struct Outer<int>::Inner<float> &&) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 133", "preview": "void (struct Outer<int>::Inner<float> &&) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 58", "preview": "Inner<float> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -2099,24 +2099,24 @@
 
 "FunctionProtoType 119": {
   "syntax": "\"Inner<float> &(const Inner<float> &)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 133", "preview": "struct Outer<int>::Inner<float> &(const struct Outer<int>::Inner<float> &)" },
-  "ResultType": { "ptr": "LValueReferenceType 134", "preview": "Inner<float> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 134", "preview": "struct Outer<int>::Inner<float> &(const struct Outer<int>::Inner<float> &)" },
+  "ResultType": { "ptr": "LValueReferenceType 135", "preview": "Inner<float> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 46", "preview": "const Inner<float> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 120": {
   "syntax": "\"Inner<float> &(Inner<float> &&)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 135", "preview": "struct Outer<int>::Inner<float> &(struct Outer<int>::Inner<float> &&)" },
-  "ResultType": { "ptr": "LValueReferenceType 134", "preview": "Inner<float> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 136", "preview": "struct Outer<int>::Inner<float> &(struct Outer<int>::Inner<float> &&)" },
+  "ResultType": { "ptr": "LValueReferenceType 135", "preview": "Inner<float> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 58", "preview": "Inner<float> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 121": {
   "syntax": "\"void (const Outer<int> &) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 136", "preview": "void (const struct Outer<int> &) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 137", "preview": "void (const struct Outer<int> &) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 78", "preview": "const Outer<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -2128,16 +2128,16 @@
 
 "FunctionProtoType 123": {
   "syntax": "\"Outer<int> &(const Outer<int> &)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 137", "preview": "struct Outer<int> &(const struct Outer<int> &)" },
-  "ResultType": { "ptr": "LValueReferenceType 138", "preview": "Outer<int> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 138", "preview": "struct Outer<int> &(const struct Outer<int> &)" },
+  "ResultType": { "ptr": "LValueReferenceType 139", "preview": "Outer<int> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 78", "preview": "const Outer<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
 "FunctionProtoType 124": {
   "syntax": "\"void (Outer<int> &&) noexcept\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 139", "preview": "void (struct Outer<int> &&) noexcept" },
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
+  "CanonicalType": { "ptr": "FunctionProtoType 140", "preview": "void (struct Outer<int> &&) noexcept" },
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 86", "preview": "Outer<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
@@ -2149,121 +2149,127 @@
 
 "FunctionProtoType 126": {
   "syntax": "\"Outer<int> &(Outer<int> &&)\"",
-  "CanonicalType": { "ptr": "FunctionProtoType 140", "preview": "struct Outer<int> &(struct Outer<int> &&)" },
-  "ResultType": { "ptr": "LValueReferenceType 138", "preview": "Outer<int> &" },
+  "CanonicalType": { "ptr": "FunctionProtoType 141", "preview": "struct Outer<int> &(struct Outer<int> &&)" },
+  "ResultType": { "ptr": "LValueReferenceType 139", "preview": "Outer<int> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 86", "preview": "Outer<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_Unevaluated",
 },
 
-"TemplateSpecializationType 127": {
+"NestedNameSpecifier 127": {
+  "getKind()": "TypeSpec",
+  "Prefix.ptr": null,
+  "TypeSpec": { "ptr": "TemplateSpecializationType 94", "preview": "Outer<int>" },
+},
+
+"TemplateSpecializationType 128": {
   "syntax": "\"Outer<T>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 141", "preview": "Outer<type-parameter-0-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 142", "preview": "Outer<type-parameter-0-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"T\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
   "Template": "Outer",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 14" },
-  "desugar()": { "ptr": "TemplateSpecializationType 141", "preview": "Outer<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 142", "preview": "Outer<type-parameter-0-0>" },
 },
 
-"TemplateSpecializationType 128": {
+"TemplateSpecializationType 129": {
   "syntax": "\"Inner<U>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 142", "preview": "Inner<type-parameter-1-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 143", "preview": "Inner<type-parameter-1-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"U\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 21", "preview": "U" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 142", "preview": "Inner<type-parameter-1-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 143", "preview": "Inner<type-parameter-1-0>" },
 },
 
-"TemplateSpecializationType 129": {
+"TemplateSpecializationType 130": {
   "syntax": "\"Inner<U>\"",
-  "CanonicalType": { "ptr": "TemplateSpecializationType 143", "preview": "Inner<type-parameter-0-0>" },
+  "CanonicalType": { "ptr": "TemplateSpecializationType 144", "preview": "Inner<type-parameter-0-0>" },
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
   "args[0]": "\"U\" (ArgKind::Type)",
   "args[0].Type": { "ptr": "TemplateTypeParmType 33", "preview": "U" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 31" },
-  "desugar()": { "ptr": "TemplateSpecializationType 143", "preview": "Inner<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 144", "preview": "Inner<type-parameter-0-0>" },
 },
 
-"BuiltinType 130": {
+"BuiltinType 131": {
   "syntax": "\"void\"",
 },
 
-"FunctionProtoType 131": {
-  "syntax": "\"void (const struct Outer<int>::Inner<float> &) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
-  "paramType[0]": { "ptr": "LValueReferenceType 116", "preview": "const struct Outer<int>::Inner<float> &" },
-  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
-},
-
 "FunctionProtoType 132": {
-  "syntax": "\"void (struct Outer<int>::Inner<float> &&) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
-  "paramType[0]": { "ptr": "RValueReferenceType 118", "preview": "struct Outer<int>::Inner<float> &&" },
+  "syntax": "\"void (const struct Outer<int>::Inner<float> &) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
+  "paramType[0]": { "ptr": "LValueReferenceType 116", "preview": "const struct Outer<int>::Inner<float> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
 "FunctionProtoType 133": {
+  "syntax": "\"void (struct Outer<int>::Inner<float> &&) noexcept\"",
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
+  "paramType[0]": { "ptr": "RValueReferenceType 118", "preview": "struct Outer<int>::Inner<float> &&" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
+},
+
+"FunctionProtoType 134": {
   "syntax": "\"struct Outer<int>::Inner<float> &(const struct Outer<int>::Inner<float> &)\"",
-  "ResultType": { "ptr": "LValueReferenceType 144", "preview": "struct Outer<int>::Inner<float> &" },
+  "ResultType": { "ptr": "LValueReferenceType 145", "preview": "struct Outer<int>::Inner<float> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 116", "preview": "const struct Outer<int>::Inner<float> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"LValueReferenceType 134": {
+"LValueReferenceType 135": {
   "syntax": "\"Inner<float> &\"",
-  "CanonicalType": { "ptr": "LValueReferenceType 144", "preview": "struct Outer<int>::Inner<float> &" },
+  "CanonicalType": { "ptr": "LValueReferenceType 145", "preview": "struct Outer<int>::Inner<float> &" },
   "PointeeType": { "ptr": "ElaboratedType 47", "preview": "Inner<float>" },
 },
 
-"FunctionProtoType 135": {
+"FunctionProtoType 136": {
   "syntax": "\"struct Outer<int>::Inner<float> &(struct Outer<int>::Inner<float> &&)\"",
-  "ResultType": { "ptr": "LValueReferenceType 144", "preview": "struct Outer<int>::Inner<float> &" },
+  "ResultType": { "ptr": "LValueReferenceType 145", "preview": "struct Outer<int>::Inner<float> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 118", "preview": "struct Outer<int>::Inner<float> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"FunctionProtoType 136": {
+"FunctionProtoType 137": {
   "syntax": "\"void (const struct Outer<int> &) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
   "paramType[0]": { "ptr": "LValueReferenceType 122", "preview": "const struct Outer<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
-"FunctionProtoType 137": {
+"FunctionProtoType 138": {
   "syntax": "\"struct Outer<int> &(const struct Outer<int> &)\"",
-  "ResultType": { "ptr": "LValueReferenceType 145", "preview": "struct Outer<int> &" },
+  "ResultType": { "ptr": "LValueReferenceType 146", "preview": "struct Outer<int> &" },
   "paramType[0]": { "ptr": "LValueReferenceType 122", "preview": "const struct Outer<int> &" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"LValueReferenceType 138": {
+"LValueReferenceType 139": {
   "syntax": "\"Outer<int> &\"",
-  "CanonicalType": { "ptr": "LValueReferenceType 145", "preview": "struct Outer<int> &" },
+  "CanonicalType": { "ptr": "LValueReferenceType 146", "preview": "struct Outer<int> &" },
   "PointeeType": { "ptr": "ElaboratedType 79", "preview": "Outer<int>" },
 },
 
-"FunctionProtoType 139": {
+"FunctionProtoType 140": {
   "syntax": "\"void (struct Outer<int> &&) noexcept\"",
-  "ResultType": { "ptr": "BuiltinType 130", "preview": "void" },
+  "ResultType": { "ptr": "BuiltinType 131", "preview": "void" },
   "paramType[0]": { "ptr": "RValueReferenceType 125", "preview": "struct Outer<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_BasicNoexcept",
 },
 
-"FunctionProtoType 140": {
+"FunctionProtoType 141": {
   "syntax": "\"struct Outer<int> &(struct Outer<int> &&)\"",
-  "ResultType": { "ptr": "LValueReferenceType 145", "preview": "struct Outer<int> &" },
+  "ResultType": { "ptr": "LValueReferenceType 146", "preview": "struct Outer<int> &" },
   "paramType[0]": { "ptr": "RValueReferenceType 125", "preview": "struct Outer<int> &&" },
   "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
 },
 
-"TemplateSpecializationType 141": {
+"TemplateSpecializationType 142": {
   "syntax": "\"Outer<type-parameter-0-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -2271,10 +2277,10 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 100", "preview": "type-parameter-0-0" },
   "Template": "Outer",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 14" },
-  "desugar()": { "ptr": "TemplateSpecializationType 141", "preview": "Outer<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 142", "preview": "Outer<type-parameter-0-0>" },
 },
 
-"TemplateSpecializationType 142": {
+"TemplateSpecializationType 143": {
   "syntax": "\"Inner<type-parameter-1-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -2282,10 +2288,10 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 104", "preview": "type-parameter-1-0" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 19" },
-  "desugar()": { "ptr": "TemplateSpecializationType 142", "preview": "Inner<type-parameter-1-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 143", "preview": "Inner<type-parameter-1-0>" },
 },
 
-"TemplateSpecializationType 143": {
+"TemplateSpecializationType 144": {
   "syntax": "\"Inner<type-parameter-0-0>\"",
   "Bits.TypeAlias": "0",
   "Bits.NumArgs": "1",
@@ -2293,15 +2299,15 @@
   "args[0].Type": { "ptr": "TemplateTypeParmType 100", "preview": "type-parameter-0-0" },
   "Template": "Inner",
   "Template.TemplateDecl": { "ptr": "ClassTemplateDecl 31" },
-  "desugar()": { "ptr": "TemplateSpecializationType 143", "preview": "Inner<type-parameter-0-0>" },
+  "desugar()": { "ptr": "TemplateSpecializationType 144", "preview": "Inner<type-parameter-0-0>" },
 },
 
-"LValueReferenceType 144": {
+"LValueReferenceType 145": {
   "syntax": "\"struct Outer<int>::Inner<float> &\"",
   "PointeeType": { "ptr": "RecordType 48", "preview": "struct Outer<int>::Inner<float>" },
 },
 
-"LValueReferenceType 145": {
+"LValueReferenceType 146": {
   "syntax": "\"struct Outer<int> &\"",
   "PointeeType": { "ptr": "RecordType 80", "preview": "struct Outer<int>" },
 },

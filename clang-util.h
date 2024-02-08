@@ -126,6 +126,8 @@ public:      // methods
     clang::DeclarationName declName);
 
   // Stringify 'nns' and its kind.
+  std::string nestedNameSpecifierStr_nq(      // No quoting.
+    clang::NestedNameSpecifier const *nns) const;
   std::string nestedNameSpecifierStr(
     clang::NestedNameSpecifier const * NULLABLE nns) const;
   std::string nestedNameSpecifierKindStr(

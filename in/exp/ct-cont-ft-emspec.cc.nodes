@@ -970,7 +970,7 @@
   "CanonicalType": { "ptr": "RecordType 61", "preview": "struct S<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 61", "preview": "struct S<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 61", "preview": "struct S<int>" },
 },
 
@@ -1542,7 +1542,7 @@
   "CanonicalType": { "ptr": "RecordType 61", "preview": "struct S<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 61", "preview": "struct S<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "TemplateSpecializationType 90", "preview": "S<int>" },
 },
 

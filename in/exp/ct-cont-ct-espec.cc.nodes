@@ -585,7 +585,7 @@
   "CanonicalType": { "ptr": "RecordType 35", "preview": "struct Outer<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 35", "preview": "struct Outer<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 35", "preview": "struct Outer<int>" },
 },
 
@@ -1173,7 +1173,7 @@
   "CanonicalType": { "ptr": "RecordType 61", "preview": "struct Outer<int>::Inner<float>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 61", "preview": "struct Outer<int>::Inner<float>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 61", "preview": "struct Outer<int>::Inner<float>" },
 },
 

@@ -245,7 +245,7 @@
   "CanonicalType": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
   "getUnqualifiedDesugaredType()": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
 },
 
@@ -286,7 +286,7 @@
   "CanonicalType": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
   "getUnqualifiedDesugaredType()": { "ptr": "InjectedClassNameType 23", "preview": "S<T>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "TemplateSpecializationType 27", "preview": "S<T>" },
 },
 

@@ -210,19 +210,27 @@ std::string ClangUtil::unnamedDeclAddrAtLocStr(
 }
 
 
+std::string ClangUtil::nestedNameSpecifierStr_nq(
+  clang::NestedNameSpecifier const *nns) const
+{
+  string name;
+  llvm::raw_string_ostream rso(name);
+  nns->print(rso, m_printingPolicy);
+  return name;
+}
+
+
 std::string ClangUtil::nestedNameSpecifierStr(
   clang::NestedNameSpecifier const * NULLABLE nns) const
 {
   if (nns) {
-    string name;
-    llvm::raw_string_ostream rso(name);
-    nns->print(rso, m_printingPolicy);
-    return doubleQuote(name);
+    return doubleQuote(nestedNameSpecifierStr_nq(nns));
   }
   else {
     return "null";
   }
 }
+
 
 std::string ClangUtil::nestedNameSpecifierKindStr(
   clang::NestedNameSpecifier::SpecifierKind nssKind) const

@@ -185,12 +185,28 @@ public:      // methods
     clang::CXXBaseSpecifier const *bspec);
 
   // Get JSON for an object like:
+  //
   //   {
-  //     "ptr": "<type ID>",
-  //     "preview": "<type syntax>"
+  //     "ptr": "<ptrVal>",
+  //     "preview": "<previewVal>"
   //   }
+  //
+  // The idea is the 'ptr' can be followed to get structural details,
+  // while the 'preview' is shown before following the pointer, as a
+  // clue to what that structure contains.
+  //
+  // This double-quotes and escapes 'ptrVal' and 'previewVal', so they
+  // should not already be quoted/escaped.
+  std::string ptrAndPreview(std::string const &ptrVal,
+                            std::string const &previewVal);
+
+  // Get JSON for pointer to 'type' along with a preview of its syntax.
   std::string typeIDSyntaxJson(clang::Type const * NULLABLE type);
   std::string qualTypeIDSyntaxJson(clang::QualType qualType);
+
+  // Get ptr/preview for 'nns'.
+  std::string nestedNameSpecifierIDSyntaxJson(
+    clang::NestedNameSpecifier const * NULLABLE nns);
 
   // Search forward in the source code for the next token, starting at
   // the position right after 'loc'.  Return the spelling of the found
@@ -312,6 +328,9 @@ public:      // methods
     clang::CXXDependentScopeMemberExpr const *expr);
 
   void printAttr(clang::Attr const *attr);                      // Attr.h line 41
+
+  void printNestedNameSpecifier(                                // NestedNameSpecifier.h line 50
+    clang::NestedNameSpecifier const *nns);
 };
 
 

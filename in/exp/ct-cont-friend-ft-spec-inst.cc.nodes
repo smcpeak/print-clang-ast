@@ -430,7 +430,7 @@
   "CanonicalType": { "ptr": "RecordType 67", "preview": "class A<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 67", "preview": "class A<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "TemplateSpecializationType 35", "preview": "A<int>" },
 },
 
@@ -1059,7 +1059,7 @@
   "CanonicalType": { "ptr": "RecordType 67", "preview": "class A<int>" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 67", "preview": "class A<int>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "RecordType 67", "preview": "class A<int>" },
 },
 
@@ -1598,7 +1598,7 @@
   "CanonicalType": { "ptr": "TemplateSpecializationType 131", "preview": "A<type-parameter-0-0>" },
   "getUnqualifiedDesugaredType()": { "ptr": "TemplateSpecializationType 96", "preview": "A<T>" },
   "Keyword": "ETK_None",
-  "NNS": "null",
+  "NNS": null,
   "NamedType": { "ptr": "TemplateSpecializationType 96", "preview": "A<T>" },
 },
 
