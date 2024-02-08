@@ -1,0 +1,289 @@
+---- stdout ----
+{
+
+"TranslationUnitDecl 1": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "null" },
+  "Decl::lexicalDeclContext": { "ptr": "null" },
+  "Decl::Loc": "<invalid loc>",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "0",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "TranslationUnitDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 9 entries",
+  "DeclContext::FirstDecl": { "ptr": "TypedefDecl 2" },
+  "DeclContext::LastDecl": { "ptr": "FunctionDecl 18" },
+},
+
+"TypedefDecl 2": {
+  "skipping reserved": "\"__int128_t\"",
+},
+
+"BuiltinType 3": {
+  "syntax": "\"__int128\"",
+},
+
+"TypedefDecl 4": {
+  "skipping reserved": "\"__uint128_t\"",
+},
+
+"BuiltinType 5": {
+  "syntax": "\"unsigned __int128\"",
+},
+
+"TypedefDecl 6": {
+  "skipping reserved": "\"__NSConstantString\"",
+},
+
+"RecordType 7": {
+  "syntax": "\"struct __NSConstantString_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 27" },
+},
+
+"TypedefDecl 8": {
+  "skipping reserved": "\"__builtin_ms_va_list\"",
+},
+
+"PointerType 9": {
+  "syntax": "\"char *\"",
+  "PointeeType": { "ptr": "BuiltinType 10", "preview": "char" },
+},
+
+"BuiltinType 10": {
+  "syntax": "\"char\"",
+},
+
+"TypedefDecl 11": {
+  "skipping reserved": "\"__builtin_va_list\"",
+},
+
+"ConstantArrayType 12": {
+  "syntax": "\"struct __va_list_tag[1]\"",
+},
+
+"RecordType 13": {
+  "syntax": "\"struct __va_list_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 28" },
+},
+
+"VarDecl 14": {
+  "Decl::NextInContext": { "ptr": "VarDecl 16" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/multiple-decl.cc:4:5",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "ExternalLinkage",
+  "NamedDecl::Name": "\"g_solo\"",
+  "ValueDecl::DeclType": { "ptr": "BuiltinType 15", "preview": "int" },
+  "DeclaratorDecl::TInfo": "Builtin(\"int\", <in/src/multiple-decl.cc:4:1>, NullTypeLoc)",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/multiple-decl.cc:4:1",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"BuiltinType 15": {
+  "syntax": "\"int\"",
+},
+
+"VarDecl 16": {
+  "Decl::NextInContext": { "ptr": "VarDecl 17" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/multiple-decl.cc:6:5",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "ExternalLinkage",
+  "NamedDecl::Name": "\"g_duo1\"",
+  "ValueDecl::DeclType": { "ptr": "BuiltinType 15", "preview": "int" },
+  "DeclaratorDecl::TInfo": "Builtin(\"int\", <in/src/multiple-decl.cc:6:1>, NullTypeLoc)",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/multiple-decl.cc:6:1",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"VarDecl 17": {
+  "Decl::NextInContext": { "ptr": "FunctionDecl 18" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/multiple-decl.cc:6:13",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "ExternalLinkage",
+  "NamedDecl::Name": "\"g_duo2\"",
+  "ValueDecl::DeclType": { "ptr": "BuiltinType 15", "preview": "int" },
+  "DeclaratorDecl::TInfo": "Builtin(\"int\", <in/src/multiple-decl.cc:6:1>, NullTypeLoc)",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/multiple-decl.cc:6:1",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"FunctionDecl 18": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/multiple-decl.cc:8:6",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "ExternalLinkage",
+  "DeclContext::DeclKind": "FunctionDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "VarDecl 23" },
+  "DeclContext::LastDecl": { "ptr": "VarDecl 26" },
+  "NamedDecl::Name": "\"f\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 19", "preview": "void (void)" },
+  "DeclaratorDecl::TInfo": "FunctionProto(\"void (void)\", <in/src/multiple-decl.cc:8:1, col:8>, Builtin(\"void\", <in/src/multiple-decl.cc:8:1>, NullTypeLoc))",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/multiple-decl.cc:8:1",
+  "Redeclarable::Previous": { "ptr": "FunctionDecl 18" },
+  "Redeclarable::First": { "ptr": "FunctionDecl 18" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
+  "FunctionDecl::ParamInfo": "(empty)",
+  "FunctionDecl::Body": { "ptr": "CompoundStmt 21" },
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_NonTemplate",
+  "FunctionDecl::TemplateOrSpecialization": "null",
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "null" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
+},
+
+"FunctionProtoType 19": {
+  "syntax": "\"void (void)\"",
+  "ResultType": { "ptr": "BuiltinType 20", "preview": "void" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+},
+
+"BuiltinType 20": {
+  "syntax": "\"void\"",
+},
+
+"CompoundStmt 21": {
+  "CompoundStmt::LBraceLoc": "in/src/multiple-decl.cc:9:1",
+  "CompoundStmt::RBraceLoc": "in/src/multiple-decl.cc:13:1",
+  "CompoundStmt::NumStmts": 2,
+  "CompoundStmt::Stmt[0]": { "ptr": "DeclStmt 22" },
+  "CompoundStmt::Stmt[1]": { "ptr": "DeclStmt 24" },
+},
+
+"DeclStmt 22": {
+  "DeclStmt::DG": { "ptr": "VarDecl 23" },
+  "DeclStmt::StartLoc": "in/src/multiple-decl.cc:10:3",
+  "DeclStmt::EndLoc": "in/src/multiple-decl.cc:10:13",
+},
+
+"VarDecl 23": {
+  "Decl::NextInContext": { "ptr": "VarDecl 25" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 18" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 18" },
+  "Decl::Loc": "in/src/multiple-decl.cc:10:7",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"l_solo\"",
+  "ValueDecl::DeclType": { "ptr": "BuiltinType 15", "preview": "int" },
+  "DeclaratorDecl::TInfo": "Builtin(\"int\", <in/src/multiple-decl.cc:10:3>, NullTypeLoc)",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/multiple-decl.cc:10:3",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"DeclStmt 24": {
+  "DeclStmt::DG[0]": { "ptr": "VarDecl 25" },
+  "DeclStmt::DG[1]": { "ptr": "VarDecl 26" },
+  "DeclStmt::StartLoc": "in/src/multiple-decl.cc:12:3",
+  "DeclStmt::EndLoc": "in/src/multiple-decl.cc:12:21",
+},
+
+"VarDecl 25": {
+  "Decl::NextInContext": { "ptr": "VarDecl 26" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 18" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 18" },
+  "Decl::Loc": "in/src/multiple-decl.cc:12:7",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"l_duo1\"",
+  "ValueDecl::DeclType": { "ptr": "BuiltinType 15", "preview": "int" },
+  "DeclaratorDecl::TInfo": "Builtin(\"int\", <in/src/multiple-decl.cc:12:3>, NullTypeLoc)",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/multiple-decl.cc:12:3",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"VarDecl 26": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 18" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 18" },
+  "Decl::Loc": "in/src/multiple-decl.cc:12:15",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"l_duo2\"",
+  "ValueDecl::DeclType": { "ptr": "BuiltinType 15", "preview": "int" },
+  "DeclaratorDecl::TInfo": "Builtin(\"int\", <in/src/multiple-decl.cc:12:3>, NullTypeLoc)",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/multiple-decl.cc:12:3",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"CXXRecordDecl 27": {
+  "skipping reserved": "\"__NSConstantString_tag\"",
+},
+
+"CXXRecordDecl 28": {
+  "skipping reserved": "\"__va_list_tag\"",
+},
+}
+---- stderr ----
+---- exit status ----
+Exit 0
