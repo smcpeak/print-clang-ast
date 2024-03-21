@@ -42,6 +42,17 @@ void mapInsertAll(std::map<K,V> &dest, std::map<K,V> const &src)
 }
 
 
+// Insert all keys from 'src', presumably a map, into 'dest', presumably
+// a set.
+template <class DestSet, class SrcMap>
+void mapInsertAllKeys(DestSet &dest, SrcMap const &src)
+{
+  for (auto const &kv : src) {
+    dest.insert(kv.first);
+  }
+}
+
+
 // Compute and return a map from value to key.  This asserts that the
 // values are unique.
 template <class K, class V>
