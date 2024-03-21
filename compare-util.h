@@ -36,21 +36,21 @@ int compare(NUM const &a, NUM const &b)
   }
 
 
-// Define a single friend comparison operator.
-#define DEFINE_ONE_FRIEND_OPERATOR(Class, op)              \
+// Define a single friend relational operator.
+#define DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, op) \
   friend bool operator op (Class const &a, Class const &b) \
     { return compare(a,b) op 0; }
 
 
 // Declare a set of friend comparison operators, assuming that a
 // 'compare' function exists.
-#define DEFINE_FRIEND_OPERATORS(Class)  \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, ==) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, !=) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, < ) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, <=) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, > ) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, >=)
+#define DEFINE_FRIEND_RELATIONAL_OPERATORS(Class)  \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, ==) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, !=) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, < ) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, <=) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, > ) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, >=)
 
 
 #endif // COMPARE_UTIL_H
