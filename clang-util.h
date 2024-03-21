@@ -484,6 +484,29 @@ namespace clang {
 }
 
 
+// Deterministically compare two declarations, given pointers to them.
+//
+// This assumes that both declarations are part of the same TU.  When
+// that is the case, the order will be stable across parser invocations.
+//
+// This is meant to be used as the 'Compare' argument to a container.
+//
+class DeclCompare {
+public:
+  // Strcmp-style comparison result.
+  static int compare(clang::Decl const *a, clang::Decl const *b);
+
+  // Comparison operator for use with containers.
+  //
+  // I'd like this to be 'static' but evidently that's not possible
+  // in C++17.
+  bool operator() (clang::Decl const *a, clang::Decl const *b) const
+  {
+    return compare(a,b) < 0;
+  }
+};
+
+
 // Get the name of the dynamic type of the argument.  We have one
 // overload for each class hierarchy root.
 std::string getDynamicTypeClassName(clang::Type const *type);

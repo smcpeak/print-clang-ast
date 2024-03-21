@@ -1729,6 +1729,26 @@ int compare(clang::SourceRange const &a, clang::SourceRange const &b)
 }
 
 
+/*static*/ int DeclCompare::compare(clang::Decl const *a,
+                                    clang::Decl const *b)
+{
+  // The ID of a decl is calculated from its address by walking up the
+  // DeclContext tree to get to the ASTContext, then iterating over the
+  // allocator slabs to find the one that contains it, then calculating
+  // an ID based on the position in the slab.  Under the assumption that
+  // objects are allocated in a deterministic order during parsing, and
+  // that object locations in a slab are never re-used, the resulting ID
+  // will be consistent across program executions.
+  //
+  // However, it is somewhat expensive to compute because walking up the
+  // DC tree takes time roughly logarithmic in the size of the TU, and
+  // I'm not sure about the cost of walking the slabs; that too is at
+  // least logarithmic and possibly linear.
+
+  return ::compare(a->getID(), b->getID());
+}
+
+
 std::string getDynamicTypeClassName(clang::Type const *type)
 {
   return stringb(type->getTypeClassName() << "Type");
