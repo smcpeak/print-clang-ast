@@ -1700,11 +1700,51 @@ clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
 }
 
 
-// True if 'fd == getUserWrittenFunctionDecl(fd)'.
 /*static*/ bool ClangUtil::isUserWrittenFunctionDecl(
   clang::FunctionDecl const *fd)
 {
   return fd == getUserWrittenFunctionDecl(fd);
+}
+
+
+bool ClangUtil::getPrimarySourceFileLines(std::vector<std::string> &lines)
+{
+  // Get the entire text of the PSF.
+  clang::FileID psfFileId = m_srcMgr.getMainFileID();
+  std::optional<llvm::StringRef> textOpt =
+    m_srcMgr.getBufferDataOrNone(psfFileId);
+  if (!textOpt) {
+    return false;
+  }
+  llvm::StringRef const &text = *textOpt;
+
+  // Index of the start of the next line to gather.
+  size_t i = 0;
+
+  // Parse lines at newline characters.
+  while (i < text.size()) {
+    // Set 'j' to one past the last character in the next line (which
+    // is a newline character unless we hit EOF first).
+    size_t j = i;
+    while (j < text.size() && text[j] != '\n') {
+      ++j;
+    }
+    if (j < text.size()) {
+      assert(text[j] == '\n');
+      ++j;
+    }
+
+    // Grab the line.
+    lines.push_back(text.substr(i, j-i).str());
+
+    // Ensure progress.
+    assert(j > i);
+
+    // Move to the next line.
+    i = j;
+  }
+
+  return true;
 }
 
 

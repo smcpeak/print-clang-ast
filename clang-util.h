@@ -25,6 +25,7 @@
 
 #include <list>                                            // std::list
 #include <string>                                          // std::string
+#include <vector>                                          // std::vector
 
 
 // Expand to 'thenCode' if we're compiling against Clang+LLVM 17 or later.
@@ -466,6 +467,20 @@ public:      // methods
 
   // True if 'fd == getUserWrittenFunctionDecl(fd)'.
   static bool isUserWrittenFunctionDecl(clang::FunctionDecl const *fd);
+
+  // Append to 'lines' all of the source code lines of the primary
+  // source file.  Each will end with a newline character, except
+  // possibly for the last.
+  //
+  // Return false, and leave 'lines' unchanged, if the code is not
+  // available (typically because the AST was loaded from a serialized
+  // AST file rather than created by parsing source code).  Otherwise
+  // return true.
+  //
+  // This routine is not particularly efficient, but it has a simple
+  // interface.
+  //
+  bool getPrimarySourceFileLines(std::vector<std::string> &lines);
 };
 
 
