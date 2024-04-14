@@ -176,6 +176,11 @@ std::string pathFinalName(std::string const &path);
 std::string bracesSetIfMultiple(std::set<std::string> const &strings);
 
 
+// Split 'text' into non-empty words separated by 'sep', which never
+// appears in any of the result words.
+std::vector<std::string> splitNonEmpty(std::string const &text, char sep);
+
+
 // Restore a variable's value when this object goes out of scope.
 template <class T>
 class SaveRestore {
