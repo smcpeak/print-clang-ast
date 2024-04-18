@@ -6,6 +6,7 @@
 
 #include "sm-pp-util.h"                // SM_PP_CAT
 
+#include <cassert>                     // assert
 #include <cstddef>                     // std::size_t
 #include <map>                         // std::map
 #include <set>                         // std::set
@@ -249,6 +250,22 @@ public:      // methods
   ENUM_BITWISE_OR(Type)                         \
   ENUM_BITWISE_XOR(Type)                        \
   ENUM_BITWISE_NOT(Type, ALL)
+
+
+// Dereference 'p' after asserting it is not nullptr.
+template <class T>
+T const &assertDeref(T const *p)
+{
+  assert(p);
+  return *p;
+}
+
+template <class T>
+T &assertDeref(T *p)
+{
+  assert(p);
+  return *p;
+}
 
 
 // Unit tests, defined in util-test.cc.  Aborts on failure.
