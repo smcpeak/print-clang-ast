@@ -4,11 +4,11 @@
 #ifndef MAP_UTIL_H
 #define MAP_UTIL_H
 
+#include <cassert>                     // assert
+#include <iostream>                    // std::ostream
 #include <map>                         // std::map
 #include <optional>                    // std::optional
 #include <utility>                     // std::make_pair
-
-#include <assert.h>                    // assert
 
 
 // I don't like to have to say 'make_pair' all the time, and I'm
@@ -78,6 +78,32 @@ std::optional<typename std::map<K,V>::const_iterator> mapFindOpt(
   }
   else {
     return std::optional<typename std::map<K,V>::const_iterator>();
+  }
+}
+
+
+// This has to be put into 'std', otherwise it is not found by ADL in
+// certain situations, such as when using my 'stringb' macro.
+namespace std {
+  template <class K, class V>
+  std::ostream& operator<< (std::ostream &os, std::map<K,V> const &m)
+  {
+    os << "{";
+
+    int ct = 0;
+    for (auto kv : m) {
+      if (ct > 0) {
+        os << ",";
+      }
+      os << " " << kv.first << ": " << kv.second;
+      ++ct;
+    }
+
+    if (ct > 0) {
+      os << " ";
+    }
+    os << "}";
+    return os;
   }
 }
 
