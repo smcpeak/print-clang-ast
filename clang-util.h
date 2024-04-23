@@ -366,18 +366,20 @@ public:      // methods
 
   // Get the innermost enclosing parent that has a name suitable for use
   // in a qualifier, or nullptr if there is none.
-  clang::NamedDecl *maybeGetNamedParent(
-    clang::NamedDecl *decl) const;
+  clang::NamedDecl const *maybeGetNamedParentC(
+    clang::NamedDecl const *decl) const;
+  clang::NamedDecl       *maybeGetNamedParent(
+    clang::NamedDecl       *decl) const;
 
   // Find the file whose inclusion from the main source file led to
   // 'loc' being in the translation unit.  Returns an empty string if
   // the location did not arise from any include.
-  std::string getTopLevelIncludeForLoc(clang::SourceLocation loc);
+  std::string getTopLevelIncludeForLoc(clang::SourceLocation loc) const;
 
   // If 'decl' is something whose declaration is introduced with a
   // keyword like "class" or "namespace", return that keyword.
   // Otherwise, return "".
-  std::string getDeclKeyword(clang::NamedDecl *decl);
+  std::string getDeclKeyword(clang::NamedDecl const *decl) const;
 
   // Turn 'paramList' into a string like "template <class T>".
   std::string templateParameterListStr(
@@ -426,7 +428,14 @@ public:      // methods
     clang::ASTTemplateArgumentListInfo const * NULLABLE argsInfo) const;
 
   // Get the canonical declaration for 'decl'.
-  clang::NamedDecl *canonicalNamedDecl(clang::NamedDecl *decl);
+  //
+  // This method is basically just confirming that the canonical decl will
+  // also be a NamedDecl, since the Clang API does not ensure that through
+  // its declared types.
+  clang::NamedDecl const *canonicalNamedDeclC(
+    clang::NamedDecl const *decl) const;
+  clang::NamedDecl       *canonicalNamedDecl(
+    clang::NamedDecl       *decl) const;
 
   // Stringify 'kind'.
   static std::string apValueKindStr(clang::APValue::ValueKind kind);

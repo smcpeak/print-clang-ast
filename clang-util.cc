@@ -1262,12 +1262,12 @@ clang::RecordDecl *ClangUtil::maybeGetParentClass(
 }
 
 
-clang::NamedDecl *ClangUtil::maybeGetNamedParent(
-  clang::NamedDecl *decl) const
+clang::NamedDecl const *ClangUtil::maybeGetNamedParentC(
+  clang::NamedDecl const *decl) const
 {
   // This is very loosely based on NamedDecl::printNestedNameSpecifier.
 
-  clang::DeclContext *parent = decl->getDeclContext();
+  clang::DeclContext const *parent = decl->getDeclContext();
   while (parent) {
     if (parent->isFunctionOrMethod()) {
       // We cannot name 'decl' using a qualified name because it is
@@ -1294,8 +1294,15 @@ clang::NamedDecl *ClangUtil::maybeGetNamedParent(
 }
 
 
+clang::NamedDecl *ClangUtil::maybeGetNamedParent(
+  clang::NamedDecl *decl) const
+{
+  return const_cast<clang::NamedDecl*>(maybeGetNamedParentC(decl));
+}
+
+
 string ClangUtil::getTopLevelIncludeForLoc(
-  clang::SourceLocation loc)
+  clang::SourceLocation loc) const
 {
   // This is initially invalid.
   clang::PresumedLoc prevPresumedLoc;
@@ -1325,7 +1332,7 @@ string ClangUtil::getTopLevelIncludeForLoc(
 }
 
 
-string ClangUtil::getDeclKeyword(clang::NamedDecl *decl)
+string ClangUtil::getDeclKeyword(clang::NamedDecl const *decl) const
 {
   if (isa<clang::NamespaceDecl>(decl)) {
     return "namespace";
@@ -1498,16 +1505,21 @@ std::string ClangUtil::astTemplateArgumentListInfoOptStr(
 }
 
 
-// This method is basically just confirming that the canonical decl will
-// also be a NamedDecl, since the Clang API does not ensure that through
-// its declared types.
-clang::NamedDecl *ClangUtil::canonicalNamedDecl(clang::NamedDecl *decl)
+clang::NamedDecl const *ClangUtil::canonicalNamedDeclC(
+  clang::NamedDecl const *decl) const
 {
   assert(decl != nullptr);
-  clang::NamedDecl *canonical =
+  clang::NamedDecl const *canonical =
     dyn_cast<clang::NamedDecl>(decl->getCanonicalDecl());
   assert(canonical != nullptr);
   return canonical;
+}
+
+
+clang::NamedDecl *ClangUtil::canonicalNamedDecl(
+  clang::NamedDecl *decl) const
+{
+  return const_cast<clang::NamedDecl*>(canonicalNamedDeclC(decl));
 }
 
 
