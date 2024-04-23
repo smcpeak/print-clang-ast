@@ -82,27 +82,50 @@ std::optional<typename std::map<K,V>::const_iterator> mapFindOpt(
 }
 
 
+template <class K, class V, class PRINT_KEY, class PRINT_VALUE>
+void mapWrite(
+  std::ostream &os,
+  std::map<K,V> const &m,
+  PRINT_KEY printKey,
+  PRINT_VALUE printValue)
+{
+  os << "{";
+
+  int ct = 0;
+  for (auto kv : m) {
+    if (ct > 0) {
+      os << ",";
+    }
+    os << " ";
+    printKey(os, kv.first);
+    os << ": ";
+    printValue(os, kv.second);
+    ++ct;
+  }
+
+  if (ct > 0) {
+    os << " ";
+  }
+  os << "}";
+}
+
+
 // This has to be put into 'std', otherwise it is not found by ADL in
 // certain situations, such as when using my 'stringb' macro.
 namespace std {
   template <class K, class V>
   std::ostream& operator<< (std::ostream &os, std::map<K,V> const &m)
   {
-    os << "{";
+    mapWrite(
+      os,
+      m,
+      [](std::ostream &os, K const &k) -> void {
+        os << k;
+      },
+      [](std::ostream &os, V const &v) -> void {
+        os << v;
+      });
 
-    int ct = 0;
-    for (auto kv : m) {
-      if (ct > 0) {
-        os << ",";
-      }
-      os << " " << kv.first << ": " << kv.second;
-      ++ct;
-    }
-
-    if (ct > 0) {
-      os << " ";
-    }
-    os << "}";
     return os;
   }
 }
