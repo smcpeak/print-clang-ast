@@ -113,6 +113,12 @@ std::ostream *g_traceOutputStream = nullptr;
 
 std::ostream &beginTraceOutput(char const *traceScope)
 {
+  return beginTraceOutput(traceScope, ": ");
+}
+
+
+std::ostream &beginTraceOutput(char const *traceScope, char const *suffix)
+{
   std::ostream *os =
     g_traceOutputStream? g_traceOutputStream : &std::clog;
 
@@ -120,7 +126,7 @@ std::ostream &beginTraceOutput(char const *traceScope)
   for (int i=0; i < g_traceIndentationLevel; ++i) {
     *os << "  ";
   }
-  *os << traceScope << ": ";
+  *os << traceScope << suffix;
   return *os;
 }
 

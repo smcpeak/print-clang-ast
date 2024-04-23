@@ -73,6 +73,9 @@ extern std::ostream *g_traceOutputStream;
 // ": ".
 std::ostream &beginTraceOutput(char const *traceScope);
 
+// Same as above, but with a possibly different suffix than ": ".
+std::ostream &beginTraceOutput(char const *traceScope, char const *suffix);
+
 
 /* Placed at file or function scope, this initializes the trace level
    that applies to that scope, shadowing any outer scope tracing. */
