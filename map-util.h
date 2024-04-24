@@ -92,7 +92,7 @@ void mapWrite(
   os << "{";
 
   int ct = 0;
-  for (auto kv : m) {
+  for (auto const &kv : m) {
     if (ct > 0) {
       os << ",";
     }
