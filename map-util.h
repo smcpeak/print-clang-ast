@@ -110,6 +110,37 @@ void mapWrite(
 }
 
 
+// Like above, but writing an array of pairs instead of a JSON map,
+// since JSON maps can only have strings as keys.
+template <class K, class V, class PRINT_KEY, class PRINT_VALUE>
+void mapWriteAsArray(
+  std::ostream &os,
+  std::map<K,V> const &m,
+  PRINT_KEY printKey,
+  PRINT_VALUE printValue)
+{
+  os << "[";
+
+  int ct = 0;
+  for (auto const &kv : m) {
+    if (ct > 0) {
+      os << ",";
+    }
+    os << " [";
+    printKey(os, kv.first);
+    os << ", ";
+    printValue(os, kv.second);
+    os << "]";
+    ++ct;
+  }
+
+  if (ct > 0) {
+    os << " ";
+  }
+  os << "]";
+}
+
+
 // This has to be put into 'std', otherwise it is not found by ADL in
 // certain situations, such as when using my 'stringb' macro.
 namespace std {
