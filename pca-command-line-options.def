@@ -47,6 +47,13 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
+  m_printerVisitor,
+  false,
+  "--printer-visitor",
+  R"(Print the AST using PrinterVisitor.)"
+)
+
+BOOL_OPTION(
   m_printASTNodes,
   false,
   "--print-ast-nodes",

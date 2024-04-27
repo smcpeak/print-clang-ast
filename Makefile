@@ -145,6 +145,7 @@ all:
 	$(CXX) -E -o $@ $(GENDEPS_FLAGS) $(CXXFLAGS) $<
 
 OBJS :=
+OBJS += clang-ast-visitor.o
 OBJS += clang-util.o
 OBJS += decl-implicit.o
 OBJS += enum-util.o
@@ -154,6 +155,7 @@ OBJS += number-clang-ast-nodes.o
 OBJS += pca-command-line-options-test.o
 OBJS += pca-command-line-options.o
 OBJS += print-clang-ast-nodes.o
+OBJS += printer-visitor.o
 OBJS += print-clang-ast.o
 OBJS += sm-pp-util-test.o
 OBJS += stringref-parse-test.o

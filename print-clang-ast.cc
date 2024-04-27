@@ -6,6 +6,7 @@
 #include "map-util.h"                                      // mapInsertAll
 #include "pca-command-line-options.h"                      // PCACommandLineOptions
 #include "print-clang-ast-nodes.h"                         // printClangASTNodes
+#include "printer-visitor.h"                               // printerVisitorTU
 #include "sm-pp-util.h"                                    // test_sm_pp_util
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
 #include "trace.h"                                         // INIT_TRACE, trace_unit_tests
@@ -158,6 +159,10 @@ int main(int argc, char const **argv)
 
   if (options.m_printAST_JSON) {
     printClangAST_JSON(cout, ast->getASTContext());
+  }
+
+  if (options.m_printerVisitor) {
+    printerVisitorTU(cout, ast->getASTContext());
   }
 
   if (options.m_printASTNodes) {
