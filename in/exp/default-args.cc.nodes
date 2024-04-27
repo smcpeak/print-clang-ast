@@ -160,6 +160,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/default-args.cc:4:15",
+  "IntegerLiteral::APInt": "2",
 },
 
 "CompoundStmt 19": {
@@ -389,6 +391,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/default-args.cc:14:15",
+  "IntegerLiteral::APInt": "3",
 },
 
 "FunctionDecl 32": {

@@ -104,6 +104,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 15", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/expr-array-size.cc:4:15",
+  "IntegerLiteral::APInt": "3",
 },
 
 "VarDecl 17": {
@@ -175,6 +177,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 15", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/expr-array-size.cc:6:13",
+  "IntegerLiteral::APInt": "1",
 },
 
 "CXXRecordDecl 23": {

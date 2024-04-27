@@ -2607,6 +2607,7 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
 
   PRINT_IF_SUBCLASS(stmt, Expr)
   PRINT_IF_SUBCLASS(stmt, DeclRefExpr)
+  PRINT_IF_SUBCLASS(stmt, IntegerLiteral)
   PRINT_IF_SUBCLASS(stmt, CallExpr)
   PRINT_IF_SUBCLASS(stmt, MemberExpr)
   PRINT_IF_SUBCLASS(stmt, CastExpr)
@@ -2757,6 +2758,18 @@ void PrintClangASTNodes::printDeclRefExpr(clang::DeclRefExpr const *expr)
         expr->getTemplateArgs() + i);
     }
   }
+}
+
+
+void PrintClangASTNodes::printIntegerLiteral(
+  clang::IntegerLiteral const *expr)
+{
+  char const *qualifier = "IntegerLiteral::";
+
+  OUT_QATTR_LOC(qualifier, "Loc",
+    expr->getLocation());
+  OUT_QATTR_STRING(qualifier, "APInt",
+    apIntStr(expr->getValue(), false /*isSigned*/));
 }
 
 

@@ -1488,6 +1488,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 42", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/ct-cont-ft-inst.cc:15:23",
+  "IntegerLiteral::APInt": "1",
 },
 
 "FloatingLiteral 89": {

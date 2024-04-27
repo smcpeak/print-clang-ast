@@ -140,6 +140,8 @@
   "ObjectKind": "OK_Ordinary",
   "Dependent": "None",
   "TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "Loc": "in/src/no-qualifiers.cc:8:10",
+  "APInt": "2",
 },
 
 "CXXRecordDecl 20": {

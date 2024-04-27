@@ -574,6 +574,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/declrefexpr-template-args.cc:13:10",
+  "IntegerLiteral::APInt": "7",
 },
 
 "FunctionTemplateDecl 46": {
@@ -713,6 +715,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/declrefexpr-template-args.cc:19:39",
+  "IntegerLiteral::APInt": "3",
 },
 
 "FunctionDecl 55": {
@@ -1918,6 +1922,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/declrefexpr-template-args.cc:35:10",
+  "IntegerLiteral::APInt": "7",
 },
 
 "CallExpr 123": {

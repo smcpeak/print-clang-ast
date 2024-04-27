@@ -319,6 +319,7 @@ public:      // methods
 
   void printExpr(clang::Expr const *expr);                      // Expr.h line  109
   void printDeclRefExpr(clang::DeclRefExpr const *expr);        // Expr.h line 1223
+  void printIntegerLiteral(clang::IntegerLiteral const *expr);  // Expr.h line 1494
   void printCallExpr(clang::CallExpr const *expr);              // Expr.h line 2801
   void printMemberExpr(clang::MemberExpr const *expr);          // Expr.h line 3168
   void printCastExpr(clang::CastExpr const *expr);              // Expr.h line 3479

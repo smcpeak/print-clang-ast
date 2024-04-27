@@ -1597,6 +1597,15 @@ clang::NamedDecl *ClangUtil::canonicalNamedDecl(
 }
 
 
+/*static*/ std::string ClangUtil::apIntStr(llvm::APInt const &n,
+                                           bool isSigned)
+{
+  llvm::SmallVector<char, 20> digits;
+  n.toString(digits, 10 /*radix*/, isSigned);
+  return smallVectorStr(digits);
+}
+
+
 /*static*/ std::string ClangUtil::apsIntStr(llvm::APSInt const &n)
 {
   llvm::SmallVector<char, 20> digits;

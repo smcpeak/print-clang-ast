@@ -189,6 +189,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 16", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/functiondecl-body.cc:10:18",
+  "IntegerLiteral::APInt": "2",
 },
 
 "FunctionDecl 21": {

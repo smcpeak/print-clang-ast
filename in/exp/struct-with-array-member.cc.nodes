@@ -179,6 +179,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 18", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/struct-with-array-member.cc:5:11",
+  "IntegerLiteral::APInt": "2",
 },
 
 "CXXConstructorDecl 20": {

@@ -182,6 +182,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 17", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/bitfield-with-init.cc:5:11",
+  "IntegerLiteral::APInt": "8",
 },
 
 "CXXConstructorDecl 20": {
@@ -758,6 +760,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 17", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/bitfield-with-init.cc:5:15",
+  "IntegerLiteral::APInt": "5",
 },
 
 "FunctionProtoType 50": {

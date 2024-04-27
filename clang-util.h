@@ -448,6 +448,7 @@ public:      // methods
     llvm::SmallVectorImpl<char> const &vec);
 
   // Stringify 'n'.
+  static std::string apIntStr(llvm::APInt const &n, bool isSigned);
   static std::string apsIntStr(llvm::APSInt const &n);
 
   // Is 'decl' the declaration of an operator?

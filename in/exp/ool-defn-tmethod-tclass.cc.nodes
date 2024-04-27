@@ -599,6 +599,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 38", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/ool-defn-tmethod-tclass.cc:21:10",
+  "IntegerLiteral::APInt": "0",
 },
 
 "CXXRecordDecl 42": {
