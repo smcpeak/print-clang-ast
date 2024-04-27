@@ -184,6 +184,12 @@ public:      // methods
     std::string const &label,
     clang::CXXBaseSpecifier const *bspec);
 
+  // Print the details of 'typeLoc'.
+  void printTypeLoc(
+    std::string const &qualifier,
+    std::string const &label,
+    clang::TypeLoc typeLoc);
+
   // Get JSON for an object like:
   //
   //   {

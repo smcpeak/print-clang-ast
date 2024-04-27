@@ -1,0 +1,187 @@
+---- stdout ----
+{
+
+"TranslationUnitDecl 1": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "null" },
+  "Decl::lexicalDeclContext": { "ptr": "null" },
+  "Decl::Loc": "<invalid loc>",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "0",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "TranslationUnitDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 7 entries",
+  "DeclContext::FirstDecl": { "ptr": "TypedefDecl 2" },
+  "DeclContext::LastDecl": { "ptr": "VarDecl 17" },
+},
+
+"TypedefDecl 2": {
+  "skipping reserved": "\"__int128_t\"",
+},
+
+"BuiltinType 3": {
+  "syntax": "\"__int128\"",
+},
+
+"TypedefDecl 4": {
+  "skipping reserved": "\"__uint128_t\"",
+},
+
+"BuiltinType 5": {
+  "syntax": "\"unsigned __int128\"",
+},
+
+"TypedefDecl 6": {
+  "skipping reserved": "\"__NSConstantString\"",
+},
+
+"RecordType 7": {
+  "syntax": "\"struct __NSConstantString_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 23" },
+},
+
+"TypedefDecl 8": {
+  "skipping reserved": "\"__builtin_ms_va_list\"",
+},
+
+"PointerType 9": {
+  "syntax": "\"char *\"",
+  "PointeeType": { "ptr": "BuiltinType 10", "preview": "char" },
+},
+
+"BuiltinType 10": {
+  "syntax": "\"char\"",
+},
+
+"TypedefDecl 11": {
+  "skipping reserved": "\"__builtin_va_list\"",
+},
+
+"ConstantArrayType 12": {
+  "syntax": "\"struct __va_list_tag[1]\"",
+},
+
+"RecordType 13": {
+  "syntax": "\"struct __va_list_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 24" },
+},
+
+"VarDecl 14": {
+  "Decl::NextInContext": { "ptr": "VarDecl 17" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/expr-array-size.cc:4:11",
+  "Decl::flags": "Referenced",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "InternalLinkage",
+  "NamedDecl::Name": "\"s\"",
+  "ValueDecl::DeclType": { "ptr": "BuiltinType 15", "preview": "const int" },
+  "DeclaratorDecl::TInfo": "Qualified(\"const int\", <in/src/expr-array-size.cc:4:1>, Builtin(\"int\", <in/src/expr-array-size.cc:4:1>, NullTypeLoc))",
+  "DeclaratorDecl::TInfo::Ty": { "ptr": "BuiltinType 15", "preview": "const int" },
+  "DeclaratorDecl::TInfo::TypeLoc.Class()": "Qualified",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/expr-array-size.cc:4:1",
+  "VarDecl::InitStmt": { "ptr": "IntegerLiteral 16" },
+  "VarDecl::EvaluatedStmt flags": "WasEvaluated HasConstantInitialization",
+  "VarDecl::EvaluatedStmt::Evaluated": "3",
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"BuiltinType 15": {
+  "syntax": "\"int\"",
+},
+
+"IntegerLiteral 16": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 15", "preview": "int" },
+},
+
+"VarDecl 17": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/expr-array-size.cc:6:5",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "ExternalLinkage",
+  "NamedDecl::Name": "\"array\"",
+  "ValueDecl::DeclType": { "ptr": "ConstantArrayType 18", "preview": "int[4]" },
+  "DeclaratorDecl::TInfo": "ConstantArray(\"int[4]\", <in/src/expr-array-size.cc:6:1, col:14>, Builtin(\"int\", <in/src/expr-array-size.cc:6:1>, NullTypeLoc))",
+  "DeclaratorDecl::TInfo::Ty": { "ptr": "ConstantArrayType 18", "preview": "int[4]" },
+  "DeclaratorDecl::TInfo::TypeLoc.Class()": "ConstantArray",
+  "DeclaratorDecl::TInfo::TypeLoc::LBracketLoc": "in/src/expr-array-size.cc:6:10",
+  "DeclaratorDecl::TInfo::TypeLoc::RBracketLoc": "in/src/expr-array-size.cc:6:14",
+  "DeclaratorDecl::TInfo::TypeLoc::Size": { "ptr": "BinaryOperator 19" },
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/expr-array-size.cc:6:1",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+},
+
+"ConstantArrayType 18": {
+  "syntax": "\"int[4]\"",
+},
+
+"BinaryOperator 19": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 15", "preview": "int" },
+},
+
+"ImplicitCastExpr 20": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 15", "preview": "int" },
+  "CastExpr::CastExprBits": "LValueToRValue",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "DeclRefExpr 21" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
+},
+
+"DeclRefExpr 21": {
+  "Expr::ExprBits::ValueKind": "VK_LValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 15", "preview": "const int" },
+  "DeclRefExpr::DeclRefExprBits": "NOUR_Constant",
+  "DeclRefExpr::Loc": "in/src/expr-array-size.cc:6:11",
+  "DeclRefExpr::D": { "ptr": "VarDecl 14" },
+},
+
+"IntegerLiteral 22": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 15", "preview": "int" },
+},
+
+"CXXRecordDecl 23": {
+  "skipping reserved": "\"__NSConstantString_tag\"",
+},
+
+"CXXRecordDecl 24": {
+  "skipping reserved": "\"__va_list_tag\"",
+},
+}
+---- stderr ----
+---- exit status ----
+Exit 0
