@@ -663,6 +663,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Value",
   "Expr::TR": { "ptr": "BuiltinType 25", "preview": "int" },
+  "BinaryOperatpr::LHS": { "ptr": "CStyleCastExpr 42" },
+  "BinaryOperatpr::RHS": { "ptr": "CStyleCastExpr 46" },
+  "BinaryOperatpr::Opcode": "-",
 },
 
 "CStyleCastExpr 42": {
@@ -947,6 +950,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Value",
   "Expr::TR": { "ptr": "BuiltinType 25", "preview": "int" },
+  "BinaryOperatpr::LHS": { "ptr": "CStyleCastExpr 62" },
+  "BinaryOperatpr::RHS": { "ptr": "CStyleCastExpr 66" },
+  "BinaryOperatpr::Opcode": "-",
 },
 
 "CStyleCastExpr 62": {

@@ -383,6 +383,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Type|Value",
   "Expr::TR": { "ptr": "BuiltinType 41", "preview": "<dependent type>" },
+  "BinaryOperatpr::LHS": { "ptr": "DeclRefExpr 30" },
+  "BinaryOperatpr::RHS": { "ptr": "DeclRefExpr 31" },
+  "BinaryOperatpr::Opcode": "+",
 },
 
 "DeclRefExpr 30": {

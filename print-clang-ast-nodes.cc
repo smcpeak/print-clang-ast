@@ -2611,6 +2611,7 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
   PRINT_IF_SUBCLASS(stmt, MemberExpr)
   PRINT_IF_SUBCLASS(stmt, CastExpr)
   PRINT_IF_SUBCLASS(stmt, ImplicitCastExpr)
+  PRINT_IF_SUBCLASS(stmt, BinaryOperator)
   PRINT_IF_SUBCLASS(stmt, ParenListExpr)
 
   PRINT_IF_SUBCLASS(stmt, CXXDefaultArgExpr)
@@ -2921,6 +2922,20 @@ void PrintClangASTNodes::printImplicitCastExpr(
   // Although 'ImplicitCastExpr' has some trailing objects that
   // 'CastExpr' does not necessarily have, the accessors are all on
   // 'CastExpr', so that is where they are printed.
+}
+
+
+void PrintClangASTNodes::printBinaryOperator(
+  clang::BinaryOperator const *expr)
+{
+  char const *qualifier = "BinaryOperatpr::";
+
+  OUT_QATTR_PTR(qualifier, "LHS",
+    getStmtIDStr(expr->getLHS()));
+  OUT_QATTR_PTR(qualifier, "RHS",
+    getStmtIDStr(expr->getRHS()));
+  OUT_QATTR_STRING(qualifier, "Opcode",
+    expr->getOpcodeStr().str());
 }
 
 

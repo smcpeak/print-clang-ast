@@ -1227,6 +1227,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 62", "preview": "float" },
+  "BinaryOperatpr::LHS": { "ptr": "ImplicitCastExpr 67" },
+  "BinaryOperatpr::RHS": { "ptr": "ImplicitCastExpr 70" },
+  "BinaryOperatpr::Opcode": "+",
 },
 
 "ImplicitCastExpr 67": {

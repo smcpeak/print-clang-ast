@@ -324,6 +324,7 @@ public:      // methods
   void printCastExpr(clang::CastExpr const *expr);              // Expr.h line 3479
   void printImplicitCastExpr(                                   // Expr.h line 3624
     clang::ImplicitCastExpr const *expr);
+  void printBinaryOperator(clang::BinaryOperator const *expr);  // Expr.h line 3809
   void printParenListExpr(clang::ParenListExpr const *expr);    // Expr.h line 5538
 
   void printCXXDefaultArgExpr(                                  // ExprCXX.h line 1241

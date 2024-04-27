@@ -504,6 +504,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "SubstTemplateTypeParmType 24", "preview": "int" },
+  "BinaryOperatpr::LHS": { "ptr": "MemberExpr 39" },
+  "BinaryOperatpr::RHS": { "ptr": "ImplicitCastExpr 41" },
+  "BinaryOperatpr::Opcode": "=",
 },
 
 "MemberExpr 39": {
@@ -1676,6 +1679,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "Instantiation|Type|Value",
   "Expr::TR": { "ptr": "BuiltinType 132", "preview": "<dependent type>" },
+  "BinaryOperatpr::LHS": { "ptr": "CXXDependentScopeMemberExpr 98" },
+  "BinaryOperatpr::RHS": { "ptr": "DeclRefExpr 100" },
+  "BinaryOperatpr::Opcode": "=",
 },
 
 "CXXDependentScopeMemberExpr 98": {

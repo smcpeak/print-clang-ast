@@ -827,6 +827,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 73", "preview": "<bound member function type>" },
+  "BinaryOperatpr::LHS": { "ptr": "ImplicitCastExpr 53" },
+  "BinaryOperatpr::RHS": { "ptr": "ImplicitCastExpr 55" },
+  "BinaryOperatpr::Opcode": "->*",
 },
 
 "ImplicitCastExpr 53": {

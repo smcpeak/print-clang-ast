@@ -142,6 +142,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 15", "preview": "int" },
+  "BinaryOperatpr::LHS": { "ptr": "ImplicitCastExpr 20" },
+  "BinaryOperatpr::RHS": { "ptr": "IntegerLiteral 22" },
+  "BinaryOperatpr::Opcode": "+",
 },
 
 "ImplicitCastExpr 20": {

@@ -1720,6 +1720,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
+  "BinaryOperatpr::LHS": { "ptr": "BinaryOperator 107" },
+  "BinaryOperatpr::RHS": { "ptr": "CallExpr 123" },
+  "BinaryOperatpr::Opcode": "+",
 },
 
 "BinaryOperator 107": {
@@ -1727,6 +1730,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 28", "preview": "int" },
+  "BinaryOperatpr::LHS": { "ptr": "BinaryOperator 108" },
+  "BinaryOperatpr::RHS": { "ptr": "CallExpr 119" },
+  "BinaryOperatpr::Opcode": "+",
 },
 
 "BinaryOperator 108": {
@@ -1734,6 +1740,9 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "SubstTemplateTypeParmType 27", "preview": "int" },
+  "BinaryOperatpr::LHS": { "ptr": "CallExpr 109" },
+  "BinaryOperatpr::RHS": { "ptr": "CallExpr 114" },
+  "BinaryOperatpr::Opcode": "+",
 },
 
 "CallExpr 109": {
