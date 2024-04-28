@@ -5,6 +5,7 @@
 #define PCA_UTIL_H
 
 #include "sm-pp-util.h"                // SM_PP_CAT
+#include "util-macros.h"               // for compatibility; TODO: remove this
 
 #include <cassert>                     // assert
 #include <cstddef>                     // std::size_t
@@ -19,17 +20,6 @@
 // Construct a string in-place using ostream operators.
 #define stringb(stuff) \
   (static_cast<std::ostringstream const &>(std::ostringstream() << stuff).str())
-
-
-// Pseudo-attribute meaning a pointer can be nullptr.
-#define NULLABLE /*nullable*/
-
-
-// Place in a class definition to inhibit the auto-generated copy
-// operations.
-#define NO_OBJECT_COPIES(name)              \
-  name(name&) = delete;                     \
-  void operator=(name&) = delete /*user ;*/
 
 
 // Print a message and exit.
@@ -218,38 +208,6 @@ public:      // methods
 #define SET_RESTORE(variable, value) \
   SetRestore<decltype(variable)> SM_PP_CAT(set_restore_,__LINE__) \
     (variable, value) /* user ; */
-
-
-// Declare a bunch of a set-like operators for enum types.
-//
-// This was copied from smbase/sm-macros.h.
-#define ENUM_BITWISE_AND(Type)                  \
-  inline Type operator& (Type f1, Type f2)      \
-    { return (Type)((int)f1 & (int)f2); }       \
-  inline Type& operator&= (Type &f1, Type f2)   \
-    { return f1 = f1 & f2; }
-
-#define ENUM_BITWISE_OR(Type)                   \
-  inline Type operator| (Type f1, Type f2)      \
-    { return (Type)((int)f1 | (int)f2); }       \
-  inline Type& operator|= (Type &f1, Type f2)   \
-    { return f1 = f1 | f2; }
-
-#define ENUM_BITWISE_XOR(Type)                  \
-  inline Type operator^ (Type f1, Type f2)      \
-    { return (Type)((int)f1 ^ (int)f2); }       \
-  inline Type& operator^= (Type &f1, Type f2)   \
-    { return f1 = f1 ^ f2; }
-
-#define ENUM_BITWISE_NOT(Type, ALL)             \
-  inline Type operator~ (Type f)                \
-    { return (Type)((~(int)f) & ALL); }
-
-#define ENUM_BITWISE_OPS(Type, ALL)             \
-  ENUM_BITWISE_AND(Type)                        \
-  ENUM_BITWISE_OR(Type)                         \
-  ENUM_BITWISE_XOR(Type)                        \
-  ENUM_BITWISE_NOT(Type, ALL)
 
 
 // Dereference 'p' after asserting it is not nullptr.
