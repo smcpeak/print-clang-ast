@@ -20,6 +20,9 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
     VTC_DECLARATOR_DECL: ConstantArray("int[4]", <in/src/expr-array-size.cc:6:1, col:14>, Builtin("int", <in/src/expr-array-size.cc:6:1>, NullTypeLoc))
       VTC_ARRAY_TYPE_ELEMENT: Builtin("int", <in/src/expr-array-size.cc:6:1>, NullTypeLoc)
       VSC_ARRAY_TYPE_SIZE: BinaryOperator at in/src/expr-array-size.cc:6:11
+        VSC_BINARY_OPERATOR_LHS: ImplicitCastExpr at in/src/expr-array-size.cc:6:11
+          VSC_CAST_EXPR: DeclRefExpr at in/src/expr-array-size.cc:6:11
+        VSC_BINARY_OPERATOR_RHS: IntegerLiteral at in/src/expr-array-size.cc:6:13
 ---- stderr ----
 ---- exit status ----
 Exit 0

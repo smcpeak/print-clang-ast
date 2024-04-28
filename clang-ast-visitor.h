@@ -11,6 +11,7 @@
 #include "clang-template-base-fwd.h"             // clang::TemplateArgument [n]
 #include "clang-type-fwd.h"                      // clang::QualType [n]
 #include "clang-type-loc-fwd.h"                  // clang::TypeLoc [n]
+#include "util-macros.h"                         // NULLABLE
 
 // clang
 #include "clang/AST/ASTFwd.h"                    // clang::{Stmt, Decl, ...} [n]
@@ -56,6 +57,11 @@ enum VisitDeclContext {
   // ---- Context is a TypeLoc ----
   VDC_FUNCTION_TYPE_PARAM,
 
+  // ---- Context is a Stmt ----
+  VDC_CXX_CATCH_STMT,
+  VDC_DECL_STMT,
+  VDC_RETURN_STMT_NRVO_CANDIDATE,
+
   NUM_VISIT_DECL_CONTEXTS
 };
 
@@ -81,6 +87,62 @@ enum VisitStmtContext {
   VSC_TYPE_OF_TYPE,
   VSC_DECLTYPE_TYPE,
   VSC_ARRAY_TYPE_SIZE,
+
+  // ---- Context is a Stmt ----
+  VSC_CXX_CATCH_STMT,
+  VSC_CXX_FOR_RANGE_STMT_INIT,
+  VSC_CXX_FOR_RANGE_STMT_RANGE,
+  VSC_CXX_FOR_RANGE_STMT_BEGIN,
+  VSC_CXX_FOR_RANGE_STMT_END,
+  VSC_CXX_FOR_RANGE_STMT_COND,
+  VSC_CXX_FOR_RANGE_STMT_INC,
+  VSC_CXX_FOR_RANGE_STMT_LOOPVAR,
+  VSC_CXX_FOR_RANGE_STMT_BODY,
+  VSC_CXX_TRY_STMT_TRY_BLOCK,
+  VSC_CXX_TRY_STMT_HANDLER,
+  VSC_COMPOUND_STMT,
+  VSC_DO_STMT_BODY,
+  VSC_DO_STMT_COND,
+  VSC_FOR_STMT_INIT,
+  VSC_FOR_STMT_CONDVAR,
+  VSC_FOR_STMT_COND,
+  VSC_FOR_STMT_INC,
+  VSC_FOR_STMT_BODY,
+  VSC_IF_STMT_INIT,
+  VSC_IF_STMT_CONDVAR,
+  VSC_IF_STMT_COND,
+  VSC_IF_STMT_THEN,
+  VSC_IF_STMT_ELSE,
+  VSC_INDIRECT_GOTO_STMT,
+  VSC_RETURN_STMT_VALUE,
+  VSC_CASE_STMT_LHS,
+  VSC_CASE_STMT_RHS,
+  VSC_CASE_STMT_SUB,
+  VSC_DEFAULT_STMT,
+  VSC_SWITCH_STMT_INIT,
+  VSC_SWITCH_STMT_CONDVAR,
+  VSC_SWITCH_STMT_COND,
+  VSC_SWITCH_STMT_BODY,
+  VSC_ATTRIBUTED_STMT,
+  VSC_BINARY_CONDITIONAL_OPERATOR_COMMON,
+  VSC_BINARY_CONDITIONAL_OPERATOR_COND,
+  VSC_BINARY_CONDITIONAL_OPERATOR_TRUE,
+  VSC_BINARY_CONDITIONAL_OPERATOR_FALSE,
+  VSC_CONDITIONAL_OPERATOR_COND,
+  VSC_CONDITIONAL_OPERATOR_TRUE,
+  VSC_CONDITIONAL_OPERATOR_FALSE,
+  VSC_ARRAY_INIT_LOOP_EXPR_COMMON,
+  VSC_ARRAY_INIT_LOOP_EXPR_SUB,
+  VSC_ARRAY_SUBSCRIPT_EXPR_LHS,
+  VSC_ARRAY_SUBSCRIPT_EXPR_RHS,
+  VSC_AS_TYPE_EXPR,
+  VSC_BINARY_OPERATOR_LHS,
+  VSC_BINARY_OPERATOR_RHS,
+  VSC_CXX_BIND_TEMPORARY_EXPR,
+  VSC_CXX_CONSTRUCT_EXPR,              // also CXXTemporaryObjectExpr
+  VSC_CXX_DELETE_EXPR,
+  VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
+  VSC_CAST_EXPR,                       // CastExpr and subclasses
 
   // ---- Other contexts ----
   VSC_TEMPLATE_ARGUMENT,
@@ -126,6 +188,9 @@ enum VisitTypeContext {
   VTC_ATOMIC_TYPE,
   VTC_PIPE_TYPE,
 
+  // ---- Context is a Stmt ----
+  VTC_CXX_TEMPORARY_OBJECT_EXPR,
+
   // ---- Other contexts ----
   VTC_TEMPLATE_ARGUMENT,
 
@@ -134,6 +199,24 @@ enum VisitTypeContext {
 
 // Return a string like "VTC_NONE", or "unknown" if 'vtc' is invalid.
 char const *toString(VisitTypeContext vtc);
+
+
+// Contexts for a template argument.
+enum VisitTemplateArgumentContext {
+  VTAC_NONE,
+
+  // ---- Context is a TypeLoc ----
+  VTAC_TEMPLATE_SPECIALIZATION_TYPE,
+
+  // ---- Context is a Stmt ----
+  VTAC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR,
+  VTAC_DECL_REF_EXPR,
+
+  NUM_VISIT_TEMPLATE_ARGUMENT_CONTEXTS
+};
+
+// Return a string like "VTAC_NONE", or "unknown" if 'vtac' is invalid.
+char const *toString(VisitTemplateArgumentContext vtac);
 
 
 /*
@@ -190,14 +273,23 @@ public:      // methods
   // recursively traverses child AST nodes.
 
   // Default: Visit children of 'decl'.
-  virtual void visitDecl(VisitDeclContext context, clang::Decl const *decl);
+  //
+  // 'decl' should not be nullptr.
+  //
+  virtual void visitDecl(
+    VisitDeclContext context,
+    clang::Decl const *decl);
 
   // Default: Visit children of 'decl'.
   //
   // Note that Expr is a subclass of Stmt, so visiting expressions is
   // done with 'visitStmt'.
   //
-  virtual void visitStmt(VisitStmtContext context, clang::Stmt const *stmt);
+  // 'stmt' should not be nullptr.
+  //
+  virtual void visitStmt(
+    VisitStmtContext context,
+    clang::Stmt const *stmt);
 
   // Default: Visit children of 'typeLoc'.
   //
@@ -212,44 +304,26 @@ public:      // methods
   // should check for 'typeLoc' being a 'QualifiedTypeLoc' and skip
   // processing in that case.
   //
-  virtual void visitTypeLoc(VisitTypeContext context, clang::TypeLoc typeLoc);
+  // 'typeLoc' should not be 'isNull()'.
+  //
+  virtual void visitTypeLoc(
+    VisitTypeContext context,
+    clang::TypeLoc typeLoc);
 
-  // -------- Leaf visitors --------
-  //
-  // These are called when certain elements of interest are encountered
-  // that the client might care about, but by default they do nothing.
+  // TODO: visitAttr.
 
-  // This happens when the AST would normally have a TypeLoc, but the
-  // type implicit, like that of a constructor of a class that otherwise
-  // does not have one.  Since the programmer never wrote out the type,
-  // there cannot be a TypeLoc for it.  Instead, the AST records only a
-  // QualType.  The visitor invokes this method only when there is no
-  // TypeLoc.
+  // Default: Visit the children of 'tal'.
   //
-  // Default: Do nothing.
-  virtual void visitImplicitQualType(VisitTypeContext context,
-                                     clang::QualType qualType);
+  // Precondition: !tal.getArgument().isNull()
+  //
+  virtual void visitTemplateArgumentLoc(
+    VisitTemplateArgumentContext context,
+    clang::TemplateArgumentLoc tal);
 
-  // -------- Helper visitors --------
+  // -------- Auxiliary visitors --------
   //
-  // These visitors are used to traverse special kinds of elements.
-  // They serve two purposes:
-  //
-  // 1. Encapsulate any iteration or other non-trivial processing that
-  //    the core visitor would otherwise do, so that a client that
-  //    overrides a core visitor and needs to customize handling for a
-  //    certain node type does not need to repeat much of what the
-  //    underlying visitor already does.
-  //
-  // 2. Provide a convenient place to hook into the traversal process in
-  //    order to skip unwanted elements.
-
-  // Visit a DeclContext other than FunctionDecl.
-  //
-  // Default: Call 'visitDecl' on all of the child declarations.
-  virtual void visitNonFunctionDeclContext(
-    VisitDeclContext context,
-    clang::DeclContext const *dc);
+  // By default, these iterate over their children, but are meant to be
+  // overridden by clients if needed, especially to skip them.
 
   // Visit the instantiations of 'ftd'.
   //
@@ -263,54 +337,117 @@ public:      // methods
   virtual void visitClassTemplateInstantiations(
     clang::ClassTemplateDecl const *ctd);
 
-  // Default: Visit the parameters of 'fd'.
-  virtual void visitFunctionDeclParameters(
+  // -------- Leaf visitors --------
+  //
+  // These are called when certain elements of interest are encountered
+  // that the client might care about, but by default they do nothing.
+
+  // This happens when the AST would normally have a TypeLoc, but the
+  // type is implicit, like the name of a constructor of a class that
+  // otherwise does not have one.  Since the programmer never wrote out
+  // the type, there cannot be a TypeLoc for it.  Instead, the AST
+  // records only a QualType.  The visitor invokes this method only when
+  // there is no TypeLoc.
+  //
+  // Default: Do nothing.
+  virtual void visitImplicitQualType(VisitTypeContext context,
+                                     clang::QualType qualType);
+
+  // -------- Helpers --------
+  //
+  // These functions are used to traverse special kinds of elements.
+  // They encapsulate any iteration or other non-trivial processing that
+  // the core visitor would otherwise do, so that a client that
+  // overrides a core visitor and needs to customize handling for a
+  // certain node type does not need to repeat much of what the
+  // underlying visitor already does.
+  //
+  // They are public to facilitate reuse, but are not meant to be
+  // overridden by clients.
+
+  // Visit a nullable Decl.
+  void visitDeclOpt(VisitDeclContext context,
+                    clang::Decl const * NULLABLE decl)
+  {
+    if (decl) {
+      visitDecl(context, decl);
+    }
+  }
+
+  // Visit a nullable Stmt.
+  void visitStmtOpt(VisitStmtContext context,
+                    clang::Stmt const * NULLABLE stmt)
+  {
+    if (stmt) {
+      visitStmt(context, stmt);
+    }
+  }
+
+  // Assert that 'tsi' is not nullptr, then visit its 'TypeLoc'.
+  void visitTypeSourceInfo(VisitTypeContext context,
+                           clang::TypeSourceInfo const *tsi);
+
+  // Call 'visitDecl' on all of the child declarations.
+  void visitNonFunctionDeclContext(
+    VisitDeclContext context,
+    clang::DeclContext const *dc);
+
+  // Visit the parameters of 'fd'.
+  void visitFunctionDeclParameters(
     clang::FunctionDecl const *fd);
 
-  // Default: Visit the bases of 'crd'.
-  virtual void visitCXXRecordBases(
+  // Visit the bases of 'crd'.
+  void visitCXXRecordBases(
     clang::CXXRecordDecl const *crd);
 
-  // Default: Visit the TypeLoc in 'base'.
-  virtual void visitBaseSpecifier(
+  // Visit the TypeLoc in 'base'.
+  void visitBaseSpecifier(
     clang::CXXBaseSpecifier const &base);
 
-  // Default: Visit the member initializers in 'ccd'.
-  virtual void visitCtorInitializers(
+  // Visit the member initializers in 'ccd'.
+  void visitCtorInitializers(
     clang::CXXConstructorDecl const *ccd);
 
-  // Default: If 'init' initializes a base class or is a call to a
-  // sibling ctor, then visit the associated TypeLoc.  Otherwise, do
-  // nothing.
-  virtual void visitCtorInitializer(
+  // If 'init' initializes a base class or is a call to a sibling ctor,
+  // then visit the associated TypeLoc.  Otherwise, do nothing.
+  void visitCtorInitializer(
     clang::CXXCtorInitializer const *init);
 
-  // Default: In 'tparams', visit the parameters, then the requires
-  // clause (if present).
-  virtual void visitTemplateDeclParameterList(
+  // In 'tparams', visit the parameters, then the requires clause if
+  // present.
+  void visitTemplateDeclParameterList(
     clang::TemplateParameterList const *tparams);
 
-  // Default: Visit the arguments in 'targs'.
-  virtual void visitTemplateArgumentList(
-    clang::TemplateArgumentList const *targs);
+  // Visit all of 'args'.  It can be nullptr if 'numArgs' is 0.
+  void visitTemplateArgumentLocArray(
+    VisitTemplateArgumentContext context,
+    clang::TemplateArgumentLoc const * NULLABLE args,
+    unsigned numArgs);
 
-  // Default: For a type argument, visit its TypeLoc.  For a non-type
-  // argument, visit its Expr.  For a template template argument,
-  // [TODO, maybe nothing?].
-  virtual void visitTemplateArgument(
-    clang::TemplateArgument const &arg);
-
-  // Default: Visit the parameters in 'ftl'.
-  virtual void visitFunctionTypeLocParameters(
+  // Visit the parameters in 'ftl'.
+  void visitFunctionTypeLocParameters(
     clang::FunctionTypeLoc ftl);
 
-  // Default: Visit the template arguments in 'tstl'.
-  virtual void visitTemplateSpecializationTypeLocArguments(
+  // Visit the template arguments in 'tstl'.
+  void visitTemplateSpecializationTypeLocArguments(
     clang::TemplateSpecializationTypeLoc tstl);
 
-  // Default: Visit the children of 'tal'.
-  virtual void visitTemplateArgumentLoc(
-    clang::TemplateArgumentLoc tal);
+  // Visit the handlers in 'stmt', but *not* the 'try' block, since the
+  // default 'visitStmt' does that part itself.
+  void visitCXXTryStmtHandlers(
+    clang::CXXTryStmt const *stmt);
+
+  // Visit all the statements in 'compound'.
+  void visitCompoundStmtBody(
+    clang::CompoundStmt const *compound);
+
+  // Visit all of the declarations in 'declStmt'.
+  void visitDeclStmtDecls(
+    clang::DeclStmt const *declStmt);
+
+  // Visit all of the arguments in 'cexpr'.
+  void visitCXXConstructExprArgs(
+    clang::CXXConstructExpr const *cexpr);
 };
 
 
