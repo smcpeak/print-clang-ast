@@ -82,6 +82,9 @@ enum VisitStmtContext {
   VSC_DECLTYPE_TYPE,
   VSC_ARRAY_TYPE_SIZE,
 
+  // ---- Other contexts ----
+  VSC_TEMPLATE_ARGUMENT,
+
   NUM_VISIT_STMT_CONTEXTS
 };
 
@@ -122,6 +125,9 @@ enum VisitTypeContext {
   VTC_PACK_EXPANSION_TYPE,
   VTC_ATOMIC_TYPE,
   VTC_PIPE_TYPE,
+
+  // ---- Other contexts ----
+  VTC_TEMPLATE_ARGUMENT,
 
   NUM_VISIT_TYPE_CONTEXTS
 };
@@ -190,6 +196,7 @@ public:      // methods
   //
   // Note that Expr is a subclass of Stmt, so visiting expressions is
   // done with 'visitStmt'.
+  //
   virtual void visitStmt(VisitStmtContext context, clang::Stmt const *stmt);
 
   // Default: Visit children of 'typeLoc'.
@@ -197,6 +204,14 @@ public:      // methods
   // In the Clang AST, 'TypeLoc' is a particular syntactic description
   // of a type, whereas 'Type' is the thing it semantically denotes.  In
   // an AST traversal, we only traverse the former.
+  //
+  // Note: RecursiveASTVisitor has a quirk in that it omits calling
+  // 'VisitTypeLoc' for the case of a 'QualifiedTypeLoc' (see the
+  // comments on 'RecursiveASTVisitor::TraverseQualifiedTypeLoc').  If
+  // the client of this interface wants to achieve the same effect, it
+  // should check for 'typeLoc' being a 'QualifiedTypeLoc' and skip
+  // processing in that case.
+  //
   virtual void visitTypeLoc(VisitTypeContext context, clang::TypeLoc typeLoc);
 
   // -------- Leaf visitors --------

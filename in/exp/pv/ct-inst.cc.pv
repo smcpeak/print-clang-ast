@@ -26,6 +26,7 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
         VTC_DECLARATOR_DECL: Pointer("S<T> *", <in/src/ct-inst.cc:8:3, col:8>, Elaborated("S<T>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecialization("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)))
           VTC_POINTER_TYPE: Elaborated("S<T>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecialization("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc))
             VTC_ELABORATED_TYPE: TemplateSpecialization("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)
+              VTC_TEMPLATE_ARGUMENT: TemplateTypeParm("T", <in/src/ct-inst.cc:8:5>, NullTypeLoc)
     VDC_CLASS_TEMPLATE_INSTANTIATION: ClassTemplateSpecializationDecl "S<int>" at in/src/ct-inst.cc:4:1
       VDC_RECORD_DECL: CXXRecordDecl "S<int>::S" at in/src/ct-inst.cc:5:1
       VDC_RECORD_DECL: FieldDecl "S<int>::data" at in/src/ct-inst.cc:6:3
@@ -38,6 +39,7 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
         VTC_DECLARATOR_DECL: Pointer("S<int> *", <in/src/ct-inst.cc:8:3, col:8>, Elaborated("S<int>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecialization("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)))
           VTC_POINTER_TYPE: Elaborated("S<int>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecialization("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc))
             VTC_ELABORATED_TYPE: TemplateSpecialization("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)
+              VTC_TEMPLATE_ARGUMENT: SubstTemplateTypeParm("int", <in/src/ct-inst.cc:8:5>, NullTypeLoc)
       VDC_RECORD_DECL: CXXConstructorDecl "S<int>::S()" at in/src/ct-inst.cc:5:8
         implicit VTC_DECLARATOR_DECL: void (void) noexcept
         VSC_FUNCTION_DECL_BODY: CompoundStmt at in/src/ct-inst.cc:5:8
@@ -52,6 +54,7 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
   VDC_TRANSLATION_UNIT_DECL: VarDecl "s" at in/src/ct-inst.cc:11:1
     VTC_DECLARATOR_DECL: Elaborated("S<int>", <in/src/ct-inst.cc:11:1, col:6>, TemplateSpecialization("S<int>", <in/src/ct-inst.cc:11:1, col:6>, NullTypeLoc))
       VTC_ELABORATED_TYPE: TemplateSpecialization("S<int>", <in/src/ct-inst.cc:11:1, col:6>, NullTypeLoc)
+        VTC_TEMPLATE_ARGUMENT: Builtin("int", <in/src/ct-inst.cc:11:3>, NullTypeLoc)
     VSC_VAR_DECL_INIT: CXXConstructExpr at in/src/ct-inst.cc:11:8
 ---- stderr ----
 ---- exit status ----

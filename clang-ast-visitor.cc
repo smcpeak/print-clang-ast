@@ -66,6 +66,8 @@ char const *toString(VisitStmtContext vsc)
     VSC_TYPE_OF_TYPE,
     VSC_DECLTYPE_TYPE,
     VSC_ARRAY_TYPE_SIZE,
+
+    VSC_TEMPLATE_ARGUMENT,
   );
 
   return "unknown";
@@ -106,6 +108,8 @@ char const *toString(VisitTypeContext vtc)
     VTC_PACK_EXPANSION_TYPE,
     VTC_ATOMIC_TYPE,
     VTC_PIPE_TYPE,
+
+    VTC_TEMPLATE_ARGUMENT,
   );
 
   return "unknown";
@@ -601,7 +605,52 @@ void ClangASTVisitor::visitTemplateSpecializationTypeLocArguments(
 void ClangASTVisitor::visitTemplateArgumentLoc(
   clang::TemplateArgumentLoc tal)
 {
-  // TODO
+  switch (tal.getArgument().getKind()) {
+    case clang::TemplateArgument::Null:
+      // Does not contain any information.
+      break;
+
+    case clang::TemplateArgument::Type: {
+      clang::TypeSourceInfo const *tsi = tal.getTypeSourceInfo();
+      assert(tsi);
+      visitTypeLoc(VTC_TEMPLATE_ARGUMENT, tsi->getTypeLoc());
+      break;
+    }
+
+    case clang::TemplateArgument::Declaration:
+      visitStmt(VSC_TEMPLATE_ARGUMENT,
+                tal.getSourceDeclExpression());
+      break;
+
+    case clang::TemplateArgument::NullPtr:
+      visitStmt(VSC_TEMPLATE_ARGUMENT,
+                tal.getSourceNullPtrExpression());
+      break;
+
+    case clang::TemplateArgument::Integral:
+      visitStmt(VSC_TEMPLATE_ARGUMENT,
+                tal.getSourceIntegralExpression());
+      break;
+
+    case clang::TemplateArgument::Template:
+      // TODO
+      break;
+
+    case clang::TemplateArgument::TemplateExpansion:
+      // TODO
+      break;
+
+    case clang::TemplateArgument::Expression:
+      visitStmt(VSC_TEMPLATE_ARGUMENT,
+                tal.getSourceExpression());
+      break;
+
+    case clang::TemplateArgument::Pack:
+      // TODO
+      break;
+
+    // The above cases should be exhaustive, so no 'default' here.
+  }
 }
 
 
