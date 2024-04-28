@@ -1,6 +1,6 @@
 # print-clang-ast/Makefile
 
-# ---- Configuration ----
+# --------------------------- Configuration ----------------------------
 # Set to 1 if I am using a build from source, 0 for a binary
 # distribution.
 USE_SOURCE_BUILD := 0
@@ -26,7 +26,7 @@ endif
 -include pre-config.mk
 
 
-# ---- Helper definitions and scripts ----
+# -------------------- Helper definitions and scripts ------------------
 # CREATE_OUTPUT_DIRECTORY, etc.
 include sm-lib.mk
 
@@ -45,7 +45,7 @@ DED := $(HOME)/wrk/ded/ded
 CHECK_SRCFILE_RULES := check-srcfile-rules
 
 
-# ---- llvm-config query results ----
+# --------------------- llvm-config query results ----------------------
 # Program to query the various LLVM configuration options.
 LLVM_CONFIG := $(CLANG_LLVM_INSTALL_DIR)/bin/llvm-config
 
@@ -59,7 +59,7 @@ LLVM_LIBDIR := $(shell $(LLVM_CONFIG) --libdir)
 LLVM_LDFLAGS_AND_SYSTEM_LIBS := $(shell $(LLVM_CONFIG) --ldflags --system-libs)
 
 
-# ---- Compiler options ----
+# -------------------------- Compiler options --------------------------
 # C++ compiler.
 #CXX = g++
 CXX = $(CLANG_LLVM_INSTALL_DIR)/bin/clang++
@@ -128,7 +128,7 @@ LDFLAGS += $(LLVM_LDFLAGS_AND_SYSTEM_LIBS)
 -include config.mk
 
 
-# ---- Recipes ----
+# ------------------------------ Recipes -------------------------------
 # Default target.
 all:
 .PHONY: all
@@ -171,7 +171,7 @@ print-clang-ast.exe: $(OBJS)
 	$(CXX) -g -Wall -o $@ $(OBJS) $(LDFLAGS)
 
 
-# ---- Tests ----
+# ------------------------------- Tests --------------------------------
 # Create an empty expected output file if needed.
 in/exp/%:
 	touch $@
@@ -190,6 +190,7 @@ out/unit-tests.ok: print-clang-ast.exe
 	touch $@
 
 
+# -------------------- Tests for --print-ast-nodes ---------------------
 # Options for specific source files.  I cannot just pass '-std=c++20'
 # for all files due to
 # https://github.com/llvm/llvm-project/issues/63959.
@@ -284,6 +285,7 @@ check-nodes: $(TEST_CONFIRMATIONS)
 check: check-nodes
 
 
+# ---------------------- Check test syntax rules -----------------------
 # Check that the test source files follow my rules.
 #
 # Passing CHECK_SRCFILE_RULES_ARGS=--fix enables automatic fixes.
@@ -297,6 +299,7 @@ out/%.cc.rules: in/src/%.cc
 check-srcfile-rules: $(patsubst in/src/%,out/%.rules,$(TEST_INPUTS))
 
 
+# ----------------------- Test ded --check-graph -----------------------
 # Check that a diagram's graph agrees with the diagram and with the
 # graph source.
 #
@@ -357,11 +360,15 @@ CHECKED_DIAGRAMS += ct-cont-ct-cspspec.ded
 check-diagrams: $(patsubst %,out/%.cg,$(CHECKED_DIAGRAMS))
 
 
+# ------------------------ 'check-full' target -------------------------
 # Check all the optional stuff too.
 .PHONY: check-full
-check-full: check check-srcfile-rules check-diagrams
+check-full: check
+check-full: check-srcfile-rules
+check-full: check-diagrams
 
 
+# --------------------------- 'clean' target ---------------------------
 .PHONY: clean
 clean:
 	$(RM) *.o *.d *.exe
