@@ -50,6 +50,9 @@ enum VisitDeclContext {
   NUM_VISIT_DECL_CONTEXTS
 };
 
+// Return a string like "VDC_NONE", or "unknown" if 'vdc' is invalid.
+char const *toString(VisitDeclContext vdc);
+
 
 // Possible roles for a Stmt.
 enum VisitStmtContext {
@@ -82,6 +85,9 @@ enum VisitStmtContext {
   NUM_VISIT_STMT_CONTEXTS
 };
 
+// Return a string like "VSC_NONE", or "unknown" if 'vsc' is invalid.
+char const *toString(VisitStmtContext vsc);
+
 
 // Possible roles for a syntactic type.
 enum VisitTypeContext {
@@ -104,6 +110,9 @@ enum VisitTypeContext {
 
   NUM_VISIT_TYPE_CONTEXTS
 };
+
+// Return a string like "VTC_NONE", or "unknown" if 'vtc' is invalid.
+char const *toString(VisitTypeContext vtc);
 
 
 /*

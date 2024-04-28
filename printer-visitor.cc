@@ -34,7 +34,7 @@ std::string PrinterVisitor::indentString() const
 void PrinterVisitor::visitDecl(VisitDeclContext context,
                                clang::Decl const *decl)
 {
-  m_os << indentString() << "D: ";
+  m_os << indentString() << toString(context) << ": ";
   if (auto nd = dyn_cast<clang::NamedDecl>(decl)) {
     m_os << namedDeclAndKindAtLocStr(nd) << "\n";
   }
@@ -52,7 +52,8 @@ void PrinterVisitor::visitDecl(VisitDeclContext context,
 void PrinterVisitor::visitStmt(VisitStmtContext context,
                                clang::Stmt const *stmt)
 {
-  m_os << indentString() << "S: " << stmtKindLocStr(stmt) << "\n";
+  m_os << indentString() << toString(context) << ": "
+       << stmtKindLocStr(stmt) << "\n";
 
   SET_RESTORE(m_indentLevel, m_indentLevel+1);
 
@@ -63,7 +64,8 @@ void PrinterVisitor::visitStmt(VisitStmtContext context,
 void PrinterVisitor::visitTypeLoc(VisitTypeContext context,
                                   clang::TypeLoc typeLoc)
 {
-  m_os << indentString() << "T: " << typeLocStr(typeLoc) << "\n";
+  m_os << indentString() << toString(context) << ": "
+       << typeLocStr(typeLoc) << "\n";
 
   SET_RESTORE(m_indentLevel, m_indentLevel+1);
 

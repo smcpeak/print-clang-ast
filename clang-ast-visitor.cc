@@ -5,11 +5,69 @@
 
 // this dir
 #include "clang-util.h"                          // assert_dyn_cast
+#include "enum-util.h"                           // ENUM_TABLE_LOOKUP_CHECK_SIZE
 
 // clang
 #include "clang/AST/DeclFriend.h"                // clang::{FriendDecl, ...}
 
 using clang::dyn_cast;
+
+
+char const *toString(VisitDeclContext vdc)
+{
+  ENUM_TABLE_LOOKUP_CHECK_SIZE(/*no qual*/, VisitDeclContext,
+    NUM_VISIT_DECL_CONTEXTS, vdc,
+
+    VDC_NONE,
+    VDC_TEMPLATE_TEMPLATED,
+    VDC_FRIEND_FRIEND,
+    VDC_FRIEND_TEMPLATE_FRIEND,
+    VDC_DECL_CONTEXT_DECL,
+    VDC_FUNCTION_TEMPLATE_INSTANTIATION,
+    VDC_CLASS_TEMPLATE_INSTANTIATION,
+    VDC_FUNCTION_PARAMETER,
+    VDC_TEMPLATE_PARAMETER,
+  );
+
+  return "unknown";
+}
+
+
+char const *toString(VisitStmtContext vsc)
+{
+  ENUM_TABLE_LOOKUP_CHECK_SIZE(/*no qual*/, VisitStmtContext,
+    NUM_VISIT_STMT_CONTEXTS, vsc,
+
+    VSC_NONE,
+    VSC_DECLARATOR_TRAILING_REQUIRES,
+    VSC_VAR_DECL_INIT,
+    VSC_FUNCTION_BODY,
+    VSC_FIELD_BIT_WIDTH,
+    VSC_FIELD_INIT,
+    VSC_ENUM_CONSTANT_INIT,
+    VSC_FILE_SCOPE_ASM_STRING,
+    VSC_TEMPLATE_REQUIRES_CLAUSE,
+  );
+
+  return "unknown";
+}
+
+
+char const *toString(VisitTypeContext vtc)
+{
+  ENUM_TABLE_LOOKUP_CHECK_SIZE(/*no qual*/, VisitTypeContext,
+    NUM_VISIT_TYPE_CONTEXTS, vtc,
+
+    VTC_NONE,
+    VTC_DECLARATOR_TYPE,
+    VTC_TYPEDEF_NAME_TYPE,
+    VTC_ENUM_UNDERLYING,
+    VTC_CLASS_BASE,
+    VTC_CTOR_INIT,
+  );
+
+  return "unknown";
+}
 
 
 void ClangASTVisitor::visitDecl(
