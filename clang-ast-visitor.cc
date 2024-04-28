@@ -13,16 +13,27 @@
 using clang::dyn_cast;
 
 
+// Get the DeclContext aspect of 'decl'.
+#define DECL_CONTEXT_OF(decl) assert_dyn_cast(clang::DeclContext, (decl))
+
+
 char const *toString(VisitDeclContext vdc)
 {
   ENUM_TABLE_LOOKUP_CHECK_SIZE(/*no qual*/, VisitDeclContext,
     NUM_VISIT_DECL_CONTEXTS, vdc,
 
     VDC_NONE,
+    VDC_ENUM_MEMBER,
+    VDC_RECORD_MEMBER,
+    VDC_EXPORT_DECL,
+    VDC_EXTERN_C_DECL,
+    VDC_LINKAGE_SPEC_DECL,
+    VDC_NAMESPACE_MEMBER,
+    VDC_REQUIRES_EXPR_BODY_DECL,
+    VDC_TU_DECL,
     VDC_TEMPLATE_TEMPLATED,
     VDC_FRIEND_FRIEND_DECL,
     VDC_FRIEND_TEMPLATE_FRIEND_DECL,
-    VDC_DECL_CONTEXT_DECL,
     VDC_FUNCTION_TEMPLATE_INSTANTIATION,
     VDC_CLASS_TEMPLATE_INSTANTIATION,
     VDC_FUNCTION_PARAMETER,
@@ -146,7 +157,7 @@ void ClangASTVisitor::visitDecl(
     }
 
     if (ed->isThisDeclarationADefinition()) {
-      visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, ed));
+      visitNonFunctionDeclContext(VDC_ENUM_MEMBER, DECL_CONTEXT_OF(ed));
     }
   }
 
@@ -163,7 +174,7 @@ void ClangASTVisitor::visitDecl(
       if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
         visitCXXRecordBases(crd);
       }
-      visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, rd));
+      visitNonFunctionDeclContext(VDC_RECORD_MEMBER, DECL_CONTEXT_OF(rd));
 
       // TODO: Visit instantiations of
       // ClassTemplatePartialSpecializationDecl.
@@ -215,27 +226,27 @@ void ClangASTVisitor::visitDecl(
   }
 
   else if (auto ed = dyn_cast<clang::ExportDecl>(decl)) {
-    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, ed));
+    visitNonFunctionDeclContext(VDC_EXPORT_DECL, DECL_CONTEXT_OF(ed));
   }
 
   else if (auto eccd = dyn_cast<clang::ExternCContextDecl>(decl)) {
-    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, eccd));
+    visitNonFunctionDeclContext(VDC_EXTERN_C_DECL, DECL_CONTEXT_OF(eccd));
   }
 
   else if (auto lsd = dyn_cast<clang::LinkageSpecDecl>(decl)) {
-    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, lsd));
+    visitNonFunctionDeclContext(VDC_LINKAGE_SPEC_DECL, DECL_CONTEXT_OF(lsd));
   }
 
   else if (auto nsd = dyn_cast<clang::NamespaceDecl>(decl)) {
-    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, nsd));
+    visitNonFunctionDeclContext(VDC_NAMESPACE_MEMBER, DECL_CONTEXT_OF(nsd));
   }
 
   else if (auto rebd = dyn_cast<clang::RequiresExprBodyDecl>(decl)) {
-    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, rebd));
+    visitNonFunctionDeclContext(VDC_REQUIRES_EXPR_BODY_DECL, DECL_CONTEXT_OF(rebd));
   }
 
   else if (auto tud = dyn_cast<clang::TranslationUnitDecl>(decl)) {
-    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, tud));
+    visitNonFunctionDeclContext(VDC_TU_DECL, DECL_CONTEXT_OF(tud));
   }
 
   else {
@@ -266,10 +277,11 @@ void ClangASTVisitor::visitImplicitQualType(VisitTypeContext context,
 
 
 void ClangASTVisitor::visitNonFunctionDeclContext(
+  VisitDeclContext context,
   clang::DeclContext const *dc)
 {
   for (clang::Decl const *d : dc->decls()) {
-    visitDecl(VDC_DECL_CONTEXT_DECL, d);
+    visitDecl(context, d);
   }
 }
 

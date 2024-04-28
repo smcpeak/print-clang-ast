@@ -1,19 +1,19 @@
 ---- stdout ----
 VDC_NONE: TranslationUnitDecl at <invalid loc>
-  VDC_DECL_CONTEXT_DECL: TypedefDecl "__int128_t" at <invalid loc>
+  VDC_TU_DECL: TypedefDecl "__int128_t" at <invalid loc>
     VTC_TYPEDEF_NAME_TYPE: Builtin("__int128", <<invalid sloc>>, NullTypeLoc)
-  VDC_DECL_CONTEXT_DECL: TypedefDecl "__uint128_t" at <invalid loc>
+  VDC_TU_DECL: TypedefDecl "__uint128_t" at <invalid loc>
     VTC_TYPEDEF_NAME_TYPE: Builtin("unsigned __int128", <<invalid sloc>>, NullTypeLoc)
-  VDC_DECL_CONTEXT_DECL: TypedefDecl "__NSConstantString" at <invalid loc>
+  VDC_TU_DECL: TypedefDecl "__NSConstantString" at <invalid loc>
     VTC_TYPEDEF_NAME_TYPE: Record("struct __NSConstantString_tag", <<invalid sloc>>, NullTypeLoc)
-  VDC_DECL_CONTEXT_DECL: TypedefDecl "__builtin_ms_va_list" at <invalid loc>
+  VDC_TU_DECL: TypedefDecl "__builtin_ms_va_list" at <invalid loc>
     VTC_TYPEDEF_NAME_TYPE: Pointer("char *", <<invalid sloc>>, Builtin("char", <<invalid sloc>>, NullTypeLoc))
-  VDC_DECL_CONTEXT_DECL: TypedefDecl "__builtin_va_list" at <invalid loc>
+  VDC_TU_DECL: TypedefDecl "__builtin_va_list" at <invalid loc>
     VTC_TYPEDEF_NAME_TYPE: ConstantArray("struct __va_list_tag[1]", <<invalid sloc>>, Record("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc))
-  VDC_DECL_CONTEXT_DECL: VarDecl "s" at in/src/expr-array-size.cc:4:1
+  VDC_TU_DECL: VarDecl "s" at in/src/expr-array-size.cc:4:1
     VTC_DECLARATOR_TYPE: Qualified("const int", <in/src/expr-array-size.cc:4:1>, Builtin("int", <in/src/expr-array-size.cc:4:1>, NullTypeLoc))
     VSC_VAR_DECL_INIT: IntegerLiteral at in/src/expr-array-size.cc:4:15
-  VDC_DECL_CONTEXT_DECL: VarDecl "array" at in/src/expr-array-size.cc:6:1
+  VDC_TU_DECL: VarDecl "array" at in/src/expr-array-size.cc:6:1
     VTC_DECLARATOR_TYPE: ConstantArray("int[4]", <in/src/expr-array-size.cc:6:1, col:14>, Builtin("int", <in/src/expr-array-size.cc:6:1>, NullTypeLoc))
 ---- stderr ----
 ---- exit status ----

@@ -17,9 +17,42 @@
 
 
 // Possible roles a Decl can have in the AST.
+//
+// These contexts provide a crude partitioning of Decl roles.  A context
+// is passed to the 'visitDecl' method to make it easier for clients to
+// do basic filtering based on role.  However, it is impossible to
+// convey every possible interesting aspect of the syntactic context in
+// a fixed-size data structure, so while it is hoped that this context
+// will prove useful in some cases, clients that need more will have to
+// resort to maintaining their own additional state during traversal.
+//
 enum VisitDeclContext {
   // Used when initiating a traversal from outside the visitor.
   VDC_NONE,
+
+  // Member enumerator of an 'enum' type definition.
+  VDC_ENUM_MEMBER,
+
+  // Member (field, method, etc.) of a record type definition.
+  VDC_RECORD_MEMBER,
+
+  // Declaration of an 'export' declaration.
+  VDC_EXPORT_DECL,
+
+  // Declaration of an 'extern "C"' declaration.
+  VDC_EXTERN_C_DECL,
+
+  // Declaration of a LinkageSpecDecl.
+  VDC_LINKAGE_SPEC_DECL,
+
+  // Declaration inside a namespace declaration.
+  VDC_NAMESPACE_MEMBER,
+
+  // Declaration inside a RequiresExprBodyDecl.
+  VDC_REQUIRES_EXPR_BODY_DECL,
+
+  // Declaration at the outermost level of a translation unit.
+  VDC_TU_DECL,
 
   // Templated decl of a TemplateDecl.
   VDC_TEMPLATE_TEMPLATED,
@@ -30,11 +63,6 @@ enum VisitDeclContext {
 
   // The friend declared by a template friend declaration.
   VDC_FRIEND_TEMPLATE_FRIEND_DECL,
-
-  // Decl inside a DeclContext.
-  //
-  // TODO: Split this out according to the specific DeclContext.
-  VDC_DECL_CONTEXT_DECL,
 
   // Instantation of a function template.
   VDC_FUNCTION_TEMPLATE_INSTANTIATION,
@@ -125,8 +153,8 @@ char const *toString(VisitTypeContext vtc);
 /*
   Visitor for the clang AST.
 
-  While conceptually similar to RecursiveASTVisitor, this visitor has
-  several advantages:
+  While conceptually similar to RecursiveASTVisitor (RAV), this visitor
+  has several advantages:
 
   1. It is possible to do both pre-order and post-order processing at
      the same time.  Among other things, this makes it possible to
@@ -134,24 +162,38 @@ char const *toString(VisitTypeContext vtc);
 
   2. The compile-time cost for clients is greatly reduced because the
      interface only requires forward declarations of the relevant AST
-     nodes.
+     nodes, and the client then need only include definitions of the
+     nodes they use.
 
   3. The interface is generally simpler and easier to understand.
-     Instead of Traverse, WalkUp, and Visit, everything is done by
-     visit methods.  Additionally, rather than having a separate Visit
-     method for every subclass, clients are expected to use 'dyn_cast'
-     as appropriate.
+     Instead of Traverse, WalkUp, and Visit, often with idiosycratic
+     variations throughout the class hierarchy everything is done by a
+     few visit methods.
 
-  4. The interface uses 'const' pointers instead of non-const.  Neither
+  4. Rather than having a separate visitor method for every subclass,
+     clients are expected to use 'dyn_cast' as appropriate.  Whether
+     this is truly an advantage is of course debatable, but it does
+     reduce the size of the interface.  It also arguably makes "visitor"
+     a misnomer since the GOF patterns book defines "visitor" as the
+     type-dependent dispatch mechanism rather than the tree traversal
+     mechanism, but I think the traversal is the more useful part.
+
+  5. The interface uses 'const' pointers instead of non-const.  Neither
      works in every situation, but I think 'const' works more often, at
-     least for my intended applications.
+     least for my intended applications, and of course the visitor
+     itself does not make any modifications.
+
+  6. RAV traverses into the semantic Type hierarchy, which IMO confuses
+     syntactic exploration with semantic concerns and leads to duplicate
+     visitation.  In contrast, this visitor sticks to traversing the
+     syntactic TypeLoc hierarchy.
 
   One disadvantage is possibly slower run-time speed due to using
   virtual function calls instead of CRTP static overriding.
 
-  Since the 'visit' methods are both what the client overrides, and the
-  traversal mechanism, a client that overrides one must always arrange
-  to call the base class method when recursion is desired.
+  NOTE: Since the 'visit' methods are both what the client overrides,
+  and the traversal mechanism, a client that overrides one must always
+  arrange to call the base class method when recursion is desired.
 */
 class ClangASTVisitor {
 public:      // methods
@@ -211,6 +253,7 @@ public:      // methods
   //
   // Default: Call 'visitDecl' on all of the child declarations.
   virtual void visitNonFunctionDeclContext(
+    VisitDeclContext context,
     clang::DeclContext const *dc);
 
   // Visit the instantiations of 'ftd'.
