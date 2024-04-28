@@ -21,7 +21,7 @@ char const *toString(VisitDeclContext vdc)
     VDC_NONE,
     VDC_TEMPLATE_TEMPLATED,
     VDC_FRIEND_FRIEND_DECL,
-    VDC_FRIEND_TEMPLATE_FRIEND,
+    VDC_FRIEND_TEMPLATE_FRIEND_DECL,
     VDC_DECL_CONTEXT_DECL,
     VDC_FUNCTION_TEMPLATE_INSTANTIATION,
     VDC_CLASS_TEMPLATE_INSTANTIATION,
@@ -65,6 +65,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CLASS_BASE,
     VTC_CTOR_INIT,
     VTC_FRIEND_FRIEND_TYPE,
+    VTC_FRIEND_TEMPLATE_FRIEND_TYPE,
   );
 
   return "unknown";
@@ -77,8 +78,12 @@ void ClangASTVisitor::visitDecl(
 {
   if (auto dd = dyn_cast<clang::DeclaratorDecl>(decl)) {
     clang::TypeSourceInfo const *tsi = dd->getTypeSourceInfo();
-    assert(tsi);
-    visitTypeLoc(VTC_DECLARATOR_TYPE, tsi->getTypeLoc());
+    if (tsi) {
+      visitTypeLoc(VTC_DECLARATOR_TYPE, tsi->getTypeLoc());
+    }
+    else {
+      visitImplicitQualType(VTC_DECLARATOR_TYPE, dd->getType());
+    }
 
     if (clang::Expr const *trailingRequires =
           dd->getTrailingRequiresClause()) {
@@ -171,7 +176,7 @@ void ClangASTVisitor::visitDecl(
 
   else if (auto td = dyn_cast<clang::TemplateDecl>(decl)) {
     visitTemplateParameterList(td->getTemplateParameters());
-    visitDecl(VDC_TEMPLATE_TEMPLATED, td);
+    visitDecl(VDC_TEMPLATE_TEMPLATED, td->getTemplatedDecl());
 
     // TODO: The various TemplateDecl subclasses.
 
@@ -195,38 +200,46 @@ void ClangASTVisitor::visitDecl(
     }
   }
 
-  else {
-    switch (decl->getKind()) {
-      #define HANDLE_KIND(kind, varName, ...)                      \
-        case clang::Decl::kind: {                                  \
-          auto varName = assert_dyn_cast(clang::kind##Decl, decl); \
-          __VA_ARGS__;                                             \
-          break;                                                   \
-        }
-
-      HANDLE_KIND(FriendTemplate, ftd,
-        if (auto inner = ftd->getFriendDecl()) {
-          visitDecl(VDC_FRIEND_TEMPLATE_FRIEND, inner);
-        }
-      )
-
-      case clang::Decl::Export:
-      case clang::Decl::ExternCContext:
-      case clang::Decl::LinkageSpec:
-      case clang::Decl::Namespace:
-      case clang::Decl::RequiresExprBody:
-      case clang::Decl::TranslationUnit: {
-        auto dc = assert_dyn_cast(clang::DeclContext, decl);
-        visitNonFunctionDeclContext(dc);
-        break;
-      }
-
-      // Ignore all others.
-      default:
-        break;
-
-      #undef HANDLE_KIND
+  // The documentation for FriendTemplateDecl says it is not used, and
+  // the test at in/src/friend-template-decl.cc appears to confirm that.
+  // So the following case is never exercised.
+  else if (auto ftd = dyn_cast<clang::FriendTemplateDecl>(decl)) {
+    clang::TypeSourceInfo const *tsi = fd->getFriendType();
+    if (tsi) {
+      visitTypeLoc(VTC_FRIEND_TEMPLATE_FRIEND_TYPE, tsi->getTypeLoc());
     }
+    else {
+      clang::NamedDecl const *inner = fd->getFriendDecl();
+      visitDecl(VDC_FRIEND_TEMPLATE_FRIEND_DECL, inner);
+    }
+  }
+
+  else if (auto ed = dyn_cast<clang::ExportDecl>(decl)) {
+    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, ed));
+  }
+
+  else if (auto eccd = dyn_cast<clang::ExternCContextDecl>(decl)) {
+    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, eccd));
+  }
+
+  else if (auto lsd = dyn_cast<clang::LinkageSpecDecl>(decl)) {
+    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, lsd));
+  }
+
+  else if (auto nsd = dyn_cast<clang::NamespaceDecl>(decl)) {
+    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, nsd));
+  }
+
+  else if (auto rebd = dyn_cast<clang::RequiresExprBodyDecl>(decl)) {
+    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, rebd));
+  }
+
+  else if (auto tud = dyn_cast<clang::TranslationUnitDecl>(decl)) {
+    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, tud));
+  }
+
+  else {
+    // Ignore others.
   }
 }
 
@@ -242,6 +255,13 @@ void ClangASTVisitor::visitTypeLoc(VisitTypeContext context,
                                    clang::TypeLoc typeLoc)
 {
   // TODO
+}
+
+
+void ClangASTVisitor::visitImplicitQualType(VisitTypeContext context,
+                                            clang::QualType qualType)
+{
+  // Do nothing.
 }
 
 

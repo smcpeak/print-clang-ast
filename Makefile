@@ -372,8 +372,10 @@ out/pv/%.pv: in/src/% in/exp/pv/%.pv print-clang-ast.exe
 	  ./print-clang-ast.exe --printer-visitor -xc++ in/src/$*
 
 PRINTER_VISITOR_TESTS :=
+PRINTER_VISITOR_TESTS += ct-inst.cc
 PRINTER_VISITOR_TESTS += expr-array-size.cc
 PRINTER_VISITOR_TESTS += friend-decl.cc
+PRINTER_VISITOR_TESTS += friend-template-decl.cc
 
 .PHONY: check-printer-visitor
 check-printer-visitor: $(patsubst %,out/pv/%.pv,$(PRINTER_VISITOR_TESTS))

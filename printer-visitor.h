@@ -32,9 +32,11 @@ public:      // methods
   std::string indentString() const;
 
   // ClangASTVisitor methods.
-  virtual void visitDecl(VisitDeclContext context, clang::Decl const *decl);
-  virtual void visitStmt(VisitStmtContext context, clang::Stmt const *stmt);
-  virtual void visitTypeLoc(VisitTypeContext context, clang::TypeLoc typeLoc);
+  virtual void visitDecl(VisitDeclContext context, clang::Decl const *decl) override;
+  virtual void visitStmt(VisitStmtContext context, clang::Stmt const *stmt) override;
+  virtual void visitTypeLoc(VisitTypeContext context, clang::TypeLoc typeLoc) override;
+  virtual void visitImplicitQualType(VisitTypeContext context,
+                                     clang::QualType qualType) override;
 };
 
 

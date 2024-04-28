@@ -73,6 +73,14 @@ void PrinterVisitor::visitTypeLoc(VisitTypeContext context,
 }
 
 
+void PrinterVisitor::visitImplicitQualType(VisitTypeContext context,
+                                           clang::QualType qualType)
+{
+  m_os << indentString() << "implicit " << toString(context) << ": "
+       << qualTypeStr(qualType) << "\n";
+}
+
+
 void printerVisitorTU(std::ostream &os,
                       clang::ASTContext &astContext)
 {

@@ -9,6 +9,7 @@
 #include "clang-decl-cxx-fwd.h"                  // clang::CXXBaseSpecifier [n]
 #include "clang-decl-template-fwd.h"             // clang::TemplateParameterList [n]
 #include "clang-template-base-fwd.h"             // clang::TemplateArgument [n]
+#include "clang-type-fwd.h"                      // clang::QualType [n]
 #include "clang-type-loc-fwd.h"                  // clang::TypeLoc [n]
 
 // clang
@@ -28,7 +29,7 @@ enum VisitDeclContext {
   VDC_FRIEND_FRIEND_DECL,
 
   // The friend declared by a template friend declaration.
-  VDC_FRIEND_TEMPLATE_FRIEND,
+  VDC_FRIEND_TEMPLATE_FRIEND_DECL,
 
   // Decl inside a DeclContext.
   //
@@ -111,6 +112,9 @@ enum VisitTypeContext {
   // For a 'friend' declaration that nominates a type, the type.
   VTC_FRIEND_FRIEND_TYPE,
 
+  // For a 'friend' template declaration of a type, the type.
+  VTC_FRIEND_TEMPLATE_FRIEND_TYPE,
+
   NUM_VISIT_TYPE_CONTEXTS
 };
 
@@ -153,8 +157,9 @@ class ClangASTVisitor {
 public:      // methods
   // -------- Core visitors --------
   //
-  // These visitors form the conceptual core, as each corresponds to one
-  // of the fundamental concepts in the clang AST.
+  // These visitors form the visitor core, as each corresponds to one of
+  // the fundamental concepts in the clang AST, and (by default)
+  // recursively traverses child AST nodes.
 
   // Default: Visit children of 'decl'.
   virtual void visitDecl(VisitDeclContext context, clang::Decl const *decl);
@@ -171,6 +176,22 @@ public:      // methods
   // of a type, whereas 'Type' is the thing it semantically denotes.  In
   // an AST traversal, we only traverse the former.
   virtual void visitTypeLoc(VisitTypeContext context, clang::TypeLoc typeLoc);
+
+  // -------- Leaf visitors --------
+  //
+  // These are called when certain elements of interest are encountered
+  // that the client might care about, but by default they do nothing.
+
+  // This happens when the AST would normally have a TypeLoc, but the
+  // type implicit, like that of a constructor of a class that otherwise
+  // does not have one.  Since the programmer never wrote out the type,
+  // there cannot be a TypeLoc for it.  Instead, the AST records only a
+  // QualType.  The visitor invokes this method only when there is no
+  // TypeLoc.
+  //
+  // Default: Do nothing.
+  virtual void visitImplicitQualType(VisitTypeContext context,
+                                     clang::QualType qualType);
 
   // -------- Helper visitors --------
   //
