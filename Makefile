@@ -401,7 +401,7 @@ out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
 	@#
 	@# TODO: Right now, they do not.  Fix that.
 	@#
-	@#diff -u out/rpv/%.rpv out/rpv/%.pv
+	@#diff -u out/rpv/$*.rpv out/rpv/$*.pv
 	@#
 	@# Indicate success.
 	touch $@
