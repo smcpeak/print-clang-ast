@@ -54,6 +54,27 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
+  m_printVisitContext,
+  false,
+  "--print-visit-context",
+  R"(With --printer-visitor, print the VisitXXXContext for each node.)"
+)
+
+BOOL_OPTION(
+  m_printImplicitQualTypes,
+  false,
+  "--print-implicit-qual-types",
+  R"(With --printer-visitor, print implicit QualType nodes.)"
+)
+
+BOOL_OPTION(
+  m_ravPrinterVisitor,
+  false,
+  "--rav-printer-visitor",
+  R"(Print the AST using RAVPrinterVisitor.)"
+)
+
+BOOL_OPTION(
   m_printASTNodes,
   false,
   "--print-ast-nodes",

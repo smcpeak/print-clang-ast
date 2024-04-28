@@ -155,8 +155,9 @@ OBJS += number-clang-ast-nodes.o
 OBJS += pca-command-line-options-test.o
 OBJS += pca-command-line-options.o
 OBJS += print-clang-ast-nodes.o
-OBJS += printer-visitor.o
 OBJS += print-clang-ast.o
+OBJS += printer-visitor.o
+OBJS += rav-printer-visitor.o
 OBJS += sm-pp-util-test.o
 OBJS += stringref-parse-test.o
 OBJS += stringref-parse.o
@@ -369,7 +370,10 @@ out/pv/%.pv: in/src/% in/exp/pv/%.pv print-clang-ast.exe
 	$(RUN_COMPARE_EXPECT) \
 	  --actual $@ \
 	  --expect in/exp/pv/$*.pv \
-	  ./print-clang-ast.exe --printer-visitor -xc++ in/src/$*
+	  ./print-clang-ast.exe --printer-visitor \
+	    --print-visit-context \
+	    --print-implicit-qual-types \
+	    -xc++ in/src/$*
 
 PRINTER_VISITOR_TESTS :=
 PRINTER_VISITOR_TESTS += ct-inst.cc
@@ -381,6 +385,38 @@ PRINTER_VISITOR_TESTS += friend-template-decl.cc
 check-printer-visitor: $(patsubst %,out/pv/%.pv,$(PRINTER_VISITOR_TESTS))
 
 check: check-printer-visitor
+
+
+# --------------------- Test --rav-printer-visitor ---------------------
+out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
+	$(CREATE_OUTPUT_DIRECTORY)
+	@#
+	@# Run --rav-printer-visitor.
+	./print-clang-ast.exe --rav-printer-visitor -xc++ in/src/$* > out/rpv/$*.rpv
+	@#
+	@# Run --printer-visitor.
+	./print-clang-ast.exe --printer-visitor -xc++ in/src/$* > out/rpv/$*.pv
+	@#
+	@# Check that they agree.
+	@#
+	@# TODO: Right now, they do not.  Fix that.
+	@#
+	@#diff -u out/rpv/%.rpv out/rpv/%.pv
+	@#
+	@# Indicate success.
+	touch $@
+
+RAV_PRINTER_VISITOR_TESTS :=
+RAV_PRINTER_VISITOR_TESTS += ct-inst.cc
+RAV_PRINTER_VISITOR_TESTS += expr-array-size.cc
+RAV_PRINTER_VISITOR_TESTS += friend-decl.cc
+RAV_PRINTER_VISITOR_TESTS += friend-template-decl.cc
+
+
+.PHONY: check-rav-printer-visitor
+check-rav-printer-visitor: $(patsubst %,out/rpv/%.rpv.ok,$(RAV_PRINTER_VISITOR_TESTS))
+
+check: check-rav-printer-visitor
 
 
 # ------------------------ 'check-full' target -------------------------

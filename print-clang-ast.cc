@@ -7,6 +7,7 @@
 #include "pca-command-line-options.h"                      // PCACommandLineOptions
 #include "print-clang-ast-nodes.h"                         // printClangASTNodes
 #include "printer-visitor.h"                               // printerVisitorTU
+#include "rav-printer-visitor.h"                           // ravPrinterVisitorTU
 #include "sm-pp-util.h"                                    // test_sm_pp_util
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
 #include "trace.h"                                         // INIT_TRACE, trace_unit_tests
@@ -162,7 +163,14 @@ int main(int argc, char const **argv)
   }
 
   if (options.m_printerVisitor) {
-    printerVisitorTU(cout, ast->getASTContext());
+    printerVisitorTU(cout,
+                     ast->getASTContext(),
+                     options.m_printVisitContext,
+                     options.m_printImplicitQualTypes);
+  }
+
+  if (options.m_ravPrinterVisitor) {
+    ravPrinterVisitorTU(cout, ast->getASTContext());
   }
 
   if (options.m_printASTNodes) {

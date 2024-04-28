@@ -18,6 +18,12 @@
 class PrinterVisitor : public ClangUtil,
                        public ClangASTVisitor {
 public:      // data
+  // True to print the VisitXXXContext for each node.  Initially false.
+  bool m_printVisitContext;
+
+  // True to print implicit QualType nodes.  Initially false.
+  bool m_printImplicitQualTypes;
+
   // Number of levels of indentation to print.
   int m_indentLevel;
 
@@ -42,7 +48,9 @@ public:      // methods
 
 // Print the entire TU in 'astContext'.
 void printerVisitorTU(std::ostream &os,
-                      clang::ASTContext &astContext);
+                      clang::ASTContext &astContext,
+                      bool printVisitContext,
+                      bool printImplicitQualTypes);
 
 
 #endif // PRINTER_VISITOR_H
