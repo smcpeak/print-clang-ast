@@ -71,6 +71,19 @@ bool RAVPrinterVisitor::TraverseTypeLoc(clang::TypeLoc typeLoc)
 }
 
 
+bool RAVPrinterVisitor::TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc TL)
+{
+  // The following line of code is an exact copy of the implementation
+  // of this method in RecursiveASTVisitor, but its effect here is
+  // different because, here, the call resolves to the derived class
+  // method, not the base class method.  The consequence is that, here,
+  // we visit the QualifiedTypeLoc instead of skipping it.  My reasoning
+  // for visiting it here is I want this code's behavior to match what
+  // clang-ast-visitor does, and it visits qualified types.
+  return TraverseTypeLoc(TL.getUnqualifiedLoc());
+}
+
+
 void ravPrinterVisitorTU(std::ostream &os,
                          clang::ASTContext &astContext)
 {
