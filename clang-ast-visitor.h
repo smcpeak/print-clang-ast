@@ -25,7 +25,7 @@ enum VisitDeclContext {
 
   // The decl inside a 'friend' decl that is being declared to be a
   // friend.
-  VDC_FRIEND_FRIEND,
+  VDC_FRIEND_FRIEND_DECL,
 
   // The friend declared by a template friend declaration.
   VDC_FRIEND_TEMPLATE_FRIEND,
@@ -107,6 +107,9 @@ enum VisitTypeContext {
 
   // Base class or delegating initializer in a constructor.
   VTC_CTOR_INIT,
+
+  // For a 'friend' declaration that nominates a type, the type.
+  VTC_FRIEND_FRIEND_TYPE,
 
   NUM_VISIT_TYPE_CONTEXTS
 };

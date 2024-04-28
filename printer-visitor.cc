@@ -40,7 +40,7 @@ void PrinterVisitor::visitDecl(VisitDeclContext context,
   }
   else {
     m_os << decl->getDeclKindName()
-         << " at " << declLocStr(decl) << "\n";
+         << "Decl at " << declLocStr(decl) << "\n";
   }
 
   SET_RESTORE(m_indentLevel, m_indentLevel+1);

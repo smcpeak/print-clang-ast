@@ -373,6 +373,7 @@ out/pv/%.pv: in/src/% in/exp/pv/%.pv print-clang-ast.exe
 
 PRINTER_VISITOR_TESTS :=
 PRINTER_VISITOR_TESTS += expr-array-size.cc
+PRINTER_VISITOR_TESTS += friend-decl.cc
 
 .PHONY: check-printer-visitor
 check-printer-visitor: $(patsubst %,out/pv/%.pv,$(PRINTER_VISITOR_TESTS))

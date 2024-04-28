@@ -1,5 +1,5 @@
 ---- stdout ----
-VDC_NONE: TranslationUnit at <invalid loc>
+VDC_NONE: TranslationUnitDecl at <invalid loc>
   VDC_DECL_CONTEXT_DECL: TypedefDecl "__int128_t" at <invalid loc>
     VTC_TYPEDEF_NAME_TYPE: Builtin("__int128", <<invalid sloc>>, NullTypeLoc)
   VDC_DECL_CONTEXT_DECL: TypedefDecl "__uint128_t" at <invalid loc>

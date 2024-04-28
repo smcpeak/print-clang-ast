@@ -20,7 +20,7 @@ char const *toString(VisitDeclContext vdc)
 
     VDC_NONE,
     VDC_TEMPLATE_TEMPLATED,
-    VDC_FRIEND_FRIEND,
+    VDC_FRIEND_FRIEND_DECL,
     VDC_FRIEND_TEMPLATE_FRIEND,
     VDC_DECL_CONTEXT_DECL,
     VDC_FUNCTION_TEMPLATE_INSTANTIATION,
@@ -64,6 +64,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_ENUM_UNDERLYING,
     VTC_CLASS_BASE,
     VTC_CTOR_INIT,
+    VTC_FRIEND_FRIEND_TYPE,
   );
 
   return "unknown";
@@ -139,7 +140,9 @@ void ClangASTVisitor::visitDecl(
       visitTypeLoc(VTC_ENUM_UNDERLYING, tsi->getTypeLoc());
     }
 
-    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, ed));
+    if (ed->isThisDeclarationADefinition()) {
+      visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, ed));
+    }
   }
 
   else if (auto fsad = dyn_cast<clang::FileScopeAsmDecl>(decl)) {
@@ -150,9 +153,16 @@ void ClangASTVisitor::visitDecl(
 
   // TODO: CapturedDecl
 
-  else if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
-    visitCXXRecordBases(crd);
-    visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, ed));
+  else if (auto rd = dyn_cast<clang::RecordDecl>(decl)) {
+    if (rd->isThisDeclarationADefinition()) {
+      if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
+        visitCXXRecordBases(crd);
+      }
+      visitNonFunctionDeclContext(assert_dyn_cast(clang::DeclContext, rd));
+
+      // TODO: Visit instantiations of
+      // ClassTemplatePartialSpecializationDecl.
+    }
   }
 
   // TODO: CXXDeductionGuideDecl?
@@ -174,6 +184,17 @@ void ClangASTVisitor::visitDecl(
     }
   }
 
+  else if (auto fd = dyn_cast<clang::FriendDecl>(decl)) {
+    clang::TypeSourceInfo const *tsi = fd->getFriendType();
+    if (tsi) {
+      visitTypeLoc(VTC_FRIEND_FRIEND_TYPE, tsi->getTypeLoc());
+    }
+    else {
+      clang::NamedDecl const *inner = fd->getFriendDecl();
+      visitDecl(VDC_FRIEND_FRIEND_DECL, inner);
+    }
+  }
+
   else {
     switch (decl->getKind()) {
       #define HANDLE_KIND(kind, varName, ...)                      \
@@ -183,27 +204,17 @@ void ClangASTVisitor::visitDecl(
           break;                                                   \
         }
 
-      HANDLE_KIND(Friend, fd,
-        if (auto inner = fd->getFriendDecl()) {
-          visitDecl(VDC_FRIEND_FRIEND, inner);
-        }
-      )
-
       HANDLE_KIND(FriendTemplate, ftd,
         if (auto inner = ftd->getFriendDecl()) {
           visitDecl(VDC_FRIEND_TEMPLATE_FRIEND, inner);
         }
       )
 
-      // DeclContexts other than FunctionDecl.
       case clang::Decl::Export:
       case clang::Decl::ExternCContext:
       case clang::Decl::LinkageSpec:
       case clang::Decl::Namespace:
-      case clang::Decl::Record:
       case clang::Decl::RequiresExprBody:
-      case clang::Decl::ClassTemplateSpecialization:
-      case clang::Decl::ClassTemplatePartialSpecialization:
       case clang::Decl::TranslationUnit: {
         auto dc = assert_dyn_cast(clang::DeclContext, decl);
         visitNonFunctionDeclContext(dc);
