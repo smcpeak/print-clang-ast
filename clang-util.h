@@ -28,11 +28,28 @@
 #include <vector>                                          // std::vector
 
 
-// Expand to 'thenCode' if we're compiling against Clang+LLVM 17 or later.
+// Expand to 'thenCode' if we're compiling against Clang+LLVM 17 or
+// later.
+//
+// Beware: In some cases, I'm not sure which version introduced a
+// change, so there may be cases that need adjustment, particularly when
+// the change was made in an earlier version than the one indicated by
+// my use of the macro.  Furthermore, I often have not tested the
+// 'elseCode', I merely have reason to believe it should work.  The
+// basic pattern is I insert IF_CLANG_17 when I am using Clang-17 and
+// ran into a compatibility issue.
+//
 #if CLANG_VERSION_MAJOR >= 17
   #define IF_CLANG_17(thenCode, elseCode) thenCode
 #else
   #define IF_CLANG_17(thenCode, elseCode) elseCode
+#endif
+
+// Similar for Clang-16.
+#if CLANG_VERSION_MAJOR >= 16
+  #define IF_CLANG_16(thenCode, elseCode) thenCode
+#else
+  #define IF_CLANG_16(thenCode, elseCode) elseCode
 #endif
 
 

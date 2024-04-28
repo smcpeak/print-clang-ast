@@ -6,6 +6,7 @@
 
 namespace clang {
   class TemplateArgument;
+  class TemplateArgumentLoc;
 }
 
 #endif // CLANG_TEMPLATE_BASE_FWD_H

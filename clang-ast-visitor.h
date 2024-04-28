@@ -16,65 +16,45 @@
 #include "clang/AST/ASTFwd.h"                    // clang::{Stmt, Decl, ...} [n]
 
 
-// Possible roles a Decl can have in the AST.
-//
-// These contexts provide a crude partitioning of Decl roles.  A context
-// is passed to the 'visitDecl' method to make it easier for clients to
-// do basic filtering based on role.  However, it is impossible to
-// convey every possible interesting aspect of the syntactic context in
-// a fixed-size data structure, so while it is hoped that this context
-// will prove useful in some cases, clients that need more will have to
-// resort to maintaining their own additional state during traversal.
-//
+/* Possible roles a Decl can have in the AST.
+
+  These contexts provide a crude partitioning of Decl roles.  A context
+  is passed to the 'visitDecl' method to make it easier for clients to
+  do basic filtering based on role.  However, it is impossible to
+  convey every possible interesting aspect of the syntactic context in
+  a fixed-size data structure, so while it is hoped that this context
+  will prove useful in some cases, clients that need more will have to
+  resort to maintaining their own additional state during traversal.
+
+  The naming convention is to begin with the name of the Clang AST class
+  that contains the Decl, or a similar name when the context is not
+  directly tied to a class, and then an optional further noun describing
+  the Decl role within that class if there is more than one or if the
+  role is otherwise not obvious.
+*/
 enum VisitDeclContext {
   // Used when initiating a traversal from outside the visitor.
   VDC_NONE,
 
-  // Member enumerator of an 'enum' type definition.
-  VDC_ENUM_MEMBER,
-
-  // Member (field, method, etc.) of a record type definition.
-  VDC_RECORD_MEMBER,
-
-  // Declaration of an 'export' declaration.
+  // ---- Context is a Decl ----
+  VDC_ENUM_DECL,
+  VDC_RECORD_DECL,
   VDC_EXPORT_DECL,
-
-  // Declaration of an 'extern "C"' declaration.
   VDC_EXTERN_C_DECL,
-
-  // Declaration of a LinkageSpecDecl.
   VDC_LINKAGE_SPEC_DECL,
-
-  // Declaration inside a namespace declaration.
-  VDC_NAMESPACE_MEMBER,
-
-  // Declaration inside a RequiresExprBodyDecl.
+  VDC_NAMESPACE_DECL,
   VDC_REQUIRES_EXPR_BODY_DECL,
-
-  // Declaration at the outermost level of a translation unit.
-  VDC_TU_DECL,
-
-  // Templated decl of a TemplateDecl.
-  VDC_TEMPLATE_TEMPLATED,
-
-  // The decl inside a 'friend' decl that is being declared to be a
-  // friend.
-  VDC_FRIEND_FRIEND_DECL,
-
-  // The friend declared by a template friend declaration.
-  VDC_FRIEND_TEMPLATE_FRIEND_DECL,
-
-  // Instantation of a function template.
+  VDC_TRANSLATION_UNIT_DECL,
+  VDC_TEMPLATE_DECL,
+  VDC_FRIEND_DECL,
+  VDC_FRIEND_TEMPLATE_DECL,
   VDC_FUNCTION_TEMPLATE_INSTANTIATION,
-
-  // Instantiation of a class template.
   VDC_CLASS_TEMPLATE_INSTANTIATION,
+  VDC_FUNCTION_DECL_PARAMETER,
+  VDC_TEMPLATE_DECL_PARAMETER,
 
-  // Parameter of a FunctionDecl.
-  VDC_FUNCTION_PARAMETER,
-
-  // Parameter of a TemplateDecl.
-  VDC_TEMPLATE_PARAMETER,
+  // ---- Context is a TypeLoc ----
+  VDC_FUNCTION_TYPE_PARAM,
 
   NUM_VISIT_DECL_CONTEXTS
 };
@@ -87,29 +67,20 @@ char const *toString(VisitDeclContext vdc);
 enum VisitStmtContext {
   VSC_NONE,
 
-  // Trailing-requires constraint on a declarator.
-  VSC_DECLARATOR_TRAILING_REQUIRES,
-
-  // Initializer of a VarDecl.
+  // ---- Context is a Decl ----
+  VSC_DECLARATOR_DECL_TRAILING_REQUIRES,
   VSC_VAR_DECL_INIT,
+  VSC_FUNCTION_DECL_BODY,
+  VSC_FIELD_DECL_BIT_WIDTH,
+  VSC_FIELD_DECL_INIT,
+  VSC_ENUM_CONSTANT_DECL,
+  VSC_FILE_SCOPE_ASM_DECL_STRING,
+  VSC_TEMPLATE_DECL_REQUIRES_CLAUSE,
 
-  // Body of a FunctionDecl.
-  VSC_FUNCTION_BODY,
-
-  // Bitfield bit width of a FieldDecl.
-  VSC_FIELD_BIT_WIDTH,
-
-  // Initializer of a FieldDecl.
-  VSC_FIELD_INIT,
-
-  // Initializer of an EnumConstantDecl.
-  VSC_ENUM_CONSTANT_INIT,
-
-  // String of a FileScopeAsmDecl.
-  VSC_FILE_SCOPE_ASM_STRING,
-
-  // Requires clause of a TemplateDecl.
-  VSC_TEMPLATE_REQUIRES_CLAUSE,
+  // ---- Context is a TypeLoc ----
+  VSC_TYPE_OF_TYPE,
+  VSC_DECLTYPE_TYPE,
+  VSC_ARRAY_TYPE_SIZE,
 
   NUM_VISIT_STMT_CONTEXTS
 };
@@ -122,26 +93,35 @@ char const *toString(VisitStmtContext vsc);
 enum VisitTypeContext {
   VTC_NONE,
 
-  // Type of a DeclaratorDecl.
-  VTC_DECLARATOR_TYPE,
+  // ---- Context is a Decl ----
+  VTC_DECLARATOR_DECL,
+  VTC_TYPEDEF_NAME_DECL,
+  VTC_ENUM_DECL_UNDERLYING,
+  VTC_CXX_RECORD_DECL_BASE,
+  VTC_CXX_CTOR_INITIALIZER,
+  VTC_FRIEND_DECL,
+  VTC_FRIEND_TEMPLATE_DECL,
 
-  // Type of a TypedefNameDecl.
-  VTC_TYPEDEF_NAME_TYPE,
-
-  // Underlying type of an EnumDecl.
-  VTC_ENUM_UNDERLYING,
-
-  // Base class of a CXXRecordDecl.
-  VTC_CLASS_BASE,
-
-  // Base class or delegating initializer in a constructor.
-  VTC_CTOR_INIT,
-
-  // For a 'friend' declaration that nominates a type, the type.
-  VTC_FRIEND_FRIEND_TYPE,
-
-  // For a 'friend' template declaration of a type, the type.
-  VTC_FRIEND_TEMPLATE_FRIEND_TYPE,
+  // ---- Context is a TypeLoc ----
+  VTC_QUALIFIED_TYPE,
+  VTC_ATTRIBUTED_TYPE,
+  VTC_PAREN_TYPE,
+  VTC_ADJUSTED_TYPE,
+  VTC_POINTER_TYPE,
+  VTC_BLOCK_POINTER_TYPE,
+  VTC_MEMBER_POINTER_TYPE_CLASS,
+  VTC_MEMBER_POINTER_TYPE_POINTEE,
+  VTC_OBJC_OBJECT_POINTER_TYPE,
+  VTC_REFERENCE_TYPE,
+  VTC_LVALUE_REFERENCE_TYPE,
+  VTC_RVALUE_REFERENCE_TYPE,
+  VTC_FUNCTION_TYPE_RETURN,
+  VTC_ARRAY_TYPE_ELEMENT,
+  VTC_TYPE_OF_TYPE,
+  VTC_ELABORATED_TYPE,
+  VTC_PACK_EXPANSION_TYPE,
+  VTC_ATOMIC_TYPE,
+  VTC_PIPE_TYPE,
 
   NUM_VISIT_TYPE_CONTEXTS
 };
@@ -269,7 +249,7 @@ public:      // methods
     clang::ClassTemplateDecl const *ctd);
 
   // Default: Visit the parameters of 'fd'.
-  virtual void visitFunctionParameters(
+  virtual void visitFunctionDeclParameters(
     clang::FunctionDecl const *fd);
 
   // Default: Visit the bases of 'crd'.
@@ -292,7 +272,7 @@ public:      // methods
 
   // Default: In 'tparams', visit the parameters, then the requires
   // clause (if present).
-  virtual void visitTemplateParameterList(
+  virtual void visitTemplateDeclParameterList(
     clang::TemplateParameterList const *tparams);
 
   // Default: Visit the arguments in 'targs'.
@@ -304,6 +284,18 @@ public:      // methods
   // [TODO, maybe nothing?].
   virtual void visitTemplateArgument(
     clang::TemplateArgument const &arg);
+
+  // Default: Visit the parameters in 'ftl'.
+  virtual void visitFunctionTypeLocParameters(
+    clang::FunctionTypeLoc ftl);
+
+  // Default: Visit the template arguments in 'tstl'.
+  virtual void visitTemplateSpecializationTypeLocArguments(
+    clang::TemplateSpecializationTypeLoc tstl);
+
+  // Default: Visit the children of 'tal'.
+  virtual void visitTemplateArgumentLoc(
+    clang::TemplateArgumentLoc tal);
 };
 
 
