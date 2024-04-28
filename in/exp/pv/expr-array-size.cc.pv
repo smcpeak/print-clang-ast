@@ -1,0 +1,20 @@
+---- stdout ----
+D: TranslationUnit at <invalid loc>
+  D: TypedefDecl "__int128_t" at <invalid loc>
+    T: Builtin("__int128", <<invalid sloc>>, NullTypeLoc)
+  D: TypedefDecl "__uint128_t" at <invalid loc>
+    T: Builtin("unsigned __int128", <<invalid sloc>>, NullTypeLoc)
+  D: TypedefDecl "__NSConstantString" at <invalid loc>
+    T: Record("struct __NSConstantString_tag", <<invalid sloc>>, NullTypeLoc)
+  D: TypedefDecl "__builtin_ms_va_list" at <invalid loc>
+    T: Pointer("char *", <<invalid sloc>>, Builtin("char", <<invalid sloc>>, NullTypeLoc))
+  D: TypedefDecl "__builtin_va_list" at <invalid loc>
+    T: ConstantArray("struct __va_list_tag[1]", <<invalid sloc>>, Record("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc))
+  D: VarDecl "s" at in/src/expr-array-size.cc:4:1
+    T: Qualified("const int", <in/src/expr-array-size.cc:4:1>, Builtin("int", <in/src/expr-array-size.cc:4:1>, NullTypeLoc))
+    S: IntegerLiteral at in/src/expr-array-size.cc:4:15
+  D: VarDecl "array" at in/src/expr-array-size.cc:6:1
+    T: ConstantArray("int[4]", <in/src/expr-array-size.cc:6:1, col:14>, Builtin("int", <in/src/expr-array-size.cc:6:1>, NullTypeLoc))
+---- stderr ----
+---- exit status ----
+Exit 0

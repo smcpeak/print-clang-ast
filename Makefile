@@ -360,6 +360,26 @@ CHECKED_DIAGRAMS += ct-cont-ct-cspspec.ded
 check-diagrams: $(patsubst %,out/%.cg,$(CHECKED_DIAGRAMS))
 
 
+# ----------------------- Test --printer-visitor -----------------------
+in/exp/pv/%.pv:
+	touch $@
+
+out/pv/%.pv: in/src/% in/exp/pv/%.pv print-clang-ast.exe
+	$(CREATE_OUTPUT_DIRECTORY)
+	$(RUN_COMPARE_EXPECT) \
+	  --actual $@ \
+	  --expect in/exp/pv/$*.pv \
+	  ./print-clang-ast.exe --printer-visitor -xc++ in/src/$*
+
+PRINTER_VISITOR_TESTS :=
+PRINTER_VISITOR_TESTS += expr-array-size.cc
+
+.PHONY: check-printer-visitor
+check-printer-visitor: $(patsubst %,out/pv/%.pv,$(PRINTER_VISITOR_TESTS))
+
+check: check-printer-visitor
+
+
 # ------------------------ 'check-full' target -------------------------
 # Check all the optional stuff too.
 .PHONY: check-full
