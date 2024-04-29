@@ -212,6 +212,8 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
     VNNSC_DECLARATOR_DECL,
     VNNSC_TAG_DECL,
 
+    VNNSC_ELABORATED_TYPE,
+
     VNNSC_DECL_REF_EXPR,
   );
 
@@ -858,10 +860,14 @@ void ClangASTVisitor::visitTypeLoc(VisitTypeContext context,
 
   // TODO: AutoTypeLoc with template arguments.
 
-  HANDLE_TYPE_WRAPPER(
-    ElaboratedTypeLoc,
-    VTC_ELABORATED_TYPE,
-    getNamedTypeLoc)
+  else if (auto etl = typeLoc.getAs<clang::ElaboratedTypeLoc>()) {
+    visitNestedNameSpecifierLocOpt(
+      VNNSC_ELABORATED_TYPE,
+      etl.getQualifierLoc());
+    visitTypeLoc(
+      VTC_ELABORATED_TYPE,
+      etl.getNamedTypeLoc());
+  }
 
   // TODO: DependentTemplateSpecializationTypeLoc template args.
 
