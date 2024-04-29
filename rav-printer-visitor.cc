@@ -6,6 +6,9 @@
 // this dir
 #include "util.h"                                // SET_RESTORE
 
+// clang
+#include "clang/Basic/Version.h"                 // CLANG_VERSION_MAJOR, CLANG_VERSION_MINOR
+
 using clang::dyn_cast;
 
 
@@ -39,7 +42,29 @@ bool RAVPrinterVisitor::TraverseDecl(clang::Decl *decl)
 
   SET_RESTORE(m_indentLevel, m_indentLevel+1);
 
-  return BaseClass::TraverseDecl(decl);
+  bool ret = BaseClass::TraverseDecl(decl);
+
+  if (ret) {
+    // Prior to Clang-18.1, RAV has a bug that causes it to miss the
+    // initializer expression of a bitfield:
+    //
+    //   https://github.com/llvm/llvm-project/issues/64916
+    //
+    // Fix that bug so this printer's output agrees with
+    // printer-visitor.
+    if (CLANG_VERSION_MAJOR < 18 ||
+        (CLANG_VERSION_MAJOR == 18 && CLANG_VERSION_MINOR < 1)) {
+      if (auto fieldDecl = dyn_cast<clang::FieldDecl>(decl)) {
+        if (fieldDecl->isBitField() && fieldDecl->hasInClassInitializer()) {
+          // This will have been missed by the 'TraverseDecl' call
+          // above.
+          TraverseStmt(fieldDecl->getInClassInitializer());
+        }
+      }
+    }
+  }
+
+  return ret;
 }
 
 
