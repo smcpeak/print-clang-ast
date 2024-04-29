@@ -39,10 +39,10 @@ char const *toString(VisitDeclContext vdc)
     VDC_FRIEND_TEMPLATE_DECL,
     VDC_FUNCTION_TEMPLATE_INSTANTIATION,
     VDC_CLASS_TEMPLATE_INSTANTIATION,
-    VDC_FUNCTION_DECL_PARAMETER,
+    VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
     VDC_TEMPLATE_DECL_PARAMETER,
 
-    VDC_FUNCTION_TYPE_PARAM,
+    VDC_FUNCTION_TYPE_PARAMETER,
 
     VDC_CXX_CATCH_STMT,
     VDC_DECL_STMT,
@@ -247,7 +247,14 @@ void ClangASTVisitor::visitDecl(
     }
 
     else if (auto fd = dyn_cast<clang::FunctionDecl>(decl)) {
-      visitFunctionDeclParameters(fd);
+      if (decl->isImplicit()) {
+        // There is no TypeLoc for an implicit declaration, so the
+        // parameters do not get visited above.  Visit them now.
+        //
+        // There might be a more principled approach.  For the moment,
+        // I'm just trying to match what RAV does.
+        visitImplicitFunctionDeclParameters(fd);
+      }
 
       if (auto ccd = dyn_cast<clang::CXXConstructorDecl>(decl)) {
         if (ccd->doesThisDeclarationHaveABody()) {
@@ -976,11 +983,11 @@ void ClangASTVisitor::visitNonFunctionDeclContext(
 }
 
 
-void ClangASTVisitor::visitFunctionDeclParameters(
+void ClangASTVisitor::visitImplicitFunctionDeclParameters(
   clang::FunctionDecl const *fd)
 {
   for (clang::ParmVarDecl const *param : fd->parameters()) {
-    visitDecl(VDC_FUNCTION_DECL_PARAMETER, param);
+    visitDecl(VDC_IMPLICIT_FUNCTION_DECL_PARAMETER, param);
   }
 }
 
@@ -1053,7 +1060,7 @@ void ClangASTVisitor::visitFunctionTypeLocParameters(
   clang::FunctionTypeLoc ftl)
 {
   for (clang::ParmVarDecl const *param : ftl.getParams()) {
-    visitDecl(VDC_FUNCTION_TYPE_PARAM, param);
+    visitDecl(VDC_FUNCTION_TYPE_PARAMETER, param);
   }
 }
 

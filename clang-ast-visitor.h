@@ -54,11 +54,11 @@ enum VisitDeclContext {
   VDC_FRIEND_TEMPLATE_DECL,
   VDC_FUNCTION_TEMPLATE_INSTANTIATION,
   VDC_CLASS_TEMPLATE_INSTANTIATION,
-  VDC_FUNCTION_DECL_PARAMETER,
+  VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
   VDC_TEMPLATE_DECL_PARAMETER,
 
   // ---- Context is a TypeLoc ----
-  VDC_FUNCTION_TYPE_PARAM,
+  VDC_FUNCTION_TYPE_PARAMETER,
 
   // ---- Context is a Stmt ----
   VDC_CXX_CATCH_STMT,
@@ -436,7 +436,11 @@ public:      // methods
     clang::DeclContext const *dc);
 
   // Visit the parameters of 'fd'.
-  void visitFunctionDeclParameters(
+  //
+  // This is only done for implicit function declarations, since
+  // explicit declarations have a TypeLoc with the parameters.
+  //
+  void visitImplicitFunctionDeclParameters(
     clang::FunctionDecl const *fd);
 
   // Visit the bases of 'crd'.

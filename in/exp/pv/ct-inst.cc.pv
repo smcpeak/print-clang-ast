@@ -45,11 +45,11 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
         VSC_FUNCTION_DECL_BODY: CompoundStmt at in/src/ct-inst.cc:5:8
       VDC_RECORD_DECL: CXXConstructorDecl "S<int>::S(const S<int> &)" at in/src/ct-inst.cc:5:8
         implicit VTC_DECLARATOR_DECL: void (const S<int> &)
-        VDC_FUNCTION_DECL_PARAMETER: ParmVarDecl "" at in/src/ct-inst.cc:5:8
+        VDC_IMPLICIT_FUNCTION_DECL_PARAMETER: ParmVarDecl "" at in/src/ct-inst.cc:5:8
           implicit VTC_DECLARATOR_DECL: const S<int> &
       VDC_RECORD_DECL: CXXConstructorDecl "S<int>::S(S<int> &&)" at in/src/ct-inst.cc:5:8
         implicit VTC_DECLARATOR_DECL: void (S<int> &&)
-        VDC_FUNCTION_DECL_PARAMETER: ParmVarDecl "" at in/src/ct-inst.cc:5:8
+        VDC_IMPLICIT_FUNCTION_DECL_PARAMETER: ParmVarDecl "" at in/src/ct-inst.cc:5:8
           implicit VTC_DECLARATOR_DECL: S<int> &&
   VDC_TRANSLATION_UNIT_DECL: VarDecl "s" at in/src/ct-inst.cc:11:1
     VTC_DECLARATOR_DECL: Elaborated("S<int>", <in/src/ct-inst.cc:11:1, col:6>, TemplateSpecialization("S<int>", <in/src/ct-inst.cc:11:1, col:6>, NullTypeLoc))

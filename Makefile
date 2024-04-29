@@ -407,10 +407,25 @@ out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
 
 RAV_PRINTER_VISITOR_TESTS :=
 RAV_PRINTER_VISITOR_TESTS += bitfield-with-init.cc
+
+# Batch of tests I'm working on.
+ifeq (0,1)
+RAV_PRINTER_VISITOR_TESTS += call-fn-via-using-decl.cc
+RAV_PRINTER_VISITOR_TESTS += call-op-via-using-decl.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-cspspec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-csspec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec-of-cspspec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-espec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-inst.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-pmspec.cc
+endif
+
 RAV_PRINTER_VISITOR_TESTS += ct-inst.cc
 RAV_PRINTER_VISITOR_TESTS += expr-array-size.cc
 RAV_PRINTER_VISITOR_TESTS += friend-decl.cc
 RAV_PRINTER_VISITOR_TESTS += friend-template-decl.cc
+RAV_PRINTER_VISITOR_TESTS += functiondecl-body.cc
 
 
 .PHONY: check-rav-printer-visitor
