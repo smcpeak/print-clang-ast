@@ -147,6 +147,8 @@ enum VisitStmtContext {
   VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
   VSC_CONSTANT_EXPR,
   VSC_CAST_EXPR,                       // CastExpr and subclasses
+  VSC_CALL_EXPR_CALLEE,                // CallExpr and subclasses
+  VSC_CALL_EXPR_ARG,
 
   // ---- Other contexts ----
   VSC_TEMPLATE_ARGUMENT,
@@ -507,6 +509,10 @@ public:      // methods
   //
   void visitNestedNameSpecifierLocFinalComponent(
     clang::NestedNameSpecifierLoc nnsl);
+
+  // Visit the argument expressions in 'callExpr'.
+  void visitCallExprArgs(
+    clang::CallExpr const *callExpr);
 };
 
 

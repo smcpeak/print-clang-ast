@@ -128,6 +128,8 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
     VSC_CONSTANT_EXPR,
     VSC_CAST_EXPR,
+    VSC_CALL_EXPR_CALLEE,
+    VSC_CALL_EXPR_ARG,
 
     VSC_TEMPLATE_ARGUMENT,
   );
@@ -587,10 +589,9 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
 
     // TODO: AtomicExpr
 
-    END_STMT_CLASS
-
     // CompoundAssignOperator is a subclass of BinaryOperator that adds
     // some results of semantic analysis but no new syntax.
+    END_STMT_CLASS
     ADDITIONAL_STMT_CLASS(CompoundAssignOperator)
 
     BEGIN_STMT_CLASS(BinaryOperator)
@@ -653,12 +654,6 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       CXXTypeidExpr
       CXXUnresolvedConstructExpr
       CXXUuidofExpr
-      CallExpr
-      CUDAKernelCallExpr
-      CXXMemberCallExpr
-      CXXOperatorCallExpr
-      UserDefinedLiteral
-      firstCallExprConstant=CallExprClass, lastCallExprConstant=UserDefinedLiteralClass,
       BuiltinBitCastExpr
       CStyleCastExpr
       CXXFunctionalCastExpr
@@ -672,6 +667,15 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     */
 
     // Jumping ahead...
+
+    END_STMT_CLASS
+    ADDITIONAL_STMT_CLASS(CXXOperatorCallExpr)
+    ADDITIONAL_STMT_CLASS(CXXMemberCallExpr)
+    ADDITIONAL_STMT_CLASS(UserDefinedLiteral)
+    ADDITIONAL_STMT_CLASS(CUDAKernelCallExpr)     // TODO: This is incomplete, there is the "config" too.
+    BEGIN_STMT_CLASS(CallExpr)
+      visitStmt(VSC_CALL_EXPR_CALLEE, stmt->getCallee());
+      visitCallExprArgs(stmt);
 
     HANDLE_STMT_CLASS(ConstantExpr)
       visitStmt(VSC_CONSTANT_EXPR, stmt->getSubExpr());
@@ -1147,6 +1151,15 @@ void ClangASTVisitor::visitNestedNameSpecifierLocFinalComponent(
       break;
 
     // The cases should be exhaustive, so no 'default'.
+  }
+}
+
+
+void ClangASTVisitor::visitCallExprArgs(
+  clang::CallExpr const *callExpr)
+{
+  for (clang::Expr const *arg : callExpr->arguments()) {
+    visitStmt(VSC_CALL_EXPR_ARG, arg);
   }
 }
 
