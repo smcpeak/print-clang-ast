@@ -205,6 +205,7 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
     VNNSC_NONE,
 
     VNNSC_DECLARATOR_DECL,
+    VNNSC_TAG_DECL,
   );
 
   return "unknown";
@@ -286,16 +287,32 @@ void ClangASTVisitor::visitDecl(
     // it.
   }
 
-  else if (auto ed = dyn_cast<clang::EnumDecl>(decl)) {
-    if (clang::TypeSourceInfo const *tsi = ed->getIntegerTypeSourceInfo()) {
-      visitTypeLoc(VTC_ENUM_DECL_UNDERLYING, tsi->getTypeLoc());
-    }
-    else {
-      // The declaration does not have an underlying type declared.
+  else if (auto td = dyn_cast<clang::TagDecl>(decl)) {
+    visitNestedNameSpecifierLocOpt(VNNSC_TAG_DECL, td->getQualifierLoc());
+
+    if (auto ed = dyn_cast<clang::EnumDecl>(decl)) {
+      if (clang::TypeSourceInfo const *tsi = ed->getIntegerTypeSourceInfo()) {
+        visitTypeLoc(VTC_ENUM_DECL_UNDERLYING, tsi->getTypeLoc());
+      }
+      else {
+        // The declaration does not have an underlying type declared.
+      }
+
+      if (ed->isThisDeclarationADefinition()) {
+        visitNonFunctionDeclContext(VDC_ENUM_DECL, DECL_CONTEXT_OF(ed));
+      }
     }
 
-    if (ed->isThisDeclarationADefinition()) {
-      visitNonFunctionDeclContext(VDC_ENUM_DECL, DECL_CONTEXT_OF(ed));
+    else if (auto rd = dyn_cast<clang::RecordDecl>(decl)) {
+      if (rd->isThisDeclarationADefinition()) {
+        if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
+          visitCXXRecordBases(crd);
+        }
+        visitNonFunctionDeclContext(VDC_RECORD_DECL, DECL_CONTEXT_OF(rd));
+
+        // TODO: Visit instantiations of
+        // ClassTemplatePartialSpecializationDecl.
+      }
     }
   }
 
@@ -306,18 +323,6 @@ void ClangASTVisitor::visitDecl(
   // BlockDecl is ObjC I think.
 
   // TODO: CapturedDecl
-
-  else if (auto rd = dyn_cast<clang::RecordDecl>(decl)) {
-    if (rd->isThisDeclarationADefinition()) {
-      if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
-        visitCXXRecordBases(crd);
-      }
-      visitNonFunctionDeclContext(VDC_RECORD_DECL, DECL_CONTEXT_OF(rd));
-
-      // TODO: Visit instantiations of
-      // ClassTemplatePartialSpecializationDecl.
-    }
-  }
 
   // TODO: CXXDeductionGuideDecl?
 

@@ -407,9 +407,7 @@ RAV_PRINTER_VISITOR_TESTS :=
 RAV_PRINTER_VISITOR_TESTS += ct-inst.cc
 RAV_PRINTER_VISITOR_TESTS += expr-array-size.cc
 RAV_PRINTER_VISITOR_TESTS += friend-decl.cc
-
-# This has issues still.  TODO: Fix.
-#RAV_PRINTER_VISITOR_TESTS += friend-template-decl.cc
+RAV_PRINTER_VISITOR_TESTS += friend-template-decl.cc
 
 
 .PHONY: check-rav-printer-visitor

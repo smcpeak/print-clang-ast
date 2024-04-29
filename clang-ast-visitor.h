@@ -229,6 +229,7 @@ enum VisitNestedNameSpecifierContext {
 
   // ---- Context is a Decl ----
   VNNSC_DECLARATOR_DECL,
+  VNNSC_TAG_DECL,
 
   NUM_VISIT_NESTED_NAME_SPECIFIER_CONTEXTS
 };
