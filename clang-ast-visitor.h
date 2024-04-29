@@ -231,6 +231,9 @@ enum VisitNestedNameSpecifierContext {
   VNNSC_DECLARATOR_DECL,
   VNNSC_TAG_DECL,
 
+  // ---- Context is a Stmt ----
+  VNNSC_DECL_REF_EXPR,
+
   NUM_VISIT_NESTED_NAME_SPECIFIER_CONTEXTS
 };
 

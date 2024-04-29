@@ -206,6 +206,8 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
 
     VNNSC_DECLARATOR_DECL,
     VNNSC_TAG_DECL,
+
+    VNNSC_DECL_REF_EXPR,
   );
 
   return "unknown";
@@ -663,7 +665,9 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
 
     // Jumping ahead...
     HANDLE_STMT_CLASS(DeclRefExpr)
-      // TODO: visitNestedNameSpecifierLoc(getQualifierLoc()).
+      visitNestedNameSpecifierLocOpt(
+        VNNSC_DECL_REF_EXPR,
+        stmt->getQualifierLoc());
       visitTemplateArgumentLocArray(
         VTAC_DECL_REF_EXPR,
         stmt->getTemplateArgs(),
