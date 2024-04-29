@@ -145,6 +145,7 @@ enum VisitStmtContext {
   VSC_CXX_CONSTRUCT_EXPR,              // also CXXTemporaryObjectExpr
   VSC_CXX_DELETE_EXPR,
   VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
+  VSC_CONSTANT_EXPR,
   VSC_CAST_EXPR,                       // CastExpr and subclasses
 
   // ---- Other contexts ----

@@ -392,10 +392,12 @@ out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
 	$(CREATE_OUTPUT_DIRECTORY)
 	@#
 	@# Run --rav-printer-visitor.
-	./print-clang-ast.exe --rav-printer-visitor -xc++ in/src/$* > out/rpv/$*.rpv
+	./print-clang-ast.exe --rav-printer-visitor -xc++ \
+	  $(call FILE_OPTS_FOR,$*) in/src/$* > out/rpv/$*.rpv
 	@#
 	@# Run --printer-visitor.
-	./print-clang-ast.exe --printer-visitor -xc++ in/src/$* > out/rpv/$*.pv
+	./print-clang-ast.exe --printer-visitor -xc++ \
+	  $(call FILE_OPTS_FOR,$*) in/src/$* > out/rpv/$*.pv
 	@#
 	@# Check that they agree.
 	diff -u out/rpv/$*.rpv out/rpv/$*.pv
@@ -404,6 +406,7 @@ out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
 	touch $@
 
 RAV_PRINTER_VISITOR_TESTS :=
+RAV_PRINTER_VISITOR_TESTS += bitfield-with-init.cc
 RAV_PRINTER_VISITOR_TESTS += ct-inst.cc
 RAV_PRINTER_VISITOR_TESTS += expr-array-size.cc
 RAV_PRINTER_VISITOR_TESTS += friend-decl.cc

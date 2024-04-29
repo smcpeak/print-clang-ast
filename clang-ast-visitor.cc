@@ -126,6 +126,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_CONSTRUCT_EXPR,
     VSC_CXX_DELETE_EXPR,
     VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
+    VSC_CONSTANT_EXPR,
     VSC_CAST_EXPR,
 
     VSC_TEMPLATE_ARGUMENT,
@@ -664,6 +665,10 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     */
 
     // Jumping ahead...
+
+    HANDLE_STMT_CLASS(ConstantExpr)
+      visitStmt(VSC_CONSTANT_EXPR, stmt->getSubExpr());
+
     HANDLE_STMT_CLASS(DeclRefExpr)
       visitNestedNameSpecifierLocOpt(
         VNNSC_DECL_REF_EXPR,
