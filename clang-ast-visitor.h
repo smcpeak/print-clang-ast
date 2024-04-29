@@ -18,7 +18,8 @@
 #include "clang/AST/ASTFwd.h"                    // clang::{Stmt, Decl, ...} [n]
 
 
-/* Possible roles a Decl can have in the AST.
+/*
+  Possible roles a Decl can have in the AST.
 
   These contexts provide a crude partitioning of Decl roles.  A context
   is passed to the 'visitDecl' method to make it easier for clients to
@@ -27,6 +28,7 @@
   a fixed-size data structure, so while it is hoped that this context
   will prove useful in some cases, clients that need more will have to
   resort to maintaining their own additional state during traversal.
+  (Fortunately, the visitor design makes doing so relatively easy.)
 
   The naming convention is to begin with the name of the Clang AST class
   that contains the Decl, or a similar name when the context is not
@@ -241,19 +243,22 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc);
   While conceptually similar to RecursiveASTVisitor (RAV), this visitor
   has several advantages:
 
-  1. It is possible to do both pre-order and post-order processing at
+  1. It is easy to do both pre-order and post-order processing at
      the same time.  Among other things, this makes it possible to
      "push" and "pop" state as the traversal descends and ascends.
+     (This is also possible with RAV, but idiosyncratic; see the
+     rav-printer-visitor module for an example.)
 
   2. The compile-time cost for clients is greatly reduced because the
      interface only requires forward declarations of the relevant AST
      nodes, and the client then need only include definitions of the
      nodes they use.
 
-  3. The interface is generally simpler and easier to understand.
-     Instead of Traverse, WalkUp, and Visit, often with idiosycratic
-     variations throughout the class hierarchy everything is done by a
-     few visit methods.
+  3. The set of functions the client can override is much simpler and
+     easier to understand.  Instead of the pantheon of TraverseXXX,
+     WalkUpXXX, VisitXXX, and ad-hoc extensions like
+     dataTraverseStmtPre, everything is done by a small, regular set of
+     core visit methods.
 
   4. Rather than having a separate visitor method for every subclass,
      clients are expected to use 'dyn_cast' as appropriate.  Whether
@@ -261,24 +266,29 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc);
      reduce the size of the interface.  It also arguably makes "visitor"
      a misnomer since the GOF patterns book defines "visitor" as the
      type-dependent dispatch mechanism rather than the tree traversal
-     mechanism, but I think the traversal is the more useful part.
+     mechanism, but I think the traversal is the more important part.
 
-  5. The interface uses 'const' pointers instead of non-const.  Neither
+  5. The core visit methods accept a 'context' parameter that allows
+     clients to know the syntactic context in which a node appears,
+     which can make some filtering tasks easier.
+
+  6. The interface uses 'const' pointers instead of non-const.  Neither
      works in every situation, but I think 'const' works more often, at
      least for my intended applications, and of course the visitor
      itself does not make any modifications.
 
-  6. RAV traverses into the semantic Type hierarchy, which IMO confuses
-     syntactic exploration with semantic concerns and leads to duplicate
-     visitation.  In contrast, this visitor sticks to traversing the
-     syntactic TypeLoc hierarchy.
+  7. RAV traverses into the semantic Type hierarchy, which IMO confuses
+     syntactic exploration with semantic concerns.  In contrast, this
+     visitor sticks to traversing the syntactic TypeLoc hierarchy.
 
   One disadvantage is possibly slower run-time speed due to using
   virtual function calls instead of CRTP static overriding.
 
   NOTE: Since the 'visit' methods are both what the client overrides,
   and the traversal mechanism, a client that overrides one must always
-  arrange to call the base class method when recursion is desired.
+  arrange to call the base class method when recursion is desired.  But
+  as a consequential benefit, when recursion is not desired, or should
+  happen at a specific point, the client has direct control over that.
 */
 class ClangASTVisitor {
 public:      // methods
@@ -290,7 +300,7 @@ public:      // methods
 
   // Default: Visit children of 'decl'.
   //
-  // 'decl' should not be nullptr.
+  // Precondition: decl != nullptr.
   //
   virtual void visitDecl(
     VisitDeclContext context,
@@ -301,7 +311,7 @@ public:      // methods
   // Note that Expr is a subclass of Stmt, so visiting expressions is
   // done with 'visitStmt'.
   //
-  // 'stmt' should not be nullptr.
+  // Precondition: stmt != nullptr.
   //
   virtual void visitStmt(
     VisitStmtContext context,
@@ -320,7 +330,7 @@ public:      // methods
   // should check for 'typeLoc' being a 'QualifiedTypeLoc' and skip
   // processing in that case.
   //
-  // 'typeLoc' should not be 'isNull()'.
+  // Precondition: !typeLoc.isNull()
   //
   virtual void visitTypeLoc(
     VisitTypeContext context,
@@ -362,6 +372,9 @@ public:      // methods
   virtual void visitClassTemplateInstantiations(
     clang::ClassTemplateDecl const *ctd);
 
+  // TODO: Instantiations of class template partial specializations,
+  // variable templates, and type alias templates.
+
   // -------- Leaf visitors --------
   //
   // These are called when certain elements of interest are encountered
@@ -388,7 +401,7 @@ public:      // methods
   // underlying visitor already does.
   //
   // They are public to facilitate reuse, but are not meant to be
-  // overridden by clients.
+  // overridden by clients, hence not 'virtual'.
 
   // Visit a nullable Decl.
   void visitDeclOpt(VisitDeclContext context,
