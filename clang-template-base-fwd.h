@@ -7,6 +7,7 @@
 namespace clang {
   class TemplateArgument;
   class TemplateArgumentLoc;
+  struct ASTTemplateArgumentListInfo;
 }
 
 #endif // CLANG_TEMPLATE_BASE_FWD_H

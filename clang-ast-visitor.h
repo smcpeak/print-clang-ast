@@ -55,7 +55,7 @@ enum VisitDeclContext {
   VDC_FUNCTION_TEMPLATE_INSTANTIATION,
   VDC_CLASS_TEMPLATE_INSTANTIATION,
   VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
-  VDC_TEMPLATE_DECL_PARAMETER,
+  VDC_TEMPLATE_DECL_PARAMETER,   // also used for ClassTemplatePartialSpecializationDecl parameters
 
   // ---- Context is a TypeLoc ----
   VDC_FUNCTION_TYPE_PARAMETER,
@@ -211,6 +211,9 @@ char const *toString(VisitTypeContext vtc);
 // Contexts for a template argument.
 enum VisitTemplateArgumentContext {
   VTAC_NONE,
+
+  // ---- Context is a Decl ----
+  VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
 
   // ---- Context is a TypeLoc ----
   VTAC_TEMPLATE_SPECIALIZATION_TYPE,
@@ -375,12 +378,16 @@ public:      // methods
 
   // Visit the instantiations of 'ctd'.
   //
+  // Note that this includes instantations of partial specializations;
+  // those are found as specializations of the primary, even though they
+  // are instanitated from the partial specialization.
+  //
   // Default: Call 'visitDecl' on each instantiation.
   virtual void visitClassTemplateInstantiations(
     clang::ClassTemplateDecl const *ctd);
 
-  // TODO: Instantiations of class template partial specializations,
-  // variable templates, and type alias templates.
+  // TODO: Instantiations of variable templates and type alias
+  // templates.
 
   // -------- Leaf visitors --------
   //
@@ -472,6 +479,11 @@ public:      // methods
     VisitTemplateArgumentContext context,
     clang::TemplateArgumentLoc const * NULLABLE args,
     unsigned numArgs);
+
+  // Visit the arguments in 'argListInfo'.
+  void visitASTTemplateArgumentListInfo(
+    VisitTemplateArgumentContext context,
+    clang::ASTTemplateArgumentListInfo const *argListInfo);
 
   // Visit the parameters in 'ftl'.
   void visitFunctionTypeLocParameters(

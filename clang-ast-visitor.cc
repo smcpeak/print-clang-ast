@@ -190,6 +190,8 @@ char const *toString(VisitTemplateArgumentContext vtac)
 
     VTAC_NONE,
 
+    VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+
     VTAC_TEMPLATE_SPECIALIZATION_TYPE,
 
     VTAC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR,
@@ -316,14 +318,25 @@ void ClangASTVisitor::visitDecl(
     }
 
     else if (auto rd = dyn_cast<clang::RecordDecl>(decl)) {
-      if (rd->isThisDeclarationADefinition()) {
-        if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
+      bool const isDefn = rd->isThisDeclarationADefinition();
+
+      if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
+        if (auto ctpsd = dyn_cast<
+              clang::ClassTemplatePartialSpecializationDecl>(decl)) {
+          visitTemplateDeclParameterList(
+            ctpsd->getTemplateParameters());
+          visitASTTemplateArgumentListInfo(
+            VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+            ctpsd->getTemplateArgsAsWritten());
+        }
+
+        if (isDefn) {
           visitCXXRecordBases(crd);
         }
-        visitNonFunctionDeclContext(VDC_RECORD_DECL, DECL_CONTEXT_OF(rd));
+      }
 
-        // TODO: Visit instantiations of
-        // ClassTemplatePartialSpecializationDecl.
+      if (isDefn) {
+        visitNonFunctionDeclContext(VDC_RECORD_DECL, DECL_CONTEXT_OF(rd));
       }
     }
   }
@@ -1057,6 +1070,17 @@ void ClangASTVisitor::visitTemplateArgumentLocArray(
   for (unsigned i=0; i < numArgs; ++i) {
     visitTemplateArgumentLoc(context, args[i]);
   }
+}
+
+
+void ClangASTVisitor::visitASTTemplateArgumentListInfo(
+  VisitTemplateArgumentContext context,
+  clang::ASTTemplateArgumentListInfo const *argListInfo)
+{
+  visitTemplateArgumentLocArray(
+    context,
+    argListInfo->getTemplateArgs(),
+    argListInfo->getNumTemplateArgs());
 }
 
 
