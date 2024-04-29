@@ -173,6 +173,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
 
     VTC_TEMPLATE_ARGUMENT,
+    VTC_NESTED_NAME_SPECIFIER,
   );
 
   return "unknown";
@@ -196,13 +197,34 @@ char const *toString(VisitTemplateArgumentContext vtac)
 }
 
 
+char const *toString(VisitNestedNameSpecifierContext vnnsc)
+{
+  ENUM_TABLE_LOOKUP_CHECK_SIZE(/*no qual*/, VisitNestedNameSpecifierContext,
+    NUM_VISIT_NESTED_NAME_SPECIFIER_CONTEXTS, vnnsc,
+
+    VNNSC_NONE,
+
+    VNNSC_DECLARATOR_DECL,
+  );
+
+  return "unknown";
+}
+
+
 void ClangASTVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)
 {
   if (auto dd = dyn_cast<clang::DeclaratorDecl>(decl)) {
-    clang::TypeSourceInfo const *tsi = dd->getTypeSourceInfo();
-    if (tsi) {
+    // To me, it makes more sense to visit the type before visiting the
+    // NNS since (in traditional syntax at least) the type syntactically
+    // precedes the NNS, but RecursiveASTVisitor visits the NNS first,
+    // and I want to match its behavior to make comparing them easier
+    // during testing, so I will visit the NNS first too.
+    visitNestedNameSpecifierLocOpt(VNNSC_DECLARATOR_DECL,
+                                   dd->getQualifierLoc());
+
+    if (clang::TypeSourceInfo const *tsi = dd->getTypeSourceInfo()) {
       visitTypeLoc(VTC_DECLARATOR_DECL, tsi->getTypeLoc());
     }
     else {
@@ -214,7 +236,7 @@ void ClangASTVisitor::visitDecl(
       visitStmt(VSC_DECLARATOR_DECL_TRAILING_REQUIRES, trailingRequires);
     }
 
-    else if (auto vd = dyn_cast<clang::VarDecl>(decl)) {
+    if (auto vd = dyn_cast<clang::VarDecl>(decl)) {
       if (clang::Expr const *init = vd->getInit()) {
         visitStmt(VSC_VAR_DECL_INIT, init);
       }
@@ -879,6 +901,18 @@ void ClangASTVisitor::visitTemplateArgumentLoc(
 }
 
 
+void ClangASTVisitor::visitNestedNameSpecifierLoc(
+  VisitNestedNameSpecifierContext context,
+  clang::NestedNameSpecifierLoc nnsl)
+{
+  // Start by visiting the prefix if there is one.
+  visitNestedNameSpecifierLocOpt(context, nnsl.getPrefix());
+
+  // Now examine the qualifier here.
+  visitNestedNameSpecifierLocFinalComponent(nnsl);
+}
+
+
 void ClangASTVisitor::visitFunctionTemplateInstantiations(
   clang::FunctionTemplateDecl const *ftd)
 {
@@ -1052,6 +1086,46 @@ void ClangASTVisitor::visitCXXConstructExprArgs(
 {
   for (clang::Expr const *arg : cexpr->arguments()) {
     visitStmt(VSC_CXX_CONSTRUCT_EXPR, arg);
+  }
+}
+
+
+void ClangASTVisitor::visitNestedNameSpecifierLocOpt(
+  VisitNestedNameSpecifierContext context,
+  clang::NestedNameSpecifierLoc nnsl)
+{
+  if (nnsl.hasQualifier()) {
+    visitNestedNameSpecifierLoc(context, nnsl);
+  }
+}
+
+
+void ClangASTVisitor::visitNestedNameSpecifierLocFinalComponent(
+  clang::NestedNameSpecifierLoc nnsl)
+{
+  clang::NestedNameSpecifier const *nns = nnsl.getNestedNameSpecifier();
+  assert(nns);
+  switch (nns->getKind()) {
+    case clang::NestedNameSpecifier::Identifier:
+      // It would not be unreasonable to add a method to allow direct
+      // visitation of IdentifierInfo, but I have no need currently.
+      break;
+
+    case clang::NestedNameSpecifier::Namespace:
+    case clang::NestedNameSpecifier::NamespaceAlias:
+    case clang::NestedNameSpecifier::Global:
+    case clang::NestedNameSpecifier::Super:
+      // All of these cases are leaves from the perspective of
+      // traversal.
+      break;
+
+    case clang::NestedNameSpecifier::TypeSpec:
+    case clang::NestedNameSpecifier::TypeSpecWithTemplate:
+      // Visit the contained type description.
+      visitTypeLoc(VTC_NESTED_NAME_SPECIFIER, nnsl.getTypeLoc());
+      break;
+
+    // The cases should be exhaustive, so no 'default'.
   }
 }
 

@@ -8,6 +8,7 @@
 #include "clang-decl-context-fwd.h"              // clang::DeclContext [n]
 #include "clang-decl-cxx-fwd.h"                  // clang::CXXBaseSpecifier [n]
 #include "clang-decl-template-fwd.h"             // clang::TemplateParameterList [n]
+#include "clang-nested-name-specifier-fwd.h"     // clang::NestedNameSpecifierLoc [n]
 #include "clang-template-base-fwd.h"             // clang::TemplateArgument [n]
 #include "clang-type-fwd.h"                      // clang::QualType [n]
 #include "clang-type-loc-fwd.h"                  // clang::TypeLoc [n]
@@ -193,6 +194,7 @@ enum VisitTypeContext {
 
   // ---- Other contexts ----
   VTC_TEMPLATE_ARGUMENT,
+  VTC_NESTED_NAME_SPECIFIER,
 
   NUM_VISIT_TYPE_CONTEXTS
 };
@@ -217,6 +219,20 @@ enum VisitTemplateArgumentContext {
 
 // Return a string like "VTAC_NONE", or "unknown" if 'vtac' is invalid.
 char const *toString(VisitTemplateArgumentContext vtac);
+
+
+// Context for a nested name specifier (a name scope qualifier).
+enum VisitNestedNameSpecifierContext {
+  VNNSC_NONE,
+
+  // ---- Context is a Decl ----
+  VNNSC_DECLARATOR_DECL,
+
+  NUM_VISIT_NESTED_NAME_SPECIFIER_CONTEXTS
+};
+
+// Return a string like "VNNS_NONE", or "unknown" if 'vnnsc' is invalid.
+char const *toString(VisitNestedNameSpecifierContext vnnsc);
 
 
 /*
@@ -319,6 +335,15 @@ public:      // methods
   virtual void visitTemplateArgumentLoc(
     VisitTemplateArgumentContext context,
     clang::TemplateArgumentLoc tal);
+
+  // Default: Visit the children of 'nnsl' by first visiting the prefix
+  // of 'nnsl' if it exists, then its final component.
+  //
+  // Precondition: nnsl.hasQualifier()
+  //
+  virtual void visitNestedNameSpecifierLoc(
+    VisitNestedNameSpecifierContext context,
+    clang::NestedNameSpecifierLoc nnsl);
 
   // -------- Auxiliary visitors --------
   //
@@ -448,6 +473,18 @@ public:      // methods
   // Visit all of the arguments in 'cexpr'.
   void visitCXXConstructExprArgs(
     clang::CXXConstructExpr const *cexpr);
+
+  // Visit 'nnsl' if it 'hasQualifier()'.
+  void visitNestedNameSpecifierLocOpt(
+    VisitNestedNameSpecifierContext context,
+    clang::NestedNameSpecifierLoc nnsl);
+
+  // Visit the final component of 'nnsl', ignoring its prefix.
+  //
+  // Precondition: nnsl.hasQualifier()
+  //
+  void visitNestedNameSpecifierLocFinalComponent(
+    clang::NestedNameSpecifierLoc nnsl);
 };
 
 
