@@ -18,6 +18,7 @@ PrinterVisitor::PrinterVisitor(std::ostream &os,
     ClangASTVisitor(),
     m_printVisitContext(false),
     m_printImplicitQualTypes(false),
+    m_omit_CTPSD_TAW(false),
     m_indentLevel(0),
     m_os(os)
 {}
@@ -33,13 +34,21 @@ std::string PrinterVisitor::indentString() const
 }
 
 
+#define PRINT_INDENT_AND_CONTEXT()     \
+  m_os << indentString();              \
+  if (m_printVisitContext) {           \
+    m_os << toString(context) << ": "; \
+  }
+
+
+#define INCREMENT_INDENT_LEVEL() \
+  SET_RESTORE(m_indentLevel, m_indentLevel+1)
+
+
 void PrinterVisitor::visitDecl(VisitDeclContext context,
                                clang::Decl const *decl)
 {
-  m_os << indentString();
-  if (m_printVisitContext) {
-    m_os << toString(context) << ": ";
-  }
+  PRINT_INDENT_AND_CONTEXT();
   if (auto nd = dyn_cast<clang::NamedDecl>(decl)) {
     m_os << namedDeclAndKindAtLocStr(nd) << "\n";
   }
@@ -48,7 +57,7 @@ void PrinterVisitor::visitDecl(VisitDeclContext context,
          << "Decl at " << declLocStr(decl) << "\n";
   }
 
-  SET_RESTORE(m_indentLevel, m_indentLevel+1);
+  INCREMENT_INDENT_LEVEL();
 
   ClangASTVisitor::visitDecl(context, decl);
 }
@@ -57,13 +66,10 @@ void PrinterVisitor::visitDecl(VisitDeclContext context,
 void PrinterVisitor::visitStmt(VisitStmtContext context,
                                clang::Stmt const *stmt)
 {
-  m_os << indentString();
-  if (m_printVisitContext) {
-    m_os << toString(context) << ": ";
-  }
+  PRINT_INDENT_AND_CONTEXT();
   m_os << stmtKindLocStr(stmt) << "\n";
 
-  SET_RESTORE(m_indentLevel, m_indentLevel+1);
+  INCREMENT_INDENT_LEVEL();
 
   ClangASTVisitor::visitStmt(context, stmt);
 }
@@ -72,13 +78,22 @@ void PrinterVisitor::visitStmt(VisitStmtContext context,
 void PrinterVisitor::visitTypeLoc(VisitTypeContext context,
                                   clang::TypeLoc typeLoc)
 {
-  m_os << indentString();
-  if (m_printVisitContext) {
-    m_os << toString(context) << ": ";
+  if (m_omit_CTPSD_TAW &&
+      context == VTC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL) {
+    // This TypeLoc would not be visited by RAV due to a bug:
+    //
+    //   https://github.com/llvm/llvm-project/issues/90586
+    //
+    // So, skip printing the node, but print its children, so our
+    // output matches that of rav-printer-visitor.
+    ClangASTVisitor::visitTypeLoc(context, typeLoc);
+    return;
   }
+
+  PRINT_INDENT_AND_CONTEXT();
   m_os << typeLocStr(typeLoc) << "\n";
 
-  SET_RESTORE(m_indentLevel, m_indentLevel+1);
+  INCREMENT_INDENT_LEVEL();
 
   ClangASTVisitor::visitTypeLoc(context, typeLoc);
 }
@@ -97,14 +112,29 @@ void PrinterVisitor::visitImplicitQualType(VisitTypeContext context,
 }
 
 
+void PrinterVisitor::visitNestedNameSpecifierLoc(
+  VisitNestedNameSpecifierContext context,
+  clang::NestedNameSpecifierLoc nnsl)
+{
+  PRINT_INDENT_AND_CONTEXT();
+  m_os << "NNS " << nestedNameSpecifierLocStr(nnsl) << "\n";
+
+  INCREMENT_INDENT_LEVEL();
+
+  ClangASTVisitor::visitNestedNameSpecifierLoc(context, nnsl);
+}
+
+
 void printerVisitorTU(std::ostream &os,
                       clang::ASTContext &astContext,
                       bool printVisitContext,
-                      bool printImplicitQualTypes)
+                      bool printImplicitQualTypes,
+                      bool omit_CTPSD_TAW)
 {
   PrinterVisitor pv(os, astContext);
   pv.m_printVisitContext = printVisitContext;
   pv.m_printImplicitQualTypes = printImplicitQualTypes;
+  pv.m_omit_CTPSD_TAW = omit_CTPSD_TAW;
   pv.visitDecl(VDC_NONE, astContext.getTranslationUnitDecl());
 }
 

@@ -24,7 +24,8 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
         VTC_ELABORATED_TYPE: Record("struct S1", <in/src/friend-decl.cc:9:17>, NullTypeLoc)
     VDC_RECORD_DECL: FriendDecl at in/src/friend-decl.cc:10:3
       VDC_FRIEND_DECL: CXXMethodDecl "S1::m()" at in/src/friend-decl.cc:10:3
-        VTC_NESTED_NAME_SPECIFIER: Record("struct S1", <in/src/friend-decl.cc:10:14>, NullTypeLoc)
+        VNNSC_DECLARATOR_DECL: NNS "S1::" at <in/src/friend-decl.cc:10:14, col:16>
+          VTC_NESTED_NAME_SPECIFIER: Record("struct S1", <in/src/friend-decl.cc:10:14>, NullTypeLoc)
         VTC_DECLARATOR_DECL: FunctionProto("int (void)", <in/src/friend-decl.cc:10:10, col:20>, Builtin("int", <in/src/friend-decl.cc:10:10>, NullTypeLoc))
           VTC_FUNCTION_TYPE_RETURN: Builtin("int", <in/src/friend-decl.cc:10:10>, NullTypeLoc)
     VDC_RECORD_DECL: FriendDecl at in/src/friend-decl.cc:11:3

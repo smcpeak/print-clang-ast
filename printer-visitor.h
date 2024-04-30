@@ -24,6 +24,11 @@ public:      // data
   // True to print implicit QualType nodes.  Initially false.
   bool m_printImplicitQualTypes;
 
+  // If true, then suppressp printing the TypeAsWritten for a
+  // ClassTemplatePartialSpecializationDecl, thereby emulating a bug in
+  // RecursiveASTVisitor.  Initially false.
+  bool m_omit_CTPSD_TAW;
+
   // Number of levels of indentation to print.
   int m_indentLevel;
 
@@ -43,6 +48,9 @@ public:      // methods
   virtual void visitTypeLoc(VisitTypeContext context, clang::TypeLoc typeLoc) override;
   virtual void visitImplicitQualType(VisitTypeContext context,
                                      clang::QualType qualType) override;
+  virtual void visitNestedNameSpecifierLoc(
+    VisitNestedNameSpecifierContext context,
+    clang::NestedNameSpecifierLoc nnsl) override;
 };
 
 
@@ -50,7 +58,8 @@ public:      // methods
 void printerVisitorTU(std::ostream &os,
                       clang::ASTContext &astContext,
                       bool printVisitContext,
-                      bool printImplicitQualTypes);
+                      bool printImplicitQualTypes,
+                      bool omit_CTPSD_TAW);
 
 
 #endif // PRINTER_VISITOR_H

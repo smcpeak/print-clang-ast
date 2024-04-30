@@ -53,6 +53,7 @@ public:      // methods
   bool dataTraverseStmtPost(clang::Stmt *stmt);
   bool TraverseTypeLoc(clang::TypeLoc TL);
   bool TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc TL);
+  bool TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc nnsl);
 };
 
 

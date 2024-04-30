@@ -42,6 +42,50 @@ bool RAVPrinterVisitor::TraverseDecl(clang::Decl *decl)
 
   SET_RESTORE(m_indentLevel, m_indentLevel+1);
 
+#if 0
+  // Copy of the TRY_TO macro defined (and then undefined) in
+  // RecursiveASTVisitor.h.
+  #define TRY_TO(CALL_EXPR)                                                      \
+    do {                                                                         \
+      if (!getDerived().CALL_EXPR)                                               \
+        return false;                                                            \
+    } while (false)
+
+  // Compensate for Clang bug visiting partial specializations:
+  //
+  //   https://github.com/llvm/llvm-project/issues/90586
+  //
+  // Oops, this does not work because 'TraverseCXXRecordHelper' is
+  // private.  Instead of this, I have adapted priter-visitor to
+  // suppress the TAW when RAV would.
+  //
+  if (auto ctpsd = dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(decl)) {
+    // The body of this 'if' is a modified version of what
+    // 'DEF_TRAVERSE_TMPL_PART_SPEC_DECL(Class, CXXRecord)' expands to
+    // in RecursiveASTVisitor.h.
+
+    // Parameters.
+    if (clang::TemplateParameterList const *TPL = ctpsd->getTemplateParameters()) {
+      for (clang::TemplateParameterList::const_iterator I = TPL->begin(), E = TPL->end();
+           I != E; ++I) {
+        TRY_TO(TraverseDecl(*I));
+      }
+    }
+
+    // TypeAsWritten *instead of* ArgsAsWritten.  This is the fix.
+    if (clang::TypeSourceInfo const *tsi = ctpsd->getTypeAsWritten()) {
+      TRY_TO(TraverseTypeLoc(tsi->getTypeLoc()));
+    }
+
+    // Details in CXXRecord.
+    //
+    // The problem is 'TraverseCXXRecordHelper' is private!
+    TRY_TO(TraverseCXXRecordHelper(ctpsd));
+
+    return true;
+  }
+#endif // 0
+
   bool ret = BaseClass::TraverseDecl(decl);
 
   if (ret) {
@@ -106,6 +150,23 @@ bool RAVPrinterVisitor::TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc TL)
   // for visiting it here is I want this code's behavior to match what
   // clang-ast-visitor does, and it visits qualified types.
   return TraverseTypeLoc(TL.getUnqualifiedLoc());
+}
+
+
+bool RAVPrinterVisitor::TraverseNestedNameSpecifierLoc(
+  clang::NestedNameSpecifierLoc nnsl)
+{
+  if (nnsl.hasQualifier()) {
+    m_os << indentString() << "NNS "
+         << nestedNameSpecifierLocStr(nnsl) << "\n";
+
+    SET_RESTORE(m_indentLevel, m_indentLevel+1);
+
+    return BaseClass::TraverseNestedNameSpecifierLoc(nnsl);
+  }
+  else {
+    return BaseClass::TraverseNestedNameSpecifierLoc(nnsl);
+  }
 }
 
 

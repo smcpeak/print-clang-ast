@@ -148,6 +148,8 @@ char const *toString(VisitTypeContext vtc)
     VTC_DECLARATOR_DECL,
     VTC_TYPEDEF_NAME_DECL,
     VTC_ENUM_DECL_UNDERLYING,
+    VTC_CLASS_TEMPLATE_SPECIALIZATION_DECL,
+    VTC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
     VTC_CXX_RECORD_DECL_BASE,
     VTC_CXX_CTOR_INITIALIZER,
     VTC_FRIEND_DECL,
@@ -211,6 +213,7 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
 
     VNNSC_DECLARATOR_DECL,
     VNNSC_TAG_DECL,
+    VNNSC_USING_DECL,
 
     VNNSC_ELABORATED_TYPE,
 
@@ -323,13 +326,33 @@ void ClangASTVisitor::visitDecl(
       bool const isDefn = rd->isThisDeclarationADefinition();
 
       if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
-        if (auto ctpsd = dyn_cast<
-              clang::ClassTemplatePartialSpecializationDecl>(decl)) {
-          visitTemplateDeclParameterList(
-            ctpsd->getTemplateParameters());
-          visitASTTemplateArgumentListInfo(
-            VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
-            ctpsd->getTemplateArgsAsWritten());
+        if (auto ctsd = dyn_cast<
+              clang::ClassTemplateSpecializationDecl>(decl)) {
+          if (auto ctpsd = dyn_cast<
+                clang::ClassTemplatePartialSpecializationDecl>(decl)) {
+            visitTemplateDeclParameterList(
+              ctpsd->getTemplateParameters());
+
+            if (false) {
+              // CTPSD has 'ArgsAsWritten' that are redundant with the
+              // 'TypeAsWritten'.  Do not visit the former.
+              visitASTTemplateArgumentListInfo(
+                VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+                ctpsd->getTemplateArgsAsWritten());
+            }
+
+            // Visit 'TypeAsWritten', but with a special context so I
+            // can behave like RAV when needed.
+            visitTypeSourceInfoOpt(
+              VTC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+              ctsd->getTypeAsWritten());
+          }
+          else {
+            // Full specialization.
+            visitTypeSourceInfoOpt(
+              VTC_CLASS_TEMPLATE_SPECIALIZATION_DECL,
+              ctsd->getTypeAsWritten());
+          }
         }
 
         if (isDefn) {
@@ -417,6 +440,10 @@ void ClangASTVisitor::visitDecl(
 
   else if (auto tud = dyn_cast<clang::TranslationUnitDecl>(decl)) {
     visitNonFunctionDeclContext(VDC_TRANSLATION_UNIT_DECL, DECL_CONTEXT_OF(tud));
+  }
+
+  else if (auto ud = dyn_cast<clang::UsingDecl>(decl)) {
+    visitNestedNameSpecifierLocOpt(VNNSC_USING_DECL, ud->getQualifierLoc());
   }
 
   else {
@@ -993,6 +1020,16 @@ void ClangASTVisitor::visitTypeSourceInfo(
 {
   assert(tsi);
   visitTypeLoc(context, tsi->getTypeLoc());
+}
+
+
+void ClangASTVisitor::visitTypeSourceInfoOpt(
+  VisitTypeContext context,
+  clang::TypeSourceInfo const * NULLABLE tsi)
+{
+  if (tsi) {
+    visitTypeSourceInfo(context, tsi);
+  }
 }
 
 

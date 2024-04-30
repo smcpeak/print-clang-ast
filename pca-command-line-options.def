@@ -68,6 +68,13 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
+  m_omit_CTPSD_TAW,
+  false,
+  "--omit-ctpsd-taw",
+  R"(With --printer-visitor, omit the TAW of a CTPSD for RAV compat.)"
+)
+
+BOOL_OPTION(
   m_ravPrinterVisitor,
   false,
   "--rav-printer-visitor",

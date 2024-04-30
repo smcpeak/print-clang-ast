@@ -166,7 +166,8 @@ int main(int argc, char const **argv)
     printerVisitorTU(cout,
                      ast->getASTContext(),
                      options.m_printVisitContext,
-                     options.m_printImplicitQualTypes);
+                     options.m_printImplicitQualTypes,
+                     options.m_omit_CTPSD_TAW);
   }
 
   if (options.m_ravPrinterVisitor) {

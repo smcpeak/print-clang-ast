@@ -168,6 +168,8 @@ enum VisitTypeContext {
   VTC_DECLARATOR_DECL,
   VTC_TYPEDEF_NAME_DECL,
   VTC_ENUM_DECL_UNDERLYING,
+  VTC_CLASS_TEMPLATE_SPECIALIZATION_DECL,
+  VTC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
   VTC_CXX_RECORD_DECL_BASE,
   VTC_CXX_CTOR_INITIALIZER,
   VTC_FRIEND_DECL,
@@ -236,6 +238,7 @@ enum VisitNestedNameSpecifierContext {
   // ---- Context is a Decl ----
   VNNSC_DECLARATOR_DECL,
   VNNSC_TAG_DECL,
+  VNNSC_USING_DECL,
 
   // ---- Context is a TypeLoc ----
   VNNSC_ELABORATED_TYPE,
@@ -441,6 +444,11 @@ public:      // methods
   // Assert that 'tsi' is not nullptr, then visit its 'TypeLoc'.
   void visitTypeSourceInfo(VisitTypeContext context,
                            clang::TypeSourceInfo const *tsi);
+
+  // Visit 'tsi' if it is not nullptr.
+  void visitTypeSourceInfoOpt(
+    VisitTypeContext context,
+    clang::TypeSourceInfo const * NULLABLE tsi);
 
   // Call 'visitDecl' on all of the child declarations.
   void visitNonFunctionDeclContext(
