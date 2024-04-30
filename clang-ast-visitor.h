@@ -174,6 +174,7 @@ enum VisitStmtContext {
   VSC_CHOOSE_EXPR_COND,
   VSC_CHOOSE_EXPR_LHS,
   VSC_CHOOSE_EXPR_RHS,
+  VSC_COMPOUND_LITERAL_EXPR,
   VSC_CALL_EXPR_CALLEE,                // CallExpr and subclasses
   VSC_CALL_EXPR_ARG,
   VSC_MEMBER_EXPR,
@@ -237,6 +238,7 @@ enum VisitTypeContext {
   VTC_CXX_UUIDOF_EXPR,
   VTC_CXX_TEMPORARY_OBJECT_EXPR,
   VTC_EXPLICIT_CAST_EXPR,
+  VTC_COMPOUND_LITERAL_EXPR,
   VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
   // ---- Other contexts ----
@@ -659,6 +661,13 @@ public:      // methods
   // Visit the args in 'constructExpr'.
   void visitCXXUnresolvedConstructExprArgs(
     clang::CXXUnresolvedConstructExpr const *constructExpr);
+
+  // If 'tsi' is not nullptr, visit it.  Otherwise, visit 'qualType' as
+  // an implicitly denoted type.
+  void visitTypeSourceInfoOrImplicitQualType(
+    VisitTypeContext context,
+    clang::TypeSourceInfo const * NULLABLE tsi,
+    clang::QualType qualType);
 };
 
 

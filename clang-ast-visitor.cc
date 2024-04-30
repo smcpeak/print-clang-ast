@@ -146,6 +146,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CHOOSE_EXPR_COND,
     VSC_CHOOSE_EXPR_LHS,
     VSC_CHOOSE_EXPR_RHS,
+    VSC_COMPOUND_LITERAL_EXPR,
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
     VSC_MEMBER_EXPR,
@@ -206,6 +207,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CXX_UUIDOF_EXPR,
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
     VTC_EXPLICIT_CAST_EXPR,
+    VTC_COMPOUND_LITERAL_EXPR,
     VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
     VTC_TEMPLATE_ARGUMENT,
@@ -304,12 +306,10 @@ void ClangASTVisitor::visitDecl(
                                fd->getNameInfo());
     }
 
-    if (clang::TypeSourceInfo const *tsi = dd->getTypeSourceInfo()) {
-      visitTypeLoc(VTC_DECLARATOR_DECL, tsi->getTypeLoc());
-    }
-    else {
-      visitImplicitQualType(VTC_DECLARATOR_DECL, dd->getType());
-    }
+    visitTypeSourceInfoOrImplicitQualType(
+      VTC_DECLARATOR_DECL,
+      dd->getTypeSourceInfo(),
+      dd->getType());
 
     if (clang::Expr const *trailingRequires =
           dd->getTrailingRequiresClause()) {
@@ -904,6 +904,18 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       visitStmt(VSC_CHOOSE_EXPR_COND, stmt->getCond());
       visitStmt(VSC_CHOOSE_EXPR_LHS, stmt->getLHS());
       visitStmt(VSC_CHOOSE_EXPR_RHS, stmt->getRHS());
+
+    HANDLE_STMT_CLASS(CompoundLiteralExpr)
+      visitTypeSourceInfoOrImplicitQualType(
+        VTC_COMPOUND_LITERAL_EXPR,
+        stmt->getTypeSourceInfo(),
+        stmt->getType());
+
+      // There is a "FIXME" comment in Expr.h indicating that the
+      // initializer might be nullptr, but "should" not be.  I'll be
+      // defensive and check.
+      visitStmtOpt(VSC_COMPOUND_LITERAL_EXPR,
+        stmt->getInitializer());
 
 
 
@@ -1542,6 +1554,20 @@ void ClangASTVisitor::visitCXXUnresolvedConstructExprArgs(
   for (unsigned i=0; i < constructExpr->getNumArgs(); ++i) {
     visitStmt(VSC_CXX_UNRESOLVED_CONSTRUCT_EXPR_ARG,
       constructExpr->getArg(i));
+  }
+}
+
+
+void ClangASTVisitor::visitTypeSourceInfoOrImplicitQualType(
+  VisitTypeContext context,
+  clang::TypeSourceInfo const * NULLABLE tsi,
+  clang::QualType qualType)
+{
+  if (tsi) {
+    visitTypeSourceInfo(context, tsi);
+  }
+  else {
+    visitImplicitQualType(context, qualType);
   }
 }
 
