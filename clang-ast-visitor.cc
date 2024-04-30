@@ -559,7 +559,8 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
 {
   // The order of cases in this 'switch' statement is meant to
   // correspond to the numeric order of the 'Stmt::StmtClass'
-  // enumerators.
+  // enumerators except where adjustment is needed because of the
+  // class hierarchy.
   switch (origStmt->getStmtClass()) {
     // Start handling a particular class.  This deliberately opens a
     // compound statement that it does not close.
@@ -672,18 +673,17 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
 
     HANDLE_NOOP_STMT_CLASS(NullStmt)
 
-    // TODO: All the OMP* stuff.
-
-    // TODO: All the ObjC* stuff.
+    // TODO: All the OMP* statements.
+    // TODO: All the ObjC* statements.
 
     HANDLE_STMT_CLASS(ReturnStmt)
       visitStmt(VSC_RETURN_STMT_VALUE, stmt->getRetValue());
       visitDeclOpt(VDC_RETURN_STMT_NRVO_CANDIDATE, stmt->getNRVOCandidate());
 
-    // TODO: SEHExceptStmtClass,
-    // TODO: SEHFinallyStmtClass,
-    // TODO: SEHLeaveStmtClass,
-    // TODO: SEHTryStmtClass,
+    // TODO: SEHExceptStmt
+    // TODO: SEHFinallyStmt
+    // TODO: SEHLeaveStmt
+    // TODO: SEHTryStmt
 
     HANDLE_STMT_CLASS(CaseStmt)
       visitStmt   (VSC_CASE_STMT_LHS, stmt->getLHS());
@@ -749,7 +749,6 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     // some results of semantic analysis but no new syntax.
     END_STMT_CLASS
     ADDITIONAL_STMT_CLASS(CompoundAssignOperator)
-
     BEGIN_STMT_CLASS(BinaryOperator)
       visitStmt(VSC_BINARY_OPERATOR_LHS, stmt->getLHS());
       visitStmt(VSC_BINARY_OPERATOR_RHS, stmt->getRHS());
@@ -876,6 +875,15 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       }
 
     END_STMT_CLASS
+    ADDITIONAL_STMT_CLASS(CUDAKernelCallExpr)     // TODO: This is incomplete, there is the "config" too.
+    ADDITIONAL_STMT_CLASS(CXXMemberCallExpr)
+    ADDITIONAL_STMT_CLASS(CXXOperatorCallExpr)
+    ADDITIONAL_STMT_CLASS(UserDefinedLiteral)
+    BEGIN_STMT_CLASS(CallExpr)
+      visitStmt(VSC_CALL_EXPR_CALLEE, stmt->getCallee());
+      visitCallExprArgs(stmt);
+
+    END_STMT_CLASS
     ADDITIONAL_STMT_CLASS(BuiltinBitCastExpr)
     ADDITIONAL_STMT_CLASS(CStyleCastExpr)
     ADDITIONAL_STMT_CLASS(CXXFunctionalCastExpr)
@@ -891,6 +899,8 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       visitStmt(
         VSC_EXPLICIT_CAST_EXPR,
         stmt->getSubExpr());
+
+    // TODO: ObjCBridgedCastExprClass
 
     HANDLE_STMT_CLASS(ImplicitCastExpr)
       // There is no TypeLoc for an implicit cast.  I could call
@@ -929,19 +939,8 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       visitTypeSourceInfo(VTC_CONVERT_VECTOR_EXPR,
         stmt->getTypeSourceInfo());
 
-
-
-    END_STMT_CLASS
-    ADDITIONAL_STMT_CLASS(CXXOperatorCallExpr)
-    ADDITIONAL_STMT_CLASS(CXXMemberCallExpr)
-    ADDITIONAL_STMT_CLASS(UserDefinedLiteral)
-    ADDITIONAL_STMT_CLASS(CUDAKernelCallExpr)     // TODO: This is incomplete, there is the "config" too.
-    BEGIN_STMT_CLASS(CallExpr)
-      visitStmt(VSC_CALL_EXPR_CALLEE, stmt->getCallee());
-      visitCallExprArgs(stmt);
-
-    HANDLE_STMT_CLASS(ConstantExpr)
-      visitStmt(VSC_CONSTANT_EXPR, stmt->getSubExpr());
+    // TODO: CoawaitExpr
+    // TODO: CoyieldExpr
 
     HANDLE_STMT_CLASS(DeclRefExpr)
       visitNestedNameSpecifierLocOpt(
@@ -954,6 +953,38 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         VTAC_DECL_REF_EXPR,
         stmt->getTemplateArgs(),
         stmt->getNumTemplateArgs());
+
+    // TODO: DependentCoawaitExpr
+
+    // TODO: DependentScopeDeclRefExpr
+
+    // TODO: DesignatedInitExpr
+    // TODO: DesignatedInitUpdateExpr
+
+    // TODO: ExpressionTraitExpr
+
+    // TODO: ExtVectorElementExpr
+
+    // TODO: FixedPointLiteral
+    // TODO: FloatingLiteral
+
+    HANDLE_STMT_CLASS(ConstantExpr)
+      visitStmt(VSC_CONSTANT_EXPR, stmt->getSubExpr());
+
+    // TODO: ExprWithCleanups
+
+    // TODO: FunctionParmPackExpr
+    // TODO: GNUNullExpr
+    // TODO: GenericSelectionExpr
+    // TODO: ImaginaryLiteral
+    // TODO: ImplicitValueInitExpr
+    // TODO: InitListExpr
+    // TODO: IntegerLiteral
+    // TODO: LambdaExpr
+    // TODO: MSPropertyRefExpr
+    // TODO: MSPropertySubscriptExpr
+    // TODO: MaterializeTemporaryExpr
+    // TODO: MatrixSubscriptExpr
 
     HANDLE_STMT_CLASS(MemberExpr)
       visitNestedNameSpecifierLocOpt(
@@ -969,10 +1000,37 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         VSC_MEMBER_EXPR,
         stmt->getBase());
 
+    // TODO: NoInitExpr
+
+    // TODO: OMP*Expr
+    // TODO: ObjC*Expr
+
+    // TODO: OffsetOfExpr
+    // TODO: OpaqueValueExpr
+    // TODO: UnresolvedLookupExpr
+    // TODO: UnresolvedMemberExpr
+    // TODO: PackExpansionExpr
+
     HANDLE_STMT_CLASS(ParenExpr)
       visitStmt(
         VSC_PAREN_EXPR,
         stmt->getSubExpr());
+
+    // TODO: ParenListExpr
+    // TODO: PredefinedExpr
+    // TODO: PseudoObjectExpr
+    // TODO: RecoveryExpr
+    // TODO: RequiresExpr
+    // TODO: SYCLUniqueStableNameExpr
+    // TODO: ShuffleVectorExpr
+    // TODO: SizeOfPackExpr
+    // TODO: SourceLocExpr
+    // TODO: StmtExpr
+    // TODO: StringLiteral
+    // TODO: SubstNonTypeTemplateParmExpr
+    // TODO: SubstNonTypeTemplateParmPackExpr
+    // TODO: TypeTraitExpr
+    // TODO: TypoExpr
 
     HANDLE_STMT_CLASS(UnaryExprOrTypeTraitExpr)
       if (stmt->isArgumentType()) {
@@ -991,6 +1049,10 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         VSC_UNARY_OPERATOR,
         stmt->getSubExpr());
 
+    // TODO: VAArgExpr
+
+    // TODO: LabelStmt
+    // TODO: WhileStmt
 
     END_STMT_CLASS
 
