@@ -135,6 +135,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_NEW_PLACEMENT_ARG,
     VSC_CXX_NOEXCEPT_EXPR,
     VSC_CXX_PSEUDO_DESTRUCTOR_EXPR,
+    VSC_CXX_STD_INITIALIZER_LIST_EXPR,
     VSC_CONSTANT_EXPR,
     VSC_EXPLICIT_CAST_EXPR,
     VSC_IMPLICIT_CAST_EXPR,
@@ -192,6 +193,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CXX_NEW_EXPR,
     VTC_CXX_PSEUDO_DESTRUCTOR_EXPR_SCOPE,
     VTC_CXX_PSEUDO_DESTRUCTOR_EXPR_DESTROYED,
+    VTC_CXX_SCALAR_VALUE_INIT_EXPR,
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
     VTC_EXPLICIT_CAST_EXPR,
     VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
@@ -817,13 +819,21 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         VTC_CXX_PSEUDO_DESTRUCTOR_EXPR_DESTROYED,
         stmt->getDestroyedTypeInfo());
 
+    // TODO: CXXRewrittenBinaryOperator (C++20 feature)
+
+    HANDLE_STMT_CLASS(CXXScalarValueInitExpr)
+      visitTypeSourceInfo(VTC_CXX_SCALAR_VALUE_INIT_EXPR,
+        stmt->getTypeSourceInfo());
+
+    HANDLE_STMT_CLASS(CXXStdInitializerListExpr)
+      visitStmt(VSC_CXX_STD_INITIALIZER_LIST_EXPR,
+        stmt->getSubExpr());
+
+    HANDLE_NOOP_STMT_CLASS(CXXThisExpr)
+
     /*
       TODO: Working on these:
 
-      CXXRewrittenBinaryOperator
-      CXXScalarValueInitExpr
-      CXXStdInitializerListExpr
-      CXXThisExpr
       CXXThrowExpr
       CXXTypeidExpr
       CXXUnresolvedConstructExpr
