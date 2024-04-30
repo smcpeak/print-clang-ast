@@ -1010,7 +1010,12 @@ void ClangASTVisitor::visitFunctionTemplateInstantiations(
 {
   for (clang::FunctionDecl const *spec : ftd->specializations()) {
     if (spec->isTemplateInstantiation()) {
-      visitDecl(VDC_FUNCTION_TEMPLATE_INSTANTIATION, spec);
+      // Function template specializations get one redeclaration for
+      // each redeclaration of the primary, and any of them could be
+      // where the definition is.
+      for (clang::FunctionDecl const *redecl : spec->redecls()) {
+        visitDecl(VDC_FUNCTION_TEMPLATE_INSTANTIATION, redecl);
+      }
     }
   }
 }
