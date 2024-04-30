@@ -424,9 +424,6 @@ RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-defn.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-emspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-espec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-inst.cc
-
-# Batch of tests I am working on.
-ifeq (0,1)
 RAV_PRINTER_VISITOR_TESTS += ct-cont-oc-emspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-oc-inst.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-of-defn.cc
@@ -435,8 +432,6 @@ RAV_PRINTER_VISITOR_TESTS += ct-cont-of-inst.cc
 RAV_PRINTER_VISITOR_TESTS += ct-defn.cc
 RAV_PRINTER_VISITOR_TESTS += ct-espec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-inner-struct.cc
-endif
-
 RAV_PRINTER_VISITOR_TESTS += ct-inst.cc
 RAV_PRINTER_VISITOR_TESTS += expr-array-size.cc
 RAV_PRINTER_VISITOR_TESTS += friend-decl.cc
