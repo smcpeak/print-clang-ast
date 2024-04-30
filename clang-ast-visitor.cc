@@ -147,6 +147,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CHOOSE_EXPR_LHS,
     VSC_CHOOSE_EXPR_RHS,
     VSC_COMPOUND_LITERAL_EXPR,
+    VSC_CONVERT_VECTOR_EXPR,
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
     VSC_MEMBER_EXPR,
@@ -208,6 +209,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
     VTC_EXPLICIT_CAST_EXPR,
     VTC_COMPOUND_LITERAL_EXPR,
+    VTC_CONVERT_VECTOR_EXPR,
     VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
     VTC_TEMPLATE_ARGUMENT,
@@ -916,6 +918,16 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       // defensive and check.
       visitStmtOpt(VSC_COMPOUND_LITERAL_EXPR,
         stmt->getInitializer());
+
+    // TODO: ConceptSpecializationExpr (C++20 feature?)
+
+    HANDLE_STMT_CLASS(ConvertVectorExpr)
+      visitStmt(VSC_CONVERT_VECTOR_EXPR,
+        stmt->getSrcExpr());
+
+      // RAV does not do this...
+      visitTypeSourceInfo(VTC_CONVERT_VECTOR_EXPR,
+        stmt->getTypeSourceInfo());
 
 
 
