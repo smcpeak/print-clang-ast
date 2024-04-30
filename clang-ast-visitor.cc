@@ -143,6 +143,9 @@ char const *toString(VisitStmtContext vsc)
     VSC_CONSTANT_EXPR,
     VSC_EXPLICIT_CAST_EXPR,
     VSC_IMPLICIT_CAST_EXPR,
+    VSC_CHOOSE_EXPR_COND,
+    VSC_CHOOSE_EXPR_LHS,
+    VSC_CHOOSE_EXPR_RHS,
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
     VSC_MEMBER_EXPR,
@@ -552,6 +555,9 @@ void ClangASTVisitor::visitDecl(
 void ClangASTVisitor::visitStmt(VisitStmtContext context,
                                 clang::Stmt const *origStmt)
 {
+  // The order of cases in this 'switch' statement is meant to
+  // correspond to the numeric order of the 'Stmt::StmtClass'
+  // enumerators.
   switch (origStmt->getStmtClass()) {
     // Start handling a particular class.  This deliberately opens a
     // compound statement that it does not close.
@@ -884,6 +890,23 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         VSC_EXPLICIT_CAST_EXPR,
         stmt->getSubExpr());
 
+    HANDLE_STMT_CLASS(ImplicitCastExpr)
+      // There is no TypeLoc for an implicit cast.  I could call
+      // 'visitImplicitQualType' here, but I would just be visiting the
+      // expression's type, which does not provide much value over
+      // letting the client do the same.
+
+      visitStmt(VSC_IMPLICIT_CAST_EXPR, stmt->getSubExpr());
+
+    HANDLE_NOOP_STMT_CLASS(CharacterLiteral)
+
+    HANDLE_STMT_CLASS(ChooseExpr)
+      visitStmt(VSC_CHOOSE_EXPR_COND, stmt->getCond());
+      visitStmt(VSC_CHOOSE_EXPR_LHS, stmt->getLHS());
+      visitStmt(VSC_CHOOSE_EXPR_RHS, stmt->getRHS());
+
+
+
     END_STMT_CLASS
     ADDITIONAL_STMT_CLASS(CXXOperatorCallExpr)
     ADDITIONAL_STMT_CLASS(CXXMemberCallExpr)
@@ -907,14 +930,6 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         VTAC_DECL_REF_EXPR,
         stmt->getTemplateArgs(),
         stmt->getNumTemplateArgs());
-
-    HANDLE_STMT_CLASS(ImplicitCastExpr)
-      // There is no TypeLoc for an implicit cast.  I could call
-      // 'visitImplicitQualType' here, but I would just be visiting the
-      // expression's type, which does not provide much value over
-      // letting the client do the same.
-
-      visitStmt(VSC_IMPLICIT_CAST_EXPR, stmt->getSubExpr());
 
     HANDLE_STMT_CLASS(MemberExpr)
       visitNestedNameSpecifierLocOpt(

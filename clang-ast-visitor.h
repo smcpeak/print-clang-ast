@@ -171,6 +171,9 @@ enum VisitStmtContext {
   VSC_CONSTANT_EXPR,
   VSC_EXPLICIT_CAST_EXPR,              // ExplicitCastExpr subclasses
   VSC_IMPLICIT_CAST_EXPR,
+  VSC_CHOOSE_EXPR_COND,
+  VSC_CHOOSE_EXPR_LHS,
+  VSC_CHOOSE_EXPR_RHS,
   VSC_CALL_EXPR_CALLEE,                // CallExpr and subclasses
   VSC_CALL_EXPR_ARG,
   VSC_MEMBER_EXPR,
