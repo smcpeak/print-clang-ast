@@ -133,6 +133,8 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_NEW_EXPR_ARRAY_SIZE,
     VSC_CXX_NEW_EXPR_INIT,
     VSC_CXX_NEW_PLACEMENT_ARG,
+    VSC_CXX_NOEXCEPT_EXPR,
+    VSC_CXX_PSEUDO_DESTRUCTOR_EXPR,
     VSC_CONSTANT_EXPR,
     VSC_EXPLICIT_CAST_EXPR,
     VSC_IMPLICIT_CAST_EXPR,
@@ -188,6 +190,8 @@ char const *toString(VisitTypeContext vtc)
     VTC_PIPE_TYPE,
 
     VTC_CXX_NEW_EXPR,
+    VTC_CXX_PSEUDO_DESTRUCTOR_EXPR_SCOPE,
+    VTC_CXX_PSEUDO_DESTRUCTOR_EXPR_DESTROYED,
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
     VTC_EXPLICIT_CAST_EXPR,
     VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
@@ -236,6 +240,7 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
 
     VNNSC_ELABORATED_TYPE,
 
+    VNNSC_CXX_PSEUDO_DESTRUCTOR_EXPR,
     VNNSC_DECL_REF_EXPR,
     VNNSC_MEMBER_EXPR,
   );
@@ -785,13 +790,31 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       }
       visitCXXNewExprPlacementArgs(stmt);
 
+    HANDLE_STMT_CLASS(CXXNoexceptExpr)
+      visitStmt(VSC_CXX_NOEXCEPT_EXPR,
+        stmt->getOperand());
+
+    HANDLE_NOOP_STMT_CLASS(CXXNullPtrLiteralExpr)
+
+    // TODO: CXXParenListInitExpr (C++20 feature)
+
+    HANDLE_STMT_CLASS(CXXPseudoDestructorExpr)
+      visitStmt(
+        VSC_CXX_PSEUDO_DESTRUCTOR_EXPR,
+        stmt->getBase());
+      visitNestedNameSpecifierLocOpt(
+        VNNSC_CXX_PSEUDO_DESTRUCTOR_EXPR,
+        stmt->getQualifierLoc());
+      visitTypeSourceInfoOpt(
+        VTC_CXX_PSEUDO_DESTRUCTOR_EXPR_SCOPE,
+        stmt->getScopeTypeInfo());
+      visitTypeSourceInfoOpt(
+        VTC_CXX_PSEUDO_DESTRUCTOR_EXPR_DESTROYED,
+        stmt->getDestroyedTypeInfo());
+
     /*
       TODO: Working on these:
 
-      CXXNoexceptExpr
-      CXXNullPtrLiteralExpr
-      CXXParenListInitExpr
-      CXXPseudoDestructorExpr
       CXXRewrittenBinaryOperator
       CXXScalarValueInitExpr
       CXXStdInitializerListExpr
