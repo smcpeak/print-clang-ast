@@ -154,6 +154,7 @@ enum VisitStmtContext {
   VSC_MEMBER_EXPR,
   VSC_PAREN_EXPR,
   VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
+  VSC_UNARY_OPERATOR,
 
   // ---- Other contexts ----
   VSC_TEMPLATE_ARGUMENT,

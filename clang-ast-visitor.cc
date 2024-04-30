@@ -135,6 +135,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_MEMBER_EXPR,
     VSC_PAREN_EXPR,
     VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
+    VSC_UNARY_OPERATOR,
 
     VSC_TEMPLATE_ARGUMENT,
   );
@@ -831,6 +832,11 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
           VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
           stmt->getArgumentExpr());
       }
+
+    HANDLE_STMT_CLASS(UnaryOperator)
+      visitStmt(
+        VSC_UNARY_OPERATOR,
+        stmt->getSubExpr());
 
 
     END_STMT_CLASS
