@@ -331,8 +331,6 @@ void ClangASTVisitor::visitDecl(
   }
 
   else if (auto rd = dyn_cast<clang::RecordDecl>(decl)) {
-    visitTagDeclOuterTemplateParameters(rd);
-
     bool const isDefn = rd->isThisDeclarationADefinition();
 
     if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
@@ -363,24 +361,25 @@ void ClangASTVisitor::visitDecl(
             ctsd->getTypeAsWritten());
         }
       }
+    }
 
-      // RAV prints the NNS after the template parameters and arguments.
-      // Syntactically, it appears between them, but RAV compatibility
-      // is important for my testing strategy.  (It would also be a bit
-      // awkward to insert the NNS in there, which is presumably why RAV
-      // does what it does in this regard.)
-      visitNestedNameSpecifierLocOpt(VNNSC_RECORD_DECL, rd->getQualifierLoc());
+    // It would make much more sense to visit the outer parameters
+    // before the inner parameters, but RAV does it here.
+    visitTagDeclOuterTemplateParameters(rd);
 
+    // RAV prints the NNS after the template parameters and arguments.
+    // Syntactically, it appears between them, but RAV compatibility
+    // is important for my testing strategy.  (It would also be a bit
+    // awkward to insert the NNS in there, which is presumably why RAV
+    // does what it does in this regard.)
+    visitNestedNameSpecifierLocOpt(VNNSC_RECORD_DECL, rd->getQualifierLoc());
+
+    // CXXRecord has two sections to handle it because that is needed
+    // to match the RAV visitation order.
+    if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
       if (isDefn) {
         visitCXXRecordBases(crd);
       }
-    }
-    else /*not CXXRecordDecl*/ {
-      // A RecordDecl that is not a CXXRecordDecl is not expected to
-      // have a NestedNameSpecifier, since NNSes only exist in C++ and
-      // the C++ parser only produces CXXRecordDecls, but if it does,
-      // visit it.  This code has not been tested.
-      visitNestedNameSpecifierLocOpt(VNNSC_RECORD_DECL, rd->getQualifierLoc());
     }
 
     if (isDefn) {
