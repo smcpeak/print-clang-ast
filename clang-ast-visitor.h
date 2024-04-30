@@ -237,7 +237,8 @@ enum VisitNestedNameSpecifierContext {
 
   // ---- Context is a Decl ----
   VNNSC_DECLARATOR_DECL,
-  VNNSC_TAG_DECL,
+  VNNSC_ENUM_DECL,
+  VNNSC_RECORD_DECL,
   VNNSC_USING_DECL,
 
   // ---- Context is a TypeLoc ----

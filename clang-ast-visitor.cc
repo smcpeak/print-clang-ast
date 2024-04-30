@@ -212,7 +212,8 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
     VNNSC_NONE,
 
     VNNSC_DECLARATOR_DECL,
-    VNNSC_TAG_DECL,
+    VNNSC_ENUM_DECL,
+    VNNSC_RECORD_DECL,
     VNNSC_USING_DECL,
 
     VNNSC_ELABORATED_TYPE,
@@ -306,65 +307,82 @@ void ClangASTVisitor::visitDecl(
     // it.
   }
 
-  else if (auto td = dyn_cast<clang::TagDecl>(decl)) {
-    visitNestedNameSpecifierLocOpt(VNNSC_TAG_DECL, td->getQualifierLoc());
+  // Both EnumDecl and RecordDecl inherit TagDecl, but they visit their
+  // NestedNameSpecifiers in different places (for RAV compatibility),
+  // and do not have any other data in common that I want to visit, so I
+  // can't usefully combine their cases.  And, splitting them provides
+  // an opportunity to refine the NNS context slightly.
 
-    if (auto ed = dyn_cast<clang::EnumDecl>(decl)) {
-      if (clang::TypeSourceInfo const *tsi = ed->getIntegerTypeSourceInfo()) {
-        visitTypeLoc(VTC_ENUM_DECL_UNDERLYING, tsi->getTypeLoc());
-      }
-      else {
-        // The declaration does not have an underlying type declared.
-      }
+  else if (auto ed = dyn_cast<clang::EnumDecl>(decl)) {
+    visitNestedNameSpecifierLocOpt(VNNSC_ENUM_DECL, ed->getQualifierLoc());
 
-      if (ed->isThisDeclarationADefinition()) {
-        visitNonFunctionDeclContext(VDC_ENUM_DECL, DECL_CONTEXT_OF(ed));
-      }
+    if (clang::TypeSourceInfo const *tsi = ed->getIntegerTypeSourceInfo()) {
+      visitTypeLoc(VTC_ENUM_DECL_UNDERLYING, tsi->getTypeLoc());
+    }
+    else {
+      // The declaration does not have an underlying type declared.
     }
 
-    else if (auto rd = dyn_cast<clang::RecordDecl>(decl)) {
-      bool const isDefn = rd->isThisDeclarationADefinition();
-
-      if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
-        if (auto ctsd = dyn_cast<
-              clang::ClassTemplateSpecializationDecl>(decl)) {
-          if (auto ctpsd = dyn_cast<
-                clang::ClassTemplatePartialSpecializationDecl>(decl)) {
-            visitTemplateDeclParameterList(
-              ctpsd->getTemplateParameters());
-
-            if (false) {
-              // CTPSD has 'ArgsAsWritten' that are redundant with the
-              // 'TypeAsWritten'.  Do not visit the former.
-              visitASTTemplateArgumentListInfo(
-                VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
-                ctpsd->getTemplateArgsAsWritten());
-            }
-
-            // Visit 'TypeAsWritten', but with a special context so I
-            // can behave like RAV when needed.
-            visitTypeSourceInfoOpt(
-              VTC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
-              ctsd->getTypeAsWritten());
-          }
-          else {
-            // Full specialization.
-            visitTypeSourceInfoOpt(
-              VTC_CLASS_TEMPLATE_SPECIALIZATION_DECL,
-              ctsd->getTypeAsWritten());
-          }
-        }
-
-        if (isDefn) {
-          visitCXXRecordBases(crd);
-        }
-      }
-
-      if (isDefn) {
-        visitNonFunctionDeclContext(VDC_RECORD_DECL, DECL_CONTEXT_OF(rd));
-      }
+    if (ed->isThisDeclarationADefinition()) {
+      visitNonFunctionDeclContext(VDC_ENUM_DECL, DECL_CONTEXT_OF(ed));
     }
   }
+
+  else if (auto rd = dyn_cast<clang::RecordDecl>(decl)) {
+    bool const isDefn = rd->isThisDeclarationADefinition();
+
+    if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
+      if (auto ctsd = dyn_cast<
+            clang::ClassTemplateSpecializationDecl>(decl)) {
+        if (auto ctpsd = dyn_cast<
+              clang::ClassTemplatePartialSpecializationDecl>(decl)) {
+          visitTemplateDeclParameterList(
+            ctpsd->getTemplateParameters());
+
+          if (false) {
+            // CTPSD has 'ArgsAsWritten' that are redundant with the
+            // 'TypeAsWritten'.  Do not visit the former.
+            visitASTTemplateArgumentListInfo(
+              VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+              ctpsd->getTemplateArgsAsWritten());
+          }
+
+          // Visit 'TypeAsWritten', but with a special context so I
+          // can behave like RAV when needed.
+          visitTypeSourceInfoOpt(
+            VTC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+            ctsd->getTypeAsWritten());
+        }
+        else /*full specialization*/ {
+          visitTypeSourceInfoOpt(
+            VTC_CLASS_TEMPLATE_SPECIALIZATION_DECL,
+            ctsd->getTypeAsWritten());
+        }
+      }
+
+      // RAV prints the NNS after the template parameters and arguments.
+      // Syntactically, it appears between them, but RAV compatibility
+      // is important for my testing strategy.  (It would also be a bit
+      // awkward to insert the NNS in there, which is presumably why RAV
+      // does what it does in this regard.)
+      visitNestedNameSpecifierLocOpt(VNNSC_RECORD_DECL, rd->getQualifierLoc());
+
+      if (isDefn) {
+        visitCXXRecordBases(crd);
+      }
+    }
+    else /*not CXXRecordDecl*/ {
+      // A RecordDecl that is not a CXXRecordDecl is not expected to
+      // have a NestedNameSpecifier, since NNSes only exist in C++ and
+      // the C++ parser only produces CXXRecordDecls, but if it does,
+      // visit it.  This code has not been tested.
+      visitNestedNameSpecifierLocOpt(VNNSC_RECORD_DECL, rd->getQualifierLoc());
+    }
+
+    if (isDefn) {
+      visitNonFunctionDeclContext(VDC_RECORD_DECL, DECL_CONTEXT_OF(rd));
+    }
+  } // RecordDecl
 
   else if (auto fsad = dyn_cast<clang::FileScopeAsmDecl>(decl)) {
     visitStmt(VSC_FILE_SCOPE_ASM_DECL_STRING, fsad->getAsmString());

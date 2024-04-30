@@ -38,7 +38,7 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
         VDC_FRIEND_DECL: ClassTemplateDecl "Foo::Nested" at in/src/friend-template-decl.cc:23:3
           VDC_TEMPLATE_DECL_PARAMETER: TemplateTypeParmDecl "Foo::Nested::U" at in/src/friend-template-decl.cc:23:13
           VDC_TEMPLATE_DECL: CXXRecordDecl "Foo::Nested<U>" at in/src/friend-template-decl.cc:24:10
-            VNNSC_TAG_DECL: NNS "Foo<T>::" at <in/src/friend-template-decl.cc:24:16, col:22>
+            VNNSC_RECORD_DECL: NNS "Foo<T>::" at <in/src/friend-template-decl.cc:24:16, col:22>
               VTC_NESTED_NAME_SPECIFIER: TemplateSpecialization("Foo<T>", <in/src/friend-template-decl.cc:24:16, col:21>, NullTypeLoc)
                 VTC_TEMPLATE_ARGUMENT: TemplateTypeParm("T", <in/src/friend-template-decl.cc:24:20>, NullTypeLoc)
 ---- stderr ----
