@@ -130,6 +130,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CAST_EXPR,
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
+    VSC_MEMBER_EXPR,
 
     VSC_TEMPLATE_ARGUMENT,
   );
@@ -198,6 +199,7 @@ char const *toString(VisitTemplateArgumentContext vtac)
 
     VTAC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR,
     VTAC_DECL_REF_EXPR,
+    VTAC_MEMBER_EXPR,
   );
 
   return "unknown";
@@ -219,6 +221,7 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
     VNNSC_ELABORATED_TYPE,
 
     VNNSC_DECL_REF_EXPR,
+    VNNSC_MEMBER_EXPR,
   );
 
   return "unknown";
@@ -754,6 +757,18 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
 
     HANDLE_STMT_CLASS(ImplicitCastExpr)
       visitStmt(VSC_CAST_EXPR, stmt->getSubExpr());
+
+    HANDLE_STMT_CLASS(MemberExpr)
+      visitStmt(
+        VSC_MEMBER_EXPR,
+        stmt->getBase());
+      visitNestedNameSpecifierLocOpt(
+        VNNSC_MEMBER_EXPR,
+        stmt->getQualifierLoc());
+      visitTemplateArgumentLocArray(
+        VTAC_MEMBER_EXPR,
+        stmt->getTemplateArgs(),
+        stmt->getNumTemplateArgs());
 
 
     END_STMT_CLASS

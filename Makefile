@@ -418,10 +418,10 @@ RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-espec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-inst.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-pmspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-pspec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-friend-ft-spec-inst.cc
 
 # Batch of tests I am working on.
 ifeq (0,1)
-RAV_PRINTER_VISITOR_TESTS += ct-cont-friend-ft-spec-inst.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-csspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-defn.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-emspec.cc

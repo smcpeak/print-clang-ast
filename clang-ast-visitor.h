@@ -149,6 +149,7 @@ enum VisitStmtContext {
   VSC_CAST_EXPR,                       // CastExpr and subclasses
   VSC_CALL_EXPR_CALLEE,                // CallExpr and subclasses
   VSC_CALL_EXPR_ARG,
+  VSC_MEMBER_EXPR,
 
   // ---- Other contexts ----
   VSC_TEMPLATE_ARGUMENT,
@@ -223,6 +224,7 @@ enum VisitTemplateArgumentContext {
   // ---- Context is a Stmt ----
   VTAC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR,
   VTAC_DECL_REF_EXPR,
+  VTAC_MEMBER_EXPR,
 
   NUM_VISIT_TEMPLATE_ARGUMENT_CONTEXTS
 };
@@ -246,6 +248,7 @@ enum VisitNestedNameSpecifierContext {
 
   // ---- Context is a Stmt ----
   VNNSC_DECL_REF_EXPR,
+  VNNSC_MEMBER_EXPR,
 
   NUM_VISIT_NESTED_NAME_SPECIFIER_CONTEXTS
 };
