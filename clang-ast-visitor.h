@@ -36,6 +36,14 @@
   directly tied to a class, and then an optional further noun describing
   the Decl role within that class if there is more than one or if the
   role is otherwise not obvious.
+
+  The context enumerator order is only partially structured.  Decl,
+  Type, Stmt, and <other> contexts are grouped.  Within groups, it's
+  partly alphabetical, partly the order in which I happened to implement
+  them, partly logical association, and what's leftover is basically
+  random.  But, of course, they must match the order in
+  clang-ast-visitor.cc, and there is a Makefile target "check-src" that
+  ensures that (and static_asserts that confirm the counts agree).
 */
 enum VisitDeclContext {
   // Used when initiating a traversal from outside the visitor.
@@ -305,8 +313,8 @@ char const *toString(VisitDeclarationNameContext vdnc);
   1. It is easy to do both pre-order and post-order processing at
      the same time.  Among other things, this makes it possible to
      "push" and "pop" state as the traversal descends and ascends.
-     (This is also possible with RAV, but idiosyncratic; see the
-     rav-printer-visitor module for an example.)
+     (This is also possible with RAV, but idiosyncratic and somewhat
+     unintuitive; see the rav-printer-visitor module for an example.)
 
   2. The compile-time cost for clients is greatly reduced because the
      interface only requires forward declarations of the relevant AST
@@ -329,7 +337,9 @@ char const *toString(VisitDeclarationNameContext vdnc);
 
   5. The core visit methods accept a 'context' parameter that allows
      clients to know the syntactic context in which a node appears,
-     which can make some filtering tasks easier.
+     which can make some filtering tasks easier.  It's already been
+     useful during testing to deal with cases where RAV (to which I am
+     comparing) does something unexpected or outright wrong.
 
   6. The interface uses 'const' pointers instead of non-const.  Neither
      works in every situation, but I think 'const' works more often, at
