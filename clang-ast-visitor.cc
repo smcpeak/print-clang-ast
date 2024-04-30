@@ -187,6 +187,7 @@ char const *toString(VisitTypeContext vtc)
 
     VTC_TEMPLATE_ARGUMENT,
     VTC_NESTED_NAME_SPECIFIER,
+    VTC_DECLARATION_NAME,
   );
 
   return "unknown";
@@ -236,6 +237,22 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
 }
 
 
+char const *toString(VisitDeclarationNameContext vdnc)
+{
+  ENUM_TABLE_LOOKUP_CHECK_SIZE(/*no qual*/, VisitDeclarationNameContext,
+    NUM_VISIT_DECLARATION_NAME_CONTEXTS, vdnc,
+
+    VDNC_NONE,
+
+    VDNC_FUNCTION_DECL,
+
+    VDNC_DECL_REF_EXPR,
+  );
+
+  return "unknown";
+}
+
+
 void ClangASTVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)
@@ -250,6 +267,13 @@ void ClangASTVisitor::visitDecl(
     // during testing, so I will visit the NNS first too.
     visitNestedNameSpecifierLocOpt(VNNSC_DECLARATOR_DECL,
                                    dd->getQualifierLoc());
+
+    if (auto fd = dyn_cast<clang::FunctionDecl>(decl)) {
+      // To match the RAV order, visit the DeclarationNameInfo of a
+      // FunctionDecl up here.
+      visitDeclarationNameInfo(VDNC_FUNCTION_DECL,
+                               fd->getNameInfo());
+    }
 
     if (clang::TypeSourceInfo const *tsi = dd->getTypeSourceInfo()) {
       visitTypeLoc(VTC_DECLARATOR_DECL, tsi->getTypeLoc());
@@ -287,6 +311,8 @@ void ClangASTVisitor::visitDecl(
 
       // For CXXConversionDecl, the TypeLoc is in the return type of the
       // function type, which is visited above as the declarator type.
+      // It is also in the DeclarationNameInfo, visited separately
+      // above.
 
       if (fd->doesThisDeclarationHaveABody()) {
         clang::Stmt const *body = fd->getBody();
@@ -789,6 +815,9 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       visitNestedNameSpecifierLocOpt(
         VNNSC_DECL_REF_EXPR,
         stmt->getQualifierLoc());
+      visitDeclarationNameInfo(
+        VDNC_DECL_REF_EXPR,
+        stmt->getNameInfo());
       visitTemplateArgumentLocArray(
         VTAC_DECL_REF_EXPR,
         stmt->getTemplateArgs(),
@@ -1086,6 +1115,16 @@ void ClangASTVisitor::visitNestedNameSpecifierLoc(
 
   // Now examine the qualifier here.
   visitNestedNameSpecifierLocFinalComponent(nnsl);
+}
+
+
+void ClangASTVisitor::visitDeclarationNameInfo(
+  VisitDeclarationNameContext context,
+  clang::DeclarationNameInfo dni)
+{
+  if (clang::TypeSourceInfo const *tsi = dni.getNamedTypeInfo()) {
+    visitTypeSourceInfo(VTC_DECLARATION_NAME, tsi);
+  }
 }
 
 

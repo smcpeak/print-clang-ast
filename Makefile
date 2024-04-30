@@ -436,7 +436,7 @@ RAV_PRINTER_VISITOR_TESTS += ct-inst.cc
 RAV_PRINTER_VISITOR_TESTS += ct-ovl-method-canttpt.cc
 RAV_PRINTER_VISITOR_TESTS += ct-pspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-redecl.cc
-#RAV_PRINTER_VISITOR_TESTS += declrefexpr.cc
+RAV_PRINTER_VISITOR_TESTS += declrefexpr.cc
 
 ifeq (0,1)
 RAV_PRINTER_VISITOR_TESTS += declrefexpr-template-args.cc

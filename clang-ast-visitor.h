@@ -8,6 +8,7 @@
 #include "clang-decl-context-fwd.h"              // clang::DeclContext [n]
 #include "clang-decl-cxx-fwd.h"                  // clang::CXXBaseSpecifier [n]
 #include "clang-decl-template-fwd.h"             // clang::TemplateParameterList [n]
+#include "clang-declaration-name-fwd.h"          // clang::DeclarationNameInfo [n]
 #include "clang-nested-name-specifier-fwd.h"     // clang::NestedNameSpecifierLoc [n]
 #include "clang-template-base-fwd.h"             // clang::TemplateArgument [n]
 #include "clang-type-fwd.h"                      // clang::QualType [n]
@@ -210,6 +211,7 @@ enum VisitTypeContext {
   // ---- Other contexts ----
   VTC_TEMPLATE_ARGUMENT,
   VTC_NESTED_NAME_SPECIFIER,
+  VTC_DECLARATION_NAME,
 
   NUM_VISIT_TYPE_CONTEXTS
 };
@@ -263,6 +265,23 @@ enum VisitNestedNameSpecifierContext {
 
 // Return a string like "VNNS_NONE", or "unknown" if 'vnnsc' is invalid.
 char const *toString(VisitNestedNameSpecifierContext vnnsc);
+
+
+// Context for a DeclarationName.
+enum VisitDeclarationNameContext {
+  VDNC_NONE,
+
+  // ---- Context is a Decl ----
+  VDNC_FUNCTION_DECL,
+
+  // ---- Context is a Stmt ----
+  VDNC_DECL_REF_EXPR,
+
+  NUM_VISIT_DECLARATION_NAME_CONTEXTS
+};
+
+// Return a string like "VDNC_NONE", or "unknown" if 'vdnc' is invalid.
+char const *toString(VisitDeclarationNameContext vdnc);
 
 
 /*
@@ -383,6 +402,11 @@ public:      // methods
     VisitNestedNameSpecifierContext context,
     clang::NestedNameSpecifierLoc nnsl);
 
+  // Default: If 'dni' is a type name, visit it.  Otherwise do nothing.
+  virtual void visitDeclarationNameInfo(
+    VisitDeclarationNameContext context,
+    clang::DeclarationNameInfo dni);
+
   // -------- Auxiliary visitors --------
   //
   // By default, these iterate over their children, but are meant to be
@@ -403,8 +427,8 @@ public:      // methods
   // The default visitor will only call this when 'ctd' is canonical.
   //
   // Note that this includes instantations of partial specializations;
-  // those are found as specializations of the primary, even though they
-  // are instanitated from the partial specialization.
+  // those are found (and visited) as specializations of the primary,
+  // even though they are instanitated from the partial specialization.
   //
   // Default: Call 'visitDecl' on each instantiation.
   virtual void visitClassTemplateInstantiations(
@@ -503,7 +527,7 @@ public:      // methods
   void visitTemplateDeclParameterList(
     clang::TemplateParameterList const *tparams);
 
-  // Visit all of 'args'.  It can be nullptr if 'numArgs' is 0.
+  // Visit all of 'args'.  It can be nullptr only if 'numArgs' is 0.
   void visitTemplateArgumentLocArray(
     VisitTemplateArgumentContext context,
     clang::TemplateArgumentLoc const * NULLABLE args,
