@@ -230,6 +230,8 @@ void ClangASTVisitor::visitDecl(
   clang::Decl const *decl)
 {
   if (auto dd = dyn_cast<clang::DeclaratorDecl>(decl)) {
+    visitDeclaratorDeclOuterTemplateParameters(dd);
+
     // To me, it makes more sense to visit the type before visiting the
     // NNS since (in traditional syntax at least) the type syntactically
     // precedes the NNS, but RecursiveASTVisitor visits the NNS first,
@@ -309,11 +311,11 @@ void ClangASTVisitor::visitDecl(
 
   // Both EnumDecl and RecordDecl inherit TagDecl, but they visit their
   // NestedNameSpecifiers in different places (for RAV compatibility),
-  // and do not have any other data in common that I want to visit, so I
-  // can't usefully combine their cases.  And, splitting them provides
-  // an opportunity to refine the NNS context slightly.
+  // so I can't easily combine their cases.  And, splitting them
+  // provides an opportunity to refine the NNS context slightly.
 
   else if (auto ed = dyn_cast<clang::EnumDecl>(decl)) {
+    visitTagDeclOuterTemplateParameters(ed);
     visitNestedNameSpecifierLocOpt(VNNSC_ENUM_DECL, ed->getQualifierLoc());
 
     if (clang::TypeSourceInfo const *tsi = ed->getIntegerTypeSourceInfo()) {
@@ -329,6 +331,8 @@ void ClangASTVisitor::visitDecl(
   }
 
   else if (auto rd = dyn_cast<clang::RecordDecl>(decl)) {
+    visitTagDeclOuterTemplateParameters(rd);
+
     bool const isDefn = rd->isThisDeclarationADefinition();
 
     if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
@@ -1263,6 +1267,24 @@ void ClangASTVisitor::visitClassTemplateInstantiationsIfCanonical(
 {
   if (ctd->isCanonicalDecl()) {
     visitClassTemplateInstantiations(ctd);
+  }
+}
+
+
+void ClangASTVisitor::visitDeclaratorDeclOuterTemplateParameters(
+  clang::DeclaratorDecl const *dd)
+{
+  for (unsigned i=0; i < dd->getNumTemplateParameterLists(); ++i) {
+    visitTemplateDeclParameterList(dd->getTemplateParameterList(i));
+  }
+}
+
+
+void ClangASTVisitor::visitTagDeclOuterTemplateParameters(
+  clang::TagDecl const *td)
+{
+  for (unsigned i=0; i < td->getNumTemplateParameterLists(); ++i) {
+    visitTemplateDeclParameterList(td->getTemplateParameterList(i));
   }
 }
 

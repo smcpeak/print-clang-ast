@@ -411,6 +411,7 @@ RAV_PRINTER_VISITOR_TESTS += call-fn-via-using-decl.cc
 RAV_PRINTER_VISITOR_TESTS += call-op-via-using-decl.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-cspspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-csspec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-defn-ool.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec-of-cspspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-espec.cc
@@ -421,6 +422,7 @@ RAV_PRINTER_VISITOR_TESTS += expr-array-size.cc
 RAV_PRINTER_VISITOR_TESTS += friend-decl.cc
 RAV_PRINTER_VISITOR_TESTS += friend-template-decl.cc
 RAV_PRINTER_VISITOR_TESTS += functiondecl-body.cc
+RAV_PRINTER_VISITOR_TESTS += ool-defn-tmethod-tclass.cc
 
 
 .PHONY: check-rav-printer-visitor

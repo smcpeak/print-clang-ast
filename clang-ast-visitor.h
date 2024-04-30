@@ -567,6 +567,16 @@ public:      // methods
   // Visit the instantiations of 'ctd' if it is canonical.
   void visitClassTemplateInstantiationsIfCanonical(
     clang::ClassTemplateDecl const *ctd);
+
+  // Visit the "outer" template parameters associated with 'dd'.  These
+  // occur when 'dd' is a declaration of a member of a class template
+  // outside the body of its containing class.
+  void visitDeclaratorDeclOuterTemplateParameters(
+    clang::DeclaratorDecl const *dd);
+
+  // Likewise for a TagDecl.
+  void visitTagDeclOuterTemplateParameters(
+    clang::TagDecl const *td);
 };
 
 
