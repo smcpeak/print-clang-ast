@@ -56,6 +56,7 @@ enum VisitDeclContext {
   VDC_CLASS_TEMPLATE_INSTANTIATION,
   VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
   VDC_TEMPLATE_DECL_PARAMETER,   // also used for ClassTemplatePartialSpecializationDecl parameters
+  VDC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
 
   // ---- Context is a TypeLoc ----
   VDC_FUNCTION_TYPE_PARAMETER,
@@ -217,6 +218,7 @@ enum VisitTemplateArgumentContext {
 
   // ---- Context is a Decl ----
   VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+  VTAC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
 
   // ---- Context is a TypeLoc ----
   VTAC_TEMPLATE_SPECIALIZATION_TYPE,
@@ -505,6 +507,11 @@ public:      // methods
   void visitASTTemplateArgumentListInfo(
     VisitTemplateArgumentContext context,
     clang::ASTTemplateArgumentListInfo const *argListInfo);
+
+  // Visit 'argListInfo' if it is not nullptr.
+  void visitASTTemplateArgumentListInfoOpt(
+    VisitTemplateArgumentContext context,
+    clang::ASTTemplateArgumentListInfo const * NULLABLE argListInfo);
 
   // Visit the parameters in 'ftl'.
   void visitFunctionTypeLocParameters(

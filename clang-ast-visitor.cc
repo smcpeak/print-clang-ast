@@ -41,6 +41,7 @@ char const *toString(VisitDeclContext vdc)
     VDC_CLASS_TEMPLATE_INSTANTIATION,
     VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
     VDC_TEMPLATE_DECL_PARAMETER,
+    VDC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
 
     VDC_FUNCTION_TYPE_PARAMETER,
 
@@ -194,6 +195,7 @@ char const *toString(VisitTemplateArgumentContext vtac)
     VTAC_NONE,
 
     VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+    VTAC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
 
     VTAC_TEMPLATE_SPECIALIZATION_TYPE,
 
@@ -440,6 +442,19 @@ void ClangASTVisitor::visitDecl(
       clang::NamedDecl const *inner = fd->getFriendDecl();
       visitDecl(VDC_FRIEND_TEMPLATE_DECL, inner);
     }
+  }
+
+  else if (auto csfsd = dyn_cast<
+             clang::ClassScopeFunctionSpecializationDecl>(decl)) {
+    // Visit the specialization class.
+    visitDecl(
+      VDC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
+      csfsd->getSpecialization());
+
+    // Visit the template arguments.
+    visitASTTemplateArgumentListInfoOpt(
+      VTAC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
+      csfsd->getTemplateArgsAsWritten());
   }
 
   else if (auto ed = dyn_cast<clang::ExportDecl>(decl)) {
@@ -1165,6 +1180,16 @@ void ClangASTVisitor::visitASTTemplateArgumentListInfo(
     context,
     argListInfo->getTemplateArgs(),
     argListInfo->getNumTemplateArgs());
+}
+
+
+void ClangASTVisitor::visitASTTemplateArgumentListInfoOpt(
+  VisitTemplateArgumentContext context,
+  clang::ASTTemplateArgumentListInfo const * NULLABLE argListInfo)
+{
+  if (argListInfo) {
+    visitASTTemplateArgumentListInfo(context, argListInfo);
+  }
 }
 
 
