@@ -133,6 +133,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
     VSC_MEMBER_EXPR,
+    VSC_PAREN_EXPR,
     VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
     VSC_TEMPLATE_ARGUMENT,
@@ -813,6 +814,11 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       visitStmt(
         VSC_MEMBER_EXPR,
         stmt->getBase());
+
+    HANDLE_STMT_CLASS(ParenExpr)
+      visitStmt(
+        VSC_PAREN_EXPR,
+        stmt->getSubExpr());
 
     HANDLE_STMT_CLASS(UnaryExprOrTypeTraitExpr)
       if (stmt->isArgumentType()) {
