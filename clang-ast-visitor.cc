@@ -138,6 +138,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_STD_INITIALIZER_LIST_EXPR,
     VSC_CXX_THROW_EXPR,
     VSC_CXX_TYPEID_EXPR,
+    VSC_CXX_UUIDOF_EXPR,
     VSC_CXX_UNRESOLVED_CONSTRUCT_EXPR_ARG,
     VSC_CONSTANT_EXPR,
     VSC_EXPLICIT_CAST_EXPR,
@@ -199,6 +200,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CXX_SCALAR_VALUE_INIT_EXPR,
     VTC_CXX_TYPEID_EXPR,
     VTC_CXX_UNRESOLVED_CONSTRUCT_EXPR,
+    VTC_CXX_UUIDOF_EXPR,
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
     VTC_EXPLICIT_CAST_EXPR,
     VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
@@ -855,15 +857,15 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         stmt->getTypeSourceInfo());
       visitCXXUnresolvedConstructExprArgs(stmt);
 
-    /*
-      TODO: Working on these:
-
-      CXXUuidofExpr
-
-      plus more I have not copied over
-    */
-
-    // Jumping ahead...
+    HANDLE_STMT_CLASS(CXXUuidofExpr)
+      if (stmt->isTypeOperand()) {
+        visitTypeSourceInfo(VTC_CXX_UUIDOF_EXPR,
+          stmt->getTypeOperandSourceInfo());
+      }
+      else {
+        visitStmt(VSC_CXX_UUIDOF_EXPR,
+          stmt->getExprOperand());
+      }
 
     END_STMT_CLASS
     ADDITIONAL_STMT_CLASS(BuiltinBitCastExpr)
