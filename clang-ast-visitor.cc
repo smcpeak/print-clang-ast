@@ -265,6 +265,11 @@ char const *toString(VisitDeclarationNameContext vdnc)
 }
 
 
+// Signal to the check-src Makefile target to stop here: END_OF_ENUMS.
+// Without this, it would see call sites below that start with a context
+// enumerator due to line wrapping.
+
+
 void ClangASTVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)

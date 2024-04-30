@@ -191,6 +191,35 @@ out/unit-tests.ok: print-clang-ast.exe
 	touch $@
 
 
+# ----------------------- Ad-hoc source checks -------------------------
+# Check that the enumerators in the header and implementation of
+# clang-ast-visitor match.
+#
+# This works by, for both files, grepping for lines that start with any
+# of the enumerator prefixes, removing leading whitespace, and checking
+# that they match.  The header file also has comments stripped, and the
+# implementation file stops when it sees "END_OF_ENUMS".
+#
+out/check-src/clang-ast-visitor-enums.ok: clang-ast-visitor.h clang-ast-visitor.cc
+	$(CREATE_OUTPUT_DIRECTORY)
+	cat clang-ast-visitor.h | \
+	  egrep '^ +(VDC|VSC|VTC|VTAC|VNNSC|VDNC)_' | \
+	  sed 's, \+//.*,,' | \
+	  sed 's/^ \+//' > out/check-src/clang-ast-visitor.h.enums
+	cat clang-ast-visitor.cc | \
+	  sed '/END_OF_ENUMS/Q' | \
+	  egrep '^ +(VDC|VSC|VTC|VTAC|VNNSC|VDNC)_' | \
+	  sed 's/^ \+//' > out/check-src/clang-ast-visitor.cc.enums
+	diff -u out/check-src/clang-ast-visitor.h.enums \
+	        out/check-src/clang-ast-visitor.cc.enums
+	touch $@
+
+.PHONY: check-src
+check-src: out/check-src/clang-ast-visitor-enums.ok
+
+check: check-src
+
+
 # -------------------- Tests for --print-ast-nodes ---------------------
 # Options for specific source files.  I cannot just pass '-std=c++20'
 # for all files due to
