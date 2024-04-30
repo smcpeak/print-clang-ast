@@ -147,6 +147,12 @@ enum VisitStmtContext {
   VSC_CXX_CONSTRUCT_EXPR,              // also CXXTemporaryObjectExpr
   VSC_CXX_DELETE_EXPR,
   VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
+  VSC_CXX_FOLD_EXPR_CALLEE,
+  VSC_CXX_FOLD_EXPR_LHS,
+  VSC_CXX_FOLD_EXPR_RHS,
+  VSC_CXX_NEW_EXPR_ARRAY_SIZE,
+  VSC_CXX_NEW_EXPR_INIT,
+  VSC_CXX_NEW_PLACEMENT_ARG,
   VSC_CONSTANT_EXPR,
   VSC_EXPLICIT_CAST_EXPR,              // ExplicitCastExpr subclasses
   VSC_IMPLICIT_CAST_EXPR,
@@ -204,6 +210,7 @@ enum VisitTypeContext {
   VTC_PIPE_TYPE,
 
   // ---- Context is a Stmt ----
+  VTC_CXX_NEW_EXPR,
   VTC_CXX_TEMPORARY_OBJECT_EXPR,
   VTC_EXPLICIT_CAST_EXPR,
   VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
@@ -617,6 +624,10 @@ public:      // methods
   // Likewise for a TagDecl.
   void visitTagDeclOuterTemplateParameters(
     clang::TagDecl const *td);
+
+  // Visit the placement args in 'newExpr' if there are any.
+  void visitCXXNewExprPlacementArgs(
+    clang::CXXNewExpr const *newExpr);
 };
 
 

@@ -127,6 +127,12 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_CONSTRUCT_EXPR,
     VSC_CXX_DELETE_EXPR,
     VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
+    VSC_CXX_FOLD_EXPR_CALLEE,
+    VSC_CXX_FOLD_EXPR_LHS,
+    VSC_CXX_FOLD_EXPR_RHS,
+    VSC_CXX_NEW_EXPR_ARRAY_SIZE,
+    VSC_CXX_NEW_EXPR_INIT,
+    VSC_CXX_NEW_PLACEMENT_ARG,
     VSC_CONSTANT_EXPR,
     VSC_EXPLICIT_CAST_EXPR,
     VSC_IMPLICIT_CAST_EXPR,
@@ -181,6 +187,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_ATOMIC_TYPE,
     VTC_PIPE_TYPE,
 
+    VTC_CXX_NEW_EXPR,
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
     VTC_EXPLICIT_CAST_EXPR,
     VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
@@ -758,12 +765,29 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         stmt->getTemplateArgs(),
         stmt->getNumTemplateArgs());
 
+    HANDLE_STMT_CLASS(CXXFoldExpr)
+      visitStmt(VSC_CXX_FOLD_EXPR_CALLEE, stmt->getCallee());
+      visitStmt(VSC_CXX_FOLD_EXPR_LHS, stmt->getLHS());
+      visitStmt(VSC_CXX_FOLD_EXPR_RHS, stmt->getRHS());
+
+    HANDLE_NOOP_STMT_CLASS(CXXInheritedCtorInitExpr)
+
+    HANDLE_STMT_CLASS(CXXNewExpr)
+      visitTypeSourceInfo(VTC_CXX_NEW_EXPR,
+        stmt->getAllocatedTypeSourceInfo());
+      if (stmt->isArray()) {
+        visitStmt(VSC_CXX_NEW_EXPR_ARRAY_SIZE,
+          *(stmt->getArraySize()));
+      }
+      if (stmt->hasInitializer()) {
+        visitStmt(VSC_CXX_NEW_EXPR_INIT,
+          stmt->getInitializer());
+      }
+      visitCXXNewExprPlacementArgs(stmt);
+
     /*
       TODO: Working on these:
 
-      CXXFoldExpr
-      CXXInheritedCtorInitExpr
-      CXXNewExpr
       CXXNoexceptExpr
       CXXNullPtrLiteralExpr
       CXXParenListInitExpr
@@ -1422,6 +1446,16 @@ void ClangASTVisitor::visitTagDeclOuterTemplateParameters(
 {
   for (unsigned i=0; i < td->getNumTemplateParameterLists(); ++i) {
     visitTemplateDeclParameterList(td->getTemplateParameterList(i));
+  }
+}
+
+
+void ClangASTVisitor::visitCXXNewExprPlacementArgs(
+  clang::CXXNewExpr const *newExpr)
+{
+  for (unsigned i=0; i < newExpr->getNumPlacementArgs(); ++i) {
+    visitStmt(VSC_CXX_NEW_PLACEMENT_ARG,
+      newExpr->getPlacementArg(i));
   }
 }
 
