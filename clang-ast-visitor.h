@@ -378,11 +378,17 @@ public:      // methods
 
   // Visit the instantiations of 'ftd'.
   //
+  // In order to avoid duplicate visitation, the default visitor will
+  // only call this when 'ftd' is canonical, but that is not a
+  // precondition.
+  //
   // Default: Call 'visitDecl' on each instantiation.
   virtual void visitFunctionTemplateInstantiations(
     clang::FunctionTemplateDecl const *ftd);
 
   // Visit the instantiations of 'ctd'.
+  //
+  // The default visitor will only call this when 'ctd' is canonical.
   //
   // Note that this includes instantations of partial specializations;
   // those are found as specializations of the primary, even though they
@@ -536,6 +542,30 @@ public:      // methods
   // Visit the argument expressions in 'callExpr'.
   void visitCallExprArgs(
     clang::CallExpr const *callExpr);
+
+  /* If 'ftd' is the canonical declaration for its template, then visit
+     its instantiations.  Otherwise do nothing.
+
+     Restricting to the canonical declaration is important for avoiding
+     duplicate visitation when there are multiple declarations.  At
+     first it might seem that the same could be done by restricting to
+     the definition, but that does not work for the case of a class
+     template primary that is never defined, but for which a partial
+     specialization *is* defined and instantiated, since we visit
+     instantiations of partial specializations as part of the primary.
+
+     However, I do not simply make the "if canonical" variants be the
+     "auxiliary visitors" (with 'virtual' specifier) because I do not
+     want clients to have to override a method whose name and behavior
+     reflects a concern that is primarily internal to the visitor
+     mechanism.
+  */
+  void visitFunctionTemplateInstantiationsIfCanonical(
+    clang::FunctionTemplateDecl const *ftd);
+
+  // Visit the instantiations of 'ctd' if it is canonical.
+  void visitClassTemplateInstantiationsIfCanonical(
+    clang::ClassTemplateDecl const *ctd);
 };
 
 

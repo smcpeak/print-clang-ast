@@ -411,10 +411,10 @@ RAV_PRINTER_VISITOR_TESTS += call-fn-via-using-decl.cc
 RAV_PRINTER_VISITOR_TESTS += call-op-via-using-decl.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-cspspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-csspec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec.cc
 
 # Batch of tests I'm working on.
 ifeq (0,1)
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec-of-cspspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-espec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-inst.cc

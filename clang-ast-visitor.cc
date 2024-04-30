@@ -385,11 +385,11 @@ void ClangASTVisitor::visitDecl(
     // TODO: The various TemplateDecl subclasses.
 
     if (auto ctd = dyn_cast<clang::ClassTemplateDecl>(decl)) {
-      visitClassTemplateInstantiations(ctd);
+      visitClassTemplateInstantiationsIfCanonical(ctd);
     }
 
     else if (auto ftd = dyn_cast<clang::FunctionTemplateDecl>(decl)) {
-      visitFunctionTemplateInstantiations(ftd);
+      visitFunctionTemplateInstantiationsIfCanonical(ftd);
     }
   }
 
@@ -1227,6 +1227,24 @@ void ClangASTVisitor::visitCallExprArgs(
 {
   for (clang::Expr const *arg : callExpr->arguments()) {
     visitStmt(VSC_CALL_EXPR_ARG, arg);
+  }
+}
+
+
+void ClangASTVisitor::visitFunctionTemplateInstantiationsIfCanonical(
+  clang::FunctionTemplateDecl const *ftd)
+{
+  if (ftd->isCanonicalDecl()) {
+    visitFunctionTemplateInstantiations(ftd);
+  }
+}
+
+
+void ClangASTVisitor::visitClassTemplateInstantiationsIfCanonical(
+  clang::ClassTemplateDecl const *ctd)
+{
+  if (ctd->isCanonicalDecl()) {
+    visitClassTemplateInstantiations(ctd);
   }
 }
 
