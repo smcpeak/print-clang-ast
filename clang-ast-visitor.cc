@@ -128,7 +128,8 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_DELETE_EXPR,
     VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
     VSC_CONSTANT_EXPR,
-    VSC_CAST_EXPR,
+    VSC_EXPLICIT_CAST_EXPR,
+    VSC_IMPLICIT_CAST_EXPR,
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
     VSC_MEMBER_EXPR,
@@ -178,6 +179,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_PIPE_TYPE,
 
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
+    VTC_EXPLICIT_CAST_EXPR,
 
     VTC_TEMPLATE_ARGUMENT,
     VTC_NESTED_NAME_SPECIFIER,
@@ -527,6 +529,15 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     #define ADDITIONAL_STMT_CLASS(Subclass) \
       case clang::Stmt::Subclass##Class:
 
+    // After a series of ADDITIONAL_STMT_CLASS, this begins handling
+    // them all as the indicated superclass.  It does not have its own
+    // case label because the abstract superclasses do not have their
+    // own codes, as they are never instantiated.
+    #define BEGIN_STMT_ABSTRACT_SUPERCLASS(Superclass)  \
+      /*relevant cases come before this*/ {             \
+        clang::Superclass const *stmt =                 \
+          assert_dyn_cast(clang::Superclass, origStmt);
+
     // Although the AsmStmt subclasses contain string literals, their
     // semantics are completely different from other kinds of string
     // literals, so I think it's best to not recursively traverse into
@@ -735,19 +746,28 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       CXXTypeidExpr
       CXXUnresolvedConstructExpr
       CXXUuidofExpr
-      BuiltinBitCastExpr
-      CStyleCastExpr
-      CXXFunctionalCastExpr
-      CXXAddrspaceCastExpr
-      CXXConstCastExpr
-      CXXDynamicCastExpr
-      CXXReinterpretCastExpr
-      CXXStaticCastExpr
 
       plus more I have not copied over
     */
 
     // Jumping ahead...
+
+    END_STMT_CLASS
+    ADDITIONAL_STMT_CLASS(BuiltinBitCastExpr)
+    ADDITIONAL_STMT_CLASS(CStyleCastExpr)
+    ADDITIONAL_STMT_CLASS(CXXFunctionalCastExpr)
+    ADDITIONAL_STMT_CLASS(CXXAddrspaceCastExpr)
+    ADDITIONAL_STMT_CLASS(CXXConstCastExpr)
+    ADDITIONAL_STMT_CLASS(CXXDynamicCastExpr)
+    ADDITIONAL_STMT_CLASS(CXXReinterpretCastExpr)
+    ADDITIONAL_STMT_CLASS(CXXStaticCastExpr)
+    BEGIN_STMT_ABSTRACT_SUPERCLASS(ExplicitCastExpr)
+      visitTypeSourceInfo(
+        VTC_EXPLICIT_CAST_EXPR,
+        stmt->getTypeInfoAsWritten());
+      visitStmt(
+        VSC_EXPLICIT_CAST_EXPR,
+        stmt->getSubExpr());
 
     END_STMT_CLASS
     ADDITIONAL_STMT_CLASS(CXXOperatorCallExpr)
@@ -771,7 +791,12 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         stmt->getNumTemplateArgs());
 
     HANDLE_STMT_CLASS(ImplicitCastExpr)
-      visitStmt(VSC_CAST_EXPR, stmt->getSubExpr());
+      // There is no TypeLoc for an implicit cast.  I could call
+      // 'visitImplicitQualType' here, but I would just be visiting the
+      // expression's type, which does not provide much value over
+      // letting the client do the same.
+
+      visitStmt(VSC_IMPLICIT_CAST_EXPR, stmt->getSubExpr());
 
     HANDLE_STMT_CLASS(MemberExpr)
       visitNestedNameSpecifierLocOpt(
@@ -796,6 +821,7 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     #undef BEGIN_NOOP_STMT_CLASS
     #undef HANDLE_NOOP_STMT_CLASS
     #undef ADDITIONAL_STMT_CLASS
+    #undef BEGIN_STMT_ABSTRACT_SUPERCLASS
 
     // Eventually I hope the cases will be exhaustive, but that's a long
     // way off with all the OMP and ObjC stuff, so we just ignore

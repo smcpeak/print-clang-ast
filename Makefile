@@ -433,7 +433,20 @@ RAV_PRINTER_VISITOR_TESTS += ct-defn.cc
 RAV_PRINTER_VISITOR_TESTS += ct-espec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-inner-struct.cc
 RAV_PRINTER_VISITOR_TESTS += ct-inst.cc
+
+ifeq (0,1)
+RAV_PRINTER_VISITOR_TESTS += ct-ovl-method-canttpt.cc
+RAV_PRINTER_VISITOR_TESTS += ct-pspec.cc
+RAV_PRINTER_VISITOR_TESTS += ct-redecl.cc
+RAV_PRINTER_VISITOR_TESTS += declrefexpr.cc
+RAV_PRINTER_VISITOR_TESTS += declrefexpr-template-args.cc
+RAV_PRINTER_VISITOR_TESTS += default-arg-callee.cc
+RAV_PRINTER_VISITOR_TESTS += default-args.cc
+RAV_PRINTER_VISITOR_TESTS += deleted-function.cc
+endif
+
 RAV_PRINTER_VISITOR_TESTS += expr-array-size.cc
+RAV_PRINTER_VISITOR_TESTS += expr-c-style-cast.cc
 RAV_PRINTER_VISITOR_TESTS += friend-decl.cc
 RAV_PRINTER_VISITOR_TESTS += friend-template-decl.cc
 RAV_PRINTER_VISITOR_TESTS += functiondecl-body.cc

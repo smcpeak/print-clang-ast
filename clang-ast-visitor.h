@@ -147,7 +147,8 @@ enum VisitStmtContext {
   VSC_CXX_DELETE_EXPR,
   VSC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR_BASE,
   VSC_CONSTANT_EXPR,
-  VSC_CAST_EXPR,                       // CastExpr and subclasses
+  VSC_EXPLICIT_CAST_EXPR,              // ExplicitCastExpr subclasses
+  VSC_IMPLICIT_CAST_EXPR,
   VSC_CALL_EXPR_CALLEE,                // CallExpr and subclasses
   VSC_CALL_EXPR_ARG,
   VSC_MEMBER_EXPR,
@@ -200,6 +201,7 @@ enum VisitTypeContext {
 
   // ---- Context is a Stmt ----
   VTC_CXX_TEMPORARY_OBJECT_EXPR,
+  VTC_EXPLICIT_CAST_EXPR,
 
   // ---- Other contexts ----
   VTC_TEMPLATE_ARGUMENT,
