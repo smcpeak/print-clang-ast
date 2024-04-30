@@ -774,9 +774,6 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       visitStmt(VSC_CAST_EXPR, stmt->getSubExpr());
 
     HANDLE_STMT_CLASS(MemberExpr)
-      visitStmt(
-        VSC_MEMBER_EXPR,
-        stmt->getBase());
       visitNestedNameSpecifierLocOpt(
         VNNSC_MEMBER_EXPR,
         stmt->getQualifierLoc());
@@ -784,6 +781,11 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         VTAC_MEMBER_EXPR,
         stmt->getTemplateArgs(),
         stmt->getNumTemplateArgs());
+
+      // Visit this last for RAV compatibility.
+      visitStmt(
+        VSC_MEMBER_EXPR,
+        stmt->getBase());
 
 
     END_STMT_CLASS
