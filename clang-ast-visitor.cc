@@ -138,6 +138,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_STD_INITIALIZER_LIST_EXPR,
     VSC_CXX_THROW_EXPR,
     VSC_CXX_TYPEID_EXPR,
+    VSC_CXX_UNRESOLVED_CONSTRUCT_EXPR_ARG,
     VSC_CONSTANT_EXPR,
     VSC_EXPLICIT_CAST_EXPR,
     VSC_IMPLICIT_CAST_EXPR,
@@ -197,6 +198,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CXX_PSEUDO_DESTRUCTOR_EXPR_DESTROYED,
     VTC_CXX_SCALAR_VALUE_INIT_EXPR,
     VTC_CXX_TYPEID_EXPR,
+    VTC_CXX_UNRESOLVED_CONSTRUCT_EXPR,
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
     VTC_EXPLICIT_CAST_EXPR,
     VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
@@ -848,10 +850,14 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
           stmt->getExprOperand());
       }
 
+    HANDLE_STMT_CLASS(CXXUnresolvedConstructExpr)
+      visitTypeSourceInfo(VTC_CXX_UNRESOLVED_CONSTRUCT_EXPR,
+        stmt->getTypeSourceInfo());
+      visitCXXUnresolvedConstructExprArgs(stmt);
+
     /*
       TODO: Working on these:
 
-      CXXUnresolvedConstructExpr
       CXXUuidofExpr
 
       plus more I have not copied over
@@ -1509,6 +1515,16 @@ void ClangASTVisitor::visitCXXNewExprPlacementArgs(
   for (unsigned i=0; i < newExpr->getNumPlacementArgs(); ++i) {
     visitStmt(VSC_CXX_NEW_PLACEMENT_ARG,
       newExpr->getPlacementArg(i));
+  }
+}
+
+
+void ClangASTVisitor::visitCXXUnresolvedConstructExprArgs(
+  clang::CXXUnresolvedConstructExpr const *constructExpr)
+{
+  for (unsigned i=0; i < constructExpr->getNumArgs(); ++i) {
+    visitStmt(VSC_CXX_UNRESOLVED_CONSTRUCT_EXPR_ARG,
+      constructExpr->getArg(i));
   }
 }
 
