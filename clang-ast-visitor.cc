@@ -133,6 +133,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
     VSC_MEMBER_EXPR,
+    VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
     VSC_TEMPLATE_ARGUMENT,
   );
@@ -180,6 +181,7 @@ char const *toString(VisitTypeContext vtc)
 
     VTC_CXX_TEMPORARY_OBJECT_EXPR,
     VTC_EXPLICIT_CAST_EXPR,
+    VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
     VTC_TEMPLATE_ARGUMENT,
     VTC_NESTED_NAME_SPECIFIER,
@@ -811,6 +813,18 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       visitStmt(
         VSC_MEMBER_EXPR,
         stmt->getBase());
+
+    HANDLE_STMT_CLASS(UnaryExprOrTypeTraitExpr)
+      if (stmt->isArgumentType()) {
+        visitTypeSourceInfo(
+          VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
+          stmt->getArgumentTypeInfo());
+      }
+      else {
+        visitStmt(
+          VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
+          stmt->getArgumentExpr());
+      }
 
 
     END_STMT_CLASS

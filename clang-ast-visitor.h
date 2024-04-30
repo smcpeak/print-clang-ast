@@ -152,6 +152,7 @@ enum VisitStmtContext {
   VSC_CALL_EXPR_CALLEE,                // CallExpr and subclasses
   VSC_CALL_EXPR_ARG,
   VSC_MEMBER_EXPR,
+  VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
   // ---- Other contexts ----
   VSC_TEMPLATE_ARGUMENT,
@@ -202,6 +203,7 @@ enum VisitTypeContext {
   // ---- Context is a Stmt ----
   VTC_CXX_TEMPORARY_OBJECT_EXPR,
   VTC_EXPLICIT_CAST_EXPR,
+  VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
   // ---- Other contexts ----
   VTC_TEMPLATE_ARGUMENT,
