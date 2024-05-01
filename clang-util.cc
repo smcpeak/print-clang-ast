@@ -9,6 +9,7 @@
 
 #include "clang/AST/Decl.h"            // clang::FieldDecl::getParent
 #include "clang/AST/DeclCXX.h"         // clang::CXXMethodDecl::getParent
+#include "clang/AST/ExprConcepts.h"    // clang::concepts::Requirement
 #include "clang/AST/Type.h"            // clang::FunctionProtoType
 #include "clang/Basic/Version.h"       // CLANG_VERSION_MAJOR
 
@@ -1825,6 +1826,40 @@ std::string getDynamicTypeClassName(clang::Decl const *decl)
 std::string getDynamicTypeClassName(clang::Stmt const *stmt)
 {
   return stmt->getStmtClassName();
+}
+
+
+// Return the Requirement subclass name corresponding to 'rkind'.
+static std::string requirementKindToClassName(
+  clang::concepts::Requirement::RequirementKind rkind)
+{
+  static struct Entry {
+    clang::concepts::Requirement::RequirementKind m_rkind;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(kind, name) { clang::concepts::Requirement::kind, name },
+
+    ENTRY(RK_Type,     "TypeRequirement")
+    ENTRY(RK_Simple,   "ExprRequirement")
+    ENTRY(RK_Compound, "ExprRequirement")
+    ENTRY(RK_Nested,   "NestedRequirement")
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_rkind == rkind) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("RequirementKindClass(" << (int)rkind << ")");
+}
+
+
+std::string getDynamicTypeClassName(clang::concepts::Requirement const *req)
+{
+  return requirementKindToClassName(req->getKind());
 }
 
 

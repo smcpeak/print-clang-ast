@@ -4,8 +4,11 @@
 #ifndef HEADER_ANALYSIS_CLANG_UTIL_H
 #define HEADER_ANALYSIS_CLANG_UTIL_H
 
+// this dir
+#include "clang-expr-concepts-fwd.h"                       // clang::concepts::Requirement [n]
 #include "util.h"                                          // NULLABLE
 
+// clang
 #include "clang/AST/ASTContext.h"                          // clang::ASTContext::{getLangOpts, getSourceManager, getTranslationUnitDecl}
 #include "clang/AST/ASTFwd.h"                              // clang::{Type, Stmt, Decl} [n]
 #include "clang/AST/Decl.h"                                // clang::NamedDecl
@@ -20,9 +23,11 @@
 #include "clang/Basic/Version.h"                           // CLANG_VERSION_MAJOR
 #include "clang/Lex/HeaderSearchOptions.h"                 // clang::HeaderSearchOptions
 
+// llvm
 #include "llvm/ADT/StringRef.h"                            // llvm::StringRef [n]
 #include "llvm/Support/Casting.h"                          // llvm::dyn_cast
 
+// libc++
 #include <list>                                            // std::list
 #include <string>                                          // std::string
 #include <vector>                                          // std::vector
@@ -554,6 +559,7 @@ public:
 std::string getDynamicTypeClassName(clang::Type const *type);
 std::string getDynamicTypeClassName(clang::Decl const *decl);
 std::string getDynamicTypeClassName(clang::Stmt const *stmt);
+std::string getDynamicTypeClassName(clang::concepts::Requirement const *req);
 
 
 // Report an attempt to dyn_cast a null pointer.
