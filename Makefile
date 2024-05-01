@@ -435,69 +435,7 @@ out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
 	@# Indicate success.
 	touch $@
 
-RAV_PRINTER_VISITOR_TESTS :=
-RAV_PRINTER_VISITOR_TESTS += bitfield-with-init.cc
-RAV_PRINTER_VISITOR_TESTS += call-fn-via-using-decl.cc
-RAV_PRINTER_VISITOR_TESTS += call-op-via-using-decl.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-cspspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-csspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-defn-ool.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-emspec-of-cspspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-espec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-pmspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ct-pspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-friend-ft-spec-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-csspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-defn.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-emspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-espec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-ft-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-oc-emspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-oc-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-of-defn.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-of-espec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-cont-of-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ct-defn.cc
-RAV_PRINTER_VISITOR_TESTS += ct-espec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-inner-struct.cc
-RAV_PRINTER_VISITOR_TESTS += ct-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ct-ovl-method-canttpt.cc
-RAV_PRINTER_VISITOR_TESTS += ct-pspec.cc
-RAV_PRINTER_VISITOR_TESTS += ct-redecl.cc
-RAV_PRINTER_VISITOR_TESTS += declrefexpr.cc
-RAV_PRINTER_VISITOR_TESTS += declrefexpr-template-args.cc
-RAV_PRINTER_VISITOR_TESTS += default-arg-callee.cc
-RAV_PRINTER_VISITOR_TESTS += default-args.cc
-RAV_PRINTER_VISITOR_TESTS += deleted-function.cc
-RAV_PRINTER_VISITOR_TESTS += expr-array-size.cc
-RAV_PRINTER_VISITOR_TESTS += expr-c-style-cast.cc
-RAV_PRINTER_VISITOR_TESTS += expr-lambda.cc
-RAV_PRINTER_VISITOR_TESTS += expr-sizeof.cc
-RAV_PRINTER_VISITOR_TESTS += friend-decl.cc
-RAV_PRINTER_VISITOR_TESTS += friend-template-decl.cc
-RAV_PRINTER_VISITOR_TESTS += ft-cont-lambda-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ft-cont-oc-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ft-defn.cc
-RAV_PRINTER_VISITOR_TESTS += ft-espec.cc
-RAV_PRINTER_VISITOR_TESTS += ft-inst.cc
-RAV_PRINTER_VISITOR_TESTS += funcptr-param.cc
-RAV_PRINTER_VISITOR_TESTS += functiondecl-body.cc
-RAV_PRINTER_VISITOR_TESTS += functiondecl.cc
-RAV_PRINTER_VISITOR_TESTS += function-requires-requires.cc
-RAV_PRINTER_VISITOR_TESTS += has-defaulted-func-info.cc
-RAV_PRINTER_VISITOR_TESTS += multiple-decl.cc
-RAV_PRINTER_VISITOR_TESTS += nested-function.cc
-RAV_PRINTER_VISITOR_TESTS += no-qualifiers.cc
-RAV_PRINTER_VISITOR_TESTS += oc-cont-ft-defn.cc
-RAV_PRINTER_VISITOR_TESTS += oc-cont-ft-inst.cc
-RAV_PRINTER_VISITOR_TESTS += ool-defn-tmethod-tclass.cc
-RAV_PRINTER_VISITOR_TESTS += struct-with-array-member.cc
-RAV_PRINTER_VISITOR_TESTS += struct-with-fwd.cc
-RAV_PRINTER_VISITOR_TESTS += triv-template-function.cc
-RAV_PRINTER_VISITOR_TESTS += typedef-as-qualifier.cc
-
+RAV_PRINTER_VISITOR_TESTS := $(patsubst in/src/%,%,$(TEST_INPUTS))
 
 .PHONY: check-rav-printer-visitor
 check-rav-printer-visitor: $(patsubst %,out/rpv/%.rpv.ok,$(RAV_PRINTER_VISITOR_TESTS))
