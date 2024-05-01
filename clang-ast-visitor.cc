@@ -501,7 +501,10 @@ void ClangASTVisitor::visitDecl(
 
   else if (auto td = dyn_cast<clang::TemplateDecl>(decl)) {
     visitTemplateDeclParameterList(td->getTemplateParameters());
-    visitDecl(VDC_TEMPLATE_DECL, td->getTemplatedDecl());
+
+    // The templated decl is missing in the case of a
+    // TemplateTemplateParmDecl.
+    visitDeclOpt(VDC_TEMPLATE_DECL, td->getTemplatedDecl());
 
     // TODO: The various TemplateDecl subclasses.
 
