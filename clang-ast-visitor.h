@@ -528,6 +528,16 @@ public:      // methods
   // TODO: Instantiations of variable templates and type alias
   // templates.
 
+  // Default: If 'init' initializes a base class or is a call to a
+  // sibling ctor, then visit the associated TypeLoc.  Then, visit the
+  // initializer expression.
+  //
+  // This method is among the overrideable visitors because the client
+  // may want to check 'init->isWritten()' to filter out implicit
+  // initializers.
+  virtual void visitCXXCtorInitializer(
+    clang::CXXCtorInitializer const *init);
+
   // Default: If 'capture' is an "initialization capture", then visit
   // the variable it contains.  Otherwise, visit 'init'.
   //
@@ -616,13 +626,8 @@ public:      // methods
     clang::CXXBaseSpecifier const &base);
 
   // Visit the member initializers in 'ccd'.
-  void visitCtorInitializers(
+  void visitCXXCtorInitializers(
     clang::CXXConstructorDecl const *ccd);
-
-  // If 'init' initializes a base class or is a call to a sibling ctor,
-  // then visit the associated TypeLoc.  Otherwise, do nothing.
-  void visitCtorInitializer(
-    clang::CXXCtorInitializer const *init);
 
   // In 'tparams', visit the parameters, then the requires clause if
   // present.

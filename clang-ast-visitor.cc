@@ -368,7 +368,7 @@ void ClangASTVisitor::visitDecl(
 
       if (auto ccd = dyn_cast<clang::CXXConstructorDecl>(decl)) {
         if (ccd->doesThisDeclarationHaveABody()) {
-          visitCtorInitializers(ccd);
+          visitCXXCtorInitializers(ccd);
         }
       }
 
@@ -1450,6 +1450,26 @@ void ClangASTVisitor::visitClassTemplateInstantiations(
 }
 
 
+void ClangASTVisitor::visitCXXCtorInitializer(
+  clang::CXXCtorInitializer const *init)
+{
+  // Note: If it is skipping implicit code, and 'init->isWritten()' is
+  // false, RecursiveASTVisitor will skip the initializer expression,
+  // but not the type.  I do not see any reason for that inconsistency.
+  // (I'm noting it here for lack of any better place.)
+
+  if (clang::TypeSourceInfo const *tsi = init->getTypeSourceInfo()) {
+    visitTypeLoc(VTC_CXX_CTOR_INITIALIZER, tsi->getTypeLoc());
+  }
+  else {
+    // The initializer initializes a member (rather than a base, or
+    // indicating a delegation), which we do not visit.
+  }
+
+  visitStmt(VSC_CXX_CTOR_INITIALIZER, init->getInit());
+}
+
+
 void ClangASTVisitor::visitImplicitQualType(VisitTypeContext context,
                                             clang::QualType qualType)
 {
@@ -1511,27 +1531,12 @@ void ClangASTVisitor::visitBaseSpecifier(
 }
 
 
-void ClangASTVisitor::visitCtorInitializers(
+void ClangASTVisitor::visitCXXCtorInitializers(
   clang::CXXConstructorDecl const *ccd)
 {
   for (clang::CXXCtorInitializer const *init : ccd->inits()) {
-    visitCtorInitializer(init);
+    visitCXXCtorInitializer(init);
   }
-}
-
-
-void ClangASTVisitor::visitCtorInitializer(
-  clang::CXXCtorInitializer const *init)
-{
-  if (clang::TypeSourceInfo const *tsi = init->getTypeSourceInfo()) {
-    visitTypeLoc(VTC_CXX_CTOR_INITIALIZER, tsi->getTypeLoc());
-  }
-  else {
-    // The initializer initializes a member (rather than a base, or
-    // indicating a delegation), which we do not visit.
-  }
-
-  visitStmt(VSC_CXX_CTOR_INITIALIZER, init->getInit());
 }
 
 
