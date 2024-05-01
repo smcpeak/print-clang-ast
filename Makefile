@@ -477,16 +477,12 @@ RAV_PRINTER_VISITOR_TESTS += expr-lambda.cc
 RAV_PRINTER_VISITOR_TESTS += expr-sizeof.cc
 RAV_PRINTER_VISITOR_TESTS += friend-decl.cc
 RAV_PRINTER_VISITOR_TESTS += friend-template-decl.cc
-
-ifeq (0,1)
 RAV_PRINTER_VISITOR_TESTS += ft-cont-lambda-inst.cc
 RAV_PRINTER_VISITOR_TESTS += ft-cont-oc-inst.cc
 RAV_PRINTER_VISITOR_TESTS += ft-defn.cc
 RAV_PRINTER_VISITOR_TESTS += ft-espec.cc
 RAV_PRINTER_VISITOR_TESTS += ft-inst.cc
 RAV_PRINTER_VISITOR_TESTS += funcptr-param.cc
-endif
-
 RAV_PRINTER_VISITOR_TESTS += functiondecl-body.cc
 RAV_PRINTER_VISITOR_TESTS += ool-defn-tmethod-tclass.cc
 

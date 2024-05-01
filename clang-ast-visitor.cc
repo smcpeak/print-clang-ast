@@ -63,6 +63,7 @@ char const *toString(VisitStmtContext vsc)
 
     VSC_NONE,
 
+    VSC_CXX_CTOR_INITIALIZER,
     VSC_DECLARATOR_DECL_TRAILING_REQUIRES,
     VSC_VAR_DECL_INIT,
     VSC_FUNCTION_DECL_BODY,
@@ -155,6 +156,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_LAMBDA_EXPR_CAPTURE,
     VSC_MEMBER_EXPR,
     VSC_PAREN_EXPR,
+    VSC_PAREN_LIST_EXPR,
     VSC_SUBST_NON_TYPE_TEMPLATE_PARM_EXPR,
     VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
     VSC_UNARY_OPERATOR,
@@ -1053,7 +1055,9 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         VSC_PAREN_EXPR,
         stmt->getSubExpr());
 
-    // TODO: ParenListExpr
+    HANDLE_STMT_CLASS(ParenListExpr)
+      visitParenListExprExprs(stmt);
+
     // TODO: PredefinedExpr
     // TODO: PseudoObjectExpr
     // TODO: RecoveryExpr
@@ -1467,6 +1471,8 @@ void ClangASTVisitor::visitCtorInitializer(
     // The initializer initializes a member (rather than a base, or
     // indicating a delegation), which we do not visit.
   }
+
+  visitStmt(VSC_CXX_CTOR_INITIALIZER, init->getInit());
 }
 
 
@@ -1719,6 +1725,15 @@ void ClangASTVisitor::visitLambdaExprCaptures(
     clang::LambdaCapture const *capture = lambdaExpr->capture_begin() + i;
     clang::Expr const *init = lambdaExpr->capture_init_begin()[i];
     visitLambdaExprCapture(lambdaExpr, capture, init);
+  }
+}
+
+
+void ClangASTVisitor::visitParenListExprExprs(
+  clang::ParenListExpr const *parenListExpr)
+{
+  for (unsigned i=0; i < parenListExpr->getNumExprs(); ++i) {
+    visitStmt(VSC_PAREN_LIST_EXPR, parenListExpr->getExpr(i));
   }
 }
 

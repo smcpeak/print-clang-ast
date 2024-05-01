@@ -165,6 +165,7 @@ enum VisitStmtContext {
   VSC_NONE,
 
   // ---- Context is a Decl ----
+  VSC_CXX_CTOR_INITIALIZER,
   VSC_DECLARATOR_DECL_TRAILING_REQUIRES,
   VSC_VAR_DECL_INIT,
   VSC_FUNCTION_DECL_BODY,
@@ -259,6 +260,7 @@ enum VisitStmtContext {
   VSC_LAMBDA_EXPR_CAPTURE,
   VSC_MEMBER_EXPR,
   VSC_PAREN_EXPR,
+  VSC_PAREN_LIST_EXPR,
   VSC_SUBST_NON_TYPE_TEMPLATE_PARM_EXPR,
   VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
   VSC_UNARY_OPERATOR,
@@ -714,6 +716,10 @@ public:      // methods
   // Visit all of the captures in 'lambdaExpr'.
   void visitLambdaExprCaptures(
     clang::LambdaExpr const *lambdaExpr);
+
+  // Visit all of the sub-expressions in 'parenListExpr'.
+  void visitParenListExprExprs(
+    clang::ParenListExpr const *parenListExpr);
 };
 
 
