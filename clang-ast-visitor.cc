@@ -149,6 +149,8 @@ char const *toString(VisitStmtContext vsc)
     VSC_CONCEPTS_EXPR_REQUIREMENT,
     VSC_CONCEPTS_NESTED_REQUIREMENT,
     VSC_CONSTANT_EXPR,
+    VSC_EXPR_WITH_CLEANUPS,
+    VSC_MATERIALIZE_TEMPORARY_EXPR,
     VSC_EXPLICIT_CAST_EXPR,
     VSC_IMPLICIT_CAST_EXPR,
     VSC_CHOOSE_EXPR_COND,
@@ -1016,7 +1018,11 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     HANDLE_STMT_CLASS(ConstantExpr)
       visitStmt(VSC_CONSTANT_EXPR, stmt->getSubExpr());
 
-    // TODO: ExprWithCleanups
+    // This shares a superclass with 'ConstantExpr', namely 'FullExpr',
+    // but I want to have two different contexts, so I do not combine
+    // their cases.
+    HANDLE_STMT_CLASS(ExprWithCleanups)
+      visitStmt(VSC_EXPR_WITH_CLEANUPS, stmt->getSubExpr());
 
     // TODO: FunctionParmPackExpr
     // TODO: GNUNullExpr
@@ -1037,7 +1043,10 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
 
     // TODO: MSPropertyRefExpr
     // TODO: MSPropertySubscriptExpr
-    // TODO: MaterializeTemporaryExpr
+
+    HANDLE_STMT_CLASS(MaterializeTemporaryExpr)
+      visitStmt(VSC_MATERIALIZE_TEMPORARY_EXPR, stmt->getSubExpr());
+
     // TODO: MatrixSubscriptExpr
 
     HANDLE_STMT_CLASS(MemberExpr)
