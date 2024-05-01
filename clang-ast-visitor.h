@@ -84,6 +84,7 @@
 #include "clang-decl-cxx-fwd.h"                  // clang::CXXBaseSpecifier [n]
 #include "clang-decl-template-fwd.h"             // clang::TemplateParameterList [n]
 #include "clang-declaration-name-fwd.h"          // clang::DeclarationNameInfo [n]
+#include "clang-expr-concepts-fwd.h"             // clang::concepts::Requirement [n]
 #include "clang-lambda-capture-fwd.h"            // clang::LambdaCapture [n]
 #include "clang-nested-name-specifier-fwd.h"     // clang::NestedNameSpecifierLoc [n]
 #include "clang-template-base-fwd.h"             // clang::TemplateArgument [n]
@@ -151,6 +152,8 @@ enum VisitDeclContext {
   VDC_DECL_STMT,
   VDC_LAMBDA_EXPR_CAPTURE,
   VDC_LAMBDA_EXPR_CLASS,
+  VDC_REQUIRES_EXPR_BODY,
+  VDC_REQUIRES_EXPR_PARAM,
   VDC_RETURN_STMT_NRVO_CANDIDATE,
 
   NUM_VISIT_DECL_CONTEXTS
@@ -247,6 +250,8 @@ enum VisitStmtContext {
   VSC_CXX_TYPEID_EXPR,
   VSC_CXX_UUIDOF_EXPR,
   VSC_CXX_UNRESOLVED_CONSTRUCT_EXPR_ARG,
+  VSC_CONCEPTS_EXPR_REQUIREMENT,
+  VSC_CONCEPTS_NESTED_REQUIREMENT,
   VSC_CONSTANT_EXPR,
   VSC_EXPLICIT_CAST_EXPR,              // ExplicitCastExpr subclasses
   VSC_IMPLICIT_CAST_EXPR,
@@ -329,6 +334,7 @@ enum VisitTypeContext {
   VTC_TEMPLATE_ARGUMENT,
   VTC_NESTED_NAME_SPECIFIER,
   VTC_DECLARATION_NAME,
+  VTC_CONCEPTS_TYPE_REQUIREMENT,
 
   NUM_VISIT_TYPE_CONTEXTS
 };
@@ -475,6 +481,13 @@ public:      // methods
   virtual void visitDeclarationNameInfo(
     VisitDeclarationNameContext context,
     clang::DeclarationNameInfo dni);
+
+  // Default: Visit the children of 'req'.
+  //
+  // There is no 'context' parameter because, so far, there is only one
+  // possible context, a RequiresExpr.
+  virtual void visitConceptsRequirement(
+    clang::concepts::Requirement const *req);
 
   // -------- Auxiliary visitors --------
   //
@@ -720,6 +733,15 @@ public:      // methods
   // Visit all of the sub-expressions in 'parenListExpr'.
   void visitParenListExprExprs(
     clang::ParenListExpr const *parenListExpr);
+
+  // Visit the local parameters in 'requiresExpr'.
+  void visitRequiresExprParameters(
+    clang::RequiresExpr const *requiresExpr);
+
+  // Visit the requirements in 'requiresExpr'.
+  void visitRequiresExprRequirements(
+    clang::RequiresExpr const *requiresExpr);
+
 };
 
 

@@ -10,6 +10,7 @@
 // clang
 #include "clang/AST/DeclFriend.h"                // clang::{FriendDecl, ...}
 #include "clang/AST/ExprCXX.h"                   // clang::{CXXConstructExpr, ...}
+#include "clang/AST/ExprConcepts.h"              // clang::concepts::Requirement
 #include "clang/AST/StmtCXX.h"                   // clang::{CXXCatchStmt, ...}
 
 using clang::dyn_cast;
@@ -49,6 +50,8 @@ char const *toString(VisitDeclContext vdc)
     VDC_DECL_STMT,
     VDC_LAMBDA_EXPR_CAPTURE,
     VDC_LAMBDA_EXPR_CLASS,
+    VDC_REQUIRES_EXPR_BODY,
+    VDC_REQUIRES_EXPR_PARAM,
     VDC_RETURN_STMT_NRVO_CANDIDATE,
   );
 
@@ -143,6 +146,8 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_TYPEID_EXPR,
     VSC_CXX_UUIDOF_EXPR,
     VSC_CXX_UNRESOLVED_CONSTRUCT_EXPR_ARG,
+    VSC_CONCEPTS_EXPR_REQUIREMENT,
+    VSC_CONCEPTS_NESTED_REQUIREMENT,
     VSC_CONSTANT_EXPR,
     VSC_EXPLICIT_CAST_EXPR,
     VSC_IMPLICIT_CAST_EXPR,
@@ -221,6 +226,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_TEMPLATE_ARGUMENT,
     VTC_NESTED_NAME_SPECIFIER,
     VTC_DECLARATION_NAME,
+    VTC_CONCEPTS_TYPE_REQUIREMENT,
   );
 
   return "unknown";
@@ -1061,7 +1067,13 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     // TODO: PredefinedExpr
     // TODO: PseudoObjectExpr
     // TODO: RecoveryExpr
-    // TODO: RequiresExpr
+
+    HANDLE_STMT_CLASS(RequiresExpr)
+      // Basically just copying RAV here.
+      visitDecl(VDC_REQUIRES_EXPR_BODY, stmt->getBody());
+      visitRequiresExprParameters(stmt);
+      visitRequiresExprRequirements(stmt);
+
     // TODO: SYCLUniqueStableNameExpr
     // TODO: ShuffleVectorExpr
     // TODO: SizeOfPackExpr
@@ -1359,6 +1371,44 @@ void ClangASTVisitor::visitDeclarationNameInfo(
 {
   if (clang::TypeSourceInfo const *tsi = dni.getNamedTypeInfo()) {
     visitTypeSourceInfo(VTC_DECLARATION_NAME, tsi);
+  }
+}
+
+
+void ClangASTVisitor::visitConceptsRequirement(
+  clang::concepts::Requirement const *req)
+{
+  switch (req->getKind()) {
+    case clang::concepts::Requirement::RK_Type: {
+      auto tr = assert_dyn_cast(clang::concepts::TypeRequirement, req);
+      if (!tr->isSubstitutionFailure()) {
+        visitTypeSourceInfo(VTC_CONCEPTS_TYPE_REQUIREMENT,
+          tr->getType());
+      }
+      break;
+    }
+
+    case clang::concepts::Requirement::RK_Simple:
+    case clang::concepts::Requirement::RK_Compound: {
+      auto er = assert_dyn_cast(clang::concepts::ExprRequirement, req);
+      if (!er->isExprSubstitutionFailure()) {
+        visitStmt(VSC_CONCEPTS_EXPR_REQUIREMENT,
+          er->getExpr());
+      }
+      break;
+    }
+
+    case clang::concepts::Requirement::RK_Nested: {
+      auto nr = assert_dyn_cast(clang::concepts::NestedRequirement, req);
+      if (!nr->IF_CLANG_16(hasInvalidConstraint(),
+                           isSubstitutionFailure())) {
+        visitStmt(VSC_CONCEPTS_NESTED_REQUIREMENT,
+          nr->getConstraintExpr());
+      }
+      break;
+    }
+
+    // The above cases are exhaustive.
   }
 }
 
@@ -1734,6 +1784,26 @@ void ClangASTVisitor::visitParenListExprExprs(
 {
   for (unsigned i=0; i < parenListExpr->getNumExprs(); ++i) {
     visitStmt(VSC_PAREN_LIST_EXPR, parenListExpr->getExpr(i));
+  }
+}
+
+
+void ClangASTVisitor::visitRequiresExprParameters(
+  clang::RequiresExpr const *requiresExpr)
+{
+  for (clang::ParmVarDecl const *param :
+         requiresExpr->getLocalParameters()) {
+    visitDecl(VDC_REQUIRES_EXPR_PARAM, param);
+  }
+}
+
+
+void ClangASTVisitor::visitRequiresExprRequirements(
+  clang::RequiresExpr const *requiresExpr)
+{
+  for (clang::concepts::Requirement const *req :
+         requiresExpr->getRequirements()) {
+    visitConceptsRequirement(req);
   }
 }
 
