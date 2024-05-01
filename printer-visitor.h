@@ -24,10 +24,18 @@ public:      // data
   // True to print implicit QualType nodes.  Initially false.
   bool m_printImplicitQualTypes;
 
-  // If true, then suppressp printing the TypeAsWritten for a
+  // If true, then suppress printing the TypeAsWritten for a
   // ClassTemplatePartialSpecializationDecl, thereby emulating a bug in
   // RecursiveASTVisitor.  Initially false.
   bool m_omit_CTPSD_TAW;
+
+  // If true, then when printing a CXXDefaultArgExpr, print default
+  // argument too.  The default visitor does not do that because the
+  // default argument is not a child node, but RAV does traverse into
+  // it.  Initially false.
+  bool m_printDefaultArgExprs;
+
+  // TODO: Refactor the flags into a bit set.
 
   // Number of levels of indentation to print.
   int m_indentLevel;
@@ -59,7 +67,8 @@ void printerVisitorTU(std::ostream &os,
                       clang::ASTContext &astContext,
                       bool printVisitContext,
                       bool printImplicitQualTypes,
-                      bool omit_CTPSD_TAW);
+                      bool omit_CTPSD_TAW,
+                      bool printDefaultArgExprs);
 
 
 #endif // PRINTER_VISITOR_H

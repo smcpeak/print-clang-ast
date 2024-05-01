@@ -167,7 +167,8 @@ int main(int argc, char const **argv)
                      ast->getASTContext(),
                      options.m_printVisitContext,
                      options.m_printImplicitQualTypes,
-                     options.m_omit_CTPSD_TAW);
+                     options.m_omit_CTPSD_TAW,
+                     options.m_printDefaultArgExprs);
   }
 
   if (options.m_ravPrinterVisitor) {

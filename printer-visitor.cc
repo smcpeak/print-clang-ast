@@ -6,6 +6,9 @@
 // this dir
 #include "util.h"                                // SET_RESTORE
 
+// clang
+#include "clang/AST/ExprCXX.h"                   // clang::CXXDefaultArgExpr
+
 // libc++
 #include <sstream>                               // std::ostringstream
 
@@ -19,6 +22,7 @@ PrinterVisitor::PrinterVisitor(std::ostream &os,
     m_printVisitContext(false),
     m_printImplicitQualTypes(false),
     m_omit_CTPSD_TAW(false),
+    m_printDefaultArgExprs(false),
     m_indentLevel(0),
     m_os(os)
 {}
@@ -72,6 +76,12 @@ void PrinterVisitor::visitStmt(VisitStmtContext context,
   INCREMENT_INDENT_LEVEL();
 
   ClangASTVisitor::visitStmt(context, stmt);
+
+  if (m_printDefaultArgExprs) {
+    if (auto cdae = dyn_cast<clang::CXXDefaultArgExpr>(stmt)) {
+      visitStmt(VSC_NONE, cdae->getExpr());
+    }
+  }
 }
 
 
@@ -129,12 +139,14 @@ void printerVisitorTU(std::ostream &os,
                       clang::ASTContext &astContext,
                       bool printVisitContext,
                       bool printImplicitQualTypes,
-                      bool omit_CTPSD_TAW)
+                      bool omit_CTPSD_TAW,
+                      bool printDefaultArgExprs)
 {
   PrinterVisitor pv(os, astContext);
   pv.m_printVisitContext = printVisitContext;
   pv.m_printImplicitQualTypes = printImplicitQualTypes;
   pv.m_omit_CTPSD_TAW = omit_CTPSD_TAW;
+  pv.m_printDefaultArgExprs = printDefaultArgExprs;
   pv.visitDecl(VDC_NONE, astContext.getTranslationUnitDecl());
 }
 

@@ -424,9 +424,10 @@ out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
 	./print-clang-ast.exe --rav-printer-visitor -xc++ \
 	  $(call FILE_OPTS_FOR,$*) in/src/$* > out/rpv/$*.rpv
 	@#
-	@# Run --printer-visitor with the RAV compatibility flag.
-	./print-clang-ast.exe --printer-visitor --omit-ctpsd-taw -xc++ \
-	  $(call FILE_OPTS_FOR,$*) in/src/$* > out/rpv/$*.pv
+	@# Run --printer-visitor with the RAV compatibility flags.
+	./print-clang-ast.exe --printer-visitor \
+	  --omit-ctpsd-taw --print-default-arg-exprs \
+	  -xc++ $(call FILE_OPTS_FOR,$*) in/src/$* > out/rpv/$*.pv
 	@#
 	@# Check that they agree.
 	diff -u out/rpv/$*.rpv out/rpv/$*.pv
@@ -467,9 +468,9 @@ RAV_PRINTER_VISITOR_TESTS += ct-pspec.cc
 RAV_PRINTER_VISITOR_TESTS += ct-redecl.cc
 RAV_PRINTER_VISITOR_TESTS += declrefexpr.cc
 RAV_PRINTER_VISITOR_TESTS += declrefexpr-template-args.cc
+RAV_PRINTER_VISITOR_TESTS += default-arg-callee.cc
 
 ifeq (0,1)
-RAV_PRINTER_VISITOR_TESTS += default-arg-callee.cc
 RAV_PRINTER_VISITOR_TESTS += default-args.cc
 RAV_PRINTER_VISITOR_TESTS += deleted-function.cc
 endif

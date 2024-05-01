@@ -75,6 +75,13 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
+  m_printDefaultArgExprs,
+  false,
+  "--print-default-arg-exprs",
+  R"(With --printer-visitor, print Expr inside CXXDefaultArgExpr.)"
+)
+
+BOOL_OPTION(
   m_ravPrinterVisitor,
   false,
   "--rav-printer-visitor",
