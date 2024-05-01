@@ -2,10 +2,10 @@
 // ClangASTVisitor class.
 
 /*
-  Visitor for the clang AST.
+  This is a visitor and traverser for the clang AST.
 
-  While conceptually similar to RecursiveASTVisitor (RAV), this visitor
-  has several advantages:
+  While conceptually similar to RecursiveASTVisitor (RAV, defined in
+  clang/AST/RecursiveASTVisitor.h), this visitor has several advantages:
 
   1. It is easy to do both pre-order and post-order processing at
      the same time.  Among other things, this makes it possible to
@@ -47,8 +47,26 @@
      syntactic exploration with semantic concerns.  In contrast, this
      visitor sticks to traversing the syntactic TypeLoc hierarchy.
 
+  8. RAV has a few configuration functions to decide things like whether
+     to visit "implicit" code.  That causes potential problems because
+     if you decide you want to see one additional thing, you have to
+     change one of the global filter flags, which then changes a lot of
+     other behavior at the same time.  Instead, this visitor always
+     visits everything (by default; the client is always in control),
+     but through a combination of context codes and dedicated virtual
+     methods (plus AST node methods like 'isImplicit()'), provides the
+     client with enough information to filter locally as needed.
+
   One disadvantage is possibly slower run-time speed due to using
   virtual function calls instead of CRTP static overriding.
+
+  Another possible comparison is to ASTNodeTraverser
+  (clang/AST/ASTNodeTraverser.h).  My impression is that the clang
+  developers use that more than RAV, as it is used by the AST dumper and
+  (I think) the AST matching system.  However, its interface is quite
+  complicated, so I haven't done any more than look at briefly and
+  decide it's too difficult to use, and therefore can't really compare
+  more than interface complexity.
 
   NOTE: Since the 'visit' methods are both what the client overrides,
   and the traversal mechanism, a client that overrides one must always
