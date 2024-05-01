@@ -47,6 +47,8 @@ char const *toString(VisitDeclContext vdc)
 
     VDC_CXX_CATCH_STMT,
     VDC_DECL_STMT,
+    VDC_LAMBDA_EXPR_CAPTURE,
+    VDC_LAMBDA_EXPR_CLASS,
     VDC_RETURN_STMT_NRVO_CANDIDATE,
   );
 
@@ -150,6 +152,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CONVERT_VECTOR_EXPR,
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
+    VSC_LAMBDA_EXPR_CAPTURE,
     VSC_MEMBER_EXPR,
     VSC_PAREN_EXPR,
     VSC_SUBST_NON_TYPE_TEMPLATE_PARM_EXPR,
@@ -294,6 +297,10 @@ void ClangASTVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)
 {
+  // This function currently uses an else-if chain rather than a
+  // 'switch' statement for ease of understanding and maintenance.  I
+  // envision, once it stabilizes, converting it to a 'switch'.
+
   if (auto dd = dyn_cast<clang::DeclaratorDecl>(decl)) {
     visitDeclaratorDeclOuterTemplateParameters(dd);
 
@@ -312,6 +319,8 @@ void ClangASTVisitor::visitDecl(
                                fd->getNameInfo());
     }
 
+    // Visiting the type usually includes visiting the parameters if
+    // this is a declaration of a function.
     visitTypeSourceInfoOrImplicitQualType(
       VTC_DECLARATOR_DECL,
       dd->getTypeSourceInfo(),
@@ -329,9 +338,14 @@ void ClangASTVisitor::visitDecl(
     }
 
     else if (auto fd = dyn_cast<clang::FunctionDecl>(decl)) {
-      if (decl->isImplicit()) {
-        // There is no TypeLoc for an implicit declaration, so the
-        // parameters do not get visited above.  Visit them now.
+      if (!fd->getTypeSourceInfo()) {
+        // There is no TypeLoc, so the parameters do not get visited
+        // above.  Visit them now.
+        //
+        // Originlly, this code checked 'isImplicit()', but the
+        // '__invoke' method on a lambda class that does *not* have any
+        // captures is considered 'isImplicit()' but it still has
+        // TypeSourceInfo.
         //
         // There might be a more principled approach.  For the moment,
         // I'm just trying to match what RAV does.
@@ -994,7 +1008,16 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     // TODO: ImplicitValueInitExpr
     // TODO: InitListExpr
     // TODO: IntegerLiteral
-    // TODO: LambdaExpr
+
+    HANDLE_STMT_CLASS(LambdaExpr)
+      visitLambdaExprCaptures(stmt);
+
+      // Each syntactic occurrence of a lambda will generate a unique
+      // lambda class, so it should be regarded as a child node.  This
+      // class contains all of the other syntactic elements, including
+      // the lambda body (as a method definition).
+      visitDecl(VDC_LAMBDA_EXPR_CLASS, stmt->getLambdaClass());
+
     // TODO: MSPropertyRefExpr
     // TODO: MSPropertySubscriptExpr
     // TODO: MaterializeTemporaryExpr
@@ -1095,6 +1118,9 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
 void ClangASTVisitor::visitTypeLoc(VisitTypeContext context,
                                    clang::TypeLoc typeLoc)
 {
+  // Similar to 'visitDecl', I envision at some point converting this to
+  // use a 'switch' instead of an else-if chain.
+
   // Initialize the else-if chain.
   if (false) {}
 
@@ -1613,6 +1639,23 @@ void ClangASTVisitor::visitClassTemplateInstantiationsIfCanonical(
 }
 
 
+void ClangASTVisitor::visitLambdaExprCapture(
+  clang::LambdaExpr const *lambdaExpr,
+  clang::LambdaCapture const *capture,
+  clang::Expr const *init)
+{
+  // I don't really understand this code, especially what the difference
+  // is between the two cases.  I'm basically copying
+  // RecursiveASTVisitor<Derived>::TraverseLambdaCapture() here.
+  if (lambdaExpr->isInitCapture(capture)) {
+    visitDecl(VDC_LAMBDA_EXPR_CAPTURE, capture->getCapturedVar());
+  }
+  else {
+    visitStmt(VSC_LAMBDA_EXPR_CAPTURE, init);
+  }
+}
+
+
 void ClangASTVisitor::visitDeclaratorDeclOuterTemplateParameters(
   clang::DeclaratorDecl const *dd)
 {
@@ -1661,6 +1704,21 @@ void ClangASTVisitor::visitTypeSourceInfoOrImplicitQualType(
   }
   else {
     visitImplicitQualType(context, qualType);
+  }
+}
+
+
+void ClangASTVisitor::visitLambdaExprCaptures(
+  clang::LambdaExpr const *lambdaExpr)
+{
+  // This does not iterate over 'captures()' because we want to provide
+  // the initializer expressions at the same time.
+  for (unsigned i=0; i < lambdaExpr->capture_size(); ++i) {
+    // It's odd that pointer arithmetic is the only way to index a
+    // particular element.
+    clang::LambdaCapture const *capture = lambdaExpr->capture_begin() + i;
+    clang::Expr const *init = lambdaExpr->capture_init_begin()[i];
+    visitLambdaExprCapture(lambdaExpr, capture, init);
   }
 }
 

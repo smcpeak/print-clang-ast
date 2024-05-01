@@ -9,6 +9,7 @@
 #include "clang-decl-cxx-fwd.h"                  // clang::CXXBaseSpecifier [n]
 #include "clang-decl-template-fwd.h"             // clang::TemplateParameterList [n]
 #include "clang-declaration-name-fwd.h"          // clang::DeclarationNameInfo [n]
+#include "clang-lambda-capture-fwd.h"            // clang::LambdaCapture [n]
 #include "clang-nested-name-specifier-fwd.h"     // clang::NestedNameSpecifierLoc [n]
 #include "clang-template-base-fwd.h"             // clang::TemplateArgument [n]
 #include "clang-type-fwd.h"                      // clang::QualType [n]
@@ -73,6 +74,8 @@ enum VisitDeclContext {
   // ---- Context is a Stmt ----
   VDC_CXX_CATCH_STMT,
   VDC_DECL_STMT,
+  VDC_LAMBDA_EXPR_CAPTURE,
+  VDC_LAMBDA_EXPR_CLASS,
   VDC_RETURN_STMT_NRVO_CANDIDATE,
 
   NUM_VISIT_DECL_CONTEXTS
@@ -178,6 +181,7 @@ enum VisitStmtContext {
   VSC_CONVERT_VECTOR_EXPR,
   VSC_CALL_EXPR_CALLEE,                // CallExpr and subclasses
   VSC_CALL_EXPR_ARG,
+  VSC_LAMBDA_EXPR_CAPTURE,
   VSC_MEMBER_EXPR,
   VSC_PAREN_EXPR,
   VSC_SUBST_NON_TYPE_TEMPLATE_PARM_EXPR,
@@ -479,6 +483,17 @@ public:      // methods
   // TODO: Instantiations of variable templates and type alias
   // templates.
 
+  // Default: If 'capture' is an "initialization capture", then visit
+  // the variable it contains.  Otherwise, visit 'init'.
+  //
+  // This method is 'virtual' in part because I do not know whether what
+  // it does is sufficiently general, so I'm leaving the door open for
+  // clients to intercept it.
+  virtual void visitLambdaExprCapture(
+    clang::LambdaExpr const *lambdaExpr,
+    clang::LambdaCapture const *capture,
+    clang::Expr const *init);
+
   // -------- Leaf visitors --------
   //
   // These are called when certain elements of interest are encountered
@@ -674,6 +689,10 @@ public:      // methods
     VisitTypeContext context,
     clang::TypeSourceInfo const * NULLABLE tsi,
     clang::QualType qualType);
+
+  // Visit all of the captures in 'lambdaExpr'.
+  void visitLambdaExprCaptures(
+    clang::LambdaExpr const *lambdaExpr);
 };
 
 
