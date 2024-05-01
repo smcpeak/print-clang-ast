@@ -152,6 +152,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CALL_EXPR_ARG,
     VSC_MEMBER_EXPR,
     VSC_PAREN_EXPR,
+    VSC_SUBST_NON_TYPE_TEMPLATE_PARM_EXPR,
     VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
     VSC_UNARY_OPERATOR,
 
@@ -235,6 +236,7 @@ char const *toString(VisitTemplateArgumentContext vtac)
 
     VTAC_CXX_DEPENDENT_SCOPE_MEMBER_EXPR,
     VTAC_DECL_REF_EXPR,
+    VTAC_DEPENDENT_SCOPE_DECL_REF_EXPR,
     VTAC_MEMBER_EXPR,
   );
 
@@ -258,6 +260,7 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
 
     VNNSC_CXX_PSEUDO_DESTRUCTOR_EXPR,
     VNNSC_DECL_REF_EXPR,
+    VNNSC_DEPENDENT_SCOPE_DECL_REF_EXPR,
     VNNSC_MEMBER_EXPR,
   );
 
@@ -275,6 +278,7 @@ char const *toString(VisitDeclarationNameContext vdnc)
     VDNC_FUNCTION_DECL,
 
     VDNC_DECL_REF_EXPR,
+    VDNC_DEPENDENT_SCOPE_DECL_REF_EXPR,
   );
 
   return "unknown";
@@ -956,7 +960,17 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
 
     // TODO: DependentCoawaitExpr
 
-    // TODO: DependentScopeDeclRefExpr
+    HANDLE_STMT_CLASS(DependentScopeDeclRefExpr)
+      visitNestedNameSpecifierLoc(
+        VNNSC_DEPENDENT_SCOPE_DECL_REF_EXPR,
+        stmt->getQualifierLoc());
+      visitDeclarationNameInfo(
+        VDNC_DEPENDENT_SCOPE_DECL_REF_EXPR,
+        stmt->getNameInfo());
+      visitTemplateArgumentLocArray(
+        VTAC_DEPENDENT_SCOPE_DECL_REF_EXPR,
+        stmt->getTemplateArgs(),
+        stmt->getNumTemplateArgs());
 
     // TODO: DesignatedInitExpr
     // TODO: DesignatedInitUpdateExpr
@@ -1027,7 +1041,12 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     // TODO: SourceLocExpr
     // TODO: StmtExpr
     // TODO: StringLiteral
-    // TODO: SubstNonTypeTemplateParmExpr
+
+    HANDLE_STMT_CLASS(SubstNonTypeTemplateParmExpr)
+      visitStmt(
+        VSC_SUBST_NON_TYPE_TEMPLATE_PARM_EXPR,
+        stmt->getReplacement());
+
     // TODO: SubstNonTypeTemplateParmPackExpr
     // TODO: TypeTraitExpr
     // TODO: TypoExpr
