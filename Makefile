@@ -486,17 +486,17 @@ RAV_PRINTER_VISITOR_TESTS += funcptr-param.cc
 RAV_PRINTER_VISITOR_TESTS += functiondecl-body.cc
 RAV_PRINTER_VISITOR_TESTS += functiondecl.cc
 RAV_PRINTER_VISITOR_TESTS += function-requires-requires.cc
-
-ifeq (0,1)
 RAV_PRINTER_VISITOR_TESTS += has-defaulted-func-info.cc
 RAV_PRINTER_VISITOR_TESTS += multiple-decl.cc
 RAV_PRINTER_VISITOR_TESTS += nested-function.cc
 RAV_PRINTER_VISITOR_TESTS += no-qualifiers.cc
 RAV_PRINTER_VISITOR_TESTS += oc-cont-ft-defn.cc
 RAV_PRINTER_VISITOR_TESTS += oc-cont-ft-inst.cc
-endif
-
 RAV_PRINTER_VISITOR_TESTS += ool-defn-tmethod-tclass.cc
+RAV_PRINTER_VISITOR_TESTS += struct-with-array-member.cc
+RAV_PRINTER_VISITOR_TESTS += struct-with-fwd.cc
+RAV_PRINTER_VISITOR_TESTS += triv-template-function.cc
+RAV_PRINTER_VISITOR_TESTS += typedef-as-qualifier.cc
 
 
 .PHONY: check-rav-printer-visitor
