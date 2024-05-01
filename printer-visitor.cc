@@ -19,10 +19,7 @@ PrinterVisitor::PrinterVisitor(std::ostream &os,
                                clang::ASTContext &astContext)
   : ClangUtil(astContext),
     ClangASTVisitor(),
-    m_printVisitContext(false),
-    m_printImplicitQualTypes(false),
-    m_omit_CTPSD_TAW(false),
-    m_printDefaultArgExprs(false),
+    m_flags(F_NONE),
     m_indentLevel(0),
     m_os(os)
 {}
@@ -38,10 +35,10 @@ std::string PrinterVisitor::indentString() const
 }
 
 
-#define PRINT_INDENT_AND_CONTEXT()     \
-  m_os << indentString();              \
-  if (m_printVisitContext) {           \
-    m_os << toString(context) << ": "; \
+#define PRINT_INDENT_AND_CONTEXT()       \
+  m_os << indentString();                \
+  if (m_flags & F_PRINT_VISIT_CONTEXT) { \
+    m_os << toString(context) << ": ";   \
   }
 
 
@@ -77,7 +74,7 @@ void PrinterVisitor::visitStmt(VisitStmtContext context,
 
   ClangASTVisitor::visitStmt(context, stmt);
 
-  if (m_printDefaultArgExprs) {
+  if (m_flags & F_PRINT_DEFAULT_ARG_EXPRS) {
     if (auto cdae = dyn_cast<clang::CXXDefaultArgExpr>(stmt)) {
       visitStmt(VSC_NONE, cdae->getExpr());
     }
@@ -88,7 +85,7 @@ void PrinterVisitor::visitStmt(VisitStmtContext context,
 void PrinterVisitor::visitTypeLoc(VisitTypeContext context,
                                   clang::TypeLoc typeLoc)
 {
-  if (m_omit_CTPSD_TAW &&
+  if ((m_flags & F_OMIT_CTPSD_TAW) &&
       context == VTC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL) {
     // This TypeLoc would not be visited by RAV due to a bug:
     //
@@ -112,9 +109,9 @@ void PrinterVisitor::visitTypeLoc(VisitTypeContext context,
 void PrinterVisitor::visitImplicitQualType(VisitTypeContext context,
                                            clang::QualType qualType)
 {
-  if (m_printImplicitQualTypes) {
+  if (m_flags & F_PRINT_IMPLICIT_QUAL_TYPES) {
     m_os << indentString();
-    if (m_printVisitContext) {
+    if (m_flags & F_PRINT_VISIT_CONTEXT) {
       m_os << "implicit " << toString(context) << ": ";
     }
     m_os << qualTypeStr(qualType) << "\n";
@@ -137,16 +134,10 @@ void PrinterVisitor::visitNestedNameSpecifierLoc(
 
 void printerVisitorTU(std::ostream &os,
                       clang::ASTContext &astContext,
-                      bool printVisitContext,
-                      bool printImplicitQualTypes,
-                      bool omit_CTPSD_TAW,
-                      bool printDefaultArgExprs)
+                      PrinterVisitor::Flags flags)
 {
   PrinterVisitor pv(os, astContext);
-  pv.m_printVisitContext = printVisitContext;
-  pv.m_printImplicitQualTypes = printImplicitQualTypes;
-  pv.m_omit_CTPSD_TAW = omit_CTPSD_TAW;
-  pv.m_printDefaultArgExprs = printDefaultArgExprs;
+  pv.m_flags = flags;
   pv.visitDecl(VDC_NONE, astContext.getTranslationUnitDecl());
 }
 

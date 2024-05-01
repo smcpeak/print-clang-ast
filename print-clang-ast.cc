@@ -163,12 +163,23 @@ int main(int argc, char const **argv)
   }
 
   if (options.m_printerVisitor) {
+    PrinterVisitor::Flags flags = PrinterVisitor::F_NONE;
+    if (options.m_printVisitContext) {
+      flags |= PrinterVisitor::F_PRINT_VISIT_CONTEXT;
+    }
+    if (options.m_printImplicitQualTypes) {
+      flags |= PrinterVisitor::F_PRINT_IMPLICIT_QUAL_TYPES;
+    }
+    if (options.m_omit_CTPSD_TAW) {
+      flags |= PrinterVisitor::F_OMIT_CTPSD_TAW;
+    }
+    if (options.m_printDefaultArgExprs) {
+      flags |= PrinterVisitor::F_PRINT_DEFAULT_ARG_EXPRS;
+    }
+
     printerVisitorTU(cout,
                      ast->getASTContext(),
-                     options.m_printVisitContext,
-                     options.m_printImplicitQualTypes,
-                     options.m_omit_CTPSD_TAW,
-                     options.m_printDefaultArgExprs);
+                     flags);
   }
 
   if (options.m_ravPrinterVisitor) {

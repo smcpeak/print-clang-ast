@@ -7,6 +7,7 @@
 // this dir
 #include "clang-ast-visitor.h"                   // ClangASTVisitor
 #include "clang-util.h"                          // ClangUtil
+#include "util-macros.h"                         // ENUM_BITWISE_OPS
 
 // libc++
 #include <iosfwd>                                // std::ostream
@@ -17,25 +18,36 @@
 // visitor for traversal.
 class PrinterVisitor : public ClangUtil,
                        public ClangASTVisitor {
+public:      // types
+  // Flags to control print behavior.
+  enum Flags {
+    // No flags set.
+    F_NONE                             = 0x00,
+
+    // Set to print the VisitXXXContext for each node.
+    F_PRINT_VISIT_CONTEXT              = 0x01,
+
+    // Set to print implicit QualType nodes.
+    F_PRINT_IMPLICIT_QUAL_TYPES        = 0x02,
+
+    // If set, then suppress printing the TypeAsWritten for a
+    // ClassTemplatePartialSpecializationDecl, thereby emulating a bug
+    // in RecursiveASTVisitor.
+    F_OMIT_CTPSD_TAW                   = 0x04,
+
+    // If set, then when printing a CXXDefaultArgExpr, print default
+    // argument too.  The default visitor does not do that because the
+    // default argument is not a child node, but RAV does traverse into
+    // it.
+    F_PRINT_DEFAULT_ARG_EXPRS          = 0x08,
+
+    // All flags set.
+    F_ALL                              = 0x0F
+  };
+
 public:      // data
-  // True to print the VisitXXXContext for each node.  Initially false.
-  bool m_printVisitContext;
-
-  // True to print implicit QualType nodes.  Initially false.
-  bool m_printImplicitQualTypes;
-
-  // If true, then suppress printing the TypeAsWritten for a
-  // ClassTemplatePartialSpecializationDecl, thereby emulating a bug in
-  // RecursiveASTVisitor.  Initially false.
-  bool m_omit_CTPSD_TAW;
-
-  // If true, then when printing a CXXDefaultArgExpr, print default
-  // argument too.  The default visitor does not do that because the
-  // default argument is not a child node, but RAV does traverse into
-  // it.  Initially false.
-  bool m_printDefaultArgExprs;
-
-  // TODO: Refactor the flags into a bit set.
+  // Current printing flags.  Initially F_NONE.
+  Flags m_flags;
 
   // Number of levels of indentation to print.
   int m_indentLevel;
@@ -62,13 +74,13 @@ public:      // methods
 };
 
 
+ENUM_BITWISE_OPS(PrinterVisitor::Flags, PrinterVisitor::F_ALL)
+
+
 // Print the entire TU in 'astContext'.
 void printerVisitorTU(std::ostream &os,
                       clang::ASTContext &astContext,
-                      bool printVisitContext,
-                      bool printImplicitQualTypes,
-                      bool omit_CTPSD_TAW,
-                      bool printDefaultArgExprs);
+                      PrinterVisitor::Flags flags);
 
 
 #endif // PRINTER_VISITOR_H
