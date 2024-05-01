@@ -80,6 +80,7 @@
 #define CLANG_AST_VISITOR_H
 
 // this dir
+#include "clang-ast-context-fwd.h"               // clang::ASTContext [n]
 #include "clang-decl-context-fwd.h"              // clang::DeclContext [n]
 #include "clang-decl-cxx-fwd.h"                  // clang::CXXBaseSpecifier [n]
 #include "clang-decl-template-fwd.h"             // clang::TemplateParameterList [n]
@@ -414,6 +415,14 @@ char const *toString(VisitDeclarationNameContext vdnc);
 // Visitor for the Clang AST.  See the comments at the top of the file.
 class ClangASTVisitor {
 public:      // methods
+  // Scan the entire TU in 'astContext'.
+  //
+  // It is also normal to initiate scans anywhere in the AST by directly
+  // calling the appropriate 'visitXXX' method.  This method is just a
+  // convenient way of kicking off a scan of the entire TU.
+  //
+  void scanTU(clang::ASTContext &astContext);
+
   // -------- Core visitors --------
   //
   // These visitors form the visitor core, as each corresponds to one of

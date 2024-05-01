@@ -301,6 +301,12 @@ char const *toString(VisitDeclarationNameContext vdnc)
 // enumerator due to line wrapping.
 
 
+void ClangASTVisitor::scanTU(clang::ASTContext &astContext)
+{
+  visitDecl(VDC_NONE, astContext.getTranslationUnitDecl());
+}
+
+
 void ClangASTVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)
