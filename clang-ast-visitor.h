@@ -1,6 +1,63 @@
 // clang-ast-visitor.h
 // ClangASTVisitor class.
 
+/*
+  Visitor for the clang AST.
+
+  While conceptually similar to RecursiveASTVisitor (RAV), this visitor
+  has several advantages:
+
+  1. It is easy to do both pre-order and post-order processing at
+     the same time.  Among other things, this makes it possible to
+     "push" and "pop" state as the traversal descends and ascends.
+     (This is also possible with RAV, but idiosyncratic and somewhat
+     unintuitive; see the rav-printer-visitor module for an example.)
+
+  2. The compile-time cost for clients is greatly reduced because the
+     interface only requires forward declarations of the relevant AST
+     nodes, and the client then need only include definitions of the
+     nodes they use.
+
+  3. The set of functions the client can override is much simpler and
+     easier to understand.  Instead of the pantheon of TraverseXXX,
+     WalkUpXXX, VisitXXX, and ad-hoc extensions like
+     dataTraverseStmtPre, everything is done by a small, regular set of
+     core visit methods.
+
+  4. Rather than having a separate visitor method for every subclass,
+     clients are expected to use 'dyn_cast' as appropriate.  Whether
+     this is truly an advantage is of course debatable, but it does
+     reduce the size of the interface.  It also arguably makes "visitor"
+     a misnomer since the GOF patterns book defines "visitor" as the
+     type-dependent dispatch mechanism rather than the tree traversal
+     mechanism, but I think the traversal is the more important part.
+
+  5. The core visit methods accept a 'context' parameter that allows
+     clients to know the syntactic context in which a node appears,
+     which can make some filtering tasks easier.  It's already been
+     useful during testing to deal with cases where RAV (to which I am
+     comparing) does something unexpected or outright wrong.
+
+  6. The interface uses 'const' pointers instead of non-const.  Neither
+     works in every situation, but I think 'const' works more often, at
+     least for my intended applications, and of course the visitor
+     itself does not make any modifications.
+
+  7. RAV traverses into the semantic Type hierarchy, which IMO confuses
+     syntactic exploration with semantic concerns.  In contrast, this
+     visitor sticks to traversing the syntactic TypeLoc hierarchy.
+
+  One disadvantage is possibly slower run-time speed due to using
+  virtual function calls instead of CRTP static overriding.
+
+  NOTE: Since the 'visit' methods are both what the client overrides,
+  and the traversal mechanism, a client that overrides one must always
+  arrange to call the base class method when recursion is desired.  But
+  as a consequential benefit, when recursion is not desired, or should
+  happen at a specific point, the client has direct control over that.
+*/
+
+
 #ifndef CLANG_AST_VISITOR_H
 #define CLANG_AST_VISITOR_H
 
@@ -328,61 +385,7 @@ enum VisitDeclarationNameContext {
 char const *toString(VisitDeclarationNameContext vdnc);
 
 
-/*
-  Visitor for the clang AST.
-
-  While conceptually similar to RecursiveASTVisitor (RAV), this visitor
-  has several advantages:
-
-  1. It is easy to do both pre-order and post-order processing at
-     the same time.  Among other things, this makes it possible to
-     "push" and "pop" state as the traversal descends and ascends.
-     (This is also possible with RAV, but idiosyncratic and somewhat
-     unintuitive; see the rav-printer-visitor module for an example.)
-
-  2. The compile-time cost for clients is greatly reduced because the
-     interface only requires forward declarations of the relevant AST
-     nodes, and the client then need only include definitions of the
-     nodes they use.
-
-  3. The set of functions the client can override is much simpler and
-     easier to understand.  Instead of the pantheon of TraverseXXX,
-     WalkUpXXX, VisitXXX, and ad-hoc extensions like
-     dataTraverseStmtPre, everything is done by a small, regular set of
-     core visit methods.
-
-  4. Rather than having a separate visitor method for every subclass,
-     clients are expected to use 'dyn_cast' as appropriate.  Whether
-     this is truly an advantage is of course debatable, but it does
-     reduce the size of the interface.  It also arguably makes "visitor"
-     a misnomer since the GOF patterns book defines "visitor" as the
-     type-dependent dispatch mechanism rather than the tree traversal
-     mechanism, but I think the traversal is the more important part.
-
-  5. The core visit methods accept a 'context' parameter that allows
-     clients to know the syntactic context in which a node appears,
-     which can make some filtering tasks easier.  It's already been
-     useful during testing to deal with cases where RAV (to which I am
-     comparing) does something unexpected or outright wrong.
-
-  6. The interface uses 'const' pointers instead of non-const.  Neither
-     works in every situation, but I think 'const' works more often, at
-     least for my intended applications, and of course the visitor
-     itself does not make any modifications.
-
-  7. RAV traverses into the semantic Type hierarchy, which IMO confuses
-     syntactic exploration with semantic concerns.  In contrast, this
-     visitor sticks to traversing the syntactic TypeLoc hierarchy.
-
-  One disadvantage is possibly slower run-time speed due to using
-  virtual function calls instead of CRTP static overriding.
-
-  NOTE: Since the 'visit' methods are both what the client overrides,
-  and the traversal mechanism, a client that overrides one must always
-  arrange to call the base class method when recursion is desired.  But
-  as a consequential benefit, when recursion is not desired, or should
-  happen at a specific point, the client has direct control over that.
-*/
+// Visitor for the Clang AST.  See the comments at the top of the file.
 class ClangASTVisitor {
 public:      // methods
   // -------- Core visitors --------
