@@ -3675,6 +3675,11 @@ void PrintClangASTNodes::printType(clang::Type const *type)
     OUT_ATTR_QUALTYPE("NamedType",
       elabType->getNamedType());
   }
+
+  else if (auto usingType = dyn_cast<clang::UsingType>(type)) {
+    OUT_ATTR_PTR("Found",
+      getOrCreateDeclIDStr(usingType->getFoundDecl()));
+  }
 }
 
 
