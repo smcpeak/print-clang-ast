@@ -93,6 +93,20 @@ std::string ClangUtil::declLocStr(clang::Decl const *decl) const
 }
 
 
+std::string ClangUtil::declKindAtLocStr(
+  clang::Decl const * NULLABLE decl) const
+{
+  if (!decl) {
+    return "null";
+  }
+
+  else {
+    return stringb(decl->getDeclKindName() << "Decl " <<
+                   " at " << declLocStr(decl));
+  }
+}
+
+
 std::string ClangUtil::namedDeclStr(
   clang::NamedDecl const * NULLABLE namedDecl) const
 {

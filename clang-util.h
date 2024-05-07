@@ -118,6 +118,9 @@ public:      // methods
   // Render the location of 'decl' as a string.
   std::string declLocStr(clang::Decl const *decl) const;
 
+  // Return a string with the declaration kind and source location.
+  std::string declKindAtLocStr(clang::Decl const * NULLABLE decl) const;
+
   // Render 'decl' with qualifiers and signature.
   std::string namedDeclStr(
     clang::NamedDecl const * NULLABLE namedDecl) const;
