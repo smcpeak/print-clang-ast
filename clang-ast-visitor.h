@@ -758,6 +758,9 @@ public:      // methods
   void visitRequiresExprRequirements(
     clang::RequiresExpr const *requiresExpr);
 
+  // Visit the type of 'dd', which might be implicit or explicit.
+  void visitDeclaratorDeclType(
+    clang::DeclaratorDecl const *dd);
 };
 
 

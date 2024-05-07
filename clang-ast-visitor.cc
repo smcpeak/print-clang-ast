@@ -335,12 +335,9 @@ void ClangASTVisitor::visitDecl(
                                fd->getNameInfo());
     }
 
-    // Visiting the type usually includes visiting the parameters if
-    // this is a declaration of a function.
-    visitTypeSourceInfoOrImplicitQualType(
-      VTC_DECLARATOR_DECL,
-      dd->getTypeSourceInfo(),
-      dd->getType());
+    // Note that visiting the type usually includes visiting the
+    // parameters if this is a declaration of a function.
+    visitDeclaratorDeclType(dd);
 
     if (clang::Expr const *trailingRequires =
           dd->getTrailingRequiresClause()) {
@@ -1828,6 +1825,16 @@ void ClangASTVisitor::visitRequiresExprRequirements(
          requiresExpr->getRequirements()) {
     visitConceptsRequirement(req);
   }
+}
+
+
+void ClangASTVisitor::visitDeclaratorDeclType(
+  clang::DeclaratorDecl const *dd)
+{
+  visitTypeSourceInfoOrImplicitQualType(
+    VTC_DECLARATOR_DECL,
+    dd->getTypeSourceInfo(),
+    dd->getType());
 }
 
 
