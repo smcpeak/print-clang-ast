@@ -192,6 +192,12 @@ public:      // methods
 };
 
 
+// SaveRestore with a uniquely-named restorer object and deduced type.
+#define SAVE_RESTORE(variable) \
+  SaveRestore<decltype(variable)> SM_PP_CAT(save_restore_,__LINE__) \
+    (variable) /* user ; */
+
+
 // Set a variable to a value, then restore when going out of scope.
 template <class T>
 class SetRestore : public SaveRestore<T> {
