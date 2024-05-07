@@ -36,6 +36,20 @@ int compare(NUM const &a, NUM const &b)
   }
 
 
+/* Compare a base class subobject.
+
+   The cast is needed because this is meant to be used from within the
+   definition of a 'compare' function that operates on a superclass, so
+   without the cast, this would just be the function calling itself in
+   an infinite loop.
+*/
+#define COMPARE_SUBOBJ(BaseType)                             \
+  if (int ret = compare(static_cast<BaseType const &>(a),    \
+                        static_cast<BaseType const &>(b))) { \
+    return ret;                                              \
+  }
+
+
 // Define a single friend relational operator.
 #define DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, op) \
   friend bool operator op (Class const &a, Class const &b) \
