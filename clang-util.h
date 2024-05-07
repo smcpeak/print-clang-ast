@@ -262,7 +262,7 @@ public:      // methods
   static clang::Decl const *declFromDC(
     clang::DeclContext const * NULLABLE dc);
 
-  // Render 'stmt' as a string.
+  // Render 'stmt' as a string by pretty-printing the syntax.
   std::string stmtStr(clang::Stmt const * NULLABLE stmt) const;
 
   // Get the location of 'stmt'.
