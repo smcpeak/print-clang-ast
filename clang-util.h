@@ -564,6 +564,32 @@ std::string getDynamicTypeClassName(clang::Decl const *decl);
 std::string getDynamicTypeClassName(clang::Stmt const *stmt);
 std::string getDynamicTypeClassName(clang::concepts::Requirement const *req);
 
+// There is no overload of 'getDynamicTypeClassName' for DeclContext
+// because it would be ambiguous with the overload for Decl for any
+// argument that inherits both.  So we define it with a different name,
+// and then specialize 'outerGetDynamicTypeClassName' for DeclContext to
+// use it.
+std::string getDeclContextClassName(clang::DeclContext const *dc);
+
+
+template <class Y>
+inline std::string outerGetDynamicTypeClassName(Y *src)
+{
+  return getDynamicTypeClassName(src);
+}
+
+template <>
+inline std::string outerGetDynamicTypeClassName(clang::DeclContext *src)
+{
+  return getDeclContextClassName(src);
+}
+
+template <>
+inline std::string outerGetDynamicTypeClassName(clang::DeclContext const *src)
+{
+  return getDeclContextClassName(src);
+}
+
 
 // Report an attempt to dyn_cast a null pointer.
 void assert_dyn_cast_null(
@@ -586,7 +612,8 @@ void assert_dyn_cast_failed(
   assert_dyn_cast_impl<DestType>(#DestType, (src), __FILE__, __LINE__)
 
 template <class X, class Y>
-inline typename llvm::cast_retty<X, Y *>::ret_type assert_dyn_cast_impl(
+inline typename llvm::cast_retty<X, Y *>::ret_type
+assert_dyn_cast_impl(
   char const *destTypeName,
   Y *src,
   char const *sourceFile,
@@ -601,7 +628,7 @@ inline typename llvm::cast_retty<X, Y *>::ret_type assert_dyn_cast_impl(
 
   if (!ret) {
     assert_dyn_cast_failed(destTypeName,
-      getDynamicTypeClassName(src), sourceFile, sourceLine);
+      outerGetDynamicTypeClassName(src), sourceFile, sourceLine);
   }
 
   return ret;

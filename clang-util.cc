@@ -1877,6 +1877,12 @@ std::string getDynamicTypeClassName(clang::concepts::Requirement const *req)
 }
 
 
+std::string getDeclContextClassName(clang::DeclContext const *dc)
+{
+  return stringb(dc->getDeclKindName() << "Decl");
+}
+
+
 void assert_dyn_cast_null(
   char const *destTypeName,
   char const *sourceFile,
