@@ -191,6 +191,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CXX_CTOR_INITIALIZER,
     VTC_FRIEND_DECL,
     VTC_FRIEND_TEMPLATE_DECL,
+    VTC_TEMPLATE_TYPE_PARM_DECL_DEFAULT,
 
     VTC_QUALIFIED_TYPE,
     VTC_ATTRIBUTED_TYPE,
@@ -553,6 +554,21 @@ void ClangASTVisitor::visitDecl(
       VTAC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
       csfsd->getTemplateArgsAsWritten());
   }
+
+  else if (auto ttpd = dyn_cast<clang::TemplateTypeParmDecl>(decl)) {
+    // TODO: Type constraint?
+
+    // Visit the default argument if it is syntactically present.
+    if (ttpd->hasDefaultArgument() &&
+        !ttpd->defaultArgumentWasInherited()) {
+      visitTypeSourceInfo(VTC_TEMPLATE_TYPE_PARM_DECL_DEFAULT,
+        ttpd->getDefaultArgumentInfo());
+    }
+  }
+
+  // TODO: Template non-type param default.
+
+  // TODO: Template template param default.
 
   else if (auto ed = dyn_cast<clang::ExportDecl>(decl)) {
     visitNonFunctionDeclContext(VDC_EXPORT_DECL, DECL_CONTEXT_OF(ed));
