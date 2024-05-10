@@ -101,8 +101,24 @@ std::string ClangUtil::declKindAtLocStr(
   }
 
   else {
-    return stringb(decl->getDeclKindName() << "Decl " <<
+    return stringb(decl->getDeclKindName() << "Decl" <<
                    " at " << declLocStr(decl));
+  }
+}
+
+
+std::string ClangUtil::declKindMaybeNameAtLocStr(
+  clang::Decl const * NULLABLE decl) const
+{
+  if (!decl) {
+    return "null";
+  }
+
+  if (auto nd = dyn_cast<clang::NamedDecl>(decl)) {
+    return namedDeclAndKindAtLocStr(nd);
+  }
+  else {
+    return declKindAtLocStr(decl);
   }
 }
 

@@ -121,6 +121,11 @@ public:      // methods
   // Return a string with the declaration kind and source location.
   std::string declKindAtLocStr(clang::Decl const * NULLABLE decl) const;
 
+  // If 'decl' is a NamedDecl, then act like 'namedDeclAndKindAtLocStr',
+  // otherwise act like 'declKindAtLocStr'.
+  std::string declKindMaybeNameAtLocStr(
+    clang::Decl const * NULLABLE decl) const;
+
   // Render 'decl' with qualifiers and signature.
   std::string namedDeclStr(
     clang::NamedDecl const * NULLABLE namedDecl) const;
