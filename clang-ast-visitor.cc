@@ -75,6 +75,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_ENUM_CONSTANT_DECL,
     VSC_FILE_SCOPE_ASM_DECL_STRING,
     VSC_TEMPLATE_DECL_REQUIRES_CLAUSE,
+    VSC_NON_TYPE_TEMPLATE_PARM_DECL_DEFAULT,
 
     VSC_TYPE_OF_TYPE,
     VSC_DECLTYPE_TYPE,
@@ -394,9 +395,19 @@ void ClangASTVisitor::visitDecl(
       }
     }
 
+    // TODO: This cannot be right because EnumConstantDecl is not a
+    // subclass of DeclaratorDecl!
     else if (auto ecd = dyn_cast<clang::EnumConstantDecl>(decl)) {
       if (clang::Expr const *init = ecd->getInitExpr()) {
         visitStmt(VSC_ENUM_CONSTANT_DECL, init);
+      }
+    }
+
+    else if (auto nttpd = dyn_cast<clang::NonTypeTemplateParmDecl>(decl)) {
+      if (nttpd->hasDefaultArgument() &&
+          !nttpd->defaultArgumentWasInherited()) {
+        visitStmt(VSC_NON_TYPE_TEMPLATE_PARM_DECL_DEFAULT,
+          nttpd->getDefaultArgument());
       }
     }
   }
@@ -565,8 +576,6 @@ void ClangASTVisitor::visitDecl(
         ttpd->getDefaultArgumentInfo());
     }
   }
-
-  // TODO: Template non-type param default.
 
   // TODO: Template template param default.
 
