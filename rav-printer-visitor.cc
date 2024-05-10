@@ -12,6 +12,19 @@
 using clang::dyn_cast;
 
 
+#define INCREMENT_INDENT_LEVEL() \
+  SET_RESTORE(m_indentLevel, m_indentLevel+1)
+
+
+// Copy of the TRY_TO macro defined (and then undefined) in
+// RecursiveASTVisitor.h.
+#define TRY_TO(CALL_EXPR)                                                      \
+  do {                                                                         \
+    if (!getDerived().CALL_EXPR)                                               \
+      return false;                                                            \
+  } while (false)
+
+
 std::string RAVPrinterVisitor::indentString() const
 {
   std::ostringstream oss;
@@ -19,6 +32,20 @@ std::string RAVPrinterVisitor::indentString() const
     oss << "  ";
   }
   return oss.str();
+}
+
+
+bool RAVPrinterVisitor::TraverseTemplateParameterListHelper(
+    clang::TemplateParameterList *TPL) {
+  if (TPL) {
+    for (clang::NamedDecl *D : *TPL) {
+      TRY_TO(TraverseDecl(D));
+    }
+    if (clang::Expr *RequiresClause = TPL->getRequiresClause()) {
+      TRY_TO(TraverseStmt(RequiresClause));
+    }
+  }
+  return true;
 }
 
 
@@ -40,17 +67,9 @@ bool RAVPrinterVisitor::TraverseDecl(clang::Decl *decl)
          << "Decl at " << declLocStr(decl) << "\n";
   }
 
-  SET_RESTORE(m_indentLevel, m_indentLevel+1);
+  INCREMENT_INDENT_LEVEL();
 
 #if 0
-  // Copy of the TRY_TO macro defined (and then undefined) in
-  // RecursiveASTVisitor.h.
-  #define TRY_TO(CALL_EXPR)                                                      \
-    do {                                                                         \
-      if (!getDerived().CALL_EXPR)                                               \
-        return false;                                                            \
-    } while (false)
-
   // Compensate for Clang bug visiting partial specializations:
   //
   //   https://github.com/llvm/llvm-project/issues/90586
@@ -85,6 +104,36 @@ bool RAVPrinterVisitor::TraverseDecl(clang::Decl *decl)
     return true;
   }
 #endif // 0
+
+  if (auto D = dyn_cast<clang::TemplateTemplateParmDecl>(decl)) {
+    // The base class visitor uses the following block of code, which
+    // (1) pointlessly visits the templated decl (it is always nullptr),
+    // and (2) visits the default argument *before* the parameters that
+    // characterize the template template parameter!
+    //
+    // Also, the comment is rather misleading, as 'D' is:
+    //
+    //   template <typename> class T
+    //
+    // not just 'T'.
+    //
+    #if 0    // BEGIN: original code
+      // D is the "T" in something like
+      //   template <template <typename> class T> class container { };
+      TRY_TO(TraverseDecl(D->getTemplatedDecl()));
+      if (D->hasDefaultArgument() && !D->defaultArgumentWasInherited())
+        TRY_TO(TraverseTemplateArgumentLoc(D->getDefaultArgument()));
+      TRY_TO(TraverseTemplateParameterListHelper(D->getTemplateParameters()));
+    #endif   // END: original code
+
+    // So I'll provide a fixed version:
+    assert(D->getTemplatedDecl() == nullptr);
+    TRY_TO(TraverseTemplateParameterListHelper(D->getTemplateParameters()));
+    if (D->hasDefaultArgument() && !D->defaultArgumentWasInherited())
+      TRY_TO(TraverseTemplateArgumentLoc(D->getDefaultArgument()));
+
+    return true;
+  }
 
   bool ret = BaseClass::TraverseDecl(decl);
 
@@ -134,7 +183,7 @@ bool RAVPrinterVisitor::TraverseTypeLoc(clang::TypeLoc typeLoc)
 {
   m_os << indentString() << typeLocStr(typeLoc) << "\n";
 
-  SET_RESTORE(m_indentLevel, m_indentLevel+1);
+  INCREMENT_INDENT_LEVEL();
 
   return BaseClass::TraverseTypeLoc(typeLoc);
 }
@@ -153,6 +202,16 @@ bool RAVPrinterVisitor::TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc TL)
 }
 
 
+bool RAVPrinterVisitor::TraverseTemplateArgumentLoc(clang::TemplateArgumentLoc tal)
+{
+  m_os << indentString() << templateArgumentLocStr(tal) << "\n";
+
+  INCREMENT_INDENT_LEVEL();
+
+  return BaseClass::TraverseTemplateArgumentLoc(tal);
+}
+
+
 bool RAVPrinterVisitor::TraverseNestedNameSpecifierLoc(
   clang::NestedNameSpecifierLoc nnsl)
 {
@@ -160,7 +219,7 @@ bool RAVPrinterVisitor::TraverseNestedNameSpecifierLoc(
     m_os << indentString() << "NNS "
          << nestedNameSpecifierLocStr(nnsl) << "\n";
 
-    SET_RESTORE(m_indentLevel, m_indentLevel+1);
+    INCREMENT_INDENT_LEVEL();
 
     return BaseClass::TraverseNestedNameSpecifierLoc(nnsl);
   }

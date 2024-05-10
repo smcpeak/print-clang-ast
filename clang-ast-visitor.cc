@@ -246,6 +246,7 @@ char const *toString(VisitTemplateArgumentContext vtac)
 
     VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
     VTAC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
+    VTAC_TEMPLATE_TEMPLATE_PARM_DECL_DEFAULT,
 
     VTAC_TEMPLATE_SPECIALIZATION_TYPE,
 
@@ -524,6 +525,14 @@ void ClangASTVisitor::visitDecl(
     else if (auto ftd = dyn_cast<clang::FunctionTemplateDecl>(decl)) {
       visitFunctionTemplateInstantiationsIfCanonical(ftd);
     }
+
+    else if (auto ttpd = dyn_cast<clang::TemplateTemplateParmDecl>(decl)) {
+      if (ttpd->hasDefaultArgument() &&
+          !ttpd->defaultArgumentWasInherited()) {
+        visitTemplateArgumentLoc(VTAC_TEMPLATE_TEMPLATE_PARM_DECL_DEFAULT,
+          ttpd->getDefaultArgument());
+      }
+    }
   }
 
   else if (auto fd = dyn_cast<clang::FriendDecl>(decl)) {
@@ -574,8 +583,6 @@ void ClangASTVisitor::visitDecl(
         ttpd->getDefaultArgumentInfo());
     }
   }
-
-  // TODO: Template template param default.
 
   else if (auto ed = dyn_cast<clang::ExportDecl>(decl)) {
     visitNonFunctionDeclContext(VDC_EXPORT_DECL, DECL_CONTEXT_OF(ed));

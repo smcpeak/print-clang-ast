@@ -440,6 +440,11 @@ public:      // methods
   std::string templateArgumentAndKindStr(
     clang::TemplateArgument const &arg) const;
 
+  // Render 'argLoc' as a string: quoted argument, then its kind, and
+  // then its source location.
+  std::string templateArgumentLocStr(
+    clang::TemplateArgumentLoc const &argLoc) const;
+
   // Render 'args' as a string like "<int, float>".
   std::string templateArgumentListStr(
     clang::TemplateArgumentList const &args) const;

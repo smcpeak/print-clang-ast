@@ -29,7 +29,8 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
       VDC_RECORD_DECL: FriendDecl at in/src/friend-template-decl.cc:16:3
         VTC_FRIEND_DECL: Elaborated("class MyVector<T>", <in/src/friend-template-decl.cc:16:10, col:26>, TemplateSpecialization("MyVector<T>", <in/src/friend-template-decl.cc:16:16, col:26>, NullTypeLoc))
           VTC_ELABORATED_TYPE: TemplateSpecialization("MyVector<T>", <in/src/friend-template-decl.cc:16:16, col:26>, NullTypeLoc)
-            VTC_TEMPLATE_ARGUMENT: TemplateTypeParm("T", <in/src/friend-template-decl.cc:16:25>, NullTypeLoc)
+            VTAC_TEMPLATE_SPECIALIZATION_TYPE: "T" (ArgKind::Type) at in/src/friend-template-decl.cc:16:25
+              VTC_TEMPLATE_ARGUMENT: TemplateTypeParm("T", <in/src/friend-template-decl.cc:16:25>, NullTypeLoc)
       VDC_RECORD_DECL: FriendDecl at in/src/friend-template-decl.cc:19:3
         VDC_FRIEND_DECL: ClassTemplateDecl "B" at in/src/friend-template-decl.cc:19:3
           VDC_TEMPLATE_DECL_PARAMETER: TemplateTypeParmDecl "B::U" at in/src/friend-template-decl.cc:19:13
@@ -40,7 +41,8 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
           VDC_TEMPLATE_DECL: CXXRecordDecl "Foo::Nested<U>" at in/src/friend-template-decl.cc:24:10
             VNNSC_RECORD_DECL: NNS "Foo<T>::" at <in/src/friend-template-decl.cc:24:16, col:22>
               VTC_NESTED_NAME_SPECIFIER: TemplateSpecialization("Foo<T>", <in/src/friend-template-decl.cc:24:16, col:21>, NullTypeLoc)
-                VTC_TEMPLATE_ARGUMENT: TemplateTypeParm("T", <in/src/friend-template-decl.cc:24:20>, NullTypeLoc)
+                VTAC_TEMPLATE_SPECIALIZATION_TYPE: "T" (ArgKind::Type) at in/src/friend-template-decl.cc:24:20
+                  VTC_TEMPLATE_ARGUMENT: TemplateTypeParm("T", <in/src/friend-template-decl.cc:24:20>, NullTypeLoc)
 ---- stderr ----
 ---- exit status ----
 Exit 0

@@ -106,6 +106,19 @@ void PrinterVisitor::visitTypeLoc(VisitTypeContext context,
 }
 
 
+void PrinterVisitor::visitTemplateArgumentLoc(
+  VisitTemplateArgumentContext context,
+  clang::TemplateArgumentLoc tal)
+{
+  PRINT_INDENT_AND_CONTEXT();
+  m_os << templateArgumentLocStr(tal) << "\n";
+
+  INCREMENT_INDENT_LEVEL();
+
+  ClangASTVisitor::visitTemplateArgumentLoc(context, tal);
+}
+
+
 void PrinterVisitor::visitImplicitQualType(VisitTypeContext context,
                                            clang::QualType qualType)
 {

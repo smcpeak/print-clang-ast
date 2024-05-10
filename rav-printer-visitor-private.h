@@ -40,6 +40,10 @@ public:      // methods
       m_os(os)
   {}
 
+// This is an exact copy of the private base class method, defined again
+// so I can call in order to fix other misbehavior in RAV.
+  bool TraverseTemplateParameterListHelper(clang::TemplateParameterList *TPL);
+
   // Indentation string corresponding to 'm_indentLevel'.
   std::string indentString() const;
 
@@ -52,6 +56,7 @@ public:      // methods
   bool dataTraverseStmtPre(clang::Stmt *stmt);
   bool dataTraverseStmtPost(clang::Stmt *stmt);
   bool TraverseTypeLoc(clang::TypeLoc TL);
+  bool TraverseTemplateArgumentLoc(clang::TemplateArgumentLoc tal);
   bool TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc TL);
   bool TraverseNestedNameSpecifierLoc(clang::NestedNameSpecifierLoc nnsl);
 };

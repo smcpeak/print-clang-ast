@@ -1477,8 +1477,20 @@ std::string ClangUtil::templateArgumentStr(
 std::string ClangUtil::templateArgumentAndKindStr(
   clang::TemplateArgument const &arg) const
 {
-  return stringb(doubleQuote(templateArgumentStr(arg)) << " (ArgKind::" <<
-                 templateArgumentKindStr(arg.getKind()) << ")");
+  return stringb(
+    doubleQuote(templateArgumentStr(arg)) <<
+    " (ArgKind::" << templateArgumentKindStr(arg.getKind()) << ")"
+  );
+}
+
+
+std::string ClangUtil::templateArgumentLocStr(
+  clang::TemplateArgumentLoc const &argLoc) const
+{
+  return stringb(
+    templateArgumentAndKindStr(argLoc.getArgument()) <<
+    " at " << locStr(argLoc.getLocation())
+  );
 }
 
 
