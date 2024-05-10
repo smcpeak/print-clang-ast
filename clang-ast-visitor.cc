@@ -395,20 +395,18 @@ void ClangASTVisitor::visitDecl(
       }
     }
 
-    // TODO: This cannot be right because EnumConstantDecl is not a
-    // subclass of DeclaratorDecl!
-    else if (auto ecd = dyn_cast<clang::EnumConstantDecl>(decl)) {
-      if (clang::Expr const *init = ecd->getInitExpr()) {
-        visitStmt(VSC_ENUM_CONSTANT_DECL, init);
-      }
-    }
-
     else if (auto nttpd = dyn_cast<clang::NonTypeTemplateParmDecl>(decl)) {
       if (nttpd->hasDefaultArgument() &&
           !nttpd->defaultArgumentWasInherited()) {
         visitStmt(VSC_NON_TYPE_TEMPLATE_PARM_DECL_DEFAULT,
           nttpd->getDefaultArgument());
       }
+    }
+  }
+
+  else if (auto ecd = dyn_cast<clang::EnumConstantDecl>(decl)) {
+    if (clang::Expr const *init = ecd->getInitExpr()) {
+      visitStmt(VSC_ENUM_CONSTANT_DECL, init);
     }
   }
 

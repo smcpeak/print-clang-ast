@@ -1,0 +1,207 @@
+---- stdout ----
+{
+
+"TranslationUnitDecl 1": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "null" },
+  "Decl::lexicalDeclContext": { "ptr": "null" },
+  "Decl::Loc": "<invalid loc>",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "0",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "TranslationUnitDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 10 entries",
+  "DeclContext::FirstDecl": { "ptr": "TypedefDecl 2" },
+  "DeclContext::LastDecl": { "ptr": "EnumDecl 14" },
+},
+
+"TypedefDecl 2": {
+  "skipping reserved": "\"__int128_t\"",
+},
+
+"BuiltinType 3": {
+  "syntax": "\"__int128\"",
+},
+
+"TypedefDecl 4": {
+  "skipping reserved": "\"__uint128_t\"",
+},
+
+"BuiltinType 5": {
+  "syntax": "\"unsigned __int128\"",
+},
+
+"TypedefDecl 6": {
+  "skipping reserved": "\"__NSConstantString\"",
+},
+
+"RecordType 7": {
+  "syntax": "\"struct __NSConstantString_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 22" },
+},
+
+"TypedefDecl 8": {
+  "skipping reserved": "\"__builtin_ms_va_list\"",
+},
+
+"PointerType 9": {
+  "syntax": "\"char *\"",
+  "PointeeType": { "ptr": "BuiltinType 10", "preview": "char" },
+},
+
+"BuiltinType 10": {
+  "syntax": "\"char\"",
+},
+
+"TypedefDecl 11": {
+  "skipping reserved": "\"__builtin_va_list\"",
+},
+
+"ConstantArrayType 12": {
+  "syntax": "\"struct __va_list_tag[1]\"",
+},
+
+"RecordType 13": {
+  "syntax": "\"struct __va_list_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 23" },
+},
+
+"EnumDecl 14": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/enum.cc:4:6",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Tag|IDNS_Type",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "EnumDecl",
+  "DeclContext::DeclContextBits": "HasLazyLocalLexicalLookups",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "EnumConstantDecl 15" },
+  "DeclContext::LastDecl": { "ptr": "EnumConstantDecl 21" },
+  "NamedDecl::Name": "\"E\"",
+  "TypeDecl::TypeForDecl": { "ptr": "EnumType 24", "preview": "enum E" },
+  "TypeDecl::LocStart": "in/src/enum.cc:4:1",
+  "Redeclarable::Previous": { "ptr": "EnumDecl 14" },
+  "Redeclarable::First": { "ptr": "EnumDecl 14" },
+  "Redeclarable::redecls_size()": 1,
+  "TagDecl::TagDeclBits": "TTK_Enum IsCompleteDefinition IsFreeStanding",
+  "TagDecl::TagDeclBits.IsCompleteDefinition": "true",
+  "TagDecl::BraceRange": "<in/src/enum.cc:4:8, line:9:1>",
+  "TagDecl::TypedefNameDeclOrQualifier.name": { "ptr": "null" },
+},
+
+"EnumConstantDecl 15": {
+  "Decl::NextInContext": { "ptr": "EnumConstantDecl 16" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "EnumDecl 14" },
+  "Decl::lexicalDeclContext": { "ptr": "EnumDecl 14" },
+  "Decl::Loc": "in/src/enum.cc:5:3",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"ZERO\"",
+  "ValueDecl::DeclType": { "ptr": "EnumType 24", "preview": "enum E" },
+},
+
+"EnumConstantDecl 16": {
+  "Decl::NextInContext": { "ptr": "EnumConstantDecl 17" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "EnumDecl 14" },
+  "Decl::lexicalDeclContext": { "ptr": "EnumDecl 14" },
+  "Decl::Loc": "in/src/enum.cc:6:3",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"ONE\"",
+  "ValueDecl::DeclType": { "ptr": "EnumType 24", "preview": "enum E" },
+},
+
+"EnumConstantDecl 17": {
+  "Decl::NextInContext": { "ptr": "EnumConstantDecl 21" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "EnumDecl 14" },
+  "Decl::lexicalDeclContext": { "ptr": "EnumDecl 14" },
+  "Decl::Loc": "in/src/enum.cc:7:3",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"THREE\"",
+  "ValueDecl::DeclType": { "ptr": "EnumType 24", "preview": "enum E" },
+},
+
+"ImplicitCastExpr 18": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 25", "preview": "unsigned int" },
+  "CastExpr::CastExprBits": "IntegralCast",
+  "CastExpr::BasePathSize": 0,
+  "CastExpr::Op": { "ptr": "ConstantExpr 19" },
+  "CastExpr::getConversionFunction()": { "ptr": "null" },
+  "CastExpr::getStoredFPFeatures())": "TODO",
+  "ImplicitCastExpr::PartOfExplicitCast": false,
+},
+
+"ConstantExpr 19": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 26", "preview": "int" },
+},
+
+"IntegerLiteral 20": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "None",
+  "Expr::TR": { "ptr": "BuiltinType 26", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/enum.cc:7:11",
+  "IntegerLiteral::APInt": "3",
+},
+
+"EnumConstantDecl 21": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "EnumDecl 14" },
+  "Decl::lexicalDeclContext": { "ptr": "EnumDecl 14" },
+  "Decl::Loc": "in/src/enum.cc:8:3",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"FOUR\"",
+  "ValueDecl::DeclType": { "ptr": "EnumType 24", "preview": "enum E" },
+},
+
+"CXXRecordDecl 22": {
+  "skipping reserved": "\"__NSConstantString_tag\"",
+},
+
+"CXXRecordDecl 23": {
+  "skipping reserved": "\"__va_list_tag\"",
+},
+
+"EnumType 24": {
+  "syntax": "\"enum E\"",
+  "decl": { "ptr": "EnumDecl 14" },
+},
+
+"BuiltinType 25": {
+  "syntax": "\"unsigned int\"",
+},
+
+"BuiltinType 26": {
+  "syntax": "\"int\"",
+},
+}
+---- stderr ----
+---- exit status ----
+Exit 0
