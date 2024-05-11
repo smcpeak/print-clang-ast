@@ -1730,6 +1730,16 @@ void ClangASTVisitor::visitCallExprArgs(
 void ClangASTVisitor::visitFunctionTemplateInstantiationsIfCanonical(
   clang::FunctionTemplateDecl const *ftd)
 {
+  // It is tempting to visit the instantiations when 'ftd' is the
+  // definition rather than canonical.  The problem with that is if
+  // there is no definition, then there are still instantiations of the
+  // declaration.  And even when there is a definition, there can be
+  // instantiations of the declaration only.  Only an instantiation of
+  // the definition is necessarily tied to the template definition, so
+  // for uniformity, they are all visited "underneath" the canonical
+  // declaration.  (Also, that is what RAV does, and I'm imitating RAV
+  // in places to make it easier to test this visitor against RAV.)
+
   if (ftd->isCanonicalDecl()) {
     visitFunctionTemplateInstantiations(ftd);
   }
