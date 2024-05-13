@@ -65,14 +65,39 @@ std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 /*static*/ clang::SourceLocation ClangUtil::declLoc(
   clang::Decl const *decl)
 {
-  // One case where 'getLocation()' does the wrong thing is if 'decl' is
-  // a FunctionDecl implicitly instantiated from a member template of a
-  // template class, where the member template was declared in the class
-  // body but then defined outside it.  In that case, 'getLocation()'
-  // points at the declaration, while 'getBeginLoc()' points at the
-  // definition.
-  //
-  // Example: in/src/template-method-ops.h.
+  // If 'decl' is an implicit instantiation, then its 'getBeginLoc()'
+  // will be the start of the instantiated template body, whereas I want
+  // the start of the instantiated template head for consistency with
+  // explicit specializations.
+  if (auto functionDecl = dyn_cast<clang::FunctionDecl>(decl)) {
+    if (clang::FunctionTemplateSpecializationInfo const *ftsi =
+          functionDecl->getTemplateSpecializationInfo()) {
+      // Only look at implicit instantiaions, at least for the moment.
+      if (!ftsi->isExplicitInstantiationOrSpecialization()) {
+        clang::FunctionTemplateDecl const *ftd = ftsi->getTemplate();
+        return ftd->getBeginLoc();
+      }
+    }
+  }
+
+  /* One case where 'getLocation()' does the wrong thing is if 'decl' is
+     a FunctionDecl implicitly instantiated from a member template of a
+     template class, where the member template was declared in the class
+     body but then defined outside it.  In that case, 'getLocation()'
+     points at the declaration, while 'getBeginLoc()' points at the
+     definition.
+
+     Example: in/src/template-method-ops.h.
+
+     Another case of note is when 'decl' is actually a 'TypeDecl'.
+     'TypeDecl::getBeginLoc()' returns a different location in some
+     cases; for example, in a class template specialization declaration,
+     it returns the location of the "class" keyword rather than the
+     location of the "template" keyword.  But 'Decl::getBeginLoc()' on
+     the same object returns the latter location.  So in addition to
+     avoiding the problems of 'getLocation()', my 'declLoc' also avoids
+     problems with inconsistent subclass definitions of 'getBeginLoc()'.
+  */
   return decl->getBeginLoc();
 }
 

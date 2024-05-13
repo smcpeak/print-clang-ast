@@ -99,16 +99,18 @@ public:      // methods
   // Stringify 'range'.
   std::string sourceRangeStr(clang::SourceRange range) const;
 
-  // Get the principal location for 'decl'.  In particular, if 'decl' is
-  // a definition of something that is declared elsewhere, I want the
-  // location of that definition, whereas Decl::getLocation() sometimes
-  // returns the declaration location.
-  //
-  // In general, I should be using this rather than Decl::getLocation()
-  // unless there is a known, specific reason.
-  //
-  // Note that many Stmt subclasses have a getLocation() method that, as
-  // far as I know, is fine to use.
+  /* Get the location of the beginning of 'decl'.  In particular, if
+     'decl' is a definition of something that was previously declared
+     elsewhere, I want the location of that definition, whereas
+     Decl::getLocation() sometimes returns the declaration location.
+     See the comments in the implementation for more details.
+
+     In general, I should be using this rather than Decl::getLocation()
+     or Decl::getBeginLoc() unless there is a known, specific reason.
+
+     Note that many Stmt subclasses have a getLocation() method that, as
+     far as I know, is fine to use.
+  */
   static clang::SourceLocation declLoc(clang::Decl const *decl);
 
   // Get the location of the identifier for 'decl'.
