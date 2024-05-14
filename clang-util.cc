@@ -254,19 +254,23 @@ std::string ClangUtil::unnamedDeclAddrAtLocStr(
 // annotations.  Normally this is the simple identifier as obtained
 // by 'namedDecl->getNameAsString()'.
 //
-// If 'namedDecl' is a template, return its name followed by template
-// parameters, like "S<T>".
+// If 'namedDecl' is a template declaration, return its name prepended
+// with template parameters, like "<T>S".
 //
-// If 'namedDecl' is a template specialization, then its simple
-// identifier is followed by a sequence of template arguments.  An
-// example is "S<int>".
+// If it is the body of a template declaration, return its name followed
+// by template parameters turned into arguments, like "S<T>".  (My
+// dependency analysis uses the body declaration, so this is my "normal"
+// case for the name of a template.)
 //
-// If 'namedDecl' is a class template partial specialization, then its
-// identifier is preceded by a sequence of template parameters, and
-// followed by a sequence of template arguments that may refer to the
-// parameters.  Example: "<T>S<T*>".
+// If it is a class template partial specialization, return its
+// identifier is followed by a pattern sequence of template arguments
+// that may refer to the parameters.  Example: "S<T*>".
 //
-// If 'namedDecl' is a function, append "()".
+// If it is a template specialization, then its simple identifier is
+// followed by a sequence of template arguments.  An example is
+// "S<int>".
+//
+// If it is a function, append "()".
 //
 // This string is not meant to be globally unique.  Rather, it is
 // meant to have just enough information to disambiguate it from other
@@ -318,12 +322,6 @@ std::string ClangUtil::namedDeclCompactIdentifier(
 
   if (auto partialSpecDecl =
         dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(namedDecl)) {
-    // Class template partial specialization: prepend parameters, append
-    // arguments.
-    std::string paramString =
-      templateParameterListArgsStr(
-        partialSpecDecl->getTemplateParameters());
-
     // By using the "as-written" arguments instead of
     // 'getTemplateArgs()', we get the types expressed using the
     // original parameter names, instead of things like
@@ -332,7 +330,7 @@ std::string ClangUtil::namedDeclCompactIdentifier(
       astTemplateArgumentListInfoStr(
         assertDeref(partialSpecDecl->getTemplateArgsAsWritten()));
 
-    return postProcess(paramString + simpleId + argString);
+    return postProcess(simpleId + argString);
   }
 
   if (auto classSpecDecl =
