@@ -153,6 +153,12 @@ public:      // methods
   std::string unnamedDeclAddrAtLocStr(
     clang::Decl const * NULLABLE decl) const;
 
+  // Return a string that identifies the entity declared by 'namedDecl'
+  // in a compact but reasonably unambiguous in the context of an
+  // automated test.  See comments at the implementation for details.
+  std::string namedDeclCompactIdentifier(
+    clang::NamedDecl const *namedDecl) const;
+
   // Stringify 'declName' and its kind.
   static std::string declarationNameStr(
     clang::DeclarationName declName);

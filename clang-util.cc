@@ -237,6 +237,138 @@ std::string ClangUtil::unnamedDeclAddrAtLocStr(
 }
 
 
+// Return a string to be used as the identifier for 'namedDecl' in
+// annotations.  Normally this is the simple identifier as obtained
+// by 'namedDecl->getNameAsString()'.
+//
+// If 'namedDecl' is a template, return its name followed by template
+// parameters, like "S<T>".
+//
+// If 'namedDecl' is a template specialization, then its simple
+// identifier is followed by a sequence of template arguments.  An
+// example is "S<int>".
+//
+// If 'namedDecl' is a class template partial specialization, then its
+// identifier is preceded by a sequence of template parameters, and
+// followed by a sequence of template arguments that may refer to the
+// parameters.  Example: "<T>S<T*>".
+//
+// If 'namedDecl' is a function, append "()".
+//
+// This string is not meant to be globally unique.  Rather, it is
+// meant to have just enough information to disambiguate it from other
+// related declarations in the context of a get-deps test file.
+//
+std::string ClangUtil::namedDeclCompactIdentifier(
+  clang::NamedDecl const *namedDecl) const
+{
+  // Simple identifier name.
+  std::string simpleId = namedDecl->getNameAsString();
+
+  // Common post-processing step.
+  auto postProcess = [](std::string const &preliminaryId) -> std::string {
+    // Remove spaces because I use them as a separator in my comments.
+    // This could, in principle, do some improper collapsing like "int
+    // const" -> "intconst", but my tests won't create a situation
+    // like that (and it would not be catastrophic anyway).
+    return replaceAll(preliminaryId, " ", "");
+  };
+
+  if (auto functionDecl = dyn_cast<clang::FunctionDecl>(namedDecl)) {
+    if (clang::FunctionTemplateSpecializationInfo *ftsi =
+          functionDecl->getTemplateSpecializationInfo()) {
+      // Function template specialization: append template arguments.
+      clang::TemplateArgumentList const *args = ftsi->TemplateArguments;
+      assert(args);
+
+      std::string argString = templateArgumentListStr(*args);
+
+      return postProcess(simpleId + argString + "()");
+    }
+
+    if (clang::FunctionTemplateDecl const *templateDecl =
+          functionDecl->getDescribedFunctionTemplate()) {
+      // This is the templated declaration of a template.  Append the
+      // template parameters as abstract template arguments.
+      clang::TemplateParameterList const *params =
+        templateDecl->getTemplateParameters();
+      assert(params);
+
+      std::string argString = templateParameterListArgsStr(params);
+
+      return postProcess(simpleId + argString + "()");
+    }
+
+    // Other function: append paren pair.
+    return postProcess(simpleId + "()");
+  }
+
+  if (auto partialSpecDecl =
+        dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(namedDecl)) {
+    // Class template partial specialization: prepend parameters, append
+    // arguments.
+    std::string paramString =
+      templateParameterListArgsStr(
+        partialSpecDecl->getTemplateParameters());
+
+    // By using the "as-written" arguments instead of
+    // 'getTemplateArgs()', we get the types expressed using the
+    // original parameter names, instead of things like
+    // 'type-parameter-0-0'.
+    std::string argString =
+      astTemplateArgumentListInfoStr(
+        assertDeref(partialSpecDecl->getTemplateArgsAsWritten()));
+
+    return postProcess(paramString + simpleId + argString);
+  }
+
+  if (auto classSpecDecl =
+        dyn_cast<clang::ClassTemplateSpecializationDecl>(namedDecl)) {
+    // Class template specialization: append arguments.
+    std::string argString =
+      templateArgumentListStr(classSpecDecl->getTemplateArgs());
+
+    return postProcess(simpleId + argString);
+  }
+
+  if (auto cxxRecordDecl = dyn_cast<clang::CXXRecordDecl>(namedDecl)) {
+    if (clang::ClassTemplateDecl const *templateDecl =
+          cxxRecordDecl->getDescribedClassTemplate()) {
+      // Templated declaration of a class template declaration: append
+      // the parameters as abstract arguments.
+      clang::TemplateParameterList const *params =
+        templateDecl->getTemplateParameters();
+      assert(params);
+
+      std::string argString = templateParameterListArgsStr(params);
+
+      return postProcess(simpleId + argString);
+    }
+  }
+
+  if (auto vtsp = dyn_cast<clang::VarTemplateSpecializationDecl>(namedDecl)) {
+    // Variable template specialization: append arguments.
+    std::string argString =
+      templateArgumentListStr(vtsp->getTemplateArgs());
+
+    return postProcess(simpleId + argString);
+  }
+
+  // TODO: VarTemplatePartialSpecializationDecl
+
+  if (auto templateDecl = dyn_cast<clang::TemplateDecl>(namedDecl)) {
+    // Template: prepend parameters.
+    std::string paramString =
+      templateParameterListArgsStr(
+        templateDecl->getTemplateParameters());
+
+    return postProcess(paramString + simpleId);
+  }
+
+  return postProcess(simpleId);
+}
+
+
 /*static*/ std::string ClangUtil::declarationNameStr(
   clang::DeclarationName declName)
 {
