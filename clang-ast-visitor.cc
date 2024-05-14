@@ -40,6 +40,7 @@ char const *toString(VisitDeclContext vdc)
     VDC_FRIEND_TEMPLATE_DECL,
     VDC_FUNCTION_TEMPLATE_INSTANTIATION,
     VDC_CLASS_TEMPLATE_INSTANTIATION,
+    VDC_VAR_TEMPLATE_INSTANTIATION,
     VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
     VDC_TEMPLATE_DECL_PARAMETER,
     VDC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
@@ -524,6 +525,10 @@ void ClangASTVisitor::visitDecl(
 
     else if (auto ftd = dyn_cast<clang::FunctionTemplateDecl>(decl)) {
       visitFunctionTemplateInstantiationsIfCanonical(ftd);
+    }
+
+    else if (auto vtd = dyn_cast<clang::VarTemplateDecl>(decl)) {
+      visitVarTemplateInstantiationsIfCanonical(vtd);
     }
 
     else if (auto ttpd = dyn_cast<clang::TemplateTemplateParmDecl>(decl)) {
@@ -1486,6 +1491,18 @@ void ClangASTVisitor::visitClassTemplateInstantiations(
 }
 
 
+void ClangASTVisitor::visitVarTemplateInstantiations(
+  clang::VarTemplateDecl const *vtd)
+{
+  for (clang::VarTemplateSpecializationDecl const *spec :
+          vtd->specializations()) {
+    if (clang::isTemplateInstantiation(spec->getSpecializationKind())) {
+      visitDecl(VDC_VAR_TEMPLATE_INSTANTIATION, spec);
+    }
+  }
+}
+
+
 void ClangASTVisitor::visitCXXCtorInitializer(
   clang::CXXCtorInitializer const *init)
 {
@@ -1751,6 +1768,15 @@ void ClangASTVisitor::visitClassTemplateInstantiationsIfCanonical(
 {
   if (ctd->isCanonicalDecl()) {
     visitClassTemplateInstantiations(ctd);
+  }
+}
+
+
+void ClangASTVisitor::visitVarTemplateInstantiationsIfCanonical(
+  clang::VarTemplateDecl const *vtd)
+{
+  if (vtd->isCanonicalDecl()) {
+    visitVarTemplateInstantiations(vtd);
   }
 }
 

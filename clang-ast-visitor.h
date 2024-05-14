@@ -141,6 +141,7 @@ enum VisitDeclContext {
   VDC_FRIEND_TEMPLATE_DECL,
   VDC_FUNCTION_TEMPLATE_INSTANTIATION,
   VDC_CLASS_TEMPLATE_INSTANTIATION,
+  VDC_VAR_TEMPLATE_INSTANTIATION,
   VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
   VDC_TEMPLATE_DECL_PARAMETER,   // also used for ClassTemplatePartialSpecializationDecl parameters
   VDC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
@@ -530,6 +531,14 @@ public:      // methods
   virtual void visitClassTemplateInstantiations(
     clang::ClassTemplateDecl const *ctd);
 
+  // Visit the instantiations of 'vtd'.
+  //
+  // The default visitor will only call this when 'vtd' is canonical.
+  //
+  // Default: Call 'visitDecl' on each instantiation.
+  virtual void visitVarTemplateInstantiations(
+    clang::VarTemplateDecl const *vtd);
+
   // TODO: Instantiations of variable templates and type alias
   // templates.
 
@@ -719,6 +728,10 @@ public:      // methods
   // Visit the instantiations of 'ctd' if it is canonical.
   void visitClassTemplateInstantiationsIfCanonical(
     clang::ClassTemplateDecl const *ctd);
+
+  // Visit the instantiations of 'vtd' if it is canonical.
+  void visitVarTemplateInstantiationsIfCanonical(
+    clang::VarTemplateDecl const *vtd);
 
   // Visit the "outer" template parameters associated with 'dd'.  These
   // occur when 'dd' is a declaration of a member of a class template
