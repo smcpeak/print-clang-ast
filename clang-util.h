@@ -96,8 +96,13 @@ public:      // methods
   // Render 'loc' as a string.
   std::string locStr(clang::SourceLocation loc) const;
 
-  // Get the line number only from 'loc'.
+  // Return a string like "L:C" where L is the line number and C is the
+  // column number in 'loc'.
+  std::string locLineColStr(clang::SourceLocation loc) const;
+
+  // Get the line/column number only from 'loc'.
   unsigned locLine(clang::SourceLocation loc) const;
+  unsigned locCol(clang::SourceLocation loc) const;
 
   // Stringify 'range'.
   std::string sourceRangeStr(clang::SourceRange range) const;

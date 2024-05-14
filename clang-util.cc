@@ -56,10 +56,23 @@ string ClangUtil::locStr(SourceLocation loc) const
 }
 
 
+string ClangUtil::locLineColStr(clang::SourceLocation loc) const
+{
+  return stringb(locLine(loc) << ":" << locCol(loc));
+}
+
+
 unsigned ClangUtil::locLine(clang::SourceLocation loc) const
 {
-  // I don't know what "presumed" means ...
+  // I think "presumed" means after taking #line directives into
+  // account.
   return m_srcMgr.getPresumedLineNumber(loc);
+}
+
+
+unsigned ClangUtil::locCol(clang::SourceLocation loc) const
+{
+  return m_srcMgr.getPresumedColumnNumber(loc);
 }
 
 
