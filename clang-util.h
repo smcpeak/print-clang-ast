@@ -348,6 +348,11 @@ public:      // methods
   std::string templateParamsForFunctionIfT(
     clang::FunctionDecl const *functionDecl) const;
 
+  // Return the template parameters of 'templateDecl' as a string in
+  // argument syntax.
+  static std::string templateDeclParamsAsArgsStr(
+    clang::TemplateDecl const *templateDecl);
+
   // Stringify 'templateName'.
   std::string templateNameStr(
     clang::TemplateName const &templateName) const;
@@ -436,13 +441,13 @@ public:      // methods
   // be adjacent to another closing angle bracket.
   //
   // If 'hasParameterPack', then add "..." just before the ">".
-  std::string encloseInAngleBrackets(
+  static std::string encloseInAngleBrackets(
     std::list<std::string> const &args,
-    bool hasParameterPack) const;
+    bool hasParameterPack);
 
   // Turn 'paramList' into a string like "<T>".
-  std::string templateParameterListArgsStr(
-    clang::TemplateParameterList const *paramList) const;
+  static std::string templateParameterListArgsStr(
+    clang::TemplateParameterList const *paramList);
 
   // Stringify 'kind'.
   static std::string templateArgumentKindStr(

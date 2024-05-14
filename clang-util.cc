@@ -307,13 +307,9 @@ std::string ClangUtil::namedDeclCompactIdentifier(
           functionDecl->getDescribedFunctionTemplate()) {
       // This is the templated declaration of a template.  Append the
       // template parameters as abstract template arguments.
-      clang::TemplateParameterList const *params =
-        templateDecl->getTemplateParameters();
-      assert(params);
-
-      std::string argString = templateParameterListArgsStr(params);
-
-      return postProcess(simpleId + argString + "()");
+      return postProcess(simpleId +
+                         templateDeclParamsAsArgsStr(templateDecl) +
+                         "()");
     }
 
     // Other function: append paren pair.
@@ -347,13 +343,8 @@ std::string ClangUtil::namedDeclCompactIdentifier(
           cxxRecordDecl->getDescribedClassTemplate()) {
       // Templated declaration of a class template declaration: append
       // the parameters as abstract arguments.
-      clang::TemplateParameterList const *params =
-        templateDecl->getTemplateParameters();
-      assert(params);
-
-      std::string argString = templateParameterListArgsStr(params);
-
-      return postProcess(simpleId + argString);
+      return postProcess(simpleId +
+                         templateDeclParamsAsArgsStr(templateDecl));
     }
   }
 
@@ -367,16 +358,34 @@ std::string ClangUtil::namedDeclCompactIdentifier(
 
   // TODO: VarTemplatePartialSpecializationDecl
 
+  if (auto varDecl = dyn_cast<clang::VarDecl>(namedDecl)) {
+    if (clang::VarTemplateDecl const *varTemplateDecl =
+          varDecl->getDescribedVarTemplate()) {
+      // Templated declaration of a variable template: append parameters
+      // as arguments.
+      return postProcess(simpleId +
+                         templateDeclParamsAsArgsStr(varTemplateDecl));
+    }
+  }
+
   if (auto templateDecl = dyn_cast<clang::TemplateDecl>(namedDecl)) {
     // Template: prepend parameters.
-    std::string paramString =
-      templateParameterListArgsStr(
-        templateDecl->getTemplateParameters());
-
-    return postProcess(paramString + simpleId);
+    return postProcess(templateDeclParamsAsArgsStr(templateDecl) +
+                       simpleId);
   }
 
   return postProcess(simpleId);
+}
+
+
+/*static*/ std::string ClangUtil::templateDeclParamsAsArgsStr(
+  clang::TemplateDecl const *templateDecl)
+{
+  clang::TemplateParameterList const *params =
+    templateDecl->getTemplateParameters();
+  assert(params);
+
+  return templateParameterListArgsStr(params);
 }
 
 
@@ -1572,9 +1581,9 @@ string ClangUtil::templateParameterListStr(
 }
 
 
-std::string ClangUtil::encloseInAngleBrackets(
+/*static*/ std::string ClangUtil::encloseInAngleBrackets(
   std::list<std::string> const &args,
-  bool hasParameterPack) const
+  bool hasParameterPack)
 {
   std::ostringstream oss;
   oss << '<';
@@ -1599,8 +1608,8 @@ std::string ClangUtil::encloseInAngleBrackets(
 }
 
 
-std::string ClangUtil::templateParameterListArgsStr(
-  clang::TemplateParameterList const *paramList) const
+/*static*/ std::string ClangUtil::templateParameterListArgsStr(
+  clang::TemplateParameterList const *paramList)
 {
   std::list<string> argStrings;
   for (clang::NamedDecl *param : *paramList) {
