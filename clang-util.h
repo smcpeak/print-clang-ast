@@ -96,6 +96,9 @@ public:      // methods
   // Render 'loc' as a string.
   std::string locStr(clang::SourceLocation loc) const;
 
+  // Get the line number only from 'loc'.
+  unsigned locLine(clang::SourceLocation loc) const;
+
   // Stringify 'range'.
   std::string sourceRangeStr(clang::SourceRange range) const;
 

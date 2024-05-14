@@ -56,6 +56,13 @@ string ClangUtil::locStr(SourceLocation loc) const
 }
 
 
+unsigned ClangUtil::locLine(clang::SourceLocation loc) const
+{
+  // I don't know what "presumed" means ...
+  return m_srcMgr.getPresumedLineNumber(loc);
+}
+
+
 std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 {
   return range.printToString(m_srcMgr);
