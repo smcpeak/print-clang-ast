@@ -9,6 +9,7 @@
 
 #include "clang/AST/Decl.h"            // clang::FieldDecl::getParent
 #include "clang/AST/DeclCXX.h"         // clang::CXXMethodDecl::getParent
+#include "clang/AST/ExprConcepts.h"    // clang::concepts::Requirement
 #include "clang/AST/Type.h"            // clang::FunctionProtoType
 #include "clang/Basic/Version.h"       // CLANG_VERSION_MAJOR
 
@@ -55,6 +56,26 @@ string ClangUtil::locStr(SourceLocation loc) const
 }
 
 
+string ClangUtil::locLineColStr(clang::SourceLocation loc) const
+{
+  return stringb(locLine(loc) << ":" << locCol(loc));
+}
+
+
+unsigned ClangUtil::locLine(clang::SourceLocation loc) const
+{
+  // I think "presumed" means after taking #line directives into
+  // account.
+  return m_srcMgr.getPresumedLineNumber(loc);
+}
+
+
+unsigned ClangUtil::locCol(clang::SourceLocation loc) const
+{
+  return m_srcMgr.getPresumedColumnNumber(loc);
+}
+
+
 std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 {
   return range.printToString(m_srcMgr);
@@ -64,14 +85,39 @@ std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 /*static*/ clang::SourceLocation ClangUtil::declLoc(
   clang::Decl const *decl)
 {
-  // One case where 'getLocation()' does the wrong thing is if 'decl' is
-  // a FunctionDecl implicitly instantiated from a member template of a
-  // template class, where the member template was declared in the class
-  // body but then defined outside it.  In that case, 'getLocation()'
-  // points at the declaration, while 'getBeginLoc()' points at the
-  // definition.
-  //
-  // Example: in/src/template-method-ops.h.
+  // If 'decl' is an implicit instantiation, then its 'getBeginLoc()'
+  // will be the start of the instantiated template body, whereas I want
+  // the start of the instantiated template head for consistency with
+  // explicit specializations.
+  if (auto functionDecl = dyn_cast<clang::FunctionDecl>(decl)) {
+    if (clang::FunctionTemplateSpecializationInfo const *ftsi =
+          functionDecl->getTemplateSpecializationInfo()) {
+      // Only look at implicit instantiaions, at least for the moment.
+      if (!ftsi->isExplicitInstantiationOrSpecialization()) {
+        clang::FunctionTemplateDecl const *ftd = ftsi->getTemplate();
+        return ftd->getBeginLoc();
+      }
+    }
+  }
+
+  /* One case where 'getLocation()' does the wrong thing is if 'decl' is
+     a FunctionDecl implicitly instantiated from a member template of a
+     template class, where the member template was declared in the class
+     body but then defined outside it.  In that case, 'getLocation()'
+     points at the declaration, while 'getBeginLoc()' points at the
+     definition.
+
+     Example: in/src/template-method-ops.h.
+
+     Another case of note is when 'decl' is actually a 'TypeDecl'.
+     'TypeDecl::getBeginLoc()' returns a different location in some
+     cases; for example, in a class template specialization declaration,
+     it returns the location of the "class" keyword rather than the
+     location of the "template" keyword.  But 'Decl::getBeginLoc()' on
+     the same object returns the latter location.  So in addition to
+     avoiding the problems of 'getLocation()', my 'declLoc' also avoids
+     problems with inconsistent subclass definitions of 'getBeginLoc()'.
+  */
   return decl->getBeginLoc();
 }
 
@@ -89,6 +135,36 @@ std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 std::string ClangUtil::declLocStr(clang::Decl const *decl) const
 {
   return locStr(declLoc(decl));
+}
+
+
+std::string ClangUtil::declKindAtLocStr(
+  clang::Decl const * NULLABLE decl) const
+{
+  if (!decl) {
+    return "null";
+  }
+
+  else {
+    return stringb(decl->getDeclKindName() << "Decl" <<
+                   " at " << declLocStr(decl));
+  }
+}
+
+
+std::string ClangUtil::declKindMaybeNameAtLocStr(
+  clang::Decl const * NULLABLE decl) const
+{
+  if (!decl) {
+    return "null";
+  }
+
+  if (auto nd = dyn_cast<clang::NamedDecl>(decl)) {
+    return namedDeclAndKindAtLocStr(nd);
+  }
+  else {
+    return declKindAtLocStr(decl);
+  }
 }
 
 
@@ -171,6 +247,145 @@ std::string ClangUtil::unnamedDeclAddrAtLocStr(
   else {
     return "null";
   }
+}
+
+
+// Return a string to be used as the identifier for 'namedDecl' in
+// annotations.  Normally this is the simple identifier as obtained
+// by 'namedDecl->getNameAsString()'.
+//
+// If 'namedDecl' is a template declaration, return its name prepended
+// with template parameters, like "<T>S".
+//
+// If it is the body of a template declaration, return its name followed
+// by template parameters turned into arguments, like "S<T>".  (My
+// dependency analysis uses the body declaration, so this is my "normal"
+// case for the name of a template.)
+//
+// If it is a class template partial specialization, return its
+// identifier is followed by a pattern sequence of template arguments
+// that may refer to the parameters.  Example: "S<T*>".
+//
+// If it is a template specialization, then its simple identifier is
+// followed by a sequence of template arguments.  An example is
+// "S<int>".
+//
+// If it is a function, append "()".
+//
+// This string is not meant to be globally unique.  Rather, it is
+// meant to have just enough information to disambiguate it from other
+// related declarations in the context of a get-deps test file.
+//
+std::string ClangUtil::namedDeclCompactIdentifier(
+  clang::NamedDecl const *namedDecl) const
+{
+  // Simple identifier name.
+  std::string simpleId = namedDecl->getNameAsString();
+
+  // Common post-processing step.
+  auto postProcess = [](std::string const &preliminaryId) -> std::string {
+    // Remove spaces because I use them as a separator in my comments.
+    // This could, in principle, do some improper collapsing like "int
+    // const" -> "intconst", but my tests won't create a situation
+    // like that (and it would not be catastrophic anyway).
+    return replaceAll(preliminaryId, " ", "");
+  };
+
+  if (auto functionDecl = dyn_cast<clang::FunctionDecl>(namedDecl)) {
+    if (clang::FunctionTemplateSpecializationInfo *ftsi =
+          functionDecl->getTemplateSpecializationInfo()) {
+      // Function template specialization: append template arguments.
+      clang::TemplateArgumentList const *args = ftsi->TemplateArguments;
+      assert(args);
+
+      std::string argString = templateArgumentListStr(*args);
+
+      return postProcess(simpleId + argString + "()");
+    }
+
+    if (clang::FunctionTemplateDecl const *templateDecl =
+          functionDecl->getDescribedFunctionTemplate()) {
+      // This is the templated declaration of a template.  Append the
+      // template parameters as abstract template arguments.
+      return postProcess(simpleId +
+                         templateDeclParamsAsArgsStr(templateDecl) +
+                         "()");
+    }
+
+    // Other function: append paren pair.
+    return postProcess(simpleId + "()");
+  }
+
+  if (auto partialSpecDecl =
+        dyn_cast<clang::ClassTemplatePartialSpecializationDecl>(namedDecl)) {
+    // By using the "as-written" arguments instead of
+    // 'getTemplateArgs()', we get the types expressed using the
+    // original parameter names, instead of things like
+    // 'type-parameter-0-0'.
+    std::string argString =
+      astTemplateArgumentListInfoStr(
+        assertDeref(partialSpecDecl->getTemplateArgsAsWritten()));
+
+    return postProcess(simpleId + argString);
+  }
+
+  if (auto classSpecDecl =
+        dyn_cast<clang::ClassTemplateSpecializationDecl>(namedDecl)) {
+    // Class template specialization: append arguments.
+    std::string argString =
+      templateArgumentListStr(classSpecDecl->getTemplateArgs());
+
+    return postProcess(simpleId + argString);
+  }
+
+  if (auto cxxRecordDecl = dyn_cast<clang::CXXRecordDecl>(namedDecl)) {
+    if (clang::ClassTemplateDecl const *templateDecl =
+          cxxRecordDecl->getDescribedClassTemplate()) {
+      // Templated declaration of a class template declaration: append
+      // the parameters as abstract arguments.
+      return postProcess(simpleId +
+                         templateDeclParamsAsArgsStr(templateDecl));
+    }
+  }
+
+  if (auto vtsp = dyn_cast<clang::VarTemplateSpecializationDecl>(namedDecl)) {
+    // Variable template specialization: append arguments.
+    std::string argString =
+      templateArgumentListStr(vtsp->getTemplateArgs());
+
+    return postProcess(simpleId + argString);
+  }
+
+  // TODO: VarTemplatePartialSpecializationDecl
+
+  if (auto varDecl = dyn_cast<clang::VarDecl>(namedDecl)) {
+    if (clang::VarTemplateDecl const *varTemplateDecl =
+          varDecl->getDescribedVarTemplate()) {
+      // Templated declaration of a variable template: append parameters
+      // as arguments.
+      return postProcess(simpleId +
+                         templateDeclParamsAsArgsStr(varTemplateDecl));
+    }
+  }
+
+  if (auto templateDecl = dyn_cast<clang::TemplateDecl>(namedDecl)) {
+    // Template: prepend parameters.
+    return postProcess(templateDeclParamsAsArgsStr(templateDecl) +
+                       simpleId);
+  }
+
+  return postProcess(simpleId);
+}
+
+
+/*static*/ std::string ClangUtil::templateDeclParamsAsArgsStr(
+  clang::TemplateDecl const *templateDecl)
+{
+  clang::TemplateParameterList const *params =
+    templateDecl->getTemplateParameters();
+  assert(params);
+
+  return templateParameterListArgsStr(params);
 }
 
 
@@ -1140,11 +1355,24 @@ string ClangUtil::getIncludeSyntax(
 }
 
 
-string ClangUtil::getFnameForFileID(clang::FileID fileID) const
+/*static*/ std::string ClangUtil::fileEntryNameStr(
+  clang::FileEntry const *entry)
 {
-  clang::FileEntry const *entry = m_srcMgr.getFileEntryForID(fileID);
   assert(entry);
   return entry->getName().str();
+}
+
+
+/*static*/ void ClangUtil::fileEntryNameToJSON(
+  std::ostream &os, clang::FileEntry const *entry)
+{
+  os << doubleQuote(fileEntryNameStr(entry));
+}
+
+
+std::string ClangUtil::getFnameForFileID(clang::FileID fileID) const
+{
+  return fileEntryNameStr(m_srcMgr.getFileEntryForID(fileID));
 }
 
 
@@ -1262,12 +1490,12 @@ clang::RecordDecl *ClangUtil::maybeGetParentClass(
 }
 
 
-clang::NamedDecl *ClangUtil::maybeGetNamedParent(
-  clang::NamedDecl *decl) const
+clang::NamedDecl const *ClangUtil::maybeGetNamedParentC(
+  clang::NamedDecl const *decl) const
 {
   // This is very loosely based on NamedDecl::printNestedNameSpecifier.
 
-  clang::DeclContext *parent = decl->getDeclContext();
+  clang::DeclContext const *parent = decl->getDeclContext();
   while (parent) {
     if (parent->isFunctionOrMethod()) {
       // We cannot name 'decl' using a qualified name because it is
@@ -1294,8 +1522,15 @@ clang::NamedDecl *ClangUtil::maybeGetNamedParent(
 }
 
 
+clang::NamedDecl *ClangUtil::maybeGetNamedParent(
+  clang::NamedDecl *decl) const
+{
+  return const_cast<clang::NamedDecl*>(maybeGetNamedParentC(decl));
+}
+
+
 string ClangUtil::getTopLevelIncludeForLoc(
-  clang::SourceLocation loc)
+  clang::SourceLocation loc) const
 {
   // This is initially invalid.
   clang::PresumedLoc prevPresumedLoc;
@@ -1325,7 +1560,7 @@ string ClangUtil::getTopLevelIncludeForLoc(
 }
 
 
-string ClangUtil::getDeclKeyword(clang::NamedDecl *decl)
+string ClangUtil::getDeclKeyword(clang::NamedDecl const *decl) const
 {
   if (isa<clang::NamespaceDecl>(decl)) {
     return "namespace";
@@ -1359,9 +1594,9 @@ string ClangUtil::templateParameterListStr(
 }
 
 
-std::string ClangUtil::encloseInAngleBrackets(
+/*static*/ std::string ClangUtil::encloseInAngleBrackets(
   std::list<std::string> const &args,
-  bool hasParameterPack) const
+  bool hasParameterPack)
 {
   std::ostringstream oss;
   oss << '<';
@@ -1386,8 +1621,8 @@ std::string ClangUtil::encloseInAngleBrackets(
 }
 
 
-std::string ClangUtil::templateParameterListArgsStr(
-  clang::TemplateParameterList const *paramList) const
+/*static*/ std::string ClangUtil::templateParameterListArgsStr(
+  clang::TemplateParameterList const *paramList)
 {
   std::list<string> argStrings;
   for (clang::NamedDecl *param : *paramList) {
@@ -1439,8 +1674,20 @@ std::string ClangUtil::templateArgumentStr(
 std::string ClangUtil::templateArgumentAndKindStr(
   clang::TemplateArgument const &arg) const
 {
-  return stringb(doubleQuote(templateArgumentStr(arg)) << " (ArgKind::" <<
-                 templateArgumentKindStr(arg.getKind()) << ")");
+  return stringb(
+    doubleQuote(templateArgumentStr(arg)) <<
+    " (ArgKind::" << templateArgumentKindStr(arg.getKind()) << ")"
+  );
+}
+
+
+std::string ClangUtil::templateArgumentLocStr(
+  clang::TemplateArgumentLoc const &argLoc) const
+{
+  return stringb(
+    templateArgumentAndKindStr(argLoc.getArgument()) <<
+    " at " << locStr(argLoc.getLocation())
+  );
 }
 
 
@@ -1498,16 +1745,21 @@ std::string ClangUtil::astTemplateArgumentListInfoOptStr(
 }
 
 
-// This method is basically just confirming that the canonical decl will
-// also be a NamedDecl, since the Clang API does not ensure that through
-// its declared types.
-clang::NamedDecl *ClangUtil::canonicalNamedDecl(clang::NamedDecl *decl)
+clang::NamedDecl const *ClangUtil::canonicalNamedDeclC(
+  clang::NamedDecl const *decl) const
 {
   assert(decl != nullptr);
-  clang::NamedDecl *canonical =
+  clang::NamedDecl const *canonical =
     dyn_cast<clang::NamedDecl>(decl->getCanonicalDecl());
   assert(canonical != nullptr);
   return canonical;
+}
+
+
+clang::NamedDecl *ClangUtil::canonicalNamedDecl(
+  clang::NamedDecl *decl) const
+{
+  return const_cast<clang::NamedDecl*>(canonicalNamedDeclC(decl));
 }
 
 
@@ -1582,6 +1834,15 @@ clang::NamedDecl *ClangUtil::canonicalNamedDecl(clang::NamedDecl *decl)
   }
 
   return oss.str();
+}
+
+
+/*static*/ std::string ClangUtil::apIntStr(llvm::APInt const &n,
+                                           bool isSigned)
+{
+  llvm::SmallVector<char, 20> digits;
+  n.toString(digits, 10 /*radix*/, isSigned);
+  return smallVectorStr(digits);
 }
 
 
@@ -1700,11 +1961,51 @@ clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
 }
 
 
-// True if 'fd == getUserWrittenFunctionDecl(fd)'.
 /*static*/ bool ClangUtil::isUserWrittenFunctionDecl(
   clang::FunctionDecl const *fd)
 {
   return fd == getUserWrittenFunctionDecl(fd);
+}
+
+
+bool ClangUtil::getPrimarySourceFileLines(std::vector<std::string> &lines)
+{
+  // Get the entire text of the PSF.
+  clang::FileID psfFileId = m_srcMgr.getMainFileID();
+  std::optional<llvm::StringRef> textOpt =
+    m_srcMgr.getBufferDataOrNone(psfFileId);
+  if (!textOpt) {
+    return false;
+  }
+  llvm::StringRef const &text = *textOpt;
+
+  // Index of the start of the next line to gather.
+  size_t i = 0;
+
+  // Parse lines at newline characters.
+  while (i < text.size()) {
+    // Set 'j' to one past the last character in the next line (which
+    // is a newline character unless we hit EOF first).
+    size_t j = i;
+    while (j < text.size() && text[j] != '\n') {
+      ++j;
+    }
+    if (j < text.size()) {
+      assert(text[j] == '\n');
+      ++j;
+    }
+
+    // Grab the line.
+    lines.push_back(text.substr(i, j-i).str());
+
+    // Ensure progress.
+    assert(j > i);
+
+    // Move to the next line.
+    i = j;
+  }
+
+  return true;
 }
 
 
@@ -1729,6 +2030,26 @@ int compare(clang::SourceRange const &a, clang::SourceRange const &b)
 }
 
 
+/*static*/ int DeclCompare::compare(clang::Decl const *a,
+                                    clang::Decl const *b)
+{
+  // The ID of a decl is calculated from its address by walking up the
+  // DeclContext tree to get to the ASTContext, then iterating over the
+  // allocator slabs to find the one that contains it, then calculating
+  // an ID based on the position in the slab.  Under the assumption that
+  // objects are allocated in a deterministic order during parsing, and
+  // that object locations in a slab are never re-used, the resulting ID
+  // will be consistent across program executions.
+  //
+  // However, it is somewhat expensive to compute because walking up the
+  // DC tree takes time roughly logarithmic in the size of the TU, and
+  // I'm not sure about the cost of walking the slabs; that too is at
+  // least logarithmic and possibly linear.
+
+  return ::compare(a->getID(), b->getID());
+}
+
+
 std::string getDynamicTypeClassName(clang::Type const *type)
 {
   return stringb(type->getTypeClassName() << "Type");
@@ -1744,6 +2065,46 @@ std::string getDynamicTypeClassName(clang::Decl const *decl)
 std::string getDynamicTypeClassName(clang::Stmt const *stmt)
 {
   return stmt->getStmtClassName();
+}
+
+
+// Return the Requirement subclass name corresponding to 'rkind'.
+static std::string requirementKindToClassName(
+  clang::concepts::Requirement::RequirementKind rkind)
+{
+  static struct Entry {
+    clang::concepts::Requirement::RequirementKind m_rkind;
+    char const *m_name;
+  } const entries[] = {
+    #define ENTRY(kind, name) { clang::concepts::Requirement::kind, name },
+
+    ENTRY(RK_Type,     "TypeRequirement")
+    ENTRY(RK_Simple,   "ExprRequirement")
+    ENTRY(RK_Compound, "ExprRequirement")
+    ENTRY(RK_Nested,   "NestedRequirement")
+
+    #undef ENTRY
+  };
+
+  for (Entry const &e : entries) {
+    if (e.m_rkind == rkind) {
+      return e.m_name;
+    }
+  }
+
+  return stringb("RequirementKindClass(" << (int)rkind << ")");
+}
+
+
+std::string getDynamicTypeClassName(clang::concepts::Requirement const *req)
+{
+  return requirementKindToClassName(req->getKind());
+}
+
+
+std::string getDeclContextClassName(clang::DeclContext const *dc)
+{
+  return stringb(dc->getDeclKindName() << "Decl");
 }
 
 

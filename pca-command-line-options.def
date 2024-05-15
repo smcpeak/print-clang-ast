@@ -47,6 +47,48 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
+  m_printerVisitor,
+  false,
+  "--printer-visitor",
+  R"(Print the AST using PrinterVisitor.)"
+)
+
+BOOL_OPTION(
+  m_printVisitContext,
+  false,
+  "--print-visit-context",
+  R"(With --printer-visitor, print the VisitXXXContext for each node.)"
+)
+
+BOOL_OPTION(
+  m_printImplicitQualTypes,
+  false,
+  "--print-implicit-qual-types",
+  R"(With --printer-visitor, print implicit QualType nodes.)"
+)
+
+BOOL_OPTION(
+  m_omit_CTPSD_TAW,
+  false,
+  "--omit-ctpsd-taw",
+  R"(With --printer-visitor, omit the TAW of a CTPSD for RAV compat.)"
+)
+
+BOOL_OPTION(
+  m_printDefaultArgExprs,
+  false,
+  "--print-default-arg-exprs",
+  R"(With --printer-visitor, print Expr inside CXXDefaultArgExpr.)"
+)
+
+BOOL_OPTION(
+  m_ravPrinterVisitor,
+  false,
+  "--rav-printer-visitor",
+  R"(Print the AST using RAVPrinterVisitor.)"
+)
+
+BOOL_OPTION(
   m_printASTNodes,
   false,
   "--print-ast-nodes",

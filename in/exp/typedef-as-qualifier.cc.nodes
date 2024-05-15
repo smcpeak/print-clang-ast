@@ -121,6 +121,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 53" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 16": {
@@ -193,6 +194,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 35" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 18": {
@@ -1088,6 +1090,12 @@
   "NamedDecl::Name": "\"f\"",
   "ValueDecl::DeclType": { "ptr": "FunctionProtoType 57", "preview": "B::Inner (void)" },
   "DeclaratorDecl::TInfo": "FunctionProto(\"B::Inner (void)\", <in/src/typedef-as-qualifier.cc:26:3, col:14>, Elaborated(\"B::Inner\", <in/src/typedef-as-qualifier.cc:26:3, col:6>, Record(\"struct ns::A::Inner\", <in/src/typedef-as-qualifier.cc:26:6>, NullTypeLoc)))",
+  "DeclaratorDecl::TInfo::Ty": { "ptr": "FunctionProtoType 57", "preview": "B::Inner (void)" },
+  "DeclaratorDecl::TInfo::TypeLoc.Class()": "FunctionProto",
+  "DeclaratorDecl::TInfo::TypeLoc::LocalRangeBegin": "in/src/typedef-as-qualifier.cc:26:13",
+  "DeclaratorDecl::TInfo::TypeLoc::LParenLoc": "in/src/typedef-as-qualifier.cc:26:13",
+  "DeclaratorDecl::TInfo::TypeLoc::RParenLoc": "in/src/typedef-as-qualifier.cc:26:14",
+  "DeclaratorDecl::TInfo::TypeLoc::LocalRangeEnd": "in/src/typedef-as-qualifier.cc:26:14",
   "DeclaratorDecl::ExtInfo": "absent",
   "DeclaratorDecl::InnerLocStart": "in/src/typedef-as-qualifier.cc:26:3",
   "Redeclarable::Previous": { "ptr": "FunctionDecl 56" },
@@ -1169,7 +1177,6 @@
   "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",
@@ -1206,7 +1213,6 @@
   "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",

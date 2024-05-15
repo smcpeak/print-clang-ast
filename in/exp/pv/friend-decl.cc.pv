@@ -1,0 +1,37 @@
+---- stdout ----
+VDC_NONE: TranslationUnitDecl at <invalid loc>
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__int128_t" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: Builtin("__int128", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__uint128_t" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: Builtin("unsigned __int128", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__NSConstantString" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: Record("struct __NSConstantString_tag", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__builtin_ms_va_list" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: Pointer("char *", <<invalid sloc>>, Builtin("char", <<invalid sloc>>, NullTypeLoc))
+      VTC_POINTER_TYPE: Builtin("char", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__builtin_va_list" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: ConstantArray("struct __va_list_tag[1]", <<invalid sloc>>, Record("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc))
+      VTC_ARRAY_TYPE_ELEMENT: Record("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: CXXRecordDecl "S1" at in/src/friend-decl.cc:4:1
+    VDC_RECORD_DECL: CXXRecordDecl "S1::S1" at in/src/friend-decl.cc:4:1
+    VDC_RECORD_DECL: CXXMethodDecl "S1::m()" at in/src/friend-decl.cc:5:3
+      VTC_DECLARATOR_DECL: FunctionProto("int (void)", <in/src/friend-decl.cc:5:3, col:9>, Builtin("int", <in/src/friend-decl.cc:5:3>, NullTypeLoc))
+        VTC_FUNCTION_TYPE_RETURN: Builtin("int", <in/src/friend-decl.cc:5:3>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: CXXRecordDecl "S2" at in/src/friend-decl.cc:8:1
+    VDC_RECORD_DECL: CXXRecordDecl "S2::S2" at in/src/friend-decl.cc:8:1
+    VDC_RECORD_DECL: FriendDecl at in/src/friend-decl.cc:9:3
+      VTC_FRIEND_DECL: Elaborated("struct S1", <in/src/friend-decl.cc:9:10, col:17>, Record("struct S1", <in/src/friend-decl.cc:9:17>, NullTypeLoc))
+        VTC_ELABORATED_TYPE: Record("struct S1", <in/src/friend-decl.cc:9:17>, NullTypeLoc)
+    VDC_RECORD_DECL: FriendDecl at in/src/friend-decl.cc:10:3
+      VDC_FRIEND_DECL: CXXMethodDecl "S1::m()" at in/src/friend-decl.cc:10:3
+        VNNSC_DECLARATOR_DECL: NNS "S1::" at <in/src/friend-decl.cc:10:14, col:16>
+          VTC_NESTED_NAME_SPECIFIER: Record("struct S1", <in/src/friend-decl.cc:10:14>, NullTypeLoc)
+        VTC_DECLARATOR_DECL: FunctionProto("int (void)", <in/src/friend-decl.cc:10:10, col:20>, Builtin("int", <in/src/friend-decl.cc:10:10>, NullTypeLoc))
+          VTC_FUNCTION_TYPE_RETURN: Builtin("int", <in/src/friend-decl.cc:10:10>, NullTypeLoc)
+    VDC_RECORD_DECL: FriendDecl at in/src/friend-decl.cc:11:3
+      VDC_FRIEND_DECL: FunctionDecl "newGlobalFunc()" at in/src/friend-decl.cc:11:3
+        VTC_DECLARATOR_DECL: FunctionProto("int (void)", <in/src/friend-decl.cc:11:10, col:28>, Builtin("int", <in/src/friend-decl.cc:11:10>, NullTypeLoc))
+          VTC_FUNCTION_TYPE_RETURN: Builtin("int", <in/src/friend-decl.cc:11:10>, NullTypeLoc)
+---- stderr ----
+---- exit status ----
+Exit 0

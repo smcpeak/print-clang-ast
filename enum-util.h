@@ -71,6 +71,12 @@
   return stringb(#EnumType "(" << static_cast<int>(key) << ")");
 
 
+// Lookup, with a static assert regarding the size.
+#define ENUM_TABLE_LOOKUP_CHECK_SIZE(scopeQualifier, EnumType, size, key, enumerators, ...) \
+  ENUM_TABLE_LOOKUP(scopeQualifier, EnumType, key, enumerators, __VA_ARGS__)                \
+  static_assert(sizeof(entries)/sizeof(entries[0]) == size);
+
+
 // Represent a single flag value in a bit set.
 struct BitflagsEntry {
   unsigned m_flag;

@@ -103,6 +103,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 44" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 15": {
@@ -154,6 +155,9 @@
   "NamedDecl::Name": "\"x\"",
   "ValueDecl::DeclType": { "ptr": "BuiltinType 17", "preview": "int" },
   "DeclaratorDecl::TInfo": "Builtin(\"int\", <in/src/bitfield-with-init.cc:5:3>, NullTypeLoc)",
+  "DeclaratorDecl::TInfo::Ty": { "ptr": "BuiltinType 17", "preview": "int" },
+  "DeclaratorDecl::TInfo::TypeLoc.Class()": "Builtin",
+  "DeclaratorDecl::TInfo::TypeLoc::BuiltinRange": "<in/src/bitfield-with-init.cc:5:3>",
   "DeclaratorDecl::ExtInfo": "absent",
   "DeclaratorDecl::InnerLocStart": "in/src/bitfield-with-init.cc:5:3",
   "FieldDecl flags": "BitField",
@@ -179,6 +183,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 17", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/bitfield-with-init.cc:5:11",
+  "IntegerLiteral::APInt": "8",
 },
 
 "CXXConstructorDecl 20": {
@@ -742,7 +748,6 @@
   "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",
@@ -755,6 +760,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 17", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/bitfield-with-init.cc:5:15",
+  "IntegerLiteral::APInt": "5",
 },
 
 "FunctionProtoType 50": {

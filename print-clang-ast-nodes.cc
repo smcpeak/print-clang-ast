@@ -1012,6 +1012,181 @@ void PrintClangASTNodes::printCXXBaseSpecifier(
 
   OUT_QATTR_STRING(qualifier, label << ".BaseTypeInfo",
     typeSourceInfoStr(bspec->getTypeSourceInfo()));
+
+  OUT_QATTR_QUALTYPE(qualifier, label << ".getType()",
+    bspec->getType());
+}
+
+
+void PrintClangASTNodes::printTypeLoc(
+  std::string const &qualifier,
+  std::string const &label,
+  clang::TypeLoc typeLoc)
+{
+  OUT_QATTR_STRING(qualifier, label << ".Class()",
+    typeLocClassStr(typeLoc.getTypeLocClass()));
+
+  if (auto tstl = typeLoc.getAs<clang::TypeSpecTypeLoc>()) {
+    OUT_QATTR_LOC(qualifier, label << "::NameLoc",
+      tstl.getNameLoc());
+
+    /* The following TypeLoc subclasses inherit TypeSpecTypeLoc but
+       do not appear to add any information:
+
+       UsingTypeLoc
+       TypedefTypeLoc
+       InjectedClassNameTypeLoc
+       UnresolvedUsingTypeLoc
+       TagTypeLoc
+       RecordTypeLoc
+       EnumTypeLoc
+       TemplateTypeParmTypeLoc
+       SubstTemplateTypeParmTypeLoc
+       SubstTemplateTypeParmPackTypeLoc
+    */
+  }
+
+  else if (auto btl = typeLoc.getAs<clang::BuiltinTypeLoc>()) {
+    OUT_QATTR_STRING(qualifier, label << "::BuiltinRange",
+      sourceRangeStr(btl.getLocalSourceRange()));
+  }
+
+  else if (auto octptl = typeLoc.getAs<clang::ObjCTypeParamTypeLoc>()) {
+    OUT_QATTR_LOC(qualifier, label << "::NameLoc",
+      octptl.getNameLoc());
+
+    // There's an anonymous array of additional locations.
+    OUT_QATTR_TODO(qualifier, label << "::ProtocolLocArray");
+  }
+
+  else if (auto atl = typeLoc.getAs<clang::AttributedTypeLoc>()) {
+    OUT_QATTR_PTR(qualifier, label << "::TypeAttr",
+      getAttrIDStr(atl.getAttr()));
+  }
+
+  // TODO: ObjCObjectTypeLoc
+  // TODO: ObjCInterfaceTypeLoc
+
+  else if (auto mqtl = typeLoc.getAs<clang::MacroQualifiedTypeLoc>()) {
+    OUT_QATTR_LOC(qualifier, label << "::ExpansionLoc",
+      mqtl.getExpansionLoc());
+  }
+
+  else if (auto ptl = typeLoc.getAs<clang::ParenTypeLoc>()) {
+    OUT_QATTR_LOC(qualifier, label << "::LParenLoc",
+      ptl.getLParenLoc());
+    OUT_QATTR_LOC(qualifier, label << "::RParenLoc",
+      ptl.getRParenLoc());
+  }
+
+  else if (typeLoc.getAs<clang::AdjustedTypeLoc>()) {
+    // There is nothing extra here.
+
+    // This also covers subclass DecayedTypeLoc.
+  }
+
+  // All of the pointer-like TypeLocs have the same structure, but all
+  // inherit different specializations of the 'PointerLikeTypeLoc'
+  // template, so I can't handle them all at once without macros.
+  #define POINTER_LIKE(SUBCLASS)                             \
+    else if (auto pltl = typeLoc.getAs<clang::SUBCLASS>()) { \
+      OUT_QATTR_LOC(qualifier, label << "::StarLoc",         \
+        pltl.getSigilLoc());                                 \
+    }
+  POINTER_LIKE(PointerTypeLoc)
+  POINTER_LIKE(BlockPointerTypeLoc)
+  POINTER_LIKE(ObjCObjectPointerTypeLoc)
+  POINTER_LIKE(ReferenceTypeLoc)
+  POINTER_LIKE(LValueReferenceTypeLoc)
+  POINTER_LIKE(RValueReferenceTypeLoc)
+  #undef POINTER_LIKE
+
+  // For some reason this case crashes inside 'getAs'.  TODO: Fix?
+#if 0
+  else if (auto mptl = pltl.getAs<clang::MemberPointerTypeLoc>()) {
+    OUT_QATTR_LOC(qualifier, label << "::StarLoc",
+      mptl.getSigilLoc());
+
+    // Get as mptl.getClassTInfo().  But I need to refactor the code
+    // that prints TypeSourceInfo to reuse it here.
+    OUT_QATTR_TODO(qualifier, label << "::ClassTInfo");
+  }
+#endif
+
+  else if (auto ftl = typeLoc.getAs<clang::FunctionTypeLoc>()) {
+    OUT_QATTR_LOC(qualifier, label << "::LocalRangeBegin",
+      ftl.getLocalRangeBegin());
+    OUT_QATTR_LOC(qualifier, label << "::LParenLoc",
+      ftl.getLParenLoc());
+    OUT_QATTR_LOC(qualifier, label << "::RParenLoc",
+      ftl.getRParenLoc());
+    OUT_QATTR_LOC(qualifier, label << "::LocalRangeEnd",
+      ftl.getLocalRangeEnd());
+
+    /* Covers otherwise empty subclasses:
+
+       FunctionProtoTypeLoc
+       FunctionNoProtoTypeLoc
+    */
+  }
+
+  else if (auto atl = typeLoc.getAs<clang::ArrayTypeLoc>()) {
+    OUT_QATTR_LOC(qualifier, label << "::LBracketLoc",
+      atl.getLBracketLoc());
+    OUT_QATTR_LOC(qualifier, label << "::RBracketLoc",
+      atl.getRBracketLoc());
+
+    // This statement is the entire motivation for printing out the
+    // TypeLoc structure: the size expression of an array is sometimes
+    // only accessible by navigating through it.
+    OUT_QATTR_STMT(qualifier, label << "::Size",
+      atl.getSizeExpr());
+
+    /* Covers otherwise empty subclasses:
+
+       ConstantArrayTypeLoc
+       IncompleteArrayTypeLoc
+       DependentSizedArrayTypeLoc
+       VariableArrayTypeLoc
+    */
+  }
+
+  else if (auto tstl = typeLoc.getAs<clang::TemplateSpecializationTypeLoc>()) {
+    OUT_QATTR_LOC(qualifier, label << "::NameLoc",
+      tstl.getTemplateNameLoc());
+    OUT_QATTR_LOC(qualifier, label << "::TemplateKWLoc",
+      tstl.getTemplateKeywordLoc());
+    OUT_QATTR_LOC(qualifier, label << "::LAngleLoc",
+      tstl.getLAngleLoc());
+    OUT_QATTR_LOC(qualifier, label << "::RAngleLoc",
+      tstl.getRAngleLoc());
+  }
+
+  // TODO: DependentAddressSpaceTypeLoc
+
+  // TODO: VectorTypeLoc
+
+  // TODO: DependentVectorTypeLoc
+
+  // TODO: ExtVectorTypeLoc
+
+  // TODO: DependentSizedExtVectorTypeLoc
+
+  // TODO: MatrixTypeLoc
+
+  // TODO: A bunch more lised in TypeLoc.h after MatrixTypeLoc.
+
+  else if (typeLoc.getAs<clang::QualifiedTypeLoc>()) {
+    // QualifiedTypeLoc is a sort of strange beast.  It seems to be
+    // there for the purpose of storing location information about type
+    // qualifiers, but then has a comment explaining that they do not do
+    // so.  There isn't any other data evidently stored either.  So this
+    // looks like something we just skip since it has no information.
+  }
+
+  else {
+    OUT_QATTR_TODO(qualifier, label << "::<various>");
+  }
 }
 
 
@@ -1278,8 +1453,22 @@ void PrintClangASTNodes::printValueDecl(clang::ValueDecl const *decl)
 
 void PrintClangASTNodes::printDeclaratorDecl(clang::DeclaratorDecl const *decl)
 {
+  clang::TypeSourceInfo const * NULLABLE tsi = decl->getTypeSourceInfo();
+
+  // This prints 'tsi' as a summary string.
   OUT_QATTR_STRING("DeclaratorDecl::", "TInfo",
-    typeSourceInfoStr(decl->getTypeSourceInfo()));
+    typeSourceInfoStr(tsi));
+
+  if (tsi) {
+    // Print the QualType stored in it, which I expect to be the same as
+    // the ValueDecl::DeclType.
+    OUT_QATTR_QUALTYPE("DeclaratorDecl::TInfo::", "Ty",
+      tsi->getType());
+
+    // Print the TypeLoc stored in it.
+    printTypeLoc("DeclaratorDecl::TInfo::", "TypeLoc",
+      tsi->getTypeLoc());
+  }
 
   if (SPY(DeclaratorDecl, decl, hasExtInfo)) {
     OUT_QATTR_PTR("DeclaratorDecl::ExtInfo::", "TrailingRequiresClause",
@@ -1952,6 +2141,9 @@ void PrintClangASTNodes::printCXXRecordDecl(clang::CXXRecordDecl const *decl)
   if (decl->isThisDeclarationADefinition()) {
     OUT_QATTR_BOOL(qualifier, "needsImplicitDestructor()",
       decl->needsImplicitDestructor());
+
+    OUT_QATTR_INT(qualifier, "getNumBases()",
+      decl->getNumBases());
   }
 }
 
@@ -2421,10 +2613,12 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
 
   PRINT_IF_SUBCLASS(stmt, Expr)
   PRINT_IF_SUBCLASS(stmt, DeclRefExpr)
+  PRINT_IF_SUBCLASS(stmt, IntegerLiteral)
   PRINT_IF_SUBCLASS(stmt, CallExpr)
   PRINT_IF_SUBCLASS(stmt, MemberExpr)
   PRINT_IF_SUBCLASS(stmt, CastExpr)
   PRINT_IF_SUBCLASS(stmt, ImplicitCastExpr)
+  PRINT_IF_SUBCLASS(stmt, BinaryOperator)
   PRINT_IF_SUBCLASS(stmt, ParenListExpr)
 
   PRINT_IF_SUBCLASS(stmt, CXXDefaultArgExpr)
@@ -2573,6 +2767,18 @@ void PrintClangASTNodes::printDeclRefExpr(clang::DeclRefExpr const *expr)
 }
 
 
+void PrintClangASTNodes::printIntegerLiteral(
+  clang::IntegerLiteral const *expr)
+{
+  char const *qualifier = "IntegerLiteral::";
+
+  OUT_QATTR_LOC(qualifier, "Loc",
+    expr->getLocation());
+  OUT_QATTR_STRING(qualifier, "APInt",
+    apIntStr(expr->getValue(), false /*isSigned*/));
+}
+
+
 void PrintClangASTNodes::printCallExpr(clang::CallExpr const *expr)
 {
   char const *qualifier = "CallExpr::";
@@ -2711,7 +2917,7 @@ void PrintClangASTNodes::printCastExpr(clang::CastExpr const *expr)
   for (clang::CXXBaseSpecifier const *base : expr->path()) {
     printCXXBaseSpecifier(qualifier,
       stringb("BasePath[" << (i++) << "]"),
-        base);
+      base);
   }
 
   OUT_QATTR_STMT(qualifier, "Op",
@@ -2735,6 +2941,20 @@ void PrintClangASTNodes::printImplicitCastExpr(
   // Although 'ImplicitCastExpr' has some trailing objects that
   // 'CastExpr' does not necessarily have, the accessors are all on
   // 'CastExpr', so that is where they are printed.
+}
+
+
+void PrintClangASTNodes::printBinaryOperator(
+  clang::BinaryOperator const *expr)
+{
+  char const *qualifier = "BinaryOperatpr::";
+
+  OUT_QATTR_PTR(qualifier, "LHS",
+    getStmtIDStr(expr->getLHS()));
+  OUT_QATTR_PTR(qualifier, "RHS",
+    getStmtIDStr(expr->getRHS()));
+  OUT_QATTR_STRING(qualifier, "Opcode",
+    expr->getOpcodeStr().str());
 }
 
 
@@ -3243,11 +3463,18 @@ void PrintClangASTNodes::printFake_CXXRecordDecl_DefinitionData(
   #undef SPECIAL_MEMBERS_SET
 
   OUT_ATTR_STRING("ODRHash", defData->ODRHash);
-  OUT_ATTR_STRING("NumBases", defData->NumBases);
-  OUT_ATTR_STRING("NumVBases", defData->NumVBases);
 
-  OUT_ATTR_STRING("Bases", "TODO");
+  OUT_ATTR_STRING("NumBases", defData->NumBases);
+  for (unsigned int i=0; i < defData->NumBases; ++i) {
+    clang::CXXBaseSpecifier const *base = &(defData->bases()[i]);
+    printCXXBaseSpecifier("",
+      stringb("Bases[" << i << "]"),
+      base);
+  }
+
+  OUT_ATTR_STRING("NumVBases", defData->NumVBases);
   OUT_ATTR_STRING("VBases", "TODO");
+
   OUT_ATTR_STRING("Conversions", "TODO");
   OUT_ATTR_STRING("VisibleConversions", "TODO");
 
@@ -3460,6 +3687,11 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
     OUT_ATTR_QUALTYPE("NamedType",
       elabType->getNamedType());
+  }
+
+  else if (auto usingType = dyn_cast<clang::UsingType>(type)) {
+    OUT_ATTR_PTR("Found",
+      getOrCreateDeclIDStr(usingType->getFoundDecl()));
   }
 }
 

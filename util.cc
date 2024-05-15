@@ -213,6 +213,15 @@ std::string addIndentation(std::string const &text,
 }
 
 
+std::ostream &indentPrefix(std::ostream &os, int indentLevel)
+{
+  while (indentLevel-- > 0) {
+    os << "  ";
+  }
+  return os;
+}
+
+
 // Given that we start with 'text[delimPos]=='('', advance 'delimPos'
 // until it is one character past the ')' that matches the original '('.
 // Return false if no such close-paren is found.
@@ -447,6 +456,47 @@ string bracesSetIfMultiple(std::set<string> const &strings)
   else {
     return stringb("{" << commaSeparate(strings) << "}");
   }
+}
+
+
+// 2024-04-13: Copied from smbase string-utils module.
+//
+// Based on one of the answers at
+// https://stackoverflow.com/questions/236129/how-do-i-iterate-over-the-words-of-a-string
+// although that answer is buggy (the final test is wrong) so I fixed
+// the bug.
+std::vector<std::string> splitNonEmpty(std::string const &text, char sep)
+{
+  // Result words.
+  std::vector<std::string> tokens;
+
+  // Place to start looking for the next token.
+  std::string::size_type start = 0;
+
+  // Location of the next 'sep' character after (or at) 'start', or
+  // 'npos' if none is found.
+  std::string::size_type end = 0;
+
+  // Look for the next occurrence of 'sep'.
+  while ((end = text.find(sep, start)) != std::string::npos) {
+    // Take the token unless 'sep' occurred immediately.
+    if (end != start) {
+      tokens.push_back(text.substr(start, end - start));
+    }
+
+    // Skip past the separator we just found.
+    start = end + 1;
+  }
+
+  // In the code I started with, the test was 'end != start', but that
+  // is always true because we know that 'end==npos'.  Instead we want
+  // to check that 'start' is not at the end of the string, which is
+  // *not* where 'end' is.
+  if (start < text.size()) {
+    tokens.push_back(text.substr(start));
+  }
+
+  return tokens;
 }
 
 

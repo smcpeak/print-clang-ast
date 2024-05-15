@@ -73,6 +73,9 @@ extern std::ostream *g_traceOutputStream;
 // ": ".
 std::ostream &beginTraceOutput(char const *traceScope);
 
+// Same as above, but with a possibly different suffix than ": ".
+std::ostream &beginTraceOutput(char const *traceScope, char const *suffix);
+
 
 /* Placed at file or function scope, this initializes the trace level
    that applies to that scope, shadowing any outer scope tracing. */
@@ -93,6 +96,11 @@ std::ostream &beginTraceOutput(char const *traceScope);
   int className::traceLevel = getTraceLevel(#className) /* user ; */
 
 
+// True if the current tracing level for the current context is at
+// least 'level'.
+#define TRACING(level) (traceLevel >= (level))
+
+
 // Macro to conditionally print based on verbosity level.
 //
 // This flushes after every message in order to ensure all output is
@@ -103,7 +111,7 @@ std::ostream &beginTraceOutput(char const *traceScope);
 // because it will often contain additional '<<' operators that are
 // meant to chain into the 'clog' output.
 #define TRACE(level, stuff)                             \
-  if (traceLevel >= (level)) {                          \
+  if (TRACING(level)) {                                 \
     beginTraceOutput(traceScope) << stuff << std::endl; \
   }
 
@@ -134,11 +142,11 @@ std::ostream &beginTraceOutput(char const *traceScope);
 // scope.  Otherwise, do not emit a trace message and do not inc/dec the
 // indentation level.
 #define TRACE_SCOPED(level, stuff)                                \
-  if (traceLevel >= (level)) {                                    \
+  if (TRACING(level)) {                                           \
     beginTraceOutput(traceScope) << stuff << std::endl;           \
   }                                                               \
   ScopedTraceIndentationLevel                                     \
-    SM_PP_CAT(stil_,__LINE__)(traceLevel >= (level)) /* user ; */
+    SM_PP_CAT(stil_,__LINE__)(TRACING(level)) /* user ; */
 
 
 #define TRACE0_SCOPED(stuff) TRACE_SCOPED(0, stuff)
@@ -151,12 +159,12 @@ std::ostream &beginTraceOutput(char const *traceScope);
 // Macros to directly inc/dec the indentation if the tracing level is
 // active.
 #define TRACE_INC_INDENTATION_LEVEL(level) \
-  if (traceLevel >= (level)) {             \
+  if (TRACING(level)) {                    \
     ++g_traceIndentationLevel;             \
   }
 
 #define TRACE_DEC_INDENTATION_LEVEL(level) \
-  if (traceLevel >= (level)) {             \
+  if (TRACING(level)) {                    \
     --g_traceIndentationLevel;             \
   }
 

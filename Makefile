@@ -1,6 +1,6 @@
 # print-clang-ast/Makefile
 
-# ---- Configuration ----
+# --------------------------- Configuration ----------------------------
 # Set to 1 if I am using a build from source, 0 for a binary
 # distribution.
 USE_SOURCE_BUILD := 0
@@ -26,7 +26,7 @@ endif
 -include pre-config.mk
 
 
-# ---- Helper definitions and scripts ----
+# -------------------- Helper definitions and scripts ------------------
 # CREATE_OUTPUT_DIRECTORY, etc.
 include sm-lib.mk
 
@@ -45,7 +45,7 @@ DED := $(HOME)/wrk/ded/ded
 CHECK_SRCFILE_RULES := check-srcfile-rules
 
 
-# ---- llvm-config query results ----
+# --------------------- llvm-config query results ----------------------
 # Program to query the various LLVM configuration options.
 LLVM_CONFIG := $(CLANG_LLVM_INSTALL_DIR)/bin/llvm-config
 
@@ -59,7 +59,7 @@ LLVM_LIBDIR := $(shell $(LLVM_CONFIG) --libdir)
 LLVM_LDFLAGS_AND_SYSTEM_LIBS := $(shell $(LLVM_CONFIG) --ldflags --system-libs)
 
 
-# ---- Compiler options ----
+# -------------------------- Compiler options --------------------------
 # C++ compiler.
 #CXX = g++
 CXX = $(CLANG_LLVM_INSTALL_DIR)/bin/clang++
@@ -128,7 +128,7 @@ LDFLAGS += $(LLVM_LDFLAGS_AND_SYSTEM_LIBS)
 -include config.mk
 
 
-# ---- Recipes ----
+# ------------------------------ Recipes -------------------------------
 # Default target.
 all:
 .PHONY: all
@@ -145,6 +145,7 @@ all:
 	$(CXX) -E -o $@ $(GENDEPS_FLAGS) $(CXXFLAGS) $<
 
 OBJS :=
+OBJS += clang-ast-visitor.o
 OBJS += clang-util.o
 OBJS += decl-implicit.o
 OBJS += enum-util.o
@@ -155,6 +156,8 @@ OBJS += pca-command-line-options-test.o
 OBJS += pca-command-line-options.o
 OBJS += print-clang-ast-nodes.o
 OBJS += print-clang-ast.o
+OBJS += printer-visitor.o
+OBJS += rav-printer-visitor.o
 OBJS += sm-pp-util-test.o
 OBJS += stringref-parse-test.o
 OBJS += stringref-parse.o
@@ -169,7 +172,7 @@ print-clang-ast.exe: $(OBJS)
 	$(CXX) -g -Wall -o $@ $(OBJS) $(LDFLAGS)
 
 
-# ---- Tests ----
+# ------------------------------- Tests --------------------------------
 # Create an empty expected output file if needed.
 in/exp/%:
 	touch $@
@@ -188,6 +191,36 @@ out/unit-tests.ok: print-clang-ast.exe
 	touch $@
 
 
+# ----------------------- Ad-hoc source checks -------------------------
+# Check that the enumerators in the header and implementation of
+# clang-ast-visitor match.
+#
+# This works by, for both files, grepping for lines that start with any
+# of the enumerator prefixes, removing leading whitespace, and checking
+# that they match.  The header file also has comments stripped, and the
+# implementation file stops when it sees "END_OF_ENUMS".
+#
+out/check-src/clang-ast-visitor-enums.ok: clang-ast-visitor.h clang-ast-visitor.cc
+	$(CREATE_OUTPUT_DIRECTORY)
+	cat clang-ast-visitor.h | \
+	  egrep '^ +(VDC|VSC|VTC|VTAC|VNNSC|VDNC)_' | \
+	  sed 's, \+//.*,,' | \
+	  sed 's/^ \+//' > out/check-src/clang-ast-visitor.h.enums
+	cat clang-ast-visitor.cc | \
+	  sed '/END_OF_ENUMS/Q' | \
+	  egrep '^ +(VDC|VSC|VTC|VTAC|VNNSC|VDNC)_' | \
+	  sed 's/^ \+//' > out/check-src/clang-ast-visitor.cc.enums
+	diff -u out/check-src/clang-ast-visitor.h.enums \
+	        out/check-src/clang-ast-visitor.cc.enums
+	touch $@
+
+.PHONY: check-src
+check-src: out/check-src/clang-ast-visitor-enums.ok
+
+check: check-src
+
+
+# -------------------- Tests for --print-ast-nodes ---------------------
 # Options for specific source files.  I cannot just pass '-std=c++20'
 # for all files due to
 # https://github.com/llvm/llvm-project/issues/63959.
@@ -282,6 +315,7 @@ check-nodes: $(TEST_CONFIRMATIONS)
 check: check-nodes
 
 
+# ---------------------- Check test syntax rules -----------------------
 # Check that the test source files follow my rules.
 #
 # Passing CHECK_SRCFILE_RULES_ARGS=--fix enables automatic fixes.
@@ -295,6 +329,7 @@ out/%.cc.rules: in/src/%.cc
 check-srcfile-rules: $(patsubst in/src/%,out/%.rules,$(TEST_INPUTS))
 
 
+# ----------------------- Test ded --check-graph -----------------------
 # Check that a diagram's graph agrees with the diagram and with the
 # graph source.
 #
@@ -355,11 +390,68 @@ CHECKED_DIAGRAMS += ct-cont-ct-cspspec.ded
 check-diagrams: $(patsubst %,out/%.cg,$(CHECKED_DIAGRAMS))
 
 
+# ----------------------- Test --printer-visitor -----------------------
+in/exp/pv/%.pv:
+	touch $@
+
+out/pv/%.pv: in/src/% in/exp/pv/%.pv print-clang-ast.exe
+	$(CREATE_OUTPUT_DIRECTORY)
+	$(RUN_COMPARE_EXPECT) \
+	  --actual $@ \
+	  --expect in/exp/pv/$*.pv \
+	  ./print-clang-ast.exe --printer-visitor \
+	    --print-visit-context \
+	    --print-implicit-qual-types \
+	    -xc++ in/src/$*
+
+PRINTER_VISITOR_TESTS :=
+PRINTER_VISITOR_TESTS += ct-inst.cc
+PRINTER_VISITOR_TESTS += expr-array-size.cc
+PRINTER_VISITOR_TESTS += friend-decl.cc
+PRINTER_VISITOR_TESTS += friend-template-decl.cc
+
+.PHONY: check-printer-visitor
+check-printer-visitor: $(patsubst %,out/pv/%.pv,$(PRINTER_VISITOR_TESTS))
+
+check: check-printer-visitor
+
+
+# --------------------- Test --rav-printer-visitor ---------------------
+out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
+	$(CREATE_OUTPUT_DIRECTORY)
+	@#
+	@# Run --rav-printer-visitor.
+	./print-clang-ast.exe --rav-printer-visitor -xc++ \
+	  $(call FILE_OPTS_FOR,$*) in/src/$* > out/rpv/$*.rpv
+	@#
+	@# Run --printer-visitor with the RAV compatibility flags.
+	./print-clang-ast.exe --printer-visitor \
+	  --omit-ctpsd-taw --print-default-arg-exprs \
+	  -xc++ $(call FILE_OPTS_FOR,$*) in/src/$* > out/rpv/$*.pv
+	@#
+	@# Check that they agree.
+	diff -u out/rpv/$*.rpv out/rpv/$*.pv
+	@#
+	@# Indicate success.
+	touch $@
+
+RAV_PRINTER_VISITOR_TESTS := $(patsubst in/src/%,%,$(TEST_INPUTS))
+
+.PHONY: check-rav-printer-visitor
+check-rav-printer-visitor: $(patsubst %,out/rpv/%.rpv.ok,$(RAV_PRINTER_VISITOR_TESTS))
+
+check: check-rav-printer-visitor
+
+
+# ------------------------ 'check-full' target -------------------------
 # Check all the optional stuff too.
 .PHONY: check-full
-check-full: check check-srcfile-rules check-diagrams
+check-full: check
+check-full: check-srcfile-rules
+check-full: check-diagrams
 
 
+# --------------------------- 'clean' target ---------------------------
 .PHONY: clean
 clean:
 	$(RM) *.o *.d *.exe

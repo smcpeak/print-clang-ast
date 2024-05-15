@@ -36,21 +36,35 @@ int compare(NUM const &a, NUM const &b)
   }
 
 
-// Define a single friend comparison operator.
-#define DEFINE_ONE_FRIEND_OPERATOR(Class, op)              \
+/* Compare a base class subobject.
+
+   The cast is needed because this is meant to be used from within the
+   definition of a 'compare' function that operates on a superclass, so
+   without the cast, this would just be the function calling itself in
+   an infinite loop.
+*/
+#define COMPARE_SUBOBJ(BaseType)                             \
+  if (int ret = compare(static_cast<BaseType const &>(a),    \
+                        static_cast<BaseType const &>(b))) { \
+    return ret;                                              \
+  }
+
+
+// Define a single friend relational operator.
+#define DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, op) \
   friend bool operator op (Class const &a, Class const &b) \
     { return compare(a,b) op 0; }
 
 
 // Declare a set of friend comparison operators, assuming that a
 // 'compare' function exists.
-#define DEFINE_FRIEND_OPERATORS(Class)  \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, ==) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, !=) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, < ) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, <=) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, > ) \
-  DEFINE_ONE_FRIEND_OPERATOR(Class, >=)
+#define DEFINE_FRIEND_RELATIONAL_OPERATORS(Class)  \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, ==) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, !=) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, < ) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, <=) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, > ) \
+  DEFINE_ONE_FRIEND_RELATIONAL_OPERATOR(Class, >=)
 
 
 #endif // COMPARE_UTIL_H

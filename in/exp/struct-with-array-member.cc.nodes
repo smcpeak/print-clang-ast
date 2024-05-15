@@ -103,6 +103,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 53" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 15": {
@@ -154,6 +155,11 @@
   "NamedDecl::Name": "\"arr\"",
   "ValueDecl::DeclType": { "ptr": "ConstantArrayType 17", "preview": "int[2]" },
   "DeclaratorDecl::TInfo": "ConstantArray(\"int[2]\", <in/src/struct-with-array-member.cc:5:3, col:12>, Builtin(\"int\", <in/src/struct-with-array-member.cc:5:3>, NullTypeLoc))",
+  "DeclaratorDecl::TInfo::Ty": { "ptr": "ConstantArrayType 17", "preview": "int[2]" },
+  "DeclaratorDecl::TInfo::TypeLoc.Class()": "ConstantArray",
+  "DeclaratorDecl::TInfo::TypeLoc::LBracketLoc": "in/src/struct-with-array-member.cc:5:10",
+  "DeclaratorDecl::TInfo::TypeLoc::RBracketLoc": "in/src/struct-with-array-member.cc:5:12",
+  "DeclaratorDecl::TInfo::TypeLoc::Size": { "ptr": "IntegerLiteral 19" },
   "DeclaratorDecl::ExtInfo": "absent",
   "DeclaratorDecl::InnerLocStart": "in/src/struct-with-array-member.cc:5:3",
   "FieldDecl flags": "",
@@ -174,6 +180,8 @@
   "Expr::ExprBits::ObjectKind": "OK_Ordinary",
   "Expr::ExprBits::Dependent": "None",
   "Expr::TR": { "ptr": "BuiltinType 18", "preview": "int" },
+  "IntegerLiteral::Loc": "in/src/struct-with-array-member.cc:5:11",
+  "IntegerLiteral::APInt": "2",
 },
 
 "CXXConstructorDecl 20": {
@@ -803,7 +811,6 @@
   "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",

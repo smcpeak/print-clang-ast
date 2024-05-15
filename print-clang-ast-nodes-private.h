@@ -184,6 +184,12 @@ public:      // methods
     std::string const &label,
     clang::CXXBaseSpecifier const *bspec);
 
+  // Print the details of 'typeLoc'.
+  void printTypeLoc(
+    std::string const &qualifier,
+    std::string const &label,
+    clang::TypeLoc typeLoc);
+
   // Get JSON for an object like:
   //
   //   {
@@ -313,11 +319,13 @@ public:      // methods
 
   void printExpr(clang::Expr const *expr);                      // Expr.h line  109
   void printDeclRefExpr(clang::DeclRefExpr const *expr);        // Expr.h line 1223
+  void printIntegerLiteral(clang::IntegerLiteral const *expr);  // Expr.h line 1494
   void printCallExpr(clang::CallExpr const *expr);              // Expr.h line 2801
   void printMemberExpr(clang::MemberExpr const *expr);          // Expr.h line 3168
   void printCastExpr(clang::CastExpr const *expr);              // Expr.h line 3479
   void printImplicitCastExpr(                                   // Expr.h line 3624
     clang::ImplicitCastExpr const *expr);
+  void printBinaryOperator(clang::BinaryOperator const *expr);  // Expr.h line 3809
   void printParenListExpr(clang::ParenListExpr const *expr);    // Expr.h line 5538
 
   void printCXXDefaultArgExpr(                                  // ExprCXX.h line 1241

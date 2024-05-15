@@ -5,7 +5,9 @@
 #define PCA_UTIL_H
 
 #include "sm-pp-util.h"                // SM_PP_CAT
+#include "util-macros.h"               // for compatibility; TODO: remove this
 
+#include <cassert>                     // assert
 #include <cstddef>                     // std::size_t
 #include <map>                         // std::map
 #include <set>                         // std::set
@@ -18,17 +20,6 @@
 // Construct a string in-place using ostream operators.
 #define stringb(stuff) \
   (static_cast<std::ostringstream const &>(std::ostringstream() << stuff).str())
-
-
-// Pseudo-attribute meaning a pointer can be nullptr.
-#define NULLABLE /*nullable*/
-
-
-// Place in a class definition to inhibit the auto-generated copy
-// operations.
-#define NO_OBJECT_COPIES(name)              \
-  name(name&) = delete;                     \
-  void operator=(name&) = delete /*user ;*/
 
 
 // Print a message and exit.
@@ -129,6 +120,9 @@ std::string removeIndentation(std::string const &text);
 std::string addIndentation(std::string const &text,
                            std::string const &indent);
 
+// Write to 'os' 'indentLevel*2' spaces, then return 'os'.
+std::ostream &indentPrefix(std::ostream &os, int indentLevel);
+
 
 // Given 'text', which has the identifier and parameters of a function
 // definition, remove all default arguments.  If 'angleBrackets', then
@@ -176,6 +170,11 @@ std::string pathFinalName(std::string const &path);
 std::string bracesSetIfMultiple(std::set<std::string> const &strings);
 
 
+// Split 'text' into non-empty words separated by 'sep', which never
+// appears in any of the result words.
+std::vector<std::string> splitNonEmpty(std::string const &text, char sep);
+
+
 // Restore a variable's value when this object goes out of scope.
 template <class T>
 class SaveRestore {
@@ -196,6 +195,12 @@ public:      // methods
 };
 
 
+// SaveRestore with a uniquely-named restorer object and deduced type.
+#define SAVE_RESTORE(variable) \
+  SaveRestore<decltype(variable)> SM_PP_CAT(save_restore_,__LINE__) \
+    (variable) /* user ; */
+
+
 // Set a variable to a value, then restore when going out of scope.
 template <class T>
 class SetRestore : public SaveRestore<T> {
@@ -214,36 +219,20 @@ public:      // methods
     (variable, value) /* user ; */
 
 
-// Declare a bunch of a set-like operators for enum types.
-//
-// This was copied from smbase/sm-macros.h.
-#define ENUM_BITWISE_AND(Type)                  \
-  inline Type operator& (Type f1, Type f2)      \
-    { return (Type)((int)f1 & (int)f2); }       \
-  inline Type& operator&= (Type &f1, Type f2)   \
-    { return f1 = f1 & f2; }
+// Dereference 'p' after asserting it is not nullptr.
+template <class T>
+T const &assertDeref(T const *p)
+{
+  assert(p);
+  return *p;
+}
 
-#define ENUM_BITWISE_OR(Type)                   \
-  inline Type operator| (Type f1, Type f2)      \
-    { return (Type)((int)f1 | (int)f2); }       \
-  inline Type& operator|= (Type &f1, Type f2)   \
-    { return f1 = f1 | f2; }
-
-#define ENUM_BITWISE_XOR(Type)                  \
-  inline Type operator^ (Type f1, Type f2)      \
-    { return (Type)((int)f1 ^ (int)f2); }       \
-  inline Type& operator^= (Type &f1, Type f2)   \
-    { return f1 = f1 ^ f2; }
-
-#define ENUM_BITWISE_NOT(Type, ALL)             \
-  inline Type operator~ (Type f)                \
-    { return (Type)((~(int)f) & ALL); }
-
-#define ENUM_BITWISE_OPS(Type, ALL)             \
-  ENUM_BITWISE_AND(Type)                        \
-  ENUM_BITWISE_OR(Type)                         \
-  ENUM_BITWISE_XOR(Type)                        \
-  ENUM_BITWISE_NOT(Type, ALL)
+template <class T>
+T &assertDeref(T *p)
+{
+  assert(p);
+  return *p;
+}
 
 
 // Unit tests, defined in util-test.cc.  Aborts on failure.

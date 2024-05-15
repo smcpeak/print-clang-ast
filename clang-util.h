@@ -4,8 +4,11 @@
 #ifndef HEADER_ANALYSIS_CLANG_UTIL_H
 #define HEADER_ANALYSIS_CLANG_UTIL_H
 
+// this dir
+#include "clang-expr-concepts-fwd.h"                       // clang::concepts::Requirement [n]
 #include "util.h"                                          // NULLABLE
 
+// clang
 #include "clang/AST/ASTContext.h"                          // clang::ASTContext::{getLangOpts, getSourceManager, getTranslationUnitDecl}
 #include "clang/AST/ASTFwd.h"                              // clang::{Type, Stmt, Decl} [n]
 #include "clang/AST/Decl.h"                                // clang::NamedDecl
@@ -20,18 +23,38 @@
 #include "clang/Basic/Version.h"                           // CLANG_VERSION_MAJOR
 #include "clang/Lex/HeaderSearchOptions.h"                 // clang::HeaderSearchOptions
 
+// llvm
 #include "llvm/ADT/StringRef.h"                            // llvm::StringRef [n]
 #include "llvm/Support/Casting.h"                          // llvm::dyn_cast
 
+// libc++
 #include <list>                                            // std::list
 #include <string>                                          // std::string
+#include <vector>                                          // std::vector
 
 
-// Expand to 'thenCode' if we're compiling against Clang+LLVM 17 or later.
+// Expand to 'thenCode' if we're compiling against Clang+LLVM 17 or
+// later.
+//
+// Beware: In some cases, I'm not sure which version introduced a
+// change, so there may be cases that need adjustment, particularly when
+// the change was made in an earlier version than the one indicated by
+// my use of the macro.  Furthermore, I often have not tested the
+// 'elseCode', I merely have reason to believe it should work.  The
+// basic pattern is I insert IF_CLANG_17 when I am using Clang-17 and
+// ran into a compatibility issue.
+//
 #if CLANG_VERSION_MAJOR >= 17
   #define IF_CLANG_17(thenCode, elseCode) thenCode
 #else
   #define IF_CLANG_17(thenCode, elseCode) elseCode
+#endif
+
+// Similar for Clang-16.
+#if CLANG_VERSION_MAJOR >= 16
+  #define IF_CLANG_16(thenCode, elseCode) thenCode
+#else
+  #define IF_CLANG_16(thenCode, elseCode) elseCode
 #endif
 
 
@@ -62,7 +85,7 @@ public:      // data
   clang::PrintingPolicy m_printingPolicy;
 
 public:      // methods
-  ClangUtil(clang::ASTContext &astContext);
+  explicit ClangUtil(clang::ASTContext &astContext);
 
   // Get the LangOptions in 'm_astContext'.
   clang::LangOptions const &getLangOptions() const;
@@ -73,19 +96,29 @@ public:      // methods
   // Render 'loc' as a string.
   std::string locStr(clang::SourceLocation loc) const;
 
+  // Return a string like "L:C" where L is the line number and C is the
+  // column number in 'loc'.
+  std::string locLineColStr(clang::SourceLocation loc) const;
+
+  // Get the line/column number only from 'loc'.
+  unsigned locLine(clang::SourceLocation loc) const;
+  unsigned locCol(clang::SourceLocation loc) const;
+
   // Stringify 'range'.
   std::string sourceRangeStr(clang::SourceRange range) const;
 
-  // Get the principal location for 'decl'.  In particular, if 'decl' is
-  // a definition of something that is declared elsewhere, I want the
-  // location of that definition, whereas Decl::getLocation() sometimes
-  // returns the declaration location.
-  //
-  // In general, I should be using this rather than Decl::getLocation()
-  // unless there is a known, specific reason.
-  //
-  // Note that many Stmt subclasses have a getLocation() method that, as
-  // far as I know, is fine to use.
+  /* Get the location of the beginning of 'decl'.  In particular, if
+     'decl' is a definition of something that was previously declared
+     elsewhere, I want the location of that definition, whereas
+     Decl::getLocation() sometimes returns the declaration location.
+     See the comments in the implementation for more details.
+
+     In general, I should be using this rather than Decl::getLocation()
+     or Decl::getBeginLoc() unless there is a known, specific reason.
+
+     Note that many Stmt subclasses have a getLocation() method that, as
+     far as I know, is fine to use.
+  */
   static clang::SourceLocation declLoc(clang::Decl const *decl);
 
   // Get the location of the identifier for 'decl'.
@@ -94,6 +127,14 @@ public:      // methods
 
   // Render the location of 'decl' as a string.
   std::string declLocStr(clang::Decl const *decl) const;
+
+  // Return a string with the declaration kind and source location.
+  std::string declKindAtLocStr(clang::Decl const * NULLABLE decl) const;
+
+  // If 'decl' is a NamedDecl, then act like 'namedDeclAndKindAtLocStr',
+  // otherwise act like 'declKindAtLocStr'.
+  std::string declKindMaybeNameAtLocStr(
+    clang::Decl const * NULLABLE decl) const;
 
   // Render 'decl' with qualifiers and signature.
   std::string namedDeclStr(
@@ -116,6 +157,12 @@ public:      // methods
   // normally we have a NamedDecl.
   std::string unnamedDeclAddrAtLocStr(
     clang::Decl const * NULLABLE decl) const;
+
+  // Return a string that identifies the entity declared by 'namedDecl'
+  // in a compact but reasonably unambiguous in the context of an
+  // automated test.  See comments at the implementation for details.
+  std::string namedDeclCompactIdentifier(
+    clang::NamedDecl const *namedDecl) const;
 
   // Stringify 'declName' and its kind.
   static std::string declarationNameStr(
@@ -236,7 +283,7 @@ public:      // methods
   static clang::Decl const *declFromDC(
     clang::DeclContext const * NULLABLE dc);
 
-  // Render 'stmt' as a string.
+  // Render 'stmt' as a string by pretty-printing the syntax.
   std::string stmtStr(clang::Stmt const * NULLABLE stmt) const;
 
   // Get the location of 'stmt'.
@@ -301,6 +348,11 @@ public:      // methods
   std::string templateParamsForFunctionIfT(
     clang::FunctionDecl const *functionDecl) const;
 
+  // Return the template parameters of 'templateDecl' as a string in
+  // argument syntax.
+  static std::string templateDeclParamsAsArgsStr(
+    clang::TemplateDecl const *templateDecl);
+
   // Stringify 'templateName'.
   std::string templateNameStr(
     clang::TemplateName const &templateName) const;
@@ -340,6 +392,13 @@ public:      // methods
   // Same, but for a FileEntry.
   static bool isPrivateHeaderEntry(clang::FileEntry const *entry);
 
+  // Return the file name in 'entry'.
+  static std::string fileEntryNameStr(clang::FileEntry const *entry);
+
+  // Write the file name to 'os' as a double-quoted string.
+  static void fileEntryNameToJSON(std::ostream &os,
+                                  clang::FileEntry const *entry);
+
   // Turn a FileID into a string.
   std::string getFnameForFileID(clang::FileID fileID) const;
 
@@ -365,18 +424,20 @@ public:      // methods
 
   // Get the innermost enclosing parent that has a name suitable for use
   // in a qualifier, or nullptr if there is none.
-  clang::NamedDecl *maybeGetNamedParent(
-    clang::NamedDecl *decl) const;
+  clang::NamedDecl const *maybeGetNamedParentC(
+    clang::NamedDecl const *decl) const;
+  clang::NamedDecl       *maybeGetNamedParent(
+    clang::NamedDecl       *decl) const;
 
   // Find the file whose inclusion from the main source file led to
   // 'loc' being in the translation unit.  Returns an empty string if
   // the location did not arise from any include.
-  std::string getTopLevelIncludeForLoc(clang::SourceLocation loc);
+  std::string getTopLevelIncludeForLoc(clang::SourceLocation loc) const;
 
   // If 'decl' is something whose declaration is introduced with a
   // keyword like "class" or "namespace", return that keyword.
   // Otherwise, return "".
-  std::string getDeclKeyword(clang::NamedDecl *decl);
+  std::string getDeclKeyword(clang::NamedDecl const *decl) const;
 
   // Turn 'paramList' into a string like "template <class T>".
   std::string templateParameterListStr(
@@ -387,13 +448,13 @@ public:      // methods
   // be adjacent to another closing angle bracket.
   //
   // If 'hasParameterPack', then add "..." just before the ">".
-  std::string encloseInAngleBrackets(
+  static std::string encloseInAngleBrackets(
     std::list<std::string> const &args,
-    bool hasParameterPack) const;
+    bool hasParameterPack);
 
   // Turn 'paramList' into a string like "<T>".
-  std::string templateParameterListArgsStr(
-    clang::TemplateParameterList const *paramList) const;
+  static std::string templateParameterListArgsStr(
+    clang::TemplateParameterList const *paramList);
 
   // Stringify 'kind'.
   static std::string templateArgumentKindStr(
@@ -406,6 +467,11 @@ public:      // methods
   // Print 'arg' in double quotes, followed by its kind.
   std::string templateArgumentAndKindStr(
     clang::TemplateArgument const &arg) const;
+
+  // Render 'argLoc' as a string: quoted argument, then its kind, and
+  // then its source location.
+  std::string templateArgumentLocStr(
+    clang::TemplateArgumentLoc const &argLoc) const;
 
   // Render 'args' as a string like "<int, float>".
   std::string templateArgumentListStr(
@@ -425,7 +491,14 @@ public:      // methods
     clang::ASTTemplateArgumentListInfo const * NULLABLE argsInfo) const;
 
   // Get the canonical declaration for 'decl'.
-  clang::NamedDecl *canonicalNamedDecl(clang::NamedDecl *decl);
+  //
+  // This method is basically just confirming that the canonical decl will
+  // also be a NamedDecl, since the Clang API does not ensure that through
+  // its declared types.
+  clang::NamedDecl const *canonicalNamedDeclC(
+    clang::NamedDecl const *decl) const;
+  clang::NamedDecl       *canonicalNamedDecl(
+    clang::NamedDecl       *decl) const;
 
   // Stringify 'kind'.
   static std::string apValueKindStr(clang::APValue::ValueKind kind);
@@ -438,6 +511,7 @@ public:      // methods
     llvm::SmallVectorImpl<char> const &vec);
 
   // Stringify 'n'.
+  static std::string apIntStr(llvm::APInt const &n, bool isSigned);
   static std::string apsIntStr(llvm::APSInt const &n);
 
   // Is 'decl' the declaration of an operator?
@@ -466,6 +540,20 @@ public:      // methods
 
   // True if 'fd == getUserWrittenFunctionDecl(fd)'.
   static bool isUserWrittenFunctionDecl(clang::FunctionDecl const *fd);
+
+  // Append to 'lines' all of the source code lines of the primary
+  // source file.  Each will end with a newline character, except
+  // possibly for the last.
+  //
+  // Return false, and leave 'lines' unchanged, if the code is not
+  // available (typically because the AST was loaded from a serialized
+  // AST file rather than created by parsing source code).  Otherwise
+  // return true.
+  //
+  // This routine is not particularly efficient, but it has a simple
+  // interface.
+  //
+  bool getPrimarySourceFileLines(std::vector<std::string> &lines);
 };
 
 
@@ -484,11 +572,61 @@ namespace clang {
 }
 
 
+// Deterministically compare two declarations, given pointers to them.
+//
+// This assumes that both declarations are part of the same TU.  When
+// that is the case, the order will be stable across parser invocations.
+//
+// This is meant to be used as the 'Compare' argument to a container.
+//
+class DeclCompare {
+public:
+  // Strcmp-style comparison result.
+  static int compare(clang::Decl const *a, clang::Decl const *b);
+
+  // Comparison operator for use with containers.
+  //
+  // I'd like this to be 'static' but evidently that's not possible
+  // in C++17.
+  bool operator() (clang::Decl const *a, clang::Decl const *b) const
+  {
+    return compare(a,b) < 0;
+  }
+};
+
+
 // Get the name of the dynamic type of the argument.  We have one
 // overload for each class hierarchy root.
 std::string getDynamicTypeClassName(clang::Type const *type);
 std::string getDynamicTypeClassName(clang::Decl const *decl);
 std::string getDynamicTypeClassName(clang::Stmt const *stmt);
+std::string getDynamicTypeClassName(clang::concepts::Requirement const *req);
+
+// There is no overload of 'getDynamicTypeClassName' for DeclContext
+// because it would be ambiguous with the overload for Decl for any
+// argument that inherits both.  So we define it with a different name,
+// and then specialize 'outerGetDynamicTypeClassName' for DeclContext to
+// use it.
+std::string getDeclContextClassName(clang::DeclContext const *dc);
+
+
+template <class Y>
+inline std::string outerGetDynamicTypeClassName(Y *src)
+{
+  return getDynamicTypeClassName(src);
+}
+
+template <>
+inline std::string outerGetDynamicTypeClassName(clang::DeclContext *src)
+{
+  return getDeclContextClassName(src);
+}
+
+template <>
+inline std::string outerGetDynamicTypeClassName(clang::DeclContext const *src)
+{
+  return getDeclContextClassName(src);
+}
 
 
 // Report an attempt to dyn_cast a null pointer.
@@ -512,7 +650,8 @@ void assert_dyn_cast_failed(
   assert_dyn_cast_impl<DestType>(#DestType, (src), __FILE__, __LINE__)
 
 template <class X, class Y>
-inline typename llvm::cast_retty<X, Y *>::ret_type assert_dyn_cast_impl(
+inline typename llvm::cast_retty<X, Y *>::ret_type
+assert_dyn_cast_impl(
   char const *destTypeName,
   Y *src,
   char const *sourceFile,
@@ -527,7 +666,7 @@ inline typename llvm::cast_retty<X, Y *>::ret_type assert_dyn_cast_impl(
 
   if (!ret) {
     assert_dyn_cast_failed(destTypeName,
-      getDynamicTypeClassName(src), sourceFile, sourceLine);
+      outerGetDynamicTypeClassName(src), sourceFile, sourceLine);
   }
 
   return ret;
