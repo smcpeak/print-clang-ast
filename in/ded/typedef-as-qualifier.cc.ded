@@ -10,15 +10,15 @@
       "name": "$(graphNodeID)",
       "objectGraphNodeID": "FunctionDecl 56",
       "size": {
-        "h": 50,
-        "w": 415
+        "h": 75,
+        "w": 1110
       }
     },
     {
       "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
       "loc": {
         "x": 25,
-        "y": 105
+        "y": 135
       },
       "name": "$(graphNodeID)",
       "objectGraphNodeID": "FunctionProtoType 57",
@@ -31,7 +31,7 @@
       "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
       "loc": {
         "x": 25,
-        "y": 210
+        "y": 240
       },
       "name": "$(graphNodeID)",
       "objectGraphNodeID": "ElaboratedType 58",
@@ -44,7 +44,7 @@
       "attributes": "$(graphNodeShowFieldsAttrs)\n\n$(graphNodeShowFieldsPtrs)\n",
       "loc": {
         "x": 25,
-        "y": 340
+        "y": 370
       },
       "name": "$(graphNodeID)",
       "objectGraphNodeID": "NestedNameSpecifier 78",
@@ -1703,7 +1703,8 @@
       "getUnqualifiedDesugaredType()",
       "Prefix.ptr",
       "getKind()",
-      "TypeSpec"
+      "TypeSpec",
+      "DeclaratorDecl::TInfo"
     ]
   },
   "objectGraphSourceFile": "../../out/typedef-as-qualifier.cc.json",
@@ -1727,7 +1728,7 @@
   "type": "Diagram Editor Diagram",
   "version": 30,
   "windowSize": {
-    "h": 451,
-    "w": 463
+    "h": 606,
+    "w": 1183
   }
 }
