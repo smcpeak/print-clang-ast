@@ -85,7 +85,7 @@ public:      // data
   clang::PrintingPolicy m_printingPolicy;
 
 public:      // methods
-  ClangUtil(clang::ASTContext &astContext);
+  explicit ClangUtil(clang::ASTContext &astContext);
 
   // Get the LangOptions in 'm_astContext'.
   clang::LangOptions const &getLangOptions() const;
