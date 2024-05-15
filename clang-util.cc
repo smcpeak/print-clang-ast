@@ -1355,11 +1355,24 @@ string ClangUtil::getIncludeSyntax(
 }
 
 
-string ClangUtil::getFnameForFileID(clang::FileID fileID) const
+/*static*/ std::string ClangUtil::fileEntryNameStr(
+  clang::FileEntry const *entry)
 {
-  clang::FileEntry const *entry = m_srcMgr.getFileEntryForID(fileID);
   assert(entry);
   return entry->getName().str();
+}
+
+
+/*static*/ void ClangUtil::fileEntryNameToJSON(
+  std::ostream &os, clang::FileEntry const *entry)
+{
+  os << doubleQuote(fileEntryNameStr(entry));
+}
+
+
+std::string ClangUtil::getFnameForFileID(clang::FileID fileID) const
+{
+  return fileEntryNameStr(m_srcMgr.getFileEntryForID(fileID));
 }
 
 

@@ -392,6 +392,13 @@ public:      // methods
   // Same, but for a FileEntry.
   static bool isPrivateHeaderEntry(clang::FileEntry const *entry);
 
+  // Return the file name in 'entry'.
+  static std::string fileEntryNameStr(clang::FileEntry const *entry);
+
+  // Write the file name to 'os' as a double-quoted string.
+  static void fileEntryNameToJSON(std::ostream &os,
+                                  clang::FileEntry const *entry);
+
   // Turn a FileID into a string.
   std::string getFnameForFileID(clang::FileID fileID) const;
 
