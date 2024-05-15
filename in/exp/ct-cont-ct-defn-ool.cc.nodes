@@ -156,6 +156,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "null" },
   "CXXRecordDecl::needsImplicitDestructor()": true,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 18": {
@@ -316,6 +317,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "CXXRecordDecl 17" },
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 85" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
+  "CXXRecordDecl::getNumBases()": 0,
   "ClassTemplateSpecializationDecl::SpecializedTemplate.ClassTemplateDecl": { "ptr": "ClassTemplateDecl 14" },
   "ClassTemplateSpecializationDecl::ExplicitInfo": "null",
   "ClassTemplateSpecializationDecl::TemplateArgs": "\"<int>\"",
@@ -486,6 +488,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "CXXRecordDecl 90" },
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 67" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
+  "CXXRecordDecl::getNumBases()": 0,
   "ClassTemplateSpecializationDecl::SpecializedTemplate.ClassTemplateDecl": { "ptr": "ClassTemplateDecl 25" },
   "ClassTemplateSpecializationDecl::ExplicitInfo": "null",
   "ClassTemplateSpecializationDecl::TemplateArgs": "\"<float>\"",
@@ -1717,6 +1720,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "null" },
   "CXXRecordDecl::needsImplicitDestructor()": true,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "TemplateTypeParmDecl 91": {
@@ -1968,7 +1972,6 @@
   "DeclaredSpecialMembers": "SMF_None",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",
@@ -2023,7 +2026,6 @@
   "DeclaredSpecialMembers": "SMF_None",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",
@@ -2059,7 +2061,6 @@
   "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",
@@ -2110,7 +2111,6 @@
   "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",

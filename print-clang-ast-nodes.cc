@@ -1012,6 +1012,9 @@ void PrintClangASTNodes::printCXXBaseSpecifier(
 
   OUT_QATTR_STRING(qualifier, label << ".BaseTypeInfo",
     typeSourceInfoStr(bspec->getTypeSourceInfo()));
+
+  OUT_QATTR_QUALTYPE(qualifier, label << ".getType()",
+    bspec->getType());
 }
 
 
@@ -2138,6 +2141,9 @@ void PrintClangASTNodes::printCXXRecordDecl(clang::CXXRecordDecl const *decl)
   if (decl->isThisDeclarationADefinition()) {
     OUT_QATTR_BOOL(qualifier, "needsImplicitDestructor()",
       decl->needsImplicitDestructor());
+
+    OUT_QATTR_INT(qualifier, "getNumBases()",
+      decl->getNumBases());
   }
 }
 
@@ -2911,7 +2917,7 @@ void PrintClangASTNodes::printCastExpr(clang::CastExpr const *expr)
   for (clang::CXXBaseSpecifier const *base : expr->path()) {
     printCXXBaseSpecifier(qualifier,
       stringb("BasePath[" << (i++) << "]"),
-        base);
+      base);
   }
 
   OUT_QATTR_STMT(qualifier, "Op",
@@ -3457,11 +3463,18 @@ void PrintClangASTNodes::printFake_CXXRecordDecl_DefinitionData(
   #undef SPECIAL_MEMBERS_SET
 
   OUT_ATTR_STRING("ODRHash", defData->ODRHash);
-  OUT_ATTR_STRING("NumBases", defData->NumBases);
-  OUT_ATTR_STRING("NumVBases", defData->NumVBases);
 
-  OUT_ATTR_STRING("Bases", "TODO");
+  OUT_ATTR_STRING("NumBases", defData->NumBases);
+  for (unsigned int i=0; i < defData->NumBases; ++i) {
+    clang::CXXBaseSpecifier const *base = &(defData->bases()[i]);
+    printCXXBaseSpecifier("",
+      stringb("Bases[" << i << "]"),
+      base);
+  }
+
+  OUT_ATTR_STRING("NumVBases", defData->NumVBases);
   OUT_ATTR_STRING("VBases", "TODO");
+
   OUT_ATTR_STRING("Conversions", "TODO");
   OUT_ATTR_STRING("VisibleConversions", "TODO");
 

@@ -156,6 +156,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "null" },
   "CXXRecordDecl::needsImplicitDestructor()": true,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 18": {
@@ -311,6 +312,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "CXXRecordDecl 17" },
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 45" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
+  "CXXRecordDecl::getNumBases()": 0,
   "ClassTemplateSpecializationDecl::SpecializedTemplate.ClassTemplateDecl": { "ptr": "ClassTemplateDecl 14" },
   "ClassTemplateSpecializationDecl::ExplicitInfo": "null",
   "ClassTemplateSpecializationDecl::TemplateArgs": "\"<int>\"",
@@ -1063,7 +1065,6 @@
   "DeclaredSpecialMembers": "SMF_None",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",
@@ -1106,7 +1107,6 @@
   "DeclaredSpecialMembers": "SMF_DefaultConstructor|SMF_CopyConstructor|SMF_MoveConstructor|SMF_CopyAssignment|SMF_MoveAssignment|SMF_Destructor",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",

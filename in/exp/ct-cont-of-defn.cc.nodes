@@ -156,6 +156,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "null" },
   "CXXRecordDecl::needsImplicitDestructor()": true,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 18": {
@@ -355,7 +356,6 @@
   "DeclaredSpecialMembers": "SMF_None",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",

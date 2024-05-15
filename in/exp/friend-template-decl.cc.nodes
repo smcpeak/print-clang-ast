@@ -244,6 +244,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "null" },
   "CXXRecordDecl::needsImplicitDestructor()": true,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 22": {
@@ -457,6 +458,7 @@
   "CXXRecordDecl::getTemplateInstantiationPattern()": { "ptr": "null" },
   "CXXRecordDecl::getDestructor()": { "ptr": "null" },
   "CXXRecordDecl::needsImplicitDestructor()": true,
+  "CXXRecordDecl::getNumBases()": 0,
 },
 
 "CXXRecordDecl 31": {
@@ -827,7 +829,6 @@
   "DeclaredSpecialMembers": "SMF_None",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",
@@ -898,7 +899,6 @@
   "DeclaredSpecialMembers": "SMF_None",
   "NumBases": "0",
   "NumVBases": "0",
-  "Bases": "TODO",
   "VBases": "TODO",
   "Conversions": "TODO",
   "VisibleConversions": "TODO",
