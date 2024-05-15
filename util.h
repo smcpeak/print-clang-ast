@@ -120,6 +120,9 @@ std::string removeIndentation(std::string const &text);
 std::string addIndentation(std::string const &text,
                            std::string const &indent);
 
+// Write to 'os' 'indentLevel*2' spaces, then return 'os'.
+std::ostream &indentPrefix(std::ostream &os, int indentLevel);
+
 
 // Given 'text', which has the identifier and parameters of a function
 // definition, remove all default arguments.  If 'angleBrackets', then

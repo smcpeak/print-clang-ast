@@ -213,6 +213,15 @@ std::string addIndentation(std::string const &text,
 }
 
 
+std::ostream &indentPrefix(std::ostream &os, int indentLevel)
+{
+  while (indentLevel-- > 0) {
+    os << "  ";
+  }
+  return os;
+}
+
+
 // Given that we start with 'text[delimPos]=='('', advance 'delimPos'
 // until it is one character past the ')' that matches the original '('.
 // Return false if no such close-paren is found.
