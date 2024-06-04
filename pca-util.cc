@@ -1,7 +1,7 @@
-// util.cc
-// Code for util.h.
+// pca-util.cc
+// Code for pca-util.h.
 
-#include "util.h"                      // this module
+#include "pca-util.h"                  // this module
 
 #include <cstdlib>                     // std::exit
 #include <cstring>                     // std::strchr

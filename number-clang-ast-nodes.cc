@@ -3,7 +3,7 @@
 
 #include "number-clang-ast-nodes-private.h"      // private decls for this module
 
-#include "util.h"                                // stringb
+#include "pca-util.h"                            // stringb
 
 #include "smbase/map-util.h"                     // mapInsertUnique
 #include "smbase/sm-trace.h"                     // INIT_TRACE

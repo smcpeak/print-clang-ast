@@ -1,7 +1,7 @@
-// util-test.cc
-// Tests for util module.
+// pca-util-test.cc
+// Tests for `pca-util` module.
 
-#include "util.h"                      // module under test
+#include "pca-util.h"                  // module under test
 
 // smbase
 #include "smbase/string-util.h"        // doubleQuote
@@ -329,7 +329,7 @@ static void test_joinWithPrefixes()
 }
 
 
-void util_unit_tests()
+void pca_util_unit_tests()
 {
   test_endsWith();
   test_trimWhitespace();

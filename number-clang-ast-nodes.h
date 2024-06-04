@@ -5,7 +5,7 @@
 #define NUMBER_CLANG_AST_NODES_H
 
 #include "expose-template-common.h"              // clang::FunctionTemplateDecl_CommonBase
-#include "util.h"                                // NULLABLE
+#include "pca-util.h"                            // NULLABLE
 
 #include "clang/AST/ASTContext.h"                // clang::ASTContext
 #include "clang/AST/ASTFwd.h"                    // clang::FunctionDecl [n]

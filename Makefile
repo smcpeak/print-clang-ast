@@ -180,8 +180,8 @@ OBJS += printer-visitor.o
 OBJS += rav-printer-visitor.o
 OBJS += stringref-parse-test.o
 OBJS += stringref-parse.o
-OBJS += util-test.o
-OBJS += util.o
+OBJS += pca-util-test.o
+OBJS += pca-util.o
 
 # Executable.
 all: print-clang-ast.exe

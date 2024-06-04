@@ -5,7 +5,7 @@
 
 // this dir
 #include "enum-util.h"                 // ENUM_TABLE_LOOKUP, BITFLAGS_TABLE_LOOKUP
-#include "util.h"                      // startsWith, trimWhitespace, etc.
+#include "pca-util.h"                  // startsWith, trimWhitespace, etc.
 
 // smbase
 #include "smbase/compare-util.h"       // compare

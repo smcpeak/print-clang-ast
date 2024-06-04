@@ -8,7 +8,7 @@
 #include "printer-visitor.h"                               // printerVisitorTU
 #include "rav-printer-visitor.h"                           // ravPrinterVisitorTU
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
-#include "util.h"                                          // util_unit_tests
+#include "pca-util.h"                                      // pca_util_unit_tests
 
 #include "smbase/map-util.h"                               // mapInsertAll
 #include "smbase/sm-trace.h"                               // INIT_TRACE
@@ -39,7 +39,7 @@ static void all_unit_tests()
   file_util_unit_tests();
   pca_command_line_options_unit_tests();
   stringref_parse_unit_tests();
-  util_unit_tests();
+  pca_util_unit_tests();
 }
 
 

@@ -1,4 +1,4 @@
-// util.h
+// pca-util.h
 // Some general-purpose utilities.
 
 #ifndef PCA_UTIL_H
@@ -192,8 +192,8 @@ T &assertDeref(T *p)
 }
 
 
-// Unit tests, defined in util-test.cc.  Aborts on failure.
-void util_unit_tests();
+// Unit tests, defined in pca-util-test.cc.  Aborts on failure.
+void pca_util_unit_tests();
 
 
 #endif // PCA_UTIL_H

@@ -8,7 +8,7 @@
 #include "expose-template-common.h"              // clang::FunctionTemplateDecl_Common
 #include "optional-util.h"                       // optionalToString
 #include "spy-private.h"                         // ACCESS_PRIVATE_FIELD
-#include "util.h"                                // stringb
+#include "pca-util.h"                            // stringb
 
 // smbase
 #include "smbase/map-util.h"                     // mapFindOpt

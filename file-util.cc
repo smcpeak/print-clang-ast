@@ -4,7 +4,7 @@
 #include "file-util.h"                           // this module
 
 // this dir
-#include "util.h"                                // stringb
+#include "pca-util.h"                            // stringb
 
 // smbase
 #include "smbase/string-util.h"                  // doubleQuote

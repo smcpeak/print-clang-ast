@@ -3,7 +3,7 @@
 
 #include "stringref-parse.h"                     // this module
 
-#include "util.h"                                // isCWhitespace
+#include "pca-util.h"                            // isCWhitespace
 
 #include <cstring>                               // std::strlen
 #include <string>                                // std::string
