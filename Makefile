@@ -112,6 +112,9 @@ endif
 # Tell the source code where the clang installation directory is.
 CXXFLAGS += -DCLANG_LLVM_INSTALL_DIR='"$(CLANG_LLVM_INSTALL_DIR)"'
 
+# Pull in smbase headers.
+CXXFLAGS += -I$(SMBASE)
+
 # Switch to enable creation of .d files.
 GENDEPS_FLAGS = -MMD
 
@@ -131,6 +134,9 @@ LDFLAGS += -Wl,-rpath=$(LLVM_LIBDIR)
 # It appears that llvm::raw_os_ostream::~raw_os_ostream is missing from
 # libclang-cpp, so I have to link with LLVMSupport statically.
 LDFLAGS += -lLLVMSupport
+
+# Link with smbase.
+LDFLAGS += $(SMBASE)/libsmbase.a
 
 # Get the needed -L search path, plus things like -ldl.
 LDFLAGS += $(LLVM_LDFLAGS_AND_SYSTEM_LIBS)
@@ -169,11 +175,8 @@ OBJS += print-clang-ast-nodes.o
 OBJS += print-clang-ast.o
 OBJS += printer-visitor.o
 OBJS += rav-printer-visitor.o
-OBJS += sm-pp-util-test.o
 OBJS += stringref-parse-test.o
 OBJS += stringref-parse.o
-OBJS += sm-trace-test.o
-OBJS += sm-trace.o
 OBJS += util-test.o
 OBJS += util.o
 

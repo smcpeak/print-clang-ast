@@ -4,9 +4,16 @@
 #ifndef PCA_UTIL_H
 #define PCA_UTIL_H
 
-#include "sm-pp-util.h"                // SM_PP_CAT
+// this dir
 #include "util-macros.h"               // for compatibility; TODO: remove this
 
+// smbase
+#include "save-restore.h"              // for compatibility; TODO: remove this
+#include "sm-pp-util.h"                // SM_PP_CAT
+#include "string-util.h"               // for compatibility; TODO: remove this
+#include "stringb.h"                   // for compatibility; TODO: remove this
+
+// libc++
 #include <cassert>                     // assert
 #include <cstddef>                     // std::size_t
 #include <map>                         // std::map
@@ -17,9 +24,8 @@
 #include <vector>                      // std::vector
 
 
-// Construct a string in-place using ostream operators.
-#define stringb(stuff) \
-  (static_cast<std::ostringstream const &>(std::ostringstream() << stuff).str())
+// 2024-06-04: Removed `stringb` in favor of the one in
+// `smbase/stringb.h`.
 
 
 // Print a message and exit.
@@ -85,25 +91,15 @@ std::string padTo(std::string const &s, std::size_t len);
 // String containing C whitespace characters: " \t\n\r\f\v".
 extern char const * const cWhitespaceChars;
 
-// Trim whitespace from both ends of 's'.
-std::string trimWhitespace(std::string s);
+// 2024-06-04: Removed `trimWhitespace` in favor of the one in
+// `smbase/string-util.h`.
 
 // True if 'c' is considered whitespace in C.
 bool isCWhitespace(char c);
 
 
-/*
-  Return 's' enclosed in double quotes, and with special characters
-  escaped with C syntax, specifically:
-
-  - non-printing characters escaped using octal,
-
-  - whitespace and metacharacters (backslash and double-quote) escaped
-    using backslash mnemonics, and
-
-  - all other characters represent themselves.
-*/
-std::string doubleQuote(std::string const &s);
+// 2024-06-04: Removed `doubleQuote` in favor of the one in
+// `smbase/string-util`.
 
 
 // If 's' contains newlines, and they are all followed by at least one
@@ -170,53 +166,17 @@ std::string pathFinalName(std::string const &path);
 std::string bracesSetIfMultiple(std::set<std::string> const &strings);
 
 
-// Split 'text' into non-empty words separated by 'sep', which never
-// appears in any of the result words.
-std::vector<std::string> splitNonEmpty(std::string const &text, char sep);
+// 2024-06-04: Removed `splitNonEmpty`.  It is defined in
+// `smbase/string-util.h`.
 
 
-// Restore a variable's value when this object goes out of scope.
-template <class T>
-class SaveRestore {
-public:      // data
-  T &m_variable;
-  T m_origValue;
+/* 2024-06-04: Removed in favor of `smbase/save-restore.h`:
 
-public:      // methods
-  SaveRestore(T &variable)
-    : m_variable(variable),
-      m_origValue(variable)
-  {}
-
-  ~SaveRestore()
-  {
-    m_variable = m_origValue;
-  }
-};
-
-
-// SaveRestore with a uniquely-named restorer object and deduced type.
-#define SAVE_RESTORE(variable) \
-  SaveRestore<decltype(variable)> SM_PP_CAT(save_restore_,__LINE__) \
-    (variable) /* user ; */
-
-
-// Set a variable to a value, then restore when going out of scope.
-template <class T>
-class SetRestore : public SaveRestore<T> {
-public:      // methods
-  SetRestore(T &variable, T const &newValue)
-    : SaveRestore<T>(variable)
-  {
-    this->m_variable = newValue;
-  }
-};
-
-
-// SetRestore with a uniquely-named restorer object and deduced type.
-#define SET_RESTORE(variable, value) \
-  SetRestore<decltype(variable)> SM_PP_CAT(set_restore_,__LINE__) \
-    (variable, value) /* user ; */
+    SaveRestore
+    SAVE_RESTORE
+    SetRestore
+    SET_RESTORE
+*/
 
 
 // Dereference 'p' after asserting it is not nullptr.

@@ -3,16 +3,22 @@
 
 #include "clang-util.h"                // this module
 
+// thisdir
 #include "compare-util.h"              // compare
 #include "enum-util.h"                 // ENUM_TABLE_LOOKUP, BITFLAGS_TABLE_LOOKUP
 #include "util.h"                      // startsWith, trimWhitespace, etc.
 
+// smbase
+#include "string-util.h"               // doubleQuote
+
+// clang
 #include "clang/AST/Decl.h"            // clang::FieldDecl::getParent
 #include "clang/AST/DeclCXX.h"         // clang::CXXMethodDecl::getParent
 #include "clang/AST/ExprConcepts.h"    // clang::concepts::Requirement
 #include "clang/AST/Type.h"            // clang::FunctionProtoType
 #include "clang/Basic/Version.h"       // CLANG_VERSION_MAJOR
 
+// llvm
 #include "llvm/ADT/APSInt.h"           // llvm::APSint::toString
 #include "llvm/Support/raw_ostream.h"  // llvm::raw_string_ostream
 

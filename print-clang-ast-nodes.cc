@@ -3,27 +3,35 @@
 
 #include "print-clang-ast-nodes-private.h"       // this module
 
+// this dir
 #include "enum-util.h"                           // ENUM_TABLE_LOOKUP
 #include "expose-template-common.h"              // clang::FunctionTemplateDecl_Common
 #include "map-util.h"                            // mapFindOpt
 #include "optional-util.h"                       // optionalToString
-#include "sm-trace.h"                               // INIT_TRACE
+#include "sm-trace.h"                            // INIT_TRACE
 #include "spy-private.h"                         // ACCESS_PRIVATE_FIELD
-#include "util.h"                                // doubleQuote, stringb
+#include "util.h"                                // stringb
 
+// smbase
+#include "string-util.h"                         // doubleQuote
+
+// clang
 //#include "clang/AST/ASTDumper.h"                 // clang::ASTDumper
 #include "clang/AST/DeclContextInternals.h"      // clang::StoredDeclsMap::size
 #include "clang/AST/DeclFriend.h"                // clang::FriendDecl
 #include "clang/AST/ExprCXX.h"                   // clang::CXXDependentScopeMemberExpr
 #include "clang/Lex/Lexer.h"                     // clang::Lexer
 
+// llvm
 #include "llvm/Support/raw_os_ostream.h"         // llvm::raw_os_ostream
 #include "llvm/Support/raw_ostream.h"            // llvm::raw_string_ostream
 
+// libc++
 #include <iterator>                              // std::distance
 #include <iostream>                              // std::ostream
 #include <string>                                // std::string
 
+// libc
 #include <assert.h>                              // assert
 
 

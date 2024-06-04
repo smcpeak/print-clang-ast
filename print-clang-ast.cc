@@ -8,8 +8,7 @@
 #include "print-clang-ast-nodes.h"                         // printClangASTNodes
 #include "printer-visitor.h"                               // printerVisitorTU
 #include "rav-printer-visitor.h"                           // ravPrinterVisitorTU
-#include "sm-pp-util.h"                                    // test_sm_pp_util
-#include "sm-trace.h"                                      // INIT_TRACE, trace_unit_tests
+#include "sm-trace.h"                                      // INIT_TRACE
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
 #include "util.h"                                          // util_unit_tests
 
@@ -39,8 +38,6 @@ static void all_unit_tests()
   file_util_unit_tests();
   pca_command_line_options_unit_tests();
   stringref_parse_unit_tests();
-  test_sm_pp_util();
-  trace_unit_tests();
   util_unit_tests();
 }
 

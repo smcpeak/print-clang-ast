@@ -4,6 +4,12 @@
 #ifndef UTIL_MACROS_H
 #define UTIL_MACROS_H
 
+// This header is now a compatibility wrapper for sm-macros.h.
+//
+// TODO: Remove it.
+#include "sm-macros.h"
+
+#if 0
 // This file is intended to be very lightweight in terms of
 // dependencies.
 
@@ -50,5 +56,6 @@
   ENUM_BITWISE_XOR(Type)                        \
   ENUM_BITWISE_NOT(Type, ALL)
 
+#endif // 0
 
 #endif // UTIL_MACROS_H

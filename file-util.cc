@@ -3,12 +3,18 @@
 
 #include "file-util.h"                           // this module
 
-#include "util.h"                                // stringb, doubleQuote
+// this dir
+#include "util.h"                                // stringb
 
+// smbase
+#include "string-util.h"                         // doubleQuote
+
+// libc++
 #include <cstring>                               // std::strerror
 #include <fstream>                               // std::ifstream
 #include <sstream>                               // std::ostringstream
 
+// libc
 #include <errno.h>                               // errno
 
 

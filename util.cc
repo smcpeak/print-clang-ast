@@ -108,58 +108,9 @@ string padTo(string const &s, size_t len)
 char const * const cWhitespaceChars = " \t\n\r\f\v";
 
 
-// https://stackoverflow.com/questions/216823/how-to-trim-an-stdstring
-string trimWhitespace(string s)
-{
-  // Trim from start.
-  s.erase(0, s.find_first_not_of(cWhitespaceChars));
-
-  // Trim from end.
-  s.erase(s.find_last_not_of(cWhitespaceChars) + 1);
-
-  return s;
-}
-
-
 bool isCWhitespace(char c)
 {
   return std::strchr(cWhitespaceChars, c) != nullptr;
-}
-
-
-std::string doubleQuote(std::string const &s)
-{
-  std::ostringstream os;
-  os << '"';
-
-  for (char ch : s) {
-    unsigned c = static_cast<unsigned char>(ch);    // in [0,255]
-    switch (c) {
-      case '\t': os << "\\t"; break;
-      case '\n': os << "\\n"; break;
-      case '\r': os << "\\r"; break;
-      case '\f': os << "\\f"; break;
-      case '\v': os << "\\v"; break;
-      case '\"': os << "\\\""; break;
-      case '\\': os << "\\\\"; break;
-
-      default:
-        if (c < 32 || c > 126) {
-          // Use three digit octal escape because hex isn't safe.
-          os << '\\' << std::oct;
-          os.width(3);
-          os.fill('0');
-          os << c;
-        }
-        else {
-          os << ch;
-        }
-        break;
-    }
-  }
-
-  os << '"';
-  return os.str();
 }
 
 
@@ -456,47 +407,6 @@ string bracesSetIfMultiple(std::set<string> const &strings)
   else {
     return stringb("{" << commaSeparate(strings) << "}");
   }
-}
-
-
-// 2024-04-13: Copied from smbase string-utils module.
-//
-// Based on one of the answers at
-// https://stackoverflow.com/questions/236129/how-do-i-iterate-over-the-words-of-a-string
-// although that answer is buggy (the final test is wrong) so I fixed
-// the bug.
-std::vector<std::string> splitNonEmpty(std::string const &text, char sep)
-{
-  // Result words.
-  std::vector<std::string> tokens;
-
-  // Place to start looking for the next token.
-  std::string::size_type start = 0;
-
-  // Location of the next 'sep' character after (or at) 'start', or
-  // 'npos' if none is found.
-  std::string::size_type end = 0;
-
-  // Look for the next occurrence of 'sep'.
-  while ((end = text.find(sep, start)) != std::string::npos) {
-    // Take the token unless 'sep' occurred immediately.
-    if (end != start) {
-      tokens.push_back(text.substr(start, end - start));
-    }
-
-    // Skip past the separator we just found.
-    start = end + 1;
-  }
-
-  // In the code I started with, the test was 'end != start', but that
-  // is always true because we know that 'end==npos'.  Instead we want
-  // to check that 'start' is not at the end of the string, which is
-  // *not* where 'end' is.
-  if (start < text.size()) {
-    tokens.push_back(text.substr(start));
-  }
-
-  return tokens;
 }
 
 

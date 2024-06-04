@@ -3,9 +3,14 @@
 
 #include "util.h"                      // module under test
 
+// smbase
+#include "string-util.h"               // doubleQuote
+
+// libc++
 #include <cstdlib>                     // std::abort
 #include <iostream>                    // std::cerr
 
+// libc
 #include <assert.h>                    // assert
 
 
