@@ -3,7 +3,7 @@
 
 #include "decl-implicit-private.h"               // private decls for this module
 
-#include "sm-trace.h"                            // INIT_TRACE, TRACE1
+#include "smbase/sm-trace.h"                     // INIT_TRACE, TRACE1
 
 #include "clang/Sema/Sema.h"                     // Sema::ForceDeclarationOfImplicitMembers
 

@@ -3,9 +3,10 @@
 
 #include "number-clang-ast-nodes-private.h"      // private decls for this module
 
-#include "map-util.h"                            // mapInsertUnique
-#include "sm-trace.h"                            // INIT_TRACE
 #include "util.h"                                // stringb
+
+#include "smbase/map-util.h"                     // mapInsertUnique
+#include "smbase/sm-trace.h"                     // INIT_TRACE
 
 #include "clang/Basic/LLVM.h"                    // clang::isa
 

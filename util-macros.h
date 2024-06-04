@@ -7,7 +7,7 @@
 // This header is now a compatibility wrapper for sm-macros.h.
 //
 // TODO: Remove it.
-#include "sm-macros.h"
+#include "smbase/sm-macros.h"
 
 #if 0
 // This file is intended to be very lightweight in terms of

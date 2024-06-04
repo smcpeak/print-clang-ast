@@ -3,14 +3,15 @@
 
 #include "decl-implicit.h"                                 // declareImplicitThings
 #include "file-util.h"                                     // file_util_unit_tests
-#include "map-util.h"                                      // mapInsertAll
 #include "pca-command-line-options.h"                      // PCACommandLineOptions
 #include "print-clang-ast-nodes.h"                         // printClangASTNodes
 #include "printer-visitor.h"                               // printerVisitorTU
 #include "rav-printer-visitor.h"                           // ravPrinterVisitorTU
-#include "sm-trace.h"                                      // INIT_TRACE
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
 #include "util.h"                                          // util_unit_tests
+
+#include "smbase/map-util.h"                               // mapInsertAll
+#include "smbase/sm-trace.h"                               // INIT_TRACE
 
 #include "clang/Basic/Diagnostic.h"                        // clang::DiagnosticsEngine
 #include "clang/Basic/DiagnosticOptions.h"                 // clang::DiagnosticOptions

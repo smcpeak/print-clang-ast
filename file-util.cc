@@ -7,7 +7,7 @@
 #include "util.h"                                // stringb
 
 // smbase
-#include "string-util.h"                         // doubleQuote
+#include "smbase/string-util.h"                  // doubleQuote
 
 // libc++
 #include <cstring>                               // std::strerror

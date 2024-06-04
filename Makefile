@@ -112,8 +112,11 @@ endif
 # Tell the source code where the clang installation directory is.
 CXXFLAGS += -DCLANG_LLVM_INSTALL_DIR='"$(CLANG_LLVM_INSTALL_DIR)"'
 
-# Pull in smbase headers.
-CXXFLAGS += -I$(SMBASE)
+# Allow smbase headers to be found via `include "smbase/XXX.h"`.  This
+# more or less assumes that `print-clang-ast` is checked out as part of
+# `print-clang-ast-proj` so that ".." is not grabbing a bunch of
+# unrelated stuff.
+CXXFLAGS += -I..
 
 # Switch to enable creation of .d files.
 GENDEPS_FLAGS = -MMD

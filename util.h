@@ -8,10 +8,10 @@
 #include "util-macros.h"               // for compatibility; TODO: remove this
 
 // smbase
-#include "save-restore.h"              // for compatibility; TODO: remove this
-#include "sm-pp-util.h"                // SM_PP_CAT
-#include "string-util.h"               // for compatibility; TODO: remove this
-#include "stringb.h"                   // for compatibility; TODO: remove this
+#include "smbase/save-restore.h"       // for compatibility; TODO: remove this
+#include "smbase/sm-pp-util.h"         // SM_PP_CAT
+#include "smbase/string-util.h"        // for compatibility; TODO: remove this
+#include "smbase/stringb.h"            // for compatibility; TODO: remove this
 
 // libc++
 #include <cassert>                     // assert

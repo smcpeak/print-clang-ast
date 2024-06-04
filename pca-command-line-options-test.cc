@@ -4,7 +4,7 @@
 #include "pca-command-line-options.h"            // module under test
 
 // smbase
-#include "string-util.h"                         // doubleQuote
+#include "smbase/string-util.h"                  // doubleQuote
 
 // libc++
 #include <cstdlib>                               // std::exit

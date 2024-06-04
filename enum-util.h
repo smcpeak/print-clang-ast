@@ -4,7 +4,7 @@
 #ifndef ENUM_UTIL_H
 #define ENUM_UTIL_H
 
-#include "sm-pp-util.h"                // SM_PP_MAP_WITH_ARG
+#include "smbase/sm-pp-util.h"         // SM_PP_MAP_WITH_ARG
 
 #include <string>                      // std::string
 

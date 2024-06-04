@@ -3,13 +3,13 @@
 
 #include "clang-util.h"                // this module
 
-// thisdir
-#include "compare-util.h"              // compare
+// this dir
 #include "enum-util.h"                 // ENUM_TABLE_LOOKUP, BITFLAGS_TABLE_LOOKUP
 #include "util.h"                      // startsWith, trimWhitespace, etc.
 
 // smbase
-#include "string-util.h"               // doubleQuote
+#include "smbase/compare-util.h"       // compare
+#include "smbase/string-util.h"        // doubleQuote
 
 // clang
 #include "clang/AST/Decl.h"            // clang::FieldDecl::getParent
