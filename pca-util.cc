@@ -3,7 +3,7 @@
 
 #include "pca-util.h"                  // this module
 
-#include "smbase/string-util.h"        // trimWhitespace
+#include "smbase/string-util.h"        // trimWhitespace, replaceAll
 #include "smbase/stringb.h"            // stringb
 
 #include <cstdlib>                     // std::exit
@@ -46,18 +46,6 @@ void die_fileLine(
   die(stringb("\n" << sourceFile << ":" << sourceLine << ": " << msg));
 }
 
-
-string replaceAll(string const &orig,
-                  string const &from, string const &to)
-{
-  string ret(orig);
-  string::size_type i = ret.find(from);
-  while (i != string::npos) {
-    ret.replace(i, from.size(), to);
-    i = ret.find(from, i + to.size());
-  }
-  return ret;
-}
 
 string padTo(string const &s, size_t len)
 {

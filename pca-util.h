@@ -37,13 +37,6 @@ void die_fileLine(
   int sourceLine);
 
 
-// Return 'orig' with all occurrences of 'from' replaced with 'to'.
-// Occurrences are scanned left to right, with the subsequent scan
-// starting right after the substituted text.
-std::string replaceAll(std::string const &orig,
-                       std::string const &from, std::string const &to);
-
-
 // Add spaces to the end of 's' to ensure its length is at least
 // 'len'.
 std::string padTo(std::string const &s, std::size_t len);
