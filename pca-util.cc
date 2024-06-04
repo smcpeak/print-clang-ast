@@ -47,26 +47,6 @@ void die_fileLine(
 }
 
 
-bool startsWith(string const &full, string const &prefix)
-{
-  // Use the idiom of reverse search from the beginning, which just
-  // looks in that one place.
-  return full.rfind(prefix, 0 /*pos*/) == 0;
-}
-
-
-bool endsWith(string const &full, string const &suffix)
-{
-  if (full.size() >= suffix.size()) {
-    return full.find(suffix, full.size() - suffix.size() /*pos*/) !=
-           string::npos;
-  }
-  else {
-    return false;
-  }
-}
-
-
 std::string removeSuffix(std::string const &full,
                          std::string const &suffix)
 {

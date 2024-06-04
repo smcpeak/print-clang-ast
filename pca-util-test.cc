@@ -45,21 +45,6 @@ void expectEq(char const *label, INPUT const &input,
 }
 
 
-static void tew1(char const *full, char const *suffix, bool expect)
-{
-  bool actual = endsWith(full, suffix);
-  expectEq("endsWith", full, expect, actual);
-}
-
-static void test_endsWith()
-{
-  tew1("", "", true);
-  tew1("a", "a", true);
-  tew1("a", "b", false);
-  tew1("a\n", "\n", true);
-}
-
-
 static void ttw1(char const *input, char const *expect)
 {
   string actual = trimWhitespace(input);
@@ -331,7 +316,6 @@ static void test_joinWithPrefixes()
 
 void pca_util_unit_tests()
 {
-  test_endsWith();
   test_trimWhitespace();
   test_doubleQuote();
   test_pathFinalName();

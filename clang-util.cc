@@ -9,7 +9,7 @@
 
 // smbase
 #include "smbase/compare-util.h"       // compare
-#include "smbase/string-util.h"        // doubleQuote
+#include "smbase/string-util.h"        // doubleQuote, beginsWith
 #include "smbase/stringb.h"            // stringb
 
 // clang
@@ -1291,7 +1291,7 @@ string ClangUtil::getIncludeSyntax(
   // purposes.
   *userEntryIndex = 0;
   for (auto const &e : headerSearchOptions.UserEntries) {
-    if (startsWith(fname, e.Path)) {
+    if (beginsWith(fname, e.Path)) {
       // Get the name without the path prefix.  The path is assumed to
       // end with a directory separator, and that is stripped from
       // 'fname' too.
@@ -1311,7 +1311,7 @@ string ClangUtil::getIncludeSyntax(
     ++(*userEntryIndex);
   }
 
-  if (startsWith(fname, "./")) {
+  if (beginsWith(fname, "./")) {
     *userEntryIndex = -1;
 
     // Drop the "." path component.

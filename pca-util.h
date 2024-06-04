@@ -37,12 +37,6 @@ void die_fileLine(
   int sourceLine);
 
 
-// True if 'full' begins with 'prefix'.
-bool startsWith(std::string const &full, std::string const &prefix);
-
-// True if 'full' ends with 'suffix'.
-bool endsWith(std::string const &full, std::string const &suffix);
-
 // If 'full' ends with 'suffix', return a string like 'full' but with
 // that suffix removed.  Otherwise just return 'full'.
 std::string removeSuffix(std::string const &full,
