@@ -45,7 +45,7 @@ include $(SMBASE)/sm-lib.mk
 PYTHON3 := python3
 
 # Script to run a program and compare to expected output.
-RUN_COMPARE_EXPECT := $(PYTHON3) ./run-compare-expect.py
+RUN_COMPARE_EXPECT := $(PYTHON3) $(SMBASE)/run-compare-expect.py
 
 # The diagram editor program, used for the 'check-diagrams' target (and
 # not otherwise, so it's fine if this is missing).  The editor is:
