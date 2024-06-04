@@ -47,12 +47,6 @@ void die_fileLine(
 }
 
 
-bool hasSubstring(string const &haystack, string const &needle)
-{
-  return haystack.find(needle) != string::npos;
-}
-
-
 string replaceAll(string const &orig,
                   string const &from, string const &to)
 {

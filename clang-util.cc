@@ -5,11 +5,10 @@
 
 // this dir
 #include "enum-util.h"                 // ENUM_TABLE_LOOKUP, BITFLAGS_TABLE_LOOKUP
-#include "pca-util.h"                  // startsWith, trimWhitespace, etc.
 
 // smbase
 #include "smbase/compare-util.h"       // compare
-#include "smbase/string-util.h"        // doubleQuote, beginsWith
+#include "smbase/string-util.h"        // doubleQuote, beginsWith, hasSubstring, trimWhitespace
 #include "smbase/stringb.h"            // stringb
 
 // clang

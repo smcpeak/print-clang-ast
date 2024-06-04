@@ -37,10 +37,6 @@ void die_fileLine(
   int sourceLine);
 
 
-// True if 'needle' is a substring of 'haystack'.
-bool hasSubstring(std::string const &haystack, std::string const &needle);
-
-
 // Return 'orig' with all occurrences of 'from' replaced with 'to'.
 // Occurrences are scanned left to right, with the subsequent scan
 // starting right after the substituted text.
