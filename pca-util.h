@@ -6,7 +6,6 @@
 
 // smbase
 #include "smbase/sm-pp-util.h"         // SM_PP_CAT
-#include "smbase/string-util.h"        // for compatibility; TODO: remove this
 
 // libc++
 #include <cassert>                     // assert

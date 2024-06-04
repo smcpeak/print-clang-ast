@@ -7,6 +7,7 @@
 #include "pca-util.h"                            // startsWith, commaSeparate
 #include "stringref-parse.h"                     // StringRefParse
 
+#include "smbase/string-util.h"                  // doubleQuote
 #include "smbase/stringb.h"                      // stringb
 
 #include <cstdlib>                               // std::exit

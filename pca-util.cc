@@ -3,6 +3,7 @@
 
 #include "pca-util.h"                  // this module
 
+#include "smbase/string-util.h"        // trimWhitespace
 #include "smbase/stringb.h"            // stringb
 
 #include <cstdlib>                     // std::exit
