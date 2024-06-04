@@ -469,4 +469,10 @@ clean:
 	$(RM) -r out
 
 
+# This does not do anything more than `clean`.  It exists so the
+# Makefile one level up can uniformly invoke `distclean` on sub-repos.
+.PHONY: distclean
+distclean: clean
+
+
 # EOF
