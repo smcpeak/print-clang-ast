@@ -22,13 +22,24 @@ else
 
 endif
 
+# Location of `smbase` directory.  It is a separate repo at
+# https://github.com/smcpeak/smbase, and is a sub-repo of
+# https://github.com/smcpeak/print-clang-ast-proj, which gathers
+# `print-clang-ast` and its dependencies as submodules.
+SMBASE := ../smbase
+
 # Let the user override my defaults.
 -include pre-config.mk
 
 
 # -------------------- Helper definitions and scripts ------------------
+# Check that $(SMBASE) exists.
+ifeq ($(wildcard $(SMBASE)/sm-lib.mk),)
+  $(error The file $(SMBASE)/sm-lib.mk does not exist.  The `smbase` repository is expected to be checked out next to this one.  See comments in Makefile for further information.)
+endif
+
 # CREATE_OUTPUT_DIRECTORY, etc.
-include sm-lib.mk
+include $(SMBASE)/sm-lib.mk
 
 # Python interpreter.
 PYTHON3 := python3
