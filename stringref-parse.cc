@@ -5,6 +5,8 @@
 
 #include "pca-util.h"                            // isCWhitespace
 
+#include "smbase/stringb.h"                      // stringb
+
 #include <cstring>                               // std::strlen
 #include <string>                                // std::string
 

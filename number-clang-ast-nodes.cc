@@ -7,6 +7,7 @@
 
 #include "smbase/map-util.h"                     // mapInsertUnique
 #include "smbase/sm-trace.h"                     // INIT_TRACE
+#include "smbase/stringb.h"                      // stringb
 
 #include "clang/Basic/LLVM.h"                    // clang::isa
 

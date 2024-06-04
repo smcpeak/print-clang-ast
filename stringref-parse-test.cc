@@ -3,7 +3,7 @@
 
 #include "stringref-parse.h"                     // module under test
 
-#include "pca-util.h"                            // stringb
+#include "smbase/stringb.h"                      // stringb
 
 #include <cstdlib>                               // std::exit
 #include <functional>                            // std::function

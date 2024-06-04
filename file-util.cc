@@ -8,6 +8,7 @@
 
 // smbase
 #include "smbase/string-util.h"                  // doubleQuote
+#include "smbase/stringb.h"                      // stringb
 
 // libc++
 #include <cstring>                               // std::strerror

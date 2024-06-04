@@ -3,6 +3,8 @@
 
 #include "pca-util.h"                  // this module
 
+#include "smbase/stringb.h"            // stringb
+
 #include <cstdlib>                     // std::exit
 #include <cstring>                     // std::strchr
 #include <iostream>                    // std::{cerr, endl}

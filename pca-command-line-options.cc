@@ -4,8 +4,10 @@
 #include "pca-command-line-options.h"            // this module
 
 #include "file-util.h"                           // readFile
-#include "stringref-parse.h"                     // StringRefParse
 #include "pca-util.h"                            // startsWith, commaSeparate
+#include "stringref-parse.h"                     // StringRefParse
+
+#include "smbase/stringb.h"                      // stringb
 
 #include <cstdlib>                               // std::exit
 #include <iostream>                              // std::cout, etc.

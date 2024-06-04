@@ -10,6 +10,7 @@
 // smbase
 #include "smbase/compare-util.h"       // compare
 #include "smbase/string-util.h"        // doubleQuote
+#include "smbase/stringb.h"            // stringb
 
 // clang
 #include "clang/AST/Decl.h"            // clang::FieldDecl::getParent

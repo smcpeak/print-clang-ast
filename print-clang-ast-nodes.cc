@@ -14,6 +14,7 @@
 #include "smbase/map-util.h"                     // mapFindOpt
 #include "smbase/sm-trace.h"                     // INIT_TRACE
 #include "smbase/string-util.h"                  // doubleQuote
+#include "smbase/stringb.h"                      // stringb
 
 // clang
 //#include "clang/AST/ASTDumper.h"                 // clang::ASTDumper
