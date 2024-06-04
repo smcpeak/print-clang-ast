@@ -9,8 +9,8 @@
 #include "printer-visitor.h"                               // printerVisitorTU
 #include "rav-printer-visitor.h"                           // ravPrinterVisitorTU
 #include "sm-pp-util.h"                                    // test_sm_pp_util
+#include "sm-trace.h"                                      // INIT_TRACE, trace_unit_tests
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
-#include "trace.h"                                         // INIT_TRACE, trace_unit_tests
 #include "util.h"                                          // util_unit_tests
 
 #include "clang/Basic/Diagnostic.h"                        // clang::DiagnosticsEngine

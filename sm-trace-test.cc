@@ -1,7 +1,7 @@
-// trace-test.cc
-// Tests for trace module.
+// sm-trace-test.cc
+// Tests for `sm-trace` module.
 
-#include "trace.h"                     // module under test
+#include "sm-trace.h"                  // module under test
 
 #include <assert.h>                    // assert.h
 

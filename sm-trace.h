@@ -1,8 +1,8 @@
-// trace.h
+// sm-trace.h
 // Debug trace support.
 
-#ifndef TRACE_H
-#define TRACE_H
+#ifndef SMBASE_SM_TRACE_H
+#define SMBASE_SM_TRACE_H
 
 #include "sm-pp-util.h"                // SM_PP_CAT
 #include "util.h"                      // NO_OBJECT_COPIES
@@ -173,4 +173,4 @@ std::ostream &beginTraceOutput(char const *traceScope, char const *suffix);
 void trace_unit_tests();
 
 
-#endif // TRACE_H
+#endif // SMBASE_SM_TRACE_H

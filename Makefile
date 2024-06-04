@@ -172,8 +172,8 @@ OBJS += rav-printer-visitor.o
 OBJS += sm-pp-util-test.o
 OBJS += stringref-parse-test.o
 OBJS += stringref-parse.o
-OBJS += trace-test.o
-OBJS += trace.o
+OBJS += sm-trace-test.o
+OBJS += sm-trace.o
 OBJS += util-test.o
 OBJS += util.o
 

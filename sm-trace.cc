@@ -1,7 +1,7 @@
-// trace.cc
-// Code for trace.h.
+// sm-trace.cc
+// Code for sm-trace.h.
 
-#include "trace.h"                     // this module
+#include "sm-trace.h"                  // this module
 
 // libc++
 #include <cstdlib>                     // std::getenv, std::atoi
