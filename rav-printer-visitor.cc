@@ -3,8 +3,8 @@
 
 #include "rav-printer-visitor-private.h"         // this module
 
-// this dir
-#include "pca-util.h"                            // SET_RESTORE
+// smbase
+#include "smbase/save-restore.h"                 // SET_RESTORE
 
 // clang
 #include "clang/Basic/Version.h"                 // CLANG_VERSION_MAJOR, CLANG_VERSION_MINOR

@@ -3,8 +3,8 @@
 
 #include "printer-visitor.h"                     // this module
 
-// this dir
-#include "pca-util.h"                            // SET_RESTORE
+// smbase
+#include "smbase/save-restore.h"                 // SET_RESTORE
 
 // clang
 #include "clang/AST/ExprCXX.h"                   // clang::CXXDefaultArgExpr

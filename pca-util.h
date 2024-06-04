@@ -5,7 +5,6 @@
 #define PCA_UTIL_H
 
 // smbase
-#include "smbase/save-restore.h"       // for compatibility; TODO: remove this
 #include "smbase/sm-pp-util.h"         // SM_PP_CAT
 #include "smbase/string-util.h"        // for compatibility; TODO: remove this
 #include "smbase/stringb.h"            // for compatibility; TODO: remove this
