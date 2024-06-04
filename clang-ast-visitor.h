@@ -91,7 +91,8 @@
 #include "clang-template-base-fwd.h"             // clang::TemplateArgument [n]
 #include "clang-type-fwd.h"                      // clang::QualType [n]
 #include "clang-type-loc-fwd.h"                  // clang::TypeLoc [n]
-#include "util-macros.h"                         // NULLABLE
+
+#include "smbase/sm-macros.h"                    // NULLABLE
 
 // clang
 #include "clang/AST/ASTFwd.h"                    // clang::{Stmt, Decl, ...} [n]

@@ -7,7 +7,9 @@
 // this dir
 #include "clang-ast-visitor.h"                   // ClangASTVisitor
 #include "clang-util.h"                          // ClangUtil
-#include "util-macros.h"                         // ENUM_BITWISE_OPS
+
+// smbase
+#include "smbase/sm-macros.h"                    // ENUM_BITWISE_OPS
 
 // libc++
 #include <iosfwd>                                // std::ostream

@@ -23,6 +23,9 @@
 #include "clang/Basic/Version.h"                           // CLANG_VERSION_MAJOR
 #include "clang/Lex/HeaderSearchOptions.h"                 // clang::HeaderSearchOptions
 
+// smbase
+#include "smbase/sm-macros.h"                              // NULLABLE
+
 // llvm
 #include "llvm/ADT/StringRef.h"                            // llvm::StringRef [n]
 #include "llvm/Support/Casting.h"                          // llvm::dyn_cast

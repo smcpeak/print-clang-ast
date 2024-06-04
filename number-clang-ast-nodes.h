@@ -11,6 +11,7 @@
 #include "clang/AST/ASTFwd.h"                    // clang::FunctionDecl [n]
 #include "clang/AST/Attr.h"                      // clang::Attr [n]
 
+#include "smbase/sm-macros.h"                    // NULLABLE
 #include "smbase/sm-pp-util.h"                   // SM_PP_MAP_LIST
 
 #include <map>                                   // std::map

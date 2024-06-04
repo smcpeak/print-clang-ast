@@ -4,9 +4,6 @@
 #ifndef PCA_UTIL_H
 #define PCA_UTIL_H
 
-// this dir
-#include "util-macros.h"               // for compatibility; TODO: remove this
-
 // smbase
 #include "smbase/save-restore.h"       // for compatibility; TODO: remove this
 #include "smbase/sm-pp-util.h"         // SM_PP_CAT
