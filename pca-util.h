@@ -37,15 +37,6 @@ void die_fileLine(
   int sourceLine);
 
 
-template <class K, class V>
-void addIfNotAlready(std::map<K,V> &m, K const &k, V const &v)
-{
-  if (m.find(k) == m.end()) {
-    m.insert(std::make_pair(k,v));
-  }
-}
-
-
 // True if 'full' begins with 'prefix'.
 bool startsWith(std::string const &full, std::string const &prefix);
 
