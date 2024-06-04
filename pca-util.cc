@@ -47,18 +47,6 @@ void die_fileLine(
 }
 
 
-std::string removeSuffix(std::string const &full,
-                         std::string const &suffix)
-{
-  if (endsWith(full, suffix)) {
-    return full.substr(0, full.size() - suffix.size());
-  }
-  else {
-    return full;
-  }
-}
-
-
 bool hasSubstring(string const &haystack, string const &needle)
 {
   return haystack.find(needle) != string::npos;

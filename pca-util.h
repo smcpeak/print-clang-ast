@@ -37,11 +37,6 @@ void die_fileLine(
   int sourceLine);
 
 
-// If 'full' ends with 'suffix', return a string like 'full' but with
-// that suffix removed.  Otherwise just return 'full'.
-std::string removeSuffix(std::string const &full,
-                         std::string const &suffix);
-
 // True if 'needle' is a substring of 'haystack'.
 bool hasSubstring(std::string const &haystack, std::string const &needle);
 
