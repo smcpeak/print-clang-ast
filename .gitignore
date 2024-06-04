@@ -3,6 +3,7 @@
 *.d
 *.ii
 *.o
+*.o.tmp
 config.mk
 doc/html
 make-from-editor.sh
