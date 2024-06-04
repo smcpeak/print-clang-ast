@@ -37,14 +37,6 @@ void die_fileLine(
   int sourceLine);
 
 
-// For use with libc++ containers.
-template <class CONTAINER, class K>
-bool contains(CONTAINER const &c, K const &k)
-{
-  return c.find(k) != c.end();
-}
-
-
 template <class K, class V>
 void addIfNotAlready(std::map<K,V> &m, K const &k, V const &v)
 {
