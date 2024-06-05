@@ -42,16 +42,10 @@ void die_fileLine(
 std::string padTo(std::string const &s, std::size_t len);
 
 
-
-// String containing C whitespace characters: " \t\n\r\f\v".
-extern char const * const cWhitespaceChars;
-
 // 2024-06-04: Removed `trimWhitespace` in favor of the one in
 // `smbase/string-util.h`.
 
-// True if 'c' is considered whitespace in C.
-bool isCWhitespace(char c);
-
+// 2024-06-04: Moved `isCWhitespace` to `smbase/string-util.h`.
 
 // 2024-06-04: Removed `doubleQuote` in favor of the one in
 // `smbase/string-util`.

@@ -3,6 +3,7 @@
 
 #include "pca-util.h"                  // this module
 
+#include "smbase/codepoint.h"          // isCWhitespace
 #include "smbase/string-util.h"        // trimWhitespace, replaceAll
 #include "smbase/stringb.h"            // stringb
 
@@ -55,15 +56,6 @@ string padTo(string const &s, size_t len)
   else {
     return s;
   }
-}
-
-
-char const * const cWhitespaceChars = " \t\n\r\f\v";
-
-
-bool isCWhitespace(char c)
-{
-  return std::strchr(cWhitespaceChars, c) != nullptr;
 }
 
 

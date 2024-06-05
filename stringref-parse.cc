@@ -3,8 +3,7 @@
 
 #include "stringref-parse.h"                     // this module
 
-#include "pca-util.h"                            // isCWhitespace
-
+#include "smbase/codepoint.h"                    // isCWhitespace
 #include "smbase/stringb.h"                      // stringb
 
 #include <cstring>                               // std::strlen
