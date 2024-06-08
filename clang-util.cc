@@ -45,6 +45,7 @@ ClangUtil::ClangUtil(clang::ASTContext &astContext)
 }
 
 
+// ---------------------------- ASTContext -----------------------------
 clang::LangOptions const &ClangUtil::getLangOptions() const
 {
   return m_astContext.getLangOpts();
@@ -57,6 +58,7 @@ clang::ExternalASTSource * NULLABLE ClangUtil::getExternalSource() const
 }
 
 
+// -------------------------- SourceLocation ---------------------------
 string ClangUtil::locStr(SourceLocation loc) const
 {
   return loc.printToString(m_srcMgr);
@@ -83,12 +85,154 @@ unsigned ClangUtil::locCol(clang::SourceLocation loc) const
 }
 
 
+bool ClangUtil::locInSourceFile(clang::SourceLocation loc) const
+{
+  if (!loc.isValid()) {
+    return false;
+  }
+
+  if (!loc.isFileID()) {
+    // Macro expansion.
+    return false;
+  }
+
+  clang::FileEntry const *entry = getFileEntryForLoc(loc);
+  if (!entry) {
+    // A location referring to "<command line>" ends up in this case.
+    return false;
+  }
+
+  // I could also check for a named pipe, but I'm not sure when that can
+  // happen or how I would want to treat it.
+
+  // Seems to be a legit file.
+  return true;
+}
+
+
+bool ClangUtil::inMainFile(SourceLocation loc) const
+{
+  if (!loc.isValid()) {
+    return false;
+  }
+
+  if (loc.isMacroID()) {
+    // Use the place the macro was expanded.
+    loc = m_srcMgr.getExpansionLoc(loc);
+  }
+
+  return m_srcMgr.getFileID(loc) == m_mainFileID;
+}
+
+
+clang::FileEntry const *ClangUtil::getFileEntryForLoc(
+  clang::SourceLocation loc) const
+{
+  // Previously, I had been calling 'getSpellingLoc' here, although I do
+  // not recall why.
+  //
+  // For dependency analysis, I think I generally want to depend on the
+  // place that a name was expanded, rather than originally written.
+  // Furthermore, in a case like in/src/token-paste-client.cc, the
+  // spelling location can be "scratch space", so only the expansion
+  // location has an associated file.
+  loc = m_srcMgr.getExpansionLoc(loc);
+
+  clang::FileID fid = m_srcMgr.getFileID(loc);
+  if (!fid.isValid()) {
+    return nullptr;
+  }
+
+  return m_srcMgr.getFileEntryForID(fid);
+}
+
+
+// ----------------------------- FileEntry -----------------------------
+bool ClangUtil::isMainFileEntry(clang::FileEntry const *entry) const
+{
+  xassert(entry);
+  return m_srcMgr.isMainFile(*entry);
+}
+
+
+STATICDEF std::string ClangUtil::fileEntryNameStr(
+  clang::FileEntry const *entry)
+{
+  assert(entry);
+  return entry->getName().str();
+}
+
+
+STATICDEF void ClangUtil::fileEntryNameToJSON(
+  std::ostream &os, clang::FileEntry const *entry)
+{
+  os << doubleQuote(fileEntryNameStr(entry));
+}
+
+
+bool ClangUtil::getPrimarySourceFileLines(std::vector<std::string> &lines)
+{
+  // Get the entire text of the PSF.
+  clang::FileID psfFileId = m_srcMgr.getMainFileID();
+  std::optional<llvm::StringRef> textOpt =
+    m_srcMgr.getBufferDataOrNone(psfFileId);
+  if (!textOpt) {
+    return false;
+  }
+  llvm::StringRef const &text = *textOpt;
+
+  // Index of the start of the next line to gather.
+  size_t i = 0;
+
+  // Parse lines at newline characters.
+  while (i < text.size()) {
+    // Set 'j' to one past the last character in the next line (which
+    // is a newline character unless we hit EOF first).
+    size_t j = i;
+    while (j < text.size() && text[j] != '\n') {
+      ++j;
+    }
+    if (j < text.size()) {
+      assert(text[j] == '\n');
+      ++j;
+    }
+
+    // Grab the line.
+    lines.push_back(text.substr(i, j-i).str());
+
+    // Ensure progress.
+    assert(j > i);
+
+    // Move to the next line.
+    i = j;
+  }
+
+  return true;
+}
+
+
+// ------------------------------ FileId -------------------------------
+std::string ClangUtil::getFnameForFileID(clang::FileID fileID) const
+{
+  return fileEntryNameStr(m_srcMgr.getFileEntryForID(fileID));
+}
+
+
+clang::FileID ClangUtil::getExpansionFileID(clang::SourceLocation loc) const
+{
+  loc = m_srcMgr.getExpansionLoc(loc);
+  return m_srcMgr.getFileID(loc);
+}
+
+
+// ---------------------------- SourceRange ----------------------------
 std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 {
   return range.printToString(m_srcMgr);
 }
 
 
+// ------------------------------- Decl --------------------------------
 STATICDEF clang::SourceLocation ClangUtil::declLoc(
   clang::Decl const *decl)
 {
@@ -385,17 +529,267 @@ std::string ClangUtil::namedDeclCompactIdentifier(
 }
 
 
-STATICDEF std::string ClangUtil::templateDeclParamsAsArgsStr(
-  clang::TemplateDecl const *templateDecl)
+STATICDEF clang::Decl const *ClangUtil::getParentDeclOpt(
+  clang::Decl const *decl)
 {
-  clang::TemplateParameterList const *params =
-    templateDecl->getTemplateParameters();
-  assert(params);
-
-  return templateParameterListArgsStr(params);
+  return declFromDC(decl->getLexicalDeclContext());
 }
 
 
+STATICDEF clang::NamedDecl const * NULLABLE
+ClangUtil::getNamedParentDeclOpt(clang::Decl const *decl)
+{
+  clang::Decl const *parent = getParentDeclOpt(decl);
+  if (!parent) {
+    return nullptr;
+  }
+  if (auto namedDecl = dyn_cast<clang::NamedDecl>(parent)) {
+    return namedDecl;
+  }
+  else {
+    // Skip past non-named declarations.
+    return getNamedParentDeclOpt(parent);
+  }
+}
+
+
+STATICDEF clang::NamedDecl const * NULLABLE
+ClangUtil::getNamedParentDeclOpt_templateAdjustment(
+  clang::Decl const *decl)
+{
+  clang::NamedDecl const *parent = getNamedParentDeclOpt(decl);
+  if (!parent) {
+    return nullptr;
+  }
+
+  if (isTemplateParameterDecl(decl)) {
+    /* The `dc` might be the body declaration, but we want the template.
+
+       I think the rationale for the Clang design is they do not want to
+       increase the size of `TemplateDecl` by making it its own
+       `DeclContext`, so they attach the parameters to the body instead
+       since it is nearby.
+    */
+
+    if (auto functionDecl = dyn_cast<clang::FunctionDecl>(parent)) {
+      clang::FunctionTemplateDecl const *templateDecl =
+        functionDecl->getDescribedFunctionTemplate();
+      xassert(templateDecl);
+      return templateDecl;
+    }
+
+    if (auto recordDecl = dyn_cast<clang::CXXRecordDecl>(parent)) {
+      clang::ClassTemplateDecl const *templateDecl =
+        recordDecl->getDescribedClassTemplate();
+      xassert(templateDecl);
+      return templateDecl;
+    }
+
+    // For `ClassTemplatePartialSpecializationDecl`, `parent` is already
+    // what we want.
+
+    // TODO: What about VarTemplateDecl and TypeAliasTemplateDecl?
+  }
+
+  return parent;
+}
+
+
+STATICDEF bool ClangUtil::isTemplateParameterDecl(
+  clang::Decl const *decl)
+{
+  return isa<clang::TemplateTypeParmDecl>(decl) ||
+         isa<clang::NonTypeTemplateParmDecl>(decl) ||
+         isa<clang::TemplateTemplateParmDecl>(decl);
+}
+
+
+STATICDEF bool ClangUtil::hasProperAncestorFunction(
+  clang::Decl const *decl)
+{
+  while (true) {
+    decl = getParentDeclOpt(decl);
+    if (!decl) {
+      return false;
+    }
+
+    if (isa<clang::FunctionDecl>(decl)) {
+      return true;
+    }
+  }
+
+  // Not reached.
+}
+
+
+clang::RecordDecl *ClangUtil::maybeGetParentClass(
+  clang::NamedDecl *decl)
+{
+  if (auto methodDecl = dyn_cast<clang::CXXMethodDecl>(decl)) {
+    return methodDecl->getParent();
+  }
+  if (auto fieldDecl = dyn_cast<clang::FieldDecl>(decl)) {
+    return fieldDecl->getParent();
+  }
+  return nullptr;
+}
+
+
+clang::NamedDecl const *ClangUtil::maybeGetNamedParentC(
+  clang::NamedDecl const *decl) const
+{
+  // This is very loosely based on NamedDecl::printNestedNameSpecifier.
+
+  clang::DeclContext const *parent = decl->getDeclContext();
+  while (parent) {
+    if (parent->isFunctionOrMethod()) {
+      // We cannot name 'decl' using a qualified name because it is
+      // defined inside a function.
+      return nullptr;
+    }
+
+    if (auto nd = dyn_cast<clang::NamedDecl>(parent)) {
+      // We found a named ancestor.
+      if (parent->isInlineNamespace()) {
+        // This is like 'std::__cxx11', which I do not want.
+      }
+      else {
+        return nd;
+      }
+    }
+
+    // The parent does not have a suitable name, so look at its parent.
+    parent = parent->getParent();
+  }
+
+  // 'decl' is in the global scope.
+  return nullptr;
+}
+
+
+clang::NamedDecl *ClangUtil::maybeGetNamedParent(
+  clang::NamedDecl *decl) const
+{
+  return const_cast<clang::NamedDecl*>(maybeGetNamedParentC(decl));
+}
+
+
+string ClangUtil::getDeclKeyword(clang::NamedDecl const *decl) const
+{
+  if (isa<clang::NamespaceDecl>(decl)) {
+    return "namespace";
+  }
+
+  if (auto tagDecl = dyn_cast<clang::TagDecl>(decl)) {
+    return tagDecl->getKindName().str();
+  }
+
+  return "";
+}
+
+
+clang::NamedDecl const *ClangUtil::canonicalNamedDeclC(
+  clang::NamedDecl const *decl) const
+{
+  assert(decl != nullptr);
+  clang::NamedDecl const *canonical =
+    dyn_cast<clang::NamedDecl>(decl->getCanonicalDecl());
+  assert(canonical != nullptr);
+  return canonical;
+}
+
+
+clang::NamedDecl *ClangUtil::canonicalNamedDecl(
+  clang::NamedDecl *decl) const
+{
+  return const_cast<clang::NamedDecl*>(canonicalNamedDeclC(decl));
+}
+
+
+bool ClangUtil::isOperatorDecl(clang::NamedDecl const *decl) const
+{
+  if (auto functionDecl = dyn_cast<clang::FunctionDecl>(decl)) {
+    clang::DeclarationNameInfo dni = functionDecl->getNameInfo();
+    clang::DeclarationName dn = dni.getName();
+    return dn.getNameKind() == clang::DeclarationName::CXXOperatorName;
+  }
+  return false;
+}
+
+
+clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
+  clang::Decl const *decl) const
+{
+  // Find the declaration before 'decl'.
+  //
+  // TODO: This does not work if 'decl' appears in a context that allows
+  // non-declarations, such as a compound statement.
+  clang::Decl const *prevDecl = nullptr;
+  clang::DeclContext const *parent = decl->getLexicalDeclContext();
+  for (clang::Decl const *child : parent->decls()) {
+    // For reasons I do not understand, I have to call
+    // Decl::getLocation() here, not declLoc(), for this to work.
+    if (child->getLocation() == decl->getLocation()) {
+      break;
+    }
+    prevDecl = child;
+  }
+
+  if (prevDecl) {
+    return prevDecl->getEndLoc();
+  }
+
+  assert(!"getDeclPrecedingTokenLoc: unimplemented: decl is first in its context");
+  return clang::SourceLocation();
+}
+
+
+// ---------------------------- DeclContext ----------------------------
+STATICDEF clang::Decl const *ClangUtil::declFromDC(
+  clang::DeclContext const * NULLABLE dc)
+{
+  if (dc) {
+    clang::Decl const *d = dyn_cast<clang::Decl>(dc);
+    assert(d);
+    return d;
+  }
+  else {
+    return nullptr;
+  }
+}
+
+
+// --------------------------- FunctionDecl ----------------------------
+STATICDEF clang::FunctionDecl const *ClangUtil::getUserWrittenFunctionDecl(
+  clang::FunctionDecl const *fd)
+{
+  assert(fd);
+
+  // I'm not sure if this has precisely the semantics I want yet.
+  clang::FunctionDecl const *pattern =
+    fd->getTemplateInstantiationPattern();
+
+  return pattern? pattern : fd;
+}
+
+
+STATICDEF clang::FunctionDecl *ClangUtil::getUserWrittenFunctionDecl(
+  clang::FunctionDecl *fd)
+{
+  return const_cast<clang::FunctionDecl*>(
+    getUserWrittenFunctionDecl(
+      const_cast<clang::FunctionDecl const *>(fd)));
+}
+
+
+STATICDEF bool ClangUtil::isUserWrittenFunctionDecl(
+  clang::FunctionDecl const *fd)
+{
+  return fd == getUserWrittenFunctionDecl(fd);
+}
+
+
+// -------------------------- DeclarationName --------------------------
 STATICDEF std::string ClangUtil::declarationNameStr(
   clang::DeclarationName declName)
 {
@@ -432,6 +826,7 @@ STATICDEF std::string ClangUtil::declarationNameAndKindStr(
 }
 
 
+// ------------------------ NestedNameSpecifier ------------------------
 std::string ClangUtil::nestedNameSpecifierStr_nq(
   clang::NestedNameSpecifier const *nns) const
 {
@@ -500,6 +895,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
+// ----------------------- Various enumerations ------------------------
 STATICDEF std::string ClangUtil::moduleOwnershipKindStr(
   clang::Decl::ModuleOwnershipKind kind)
 {
@@ -897,261 +1293,6 @@ STATICDEF std::string ClangUtil::castKindStr(clang::CastKind ckind)
 }
 
 
-STATICDEF clang::Decl const *ClangUtil::declFromDC(
-  clang::DeclContext const * NULLABLE dc)
-{
-  if (dc) {
-    clang::Decl const *d = dyn_cast<clang::Decl>(dc);
-    assert(d);
-    return d;
-  }
-  else {
-    return nullptr;
-  }
-}
-
-
-STATICDEF clang::Decl const *ClangUtil::getParentDeclOpt(
-  clang::Decl const *decl)
-{
-  return declFromDC(decl->getLexicalDeclContext());
-}
-
-
-STATICDEF clang::NamedDecl const * NULLABLE
-ClangUtil::getNamedParentDeclOpt(clang::Decl const *decl)
-{
-  clang::Decl const *parent = getParentDeclOpt(decl);
-  if (!parent) {
-    return nullptr;
-  }
-  if (auto namedDecl = dyn_cast<clang::NamedDecl>(parent)) {
-    return namedDecl;
-  }
-  else {
-    // Skip past non-named declarations.
-    return getNamedParentDeclOpt(parent);
-  }
-}
-
-
-STATICDEF clang::NamedDecl const * NULLABLE
-ClangUtil::getNamedParentDeclOpt_templateAdjustment(
-  clang::Decl const *decl)
-{
-  clang::NamedDecl const *parent = getNamedParentDeclOpt(decl);
-  if (!parent) {
-    return nullptr;
-  }
-
-  if (isTemplateParameterDecl(decl)) {
-    /* The `dc` might be the body declaration, but we want the template.
-
-       I think the rationale for the Clang design is they do not want to
-       increase the size of `TemplateDecl` by making it its own
-       `DeclContext`, so they attach the parameters to the body instead
-       since it is nearby.
-    */
-
-    if (auto functionDecl = dyn_cast<clang::FunctionDecl>(parent)) {
-      clang::FunctionTemplateDecl const *templateDecl =
-        functionDecl->getDescribedFunctionTemplate();
-      xassert(templateDecl);
-      return templateDecl;
-    }
-
-    if (auto recordDecl = dyn_cast<clang::CXXRecordDecl>(parent)) {
-      clang::ClassTemplateDecl const *templateDecl =
-        recordDecl->getDescribedClassTemplate();
-      xassert(templateDecl);
-      return templateDecl;
-    }
-
-    // For `ClassTemplatePartialSpecializationDecl`, `parent` is already
-    // what we want.
-
-    // TODO: What about VarTemplateDecl and TypeAliasTemplateDecl?
-  }
-
-  return parent;
-}
-
-
-STATICDEF bool ClangUtil::isTemplateParameterDecl(
-  clang::Decl const *decl)
-{
-  return isa<clang::TemplateTypeParmDecl>(decl) ||
-         isa<clang::NonTypeTemplateParmDecl>(decl) ||
-         isa<clang::TemplateTemplateParmDecl>(decl);
-}
-
-
-STATICDEF bool ClangUtil::hasProperAncestorFunction(
-  clang::Decl const *decl)
-{
-  while (true) {
-    decl = getParentDeclOpt(decl);
-    if (!decl) {
-      return false;
-    }
-
-    if (isa<clang::FunctionDecl>(decl)) {
-      return true;
-    }
-  }
-
-  // Not reached.
-}
-
-
-std::string ClangUtil::stmtStr(clang::Stmt const * NULLABLE stmt) const
-{
-  if (stmt) {
-    string ret;
-    llvm::raw_string_ostream rso(ret);
-    stmt->printPretty(rso, nullptr /*helper*/, m_printingPolicy);
-    return ret;
-  }
-  else {
-    return "null";
-  }
-}
-
-
-std::string ClangUtil::stmtLocStr(clang::Stmt const * NULLABLE stmt) const
-{
-  if (stmt) {
-    return locStr(stmt->getBeginLoc());
-  }
-  else {
-    return "(loc of null stmt)";
-  }
-}
-
-
-std::string ClangUtil::stmtKindStr(clang::Stmt const * NULLABLE stmt) const
-{
-  if (stmt) {
-    return stmt->getStmtClassName();
-  }
-  else {
-    return "(null stmt)";
-  }
-}
-
-
-std::string ClangUtil::stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const
-{
-  if (stmt) {
-    return stringb(stmtKindStr(stmt) << " at " << stmtLocStr(stmt));
-  }
-  else {
-    return "(null stmt)";
-  }
-}
-
-
-STATICDEF std::string ClangUtil::typeStr(
-  clang::Type const * NULLABLE type)
-{
-  if (type) {
-    return qualTypeStr(clang::QualType(type, 0 /*Quals*/));
-  }
-  else {
-    return "null";
-  }
-}
-
-
-STATICDEF std::string ClangUtil::qualTypeStr(clang::QualType type)
-{
-  return type.getAsString();
-}
-
-
-STATICDEF std::string ClangUtil::typeAndKindStr(
-  clang::Type const * NULLABLE type)
-{
-  if (type) {
-    return stringb(doubleQuote(typeStr(type)) <<
-                   " (" << type->getTypeClassName() << "Type)");
-  }
-  else {
-    return "null";
-  }
-}
-
-
-STATICDEF std::string ClangUtil::qualTypeAndKindStr(clang::QualType type)
-{
-  return stringb(doubleQuote(qualTypeStr(type)) <<
-                 " (" << type->getTypeClassName() << "Type)");
-}
-
-
-std::string ClangUtil::signatureStr(
-  clang::FunctionProtoType const *functionType) const
-{
-  std::ostringstream oss;
-
-  oss << "(";
-  int ct=0;
-  for (clang::QualType paramType : functionType->param_types()) {
-    if (ct++ > 0) {
-      oss << ", ";
-    }
-    oss << getParamTypeString(paramType);
-  }
-  if (functionType->isVariadic()) {
-    if (ct++ > 0) {
-      oss << ", ";
-    }
-    oss << "...";
-  }
-  oss << ")";
-
-  return oss.str();
-}
-
-
-std::string ClangUtil::typeSourceInfoStr(
-  clang::TypeSourceInfo const * NULLABLE tinfo) const
-{
-  if (tinfo) {
-    // TypeSourceInfo is not really a separate conceptual piece of data,
-    // rather it is a physical container for what is conceptually a
-    // TypeLoc, but stored in an unusual way.  So, when printing, we
-    // just skip the TSI and go straight to the TypeLoc.
-    return typeLocStr(tinfo->getTypeLoc());
-  }
-  else {
-    return "NullTSI";
-  }
-}
-
-
-std::string ClangUtil::typeLocStr(clang::TypeLoc typeLoc) const
-{
-  std::ostringstream oss;
-
-  if (typeLoc.isNull()) {
-    oss << "NullTypeLoc";
-  }
-  else {
-    // TypeLoc is conceptually a list (internally an array I believe) of
-    // types and locations, where each successive type is the thing that
-    // can be found by "dereferencing" (in a general sense) the
-    // preceding type.  It ends with a null TypeLoc.
-    oss << typeLocClassStr(typeLoc.getTypeLocClass()) << "("
-        << doubleQuote(qualTypeStr(typeLoc.getType())) << ", "
-        << sourceRangeStr(typeLoc.getSourceRange()) << ", "
-        << typeLocStr(typeLoc.getNextTypeLoc()) << ")";
-  }
-
-  return oss.str();
-}
-
-
 STATICDEF std::string ClangUtil::typeLocClassStr(
   clang::TypeLoc::TypeLocClass tlClass)
 {
@@ -1216,6 +1357,184 @@ STATICDEF std::string ClangUtil::templateSpecializationKindStr(
 }
 
 
+// ------------------------------- Stmt --------------------------------
+std::string ClangUtil::stmtStr(clang::Stmt const * NULLABLE stmt) const
+{
+  if (stmt) {
+    string ret;
+    llvm::raw_string_ostream rso(ret);
+    stmt->printPretty(rso, nullptr /*helper*/, m_printingPolicy);
+    return ret;
+  }
+  else {
+    return "null";
+  }
+}
+
+
+std::string ClangUtil::stmtLocStr(clang::Stmt const * NULLABLE stmt) const
+{
+  if (stmt) {
+    return locStr(stmt->getBeginLoc());
+  }
+  else {
+    return "(loc of null stmt)";
+  }
+}
+
+
+std::string ClangUtil::stmtKindStr(clang::Stmt const * NULLABLE stmt) const
+{
+  if (stmt) {
+    return stmt->getStmtClassName();
+  }
+  else {
+    return "(null stmt)";
+  }
+}
+
+
+std::string ClangUtil::stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const
+{
+  if (stmt) {
+    return stringb(stmtKindStr(stmt) << " at " << stmtLocStr(stmt));
+  }
+  else {
+    return "(null stmt)";
+  }
+}
+
+
+// ---------------------- Type, QualType, TypeLoc ----------------------
+STATICDEF std::string ClangUtil::typeStr(
+  clang::Type const * NULLABLE type)
+{
+  if (type) {
+    return qualTypeStr(clang::QualType(type, 0 /*Quals*/));
+  }
+  else {
+    return "null";
+  }
+}
+
+
+STATICDEF std::string ClangUtil::qualTypeStr(clang::QualType type)
+{
+  return type.getAsString();
+}
+
+
+STATICDEF std::string ClangUtil::typeAndKindStr(
+  clang::Type const * NULLABLE type)
+{
+  if (type) {
+    return stringb(doubleQuote(typeStr(type)) <<
+                   " (" << type->getTypeClassName() << "Type)");
+  }
+  else {
+    return "null";
+  }
+}
+
+
+STATICDEF std::string ClangUtil::qualTypeAndKindStr(clang::QualType type)
+{
+  return stringb(doubleQuote(qualTypeStr(type)) <<
+                 " (" << type->getTypeClassName() << "Type)");
+}
+
+
+std::string ClangUtil::signatureStr(
+  clang::FunctionProtoType const *functionType) const
+{
+  std::ostringstream oss;
+
+  oss << "(";
+  int ct=0;
+  for (clang::QualType paramType : functionType->param_types()) {
+    if (ct++ > 0) {
+      oss << ", ";
+    }
+    oss << getParamTypeString(paramType);
+  }
+  if (functionType->isVariadic()) {
+    if (ct++ > 0) {
+      oss << ", ";
+    }
+    oss << "...";
+  }
+  oss << ")";
+
+  return oss.str();
+}
+
+
+string ClangUtil::getParamTypeString(clang::QualType qualType) const
+{
+  clang::PrintingPolicy pp(m_printingPolicy);
+
+  pp.SuppressDefaultTemplateArgs = true;
+  pp.SuppressTemplateArgsInCXXConstructors = true;
+
+  return qualType.getAsString(pp);
+}
+
+
+std::string ClangUtil::typeSourceInfoStr(
+  clang::TypeSourceInfo const * NULLABLE tinfo) const
+{
+  if (tinfo) {
+    // TypeSourceInfo is not really a separate conceptual piece of data,
+    // rather it is a physical container for what is conceptually a
+    // TypeLoc, but stored in an unusual way.  So, when printing, we
+    // just skip the TSI and go straight to the TypeLoc.
+    return typeLocStr(tinfo->getTypeLoc());
+  }
+  else {
+    return "NullTSI";
+  }
+}
+
+
+std::string ClangUtil::typeLocStr(clang::TypeLoc typeLoc) const
+{
+  std::ostringstream oss;
+
+  if (typeLoc.isNull()) {
+    oss << "NullTypeLoc";
+  }
+  else {
+    // TypeLoc is conceptually a list (internally an array I believe) of
+    // types and locations, where each successive type is the thing that
+    // can be found by "dereferencing" (in a general sense) the
+    // preceding type.  It ends with a null TypeLoc.
+    oss << typeLocClassStr(typeLoc.getTypeLocClass()) << "("
+        << doubleQuote(qualTypeStr(typeLoc.getType())) << ", "
+        << sourceRangeStr(typeLoc.getSourceRange()) << ", "
+        << typeLocStr(typeLoc.getNextTypeLoc()) << ")";
+  }
+
+  return oss.str();
+}
+
+
+clang::Type const *ClangUtil::desugar(clang::Type const *type) const
+{
+  // This one evidently does not require 'm_astContext', while the
+  // QualType version does.  That seems strange.  But, I want my API
+  // signatures to be consistent, so I'm making both of these methods
+  // non-static, even though this one could be static.
+  return type->getUnqualifiedDesugaredType();
+}
+
+
+clang::QualType ClangUtil::desugar(clang::QualType type) const
+{
+  return type.getDesugaredType(m_astContext);
+}
+
+
+// ----------------------------- Templates -----------------------------
 std::string ClangUtil::templateArgsOrParamsForClassIfT(
   clang::CXXRecordDecl const *cxxRecordDecl, bool wantParams) const
 {
@@ -1301,6 +1620,17 @@ std::string ClangUtil::templateParamsForFunctionIfT(
 }
 
 
+STATICDEF std::string ClangUtil::templateDeclParamsAsArgsStr(
+  clang::TemplateDecl const *templateDecl)
+{
+  clang::TemplateParameterList const *params =
+    templateDecl->getTemplateParameters();
+  assert(params);
+
+  return templateParameterListArgsStr(params);
+}
+
+
 std::string ClangUtil::templateNameStr(
   clang::TemplateName const &templateName) const
 {
@@ -1334,170 +1664,6 @@ std::string ClangUtil::templateNameAndKindStr(
 {
   return stringb(templateNameStr(templateName) << " (" <<
                  templateNameKindStr(templateName.getKind()) << ")");
-}
-
-
-bool ClangUtil::inMainFile(SourceLocation loc) const
-{
-  if (!loc.isValid()) {
-    return false;
-  }
-
-  if (loc.isMacroID()) {
-    // Use the place the macro was expanded.
-    loc = m_srcMgr.getExpansionLoc(loc);
-  }
-
-  return m_srcMgr.getFileID(loc) == m_mainFileID;
-}
-
-
-bool ClangUtil::isMainFileEntry(clang::FileEntry const *entry) const
-{
-  xassert(entry);
-  return m_srcMgr.isMainFile(*entry);
-}
-
-
-clang::Type const *ClangUtil::desugar(clang::Type const *type) const
-{
-  // This one evidently does not require 'm_astContext', while the
-  // QualType version does.  That seems strange.  But, I want my API
-  // signatures to be consistent, so I'm making both of these methods
-  // non-static, even though this one could be static.
-  return type->getUnqualifiedDesugaredType();
-}
-
-
-clang::QualType ClangUtil::desugar(clang::QualType type) const
-{
-  return type.getDesugaredType(m_astContext);
-}
-
-
-string ClangUtil::getIncludeSyntax(
-  clang::HeaderSearchOptions const &headerSearchOptions,
-  string const &fname,
-  int * NULLABLE userEntryIndex)
-{
-  // Avoid having to awkwardly check the pointer below.
-  int dummy = 0;
-  if (!userEntryIndex) {
-    userEntryIndex = &dummy;
-  }
-
-  // Use naive ordered search.  This isn't 100% correct in certain
-  // scenarios (e.g., involving -iquote), but should suffice for my
-  // purposes.
-  *userEntryIndex = 0;
-  for (auto const &e : headerSearchOptions.UserEntries) {
-    if (beginsWith(fname, e.Path)) {
-      // Get the name without the path prefix.  The path is assumed to
-      // end with a directory separator, and that is stripped from
-      // 'fname' too.
-      string relative = fname.substr(e.Path.size() + 1);
-
-      if (e.Group == clang::frontend::Angled) {
-        // Perhaps ironically, paths specified with the -I option are
-        // classified by clang as "angled", but conventionally the
-        // names in such directories are referenced using quotes.
-        return string("\"") + relative + "\"";
-      }
-      else {
-        return string("<") + relative + ">";
-      }
-    }
-
-    ++(*userEntryIndex);
-  }
-
-  if (beginsWith(fname, "./")) {
-    *userEntryIndex = -1;
-
-    // Drop the "." path component.
-    string trimmed = fname.substr(2);
-    return string("\"") + trimmed + "\"";
-  }
-
-  // Not found among the search paths, use the absolute name with quotes.
-  *userEntryIndex = -2;
-  return string("\"") + fname + "\"";
-}
-
-
-STATICDEF bool ClangUtil::isPrivateHeaderName(string const &fname)
-{
-  // GNU libc/c++ private.
-  if (hasSubstring(fname, "/bits/")) {
-    return true;
-  }
-
-  // More GNU libc++ private?  In particular, std::uninitialized_copy
-  // shows up in pstl/glue_memory_defs.h when using Clang+LLVM 16
-  // unless I exclude this (in which case it is reported as being in
-  // <memory>, as it should).
-  if (hasSubstring(fname, "/pstl/")) {
-    return true;
-  }
-
-  // Clang macro metaprogram file extensions.
-  if (endsWith(fname, ".def") ||
-      endsWith(fname, ".inc")) {
-    return true;
-  }
-
-  // Exclude ext/alloc_traits.h (?).
-  if (hasSubstring(fname, "/ext/")) {
-    return true;
-  }
-
-  return false;
-}
-
-
-STATICDEF bool ClangUtil::isPrivateHeaderEntry(
-  clang::FileEntry const *entry)
-{
-  return isPrivateHeaderName(entry->getName().str());
-}
-
-
-STATICDEF std::string ClangUtil::fileEntryNameStr(
-  clang::FileEntry const *entry)
-{
-  assert(entry);
-  return entry->getName().str();
-}
-
-
-STATICDEF void ClangUtil::fileEntryNameToJSON(
-  std::ostream &os, clang::FileEntry const *entry)
-{
-  os << doubleQuote(fileEntryNameStr(entry));
-}
-
-
-std::string ClangUtil::getFnameForFileID(clang::FileID fileID) const
-{
-  return fileEntryNameStr(m_srcMgr.getFileEntryForID(fileID));
-}
-
-
-clang::FileID ClangUtil::getExpansionFileID(clang::SourceLocation loc) const
-{
-  loc = m_srcMgr.getExpansionLoc(loc);
-  return m_srcMgr.getFileID(loc);
-}
-
-
-string ClangUtil::getParamTypeString(clang::QualType qualType) const
-{
-  clang::PrintingPolicy pp(m_printingPolicy);
-
-  pp.SuppressDefaultTemplateArgs = true;
-  pp.SuppressTemplateArgsInCXXConstructors = true;
-
-  return qualType.getAsString(pp);
 }
 
 
@@ -1554,133 +1720,7 @@ string ClangUtil::removeTemplateArguments(string const &src)
 }
 
 
-string ClangUtil::publicPresumedFname(SourceLocation loc)
-{
-  // Get the location as influenced by #line directives.
-  //
-  // This is especially important if 'loc' is in a macro expansion,
-  // since in that case, asking for the file name in the usual way (with
-  // 'SourceManager::getFilename') yields an empty string!
-  clang::PresumedLoc presumedLoc = m_srcMgr.getPresumedLoc(loc);
-  string fname = presumedLoc.getFilename();
-
-  // If 'fname' is a private header, move up the #include DAG to one
-  // that is not.
-  if (isPrivateHeaderName(fname)) {
-    // Figure out where 'fname' was included.
-    SourceLocation includeLoc = presumedLoc.getIncludeLoc();
-    if (includeLoc.isValid()) {
-      return publicPresumedFname(includeLoc);
-    }
-    else {
-      // This shouldn't happen since the root of the DAG is the
-      // primary source file, which should not be regarded as
-      // private, but if it happens, then just forget about going
-      // up and report the "private" header.
-    }
-  }
-
-  return fname;
-}
-
-
-clang::RecordDecl *ClangUtil::maybeGetParentClass(
-  clang::NamedDecl *decl)
-{
-  if (auto methodDecl = dyn_cast<clang::CXXMethodDecl>(decl)) {
-    return methodDecl->getParent();
-  }
-  if (auto fieldDecl = dyn_cast<clang::FieldDecl>(decl)) {
-    return fieldDecl->getParent();
-  }
-  return nullptr;
-}
-
-
-clang::NamedDecl const *ClangUtil::maybeGetNamedParentC(
-  clang::NamedDecl const *decl) const
-{
-  // This is very loosely based on NamedDecl::printNestedNameSpecifier.
-
-  clang::DeclContext const *parent = decl->getDeclContext();
-  while (parent) {
-    if (parent->isFunctionOrMethod()) {
-      // We cannot name 'decl' using a qualified name because it is
-      // defined inside a function.
-      return nullptr;
-    }
-
-    if (auto nd = dyn_cast<clang::NamedDecl>(parent)) {
-      // We found a named ancestor.
-      if (parent->isInlineNamespace()) {
-        // This is like 'std::__cxx11', which I do not want.
-      }
-      else {
-        return nd;
-      }
-    }
-
-    // The parent does not have a suitable name, so look at its parent.
-    parent = parent->getParent();
-  }
-
-  // 'decl' is in the global scope.
-  return nullptr;
-}
-
-
-clang::NamedDecl *ClangUtil::maybeGetNamedParent(
-  clang::NamedDecl *decl) const
-{
-  return const_cast<clang::NamedDecl*>(maybeGetNamedParentC(decl));
-}
-
-
-string ClangUtil::getTopLevelIncludeForLoc(
-  clang::SourceLocation loc) const
-{
-  // This is initially invalid.
-  clang::PresumedLoc prevPresumedLoc;
-
-  if (loc.isValid()) {
-    clang::PresumedLoc presumedLoc = m_srcMgr.getPresumedLoc(loc);
-    assert(presumedLoc.isValid());
-
-    while (presumedLoc.getIncludeLoc().isValid()) {
-      prevPresumedLoc = presumedLoc;
-      presumedLoc = m_srcMgr.getPresumedLoc(presumedLoc.getIncludeLoc());
-    }
-  }
-
-  if (prevPresumedLoc.isValid()) {
-    // 'prevPresumedLoc' is the last presumed location that had a valid
-    // include location.  Therefore, its file will be one that was
-    // directly included by the main source file.
-    //
-    // BUG: I would prefer to use 'getFileID' here, but sometimes that
-    // is invalid even when the file name is not.
-    return prevPresumedLoc.getFilename();
-  }
-  else {
-    return string("");
-  }
-}
-
-
-string ClangUtil::getDeclKeyword(clang::NamedDecl const *decl) const
-{
-  if (isa<clang::NamespaceDecl>(decl)) {
-    return "namespace";
-  }
-
-  if (auto tagDecl = dyn_cast<clang::TagDecl>(decl)) {
-    return tagDecl->getKindName().str();
-  }
-
-  return "";
-}
-
-
+// ------------------------- TemplateParameter -------------------------
 string ClangUtil::templateParameterListStr(
   clang::TemplateParameterList const *paramList) const
 {
@@ -1741,6 +1781,7 @@ STATICDEF std::string ClangUtil::templateParameterListArgsStr(
 }
 
 
+// ------------------------- TemplateArgument --------------------------
 STATICDEF std::string ClangUtil::templateArgumentKindStr(
   clang::TemplateArgument::ArgKind kind)
 {
@@ -1852,24 +1893,156 @@ std::string ClangUtil::astTemplateArgumentListInfoOptStr(
 }
 
 
-clang::NamedDecl const *ClangUtil::canonicalNamedDeclC(
-  clang::NamedDecl const *decl) const
+// ------------------------------ Headers ------------------------------
+string ClangUtil::getIncludeSyntax(
+  clang::HeaderSearchOptions const &headerSearchOptions,
+  string const &fname,
+  int * NULLABLE userEntryIndex)
 {
-  assert(decl != nullptr);
-  clang::NamedDecl const *canonical =
-    dyn_cast<clang::NamedDecl>(decl->getCanonicalDecl());
-  assert(canonical != nullptr);
-  return canonical;
+  // Avoid having to awkwardly check the pointer below.
+  int dummy = 0;
+  if (!userEntryIndex) {
+    userEntryIndex = &dummy;
+  }
+
+  // Use naive ordered search.  This isn't 100% correct in certain
+  // scenarios (e.g., involving -iquote), but should suffice for my
+  // purposes.
+  *userEntryIndex = 0;
+  for (auto const &e : headerSearchOptions.UserEntries) {
+    if (beginsWith(fname, e.Path)) {
+      // Get the name without the path prefix.  The path is assumed to
+      // end with a directory separator, and that is stripped from
+      // 'fname' too.
+      string relative = fname.substr(e.Path.size() + 1);
+
+      if (e.Group == clang::frontend::Angled) {
+        // Perhaps ironically, paths specified with the -I option are
+        // classified by clang as "angled", but conventionally the
+        // names in such directories are referenced using quotes.
+        return string("\"") + relative + "\"";
+      }
+      else {
+        return string("<") + relative + ">";
+      }
+    }
+
+    ++(*userEntryIndex);
+  }
+
+  if (beginsWith(fname, "./")) {
+    *userEntryIndex = -1;
+
+    // Drop the "." path component.
+    string trimmed = fname.substr(2);
+    return string("\"") + trimmed + "\"";
+  }
+
+  // Not found among the search paths, use the absolute name with quotes.
+  *userEntryIndex = -2;
+  return string("\"") + fname + "\"";
 }
 
 
-clang::NamedDecl *ClangUtil::canonicalNamedDecl(
-  clang::NamedDecl *decl) const
+STATICDEF bool ClangUtil::isPrivateHeaderName(string const &fname)
 {
-  return const_cast<clang::NamedDecl*>(canonicalNamedDeclC(decl));
+  // GNU libc/c++ private.
+  if (hasSubstring(fname, "/bits/")) {
+    return true;
+  }
+
+  // More GNU libc++ private?  In particular, std::uninitialized_copy
+  // shows up in pstl/glue_memory_defs.h when using Clang+LLVM 16
+  // unless I exclude this (in which case it is reported as being in
+  // <memory>, as it should).
+  if (hasSubstring(fname, "/pstl/")) {
+    return true;
+  }
+
+  // Clang macro metaprogram file extensions.
+  if (endsWith(fname, ".def") ||
+      endsWith(fname, ".inc")) {
+    return true;
+  }
+
+  // Exclude ext/alloc_traits.h (?).
+  if (hasSubstring(fname, "/ext/")) {
+    return true;
+  }
+
+  return false;
 }
 
 
+STATICDEF bool ClangUtil::isPrivateHeaderEntry(
+  clang::FileEntry const *entry)
+{
+  return isPrivateHeaderName(entry->getName().str());
+}
+
+
+string ClangUtil::getTopLevelIncludeForLoc(
+  clang::SourceLocation loc) const
+{
+  // This is initially invalid.
+  clang::PresumedLoc prevPresumedLoc;
+
+  if (loc.isValid()) {
+    clang::PresumedLoc presumedLoc = m_srcMgr.getPresumedLoc(loc);
+    assert(presumedLoc.isValid());
+
+    while (presumedLoc.getIncludeLoc().isValid()) {
+      prevPresumedLoc = presumedLoc;
+      presumedLoc = m_srcMgr.getPresumedLoc(presumedLoc.getIncludeLoc());
+    }
+  }
+
+  if (prevPresumedLoc.isValid()) {
+    // 'prevPresumedLoc' is the last presumed location that had a valid
+    // include location.  Therefore, its file will be one that was
+    // directly included by the main source file.
+    //
+    // BUG: I would prefer to use 'getFileID' here, but sometimes that
+    // is invalid even when the file name is not.
+    return prevPresumedLoc.getFilename();
+  }
+  else {
+    return string("");
+  }
+}
+
+
+string ClangUtil::publicPresumedFname(SourceLocation loc)
+{
+  // Get the location as influenced by #line directives.
+  //
+  // This is especially important if 'loc' is in a macro expansion,
+  // since in that case, asking for the file name in the usual way (with
+  // 'SourceManager::getFilename') yields an empty string!
+  clang::PresumedLoc presumedLoc = m_srcMgr.getPresumedLoc(loc);
+  string fname = presumedLoc.getFilename();
+
+  // If 'fname' is a private header, move up the #include DAG to one
+  // that is not.
+  if (isPrivateHeaderName(fname)) {
+    // Figure out where 'fname' was included.
+    SourceLocation includeLoc = presumedLoc.getIncludeLoc();
+    if (includeLoc.isValid()) {
+      return publicPresumedFname(includeLoc);
+    }
+    else {
+      // This shouldn't happen since the root of the DAG is the
+      // primary source file, which should not be regarded as
+      // private, but if it happens, then just forget about going
+      // up and report the "private" header.
+    }
+  }
+
+  return fname;
+}
+
+
+// ------------------------------ APValue ------------------------------
 STATICDEF std::string ClangUtil::apValueKindStr(
   clang::APValue::ValueKind kind)
 {
@@ -1961,161 +2134,28 @@ STATICDEF std::string ClangUtil::apsIntStr(llvm::APSInt const &n)
 }
 
 
-bool ClangUtil::isOperatorDecl(clang::NamedDecl const *decl) const
+// ---------------------------- DeclCompare ----------------------------
+STATICDEF int DeclCompare::compare(clang::Decl const *a,
+                                   clang::Decl const *b)
 {
-  if (auto functionDecl = dyn_cast<clang::FunctionDecl>(decl)) {
-    clang::DeclarationNameInfo dni = functionDecl->getNameInfo();
-    clang::DeclarationName dn = dni.getName();
-    return dn.getNameKind() == clang::DeclarationName::CXXOperatorName;
-  }
-  return false;
-}
-
-
-bool ClangUtil::locInSourceFile(clang::SourceLocation loc) const
-{
-  if (!loc.isValid()) {
-    return false;
-  }
-
-  if (!loc.isFileID()) {
-    // Macro expansion.
-    return false;
-  }
-
-  clang::FileEntry const *entry = getFileEntryForLoc(loc);
-  if (!entry) {
-    // A location referring to "<command line>" ends up in this case.
-    return false;
-  }
-
-  // I could also check for a named pipe, but I'm not sure when that can
-  // happen or how I would want to treat it.
-
-  // Seems to be a legit file.
-  return true;
-}
-
-
-clang::FileEntry const *ClangUtil::getFileEntryForLoc(
-  clang::SourceLocation loc) const
-{
-  // Previously, I had been calling 'getSpellingLoc' here, although I do
-  // not recall why.
+  // The ID of a decl is calculated from its address by walking up the
+  // DeclContext tree to get to the ASTContext, then iterating over the
+  // allocator slabs to find the one that contains it, then calculating
+  // an ID based on the position in the slab.  Under the assumption that
+  // objects are allocated in a deterministic order during parsing, and
+  // that object locations in a slab are never re-used, the resulting ID
+  // will be consistent across program executions.
   //
-  // For dependency analysis, I think I generally want to depend on the
-  // place that a name was expanded, rather than originally written.
-  // Furthermore, in a case like in/src/token-paste-client.cc, the
-  // spelling location can be "scratch space", so only the expansion
-  // location has an associated file.
-  loc = m_srcMgr.getExpansionLoc(loc);
+  // However, it is somewhat expensive to compute because walking up the
+  // DC tree takes time roughly logarithmic in the size of the TU, and
+  // I'm not sure about the cost of walking the slabs; that too is at
+  // least logarithmic and possibly linear.
 
-  clang::FileID fid = m_srcMgr.getFileID(loc);
-  if (!fid.isValid()) {
-    return nullptr;
-  }
-
-  return m_srcMgr.getFileEntryForID(fid);
+  return ::compare(a->getID(), b->getID());
 }
 
 
-clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
-  clang::Decl const *decl) const
-{
-  // Find the declaration before 'decl'.
-  //
-  // TODO: This does not work if 'decl' appears in a context that allows
-  // non-declarations, such as a compound statement.
-  clang::Decl const *prevDecl = nullptr;
-  clang::DeclContext const *parent = decl->getLexicalDeclContext();
-  for (clang::Decl const *child : parent->decls()) {
-    // For reasons I do not understand, I have to call
-    // Decl::getLocation() here, not declLoc(), for this to work.
-    if (child->getLocation() == decl->getLocation()) {
-      break;
-    }
-    prevDecl = child;
-  }
-
-  if (prevDecl) {
-    return prevDecl->getEndLoc();
-  }
-
-  assert(!"getDeclPrecedingTokenLoc: unimplemented: decl is first in its context");
-  return clang::SourceLocation();
-}
-
-
-STATICDEF clang::FunctionDecl const *ClangUtil::getUserWrittenFunctionDecl(
-  clang::FunctionDecl const *fd)
-{
-  assert(fd);
-
-  // I'm not sure if this has precisely the semantics I want yet.
-  clang::FunctionDecl const *pattern =
-    fd->getTemplateInstantiationPattern();
-
-  return pattern? pattern : fd;
-}
-
-
-STATICDEF clang::FunctionDecl *ClangUtil::getUserWrittenFunctionDecl(
-  clang::FunctionDecl *fd)
-{
-  return const_cast<clang::FunctionDecl*>(
-    getUserWrittenFunctionDecl(
-      const_cast<clang::FunctionDecl const *>(fd)));
-}
-
-
-STATICDEF bool ClangUtil::isUserWrittenFunctionDecl(
-  clang::FunctionDecl const *fd)
-{
-  return fd == getUserWrittenFunctionDecl(fd);
-}
-
-
-bool ClangUtil::getPrimarySourceFileLines(std::vector<std::string> &lines)
-{
-  // Get the entire text of the PSF.
-  clang::FileID psfFileId = m_srcMgr.getMainFileID();
-  std::optional<llvm::StringRef> textOpt =
-    m_srcMgr.getBufferDataOrNone(psfFileId);
-  if (!textOpt) {
-    return false;
-  }
-  llvm::StringRef const &text = *textOpt;
-
-  // Index of the start of the next line to gather.
-  size_t i = 0;
-
-  // Parse lines at newline characters.
-  while (i < text.size()) {
-    // Set 'j' to one past the last character in the next line (which
-    // is a newline character unless we hit EOF first).
-    size_t j = i;
-    while (j < text.size() && text[j] != '\n') {
-      ++j;
-    }
-    if (j < text.size()) {
-      assert(text[j] == '\n');
-      ++j;
-    }
-
-    // Grab the line.
-    lines.push_back(text.substr(i, j-i).str());
-
-    // Ensure progress.
-    assert(j > i);
-
-    // Move to the next line.
-    i = j;
-  }
-
-  return true;
-}
-
-
+// ------------------------- global functions --------------------------
 std::string stringRefRange(
   llvm::StringRef const &sr, unsigned begin, unsigned end)
 {
@@ -2134,26 +2174,6 @@ int compare(clang::SourceRange const &a, clang::SourceRange const &b)
   if (ret) { return ret; }
 
   return 0;
-}
-
-
-STATICDEF int DeclCompare::compare(clang::Decl const *a,
-                                   clang::Decl const *b)
-{
-  // The ID of a decl is calculated from its address by walking up the
-  // DeclContext tree to get to the ASTContext, then iterating over the
-  // allocator slabs to find the one that contains it, then calculating
-  // an ID based on the position in the slab.  Under the assumption that
-  // objects are allocated in a deterministic order during parsing, and
-  // that object locations in a slab are never re-used, the resulting ID
-  // will be consistent across program executions.
-  //
-  // However, it is somewhat expensive to compute because walking up the
-  // DC tree takes time roughly logarithmic in the size of the TU, and
-  // I'm not sure about the cost of walking the slabs; that too is at
-  // least logarithmic and possibly linear.
-
-  return ::compare(a->getID(), b->getID());
 }
 
 

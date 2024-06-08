@@ -90,12 +90,14 @@ public:      // data
 public:      // methods
   explicit ClangUtil(clang::ASTContext &astContext);
 
+  // --------------------------- ASTContext ----------------------------
   // Get the LangOptions in 'm_astContext'.
   clang::LangOptions const &getLangOptions() const;
 
   // Get the associated external AST source, if any.
   clang::ExternalASTSource * NULLABLE getExternalSource() const;
 
+  // ------------------------- SourceLocation --------------------------
   // Render 'loc' as a string.
   std::string locStr(clang::SourceLocation loc) const;
 
@@ -107,9 +109,57 @@ public:      // methods
   unsigned locLine(clang::SourceLocation loc) const;
   unsigned locCol(clang::SourceLocation loc) const;
 
+  // True if 'loc' is in a source file, as opposed to a macro expansion
+  // or on the command line.
+  bool locInSourceFile(clang::SourceLocation loc) const;
+
+  // True if 'loc' is in the main file of the translation unit.
+  bool inMainFile(clang::SourceLocation loc) const;
+
+  // Return the entry corresponding to the expansion location of 'loc',
+  // or null if there is none.
+  clang::FileEntry const *getFileEntryForLoc(
+    clang::SourceLocation loc) const;
+
+  // ---------------------------- FileEntry ----------------------------
+  // True if `entry` is the main file.
+  bool isMainFileEntry(clang::FileEntry const *entry) const;
+
+  // Return the file name in 'entry'.
+  static std::string fileEntryNameStr(clang::FileEntry const *entry);
+
+  // Write the file name to 'os' as a double-quoted string.
+  static void fileEntryNameToJSON(std::ostream &os,
+                                  clang::FileEntry const *entry);
+
+  // Append to 'lines' all of the source code lines of the primary
+  // source file.  Each will end with a newline character, except
+  // possibly for the last.
+  //
+  // Return false, and leave 'lines' unchanged, if the code is not
+  // available (typically because the AST was loaded from a serialized
+  // AST file rather than created by parsing source code).  Otherwise
+  // return true.
+  //
+  // This routine is not particularly efficient, but it has a simple
+  // interface.
+  //
+  bool getPrimarySourceFileLines(std::vector<std::string> &lines);
+
+  // ----------------------------- FileId ------------------------------
+  // Turn a FileID into a string.
+  std::string getFnameForFileID(clang::FileID fileID) const;
+
+  // If 'loc' is an expansion location, get the place where the
+  // expansion happened; otherwise use it as-is.  Then get the FileID
+  // from it.
+  clang::FileID getExpansionFileID(clang::SourceLocation loc) const;
+
+  // --------------------------- SourceRange ---------------------------
   // Stringify 'range'.
   std::string sourceRangeStr(clang::SourceRange range) const;
 
+  // ------------------------------ Decl -------------------------------
   /* Get the location of the beginning of 'decl'.  In particular, if
      'decl' is a definition of something that was previously declared
      elsewhere, I want the location of that definition, whereas
@@ -167,6 +217,85 @@ public:      // methods
   std::string namedDeclCompactIdentifier(
     clang::NamedDecl const *namedDecl) const;
 
+  // Return the lexical parent of `decl` as a `Decl` rather than a
+  // `DeclContext`.  Returns `nullptr` if it has no lexical parent
+  // because it is the `TranslationUnitDecl`.
+  static clang::Decl const *getParentDeclOpt(clang::Decl const *decl);
+
+  // Get the nearest lexical ancestor of `decl` that is a `NamedDecl`, or
+  // `nullptr` if there is none.
+  static clang::NamedDecl const * NULLABLE getNamedParentDeclOpt(
+    clang::Decl const *decl);
+
+  /* Get the nearest `NamedDecl` ancestor of `decl`, except if `decl` is
+     a template parameter, then Clang says the parent is the template
+     body declaration, so adjust that to instead yield the
+     `TemplateDecl` (which is not classified as a `DeclContext`).
+  */
+  static clang::NamedDecl const * NULLABLE
+  getNamedParentDeclOpt_templateAdjustment(clang::Decl const *decl);
+
+  // True if `decl` is one of the three kinds of template parameter
+  // declarations.
+  static bool isTemplateParameterDecl(clang::Decl const *decl);
+
+  // True if one of the lexical proper ancestors of `decl` is a
+  // `FunctionDecl`.
+  static bool hasProperAncestorFunction(clang::Decl const *decl);
+
+  // If 'decl' is a member, return its containing class.  Otherwise,
+  // return 'nullptr'.
+  clang::RecordDecl *maybeGetParentClass(clang::NamedDecl *decl);
+
+  // Get the innermost enclosing parent that has a name suitable for use
+  // in a qualifier, or nullptr if there is none.
+  clang::NamedDecl const *maybeGetNamedParentC(
+    clang::NamedDecl const *decl) const;
+  clang::NamedDecl       *maybeGetNamedParent(
+    clang::NamedDecl       *decl) const;
+
+  // If 'decl' is something whose declaration is introduced with a
+  // keyword like "class" or "namespace", return that keyword.
+  // Otherwise, return "".
+  std::string getDeclKeyword(clang::NamedDecl const *decl) const;
+
+  // Get the canonical declaration for 'decl'.
+  //
+  // This method is basically just confirming that the canonical decl will
+  // also be a NamedDecl, since the Clang API does not ensure that through
+  // its declared types.
+  clang::NamedDecl const *canonicalNamedDeclC(
+    clang::NamedDecl const *decl) const;
+  clang::NamedDecl       *canonicalNamedDecl(
+    clang::NamedDecl       *decl) const;
+
+  // Is 'decl' the declaration of an operator?
+  bool isOperatorDecl(clang::NamedDecl const *decl) const;
+
+  // Get the location of the token that precedes 'decl'.
+  clang::SourceLocation getDeclPrecedingTokenLoc(
+    clang::Decl const *decl) const;
+
+  // --------------------------- DeclContext ---------------------------
+  // Cast 'dc' to the associated Decl pointer.  Asserts that the
+  // conversion succeeds, unless 'dc' is null, in which case null is
+  // returned.
+  static clang::Decl const *declFromDC(
+    clang::DeclContext const * NULLABLE dc);
+
+  // -------------------------- FunctionDecl ---------------------------
+  // Is 'fd' is result of instantiating a template or member of a
+  // template, return the user-written declaration from which it was
+  // instantiated.  Otherwise return 'fd' itself.
+  static clang::FunctionDecl const *getUserWrittenFunctionDecl(
+    clang::FunctionDecl const *fd);
+  static clang::FunctionDecl *getUserWrittenFunctionDecl(
+    clang::FunctionDecl *fd);
+
+  // True if 'fd == getUserWrittenFunctionDecl(fd)'.
+  static bool isUserWrittenFunctionDecl(clang::FunctionDecl const *fd);
+
+  // ------------------------- DeclarationName -------------------------
   // Stringify 'declName' and its kind.
   static std::string declarationNameStr(
     clang::DeclarationName declName);
@@ -175,6 +304,7 @@ public:      // methods
   static std::string declarationNameAndKindStr(
     clang::DeclarationName declName);
 
+  // ----------------------- NestedNameSpecifier -----------------------
   // Stringify 'nns' and its kind.
   std::string nestedNameSpecifierStr_nq(      // No quoting.
     clang::NestedNameSpecifier const *nns) const;
@@ -189,6 +319,7 @@ public:      // methods
   std::string nestedNameSpecifierLocStr(
     clang::NestedNameSpecifierLoc nnsLoc) const;
 
+  // ---------------------- Various enumerations -----------------------
   // Stringify 'kind'.
   static std::string moduleOwnershipKindStr(
     clang::Decl::ModuleOwnershipKind kind);
@@ -280,69 +411,6 @@ public:      // methods
   // Stringify 'ckind'.
   static std::string castKindStr(clang::CastKind ckind);
 
-  // Cast 'dc' to the associated Decl pointer.  Asserts that the
-  // conversion succeeds, unless 'dc' is null, in which case null is
-  // returned.
-  static clang::Decl const *declFromDC(
-    clang::DeclContext const * NULLABLE dc);
-
-  // Return the lexical parent of `decl` as a `Decl` rather than a
-  // `DeclContext`.  Returns `nullptr` if it has no lexical parent
-  // because it is the `TranslationUnitDecl`.
-  static clang::Decl const *getParentDeclOpt(clang::Decl const *decl);
-
-  // Get the nearest lexical ancestor of `decl` that is a `NamedDecl`, or
-  // `nullptr` if there is none.
-  static clang::NamedDecl const * NULLABLE getNamedParentDeclOpt(
-    clang::Decl const *decl);
-
-  /* Get the nearest `NamedDecl` ancestor of `decl`, except if `decl` is
-     a template parameter, then Clang says the parent is the template
-     body declaration, so adjust that to instead yield the
-     `TemplateDecl` (which is not classified as a `DeclContext`).
-  */
-  static clang::NamedDecl const * NULLABLE
-  getNamedParentDeclOpt_templateAdjustment(clang::Decl const *decl);
-
-  // True if `decl` is one of the three kinds of template parameter
-  // declarations.
-  static bool isTemplateParameterDecl(clang::Decl const *decl);
-
-  // True if one of the lexical proper ancestors of `decl` is a
-  // `FunctionDecl`.
-  static bool hasProperAncestorFunction(clang::Decl const *decl);
-
-  // Render 'stmt' as a string by pretty-printing the syntax.
-  std::string stmtStr(clang::Stmt const * NULLABLE stmt) const;
-
-  // Get the location of 'stmt'.
-  std::string stmtLocStr(clang::Stmt const * NULLABLE stmt) const;
-
-  // Get stmt kind.
-  std::string stmtKindStr(clang::Stmt const * NULLABLE stmt) const;
-
-  // Kind and location.
-  std::string stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const;
-
-  // Render 'type' as a string.
-  static std::string typeStr(clang::Type const * NULLABLE type);
-  static std::string qualTypeStr(clang::QualType type);
-
-  // Print 'type' as a quoted string along with its kind name.
-  static std::string typeAndKindStr(clang::Type const * NULLABLE type);
-  static std::string qualTypeAndKindStr(clang::QualType type);
-
-  // Print the parameter types of 'functionType', in parentheses.
-  std::string signatureStr(
-    clang::FunctionProtoType const *functionType) const;
-
-  // Stringify 'tinfo'.
-  std::string typeSourceInfoStr(
-    clang::TypeSourceInfo const * NULLABLE tinfo) const;
-
-  // Stringify 'typeLoc'.
-  std::string typeLocStr(clang::TypeLoc typeLoc) const;
-
   // Stringify 'tlClass'.
   static std::string typeLocClassStr(
     clang::TypeLoc::TypeLocClass tlClass);
@@ -355,6 +423,49 @@ public:      // methods
   static std::string templateSpecializationKindStr(
     clang::TemplateSpecializationKind kind);
 
+  // ------------------------------ Stmt -------------------------------
+  // Render 'stmt' as a string by pretty-printing the syntax.
+  std::string stmtStr(clang::Stmt const * NULLABLE stmt) const;
+
+  // Get the location of 'stmt'.
+  std::string stmtLocStr(clang::Stmt const * NULLABLE stmt) const;
+
+  // Get stmt kind.
+  std::string stmtKindStr(clang::Stmt const * NULLABLE stmt) const;
+
+  // Kind and location.
+  std::string stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const;
+
+  // --------------------- Type, QualType, TypeLoc ---------------------
+  // Render 'type' as a string.
+  static std::string typeStr(clang::Type const * NULLABLE type);
+  static std::string qualTypeStr(clang::QualType type);
+
+  // Print 'type' as a quoted string along with its kind name.
+  static std::string typeAndKindStr(clang::Type const * NULLABLE type);
+  static std::string qualTypeAndKindStr(clang::QualType type);
+
+  // Print the parameter types of 'functionType', in parentheses.
+  std::string signatureStr(
+    clang::FunctionProtoType const *functionType) const;
+
+  // Get the string representation of 'qualType' for use when printing
+  // parameter types.
+  std::string getParamTypeString(clang::QualType qualType) const;
+
+  // Stringify 'tinfo'.
+  std::string typeSourceInfoStr(
+    clang::TypeSourceInfo const * NULLABLE tinfo) const;
+
+  // Stringify 'typeLoc'.
+  std::string typeLocStr(clang::TypeLoc typeLoc) const;
+
+  // Apply the appropriate desugaring to 'type' to get down to something
+  // structural.
+  clang::Type const *desugar(clang::Type const *type) const;
+  clang::QualType desugar(clang::QualType type) const;
+
+  // ---------------------------- Templates ----------------------------
   // Return either the parameter string or the argument string (see
   // next two methods).
   std::string templateArgsOrParamsForClassIfT(
@@ -394,83 +505,10 @@ public:      // methods
   std::string templateNameAndKindStr(
     clang::TemplateName const &templateName) const;
 
-  // True if 'loc' is in the main file of the translation unit.
-  bool inMainFile(clang::SourceLocation loc) const;
-
-  // True if `entry` is the main file.
-  bool isMainFileEntry(clang::FileEntry const *entry) const;
-
-  // Apply the appropriate desugaring to 'type' to get down to something
-  // structural.
-  clang::Type const *desugar(clang::Type const *type) const;
-  clang::QualType desugar(clang::QualType type) const;
-
-  // Return a quoted or angle-quoted string that will denote 'fname',
-  // given 'headerSearchOptions'.
-  //
-  // If 'userEntryIndex != nullptr', then '*userEntryIndex' will be set
-  // to the index of 'm_headerSearchOptions.UserEntries' where the file
-  // was found, or -1 if it was found relative to the current directory,
-  // or -2 if I can't figure out where it came from.
-  std::string getIncludeSyntax(
-    clang::HeaderSearchOptions const &headerSearchOptions,
-    std::string const &fname,
-    int * NULLABLE userEntryIndex = nullptr);
-
-  // Return true if 'fname' refers to a private header that should not
-  // be nominated in an '#include' directive.
-  static bool isPrivateHeaderName(std::string const &fname);
-
-  // Same, but for a FileEntry.
-  static bool isPrivateHeaderEntry(clang::FileEntry const *entry);
-
-  // Return the file name in 'entry'.
-  static std::string fileEntryNameStr(clang::FileEntry const *entry);
-
-  // Write the file name to 'os' as a double-quoted string.
-  static void fileEntryNameToJSON(std::ostream &os,
-                                  clang::FileEntry const *entry);
-
-  // Turn a FileID into a string.
-  std::string getFnameForFileID(clang::FileID fileID) const;
-
-  // If 'loc' is an expansion location, get the place where the
-  // expansion happened; otherwise use it as-is.  Then get the FileID
-  // from it.
-  clang::FileID getExpansionFileID(clang::SourceLocation loc) const;
-
-  // Get the string representation of 'qualType' for use when printing
-  // parameter types.
-  std::string getParamTypeString(clang::QualType qualType) const;
-
   // Remove all template arguments.
   std::string removeTemplateArguments(std::string const &src);
 
-  // Get the file name containing 'loc', as influenced by #line
-  // directives, and dealing with the possibility of macro expansion.
-  std::string publicPresumedFname(clang::SourceLocation loc);
-
-  // If 'decl' is a member, return its containing class.  Otherwise,
-  // return 'nullptr'.
-  clang::RecordDecl *maybeGetParentClass(clang::NamedDecl *decl);
-
-  // Get the innermost enclosing parent that has a name suitable for use
-  // in a qualifier, or nullptr if there is none.
-  clang::NamedDecl const *maybeGetNamedParentC(
-    clang::NamedDecl const *decl) const;
-  clang::NamedDecl       *maybeGetNamedParent(
-    clang::NamedDecl       *decl) const;
-
-  // Find the file whose inclusion from the main source file led to
-  // 'loc' being in the translation unit.  Returns an empty string if
-  // the location did not arise from any include.
-  std::string getTopLevelIncludeForLoc(clang::SourceLocation loc) const;
-
-  // If 'decl' is something whose declaration is introduced with a
-  // keyword like "class" or "namespace", return that keyword.
-  // Otherwise, return "".
-  std::string getDeclKeyword(clang::NamedDecl const *decl) const;
-
+  // ------------------------ TemplateParameter ------------------------
   // Turn 'paramList' into a string like "template <class T>".
   std::string templateParameterListStr(
     clang::TemplateParameterList const *paramList) const;
@@ -488,6 +526,7 @@ public:      // methods
   static std::string templateParameterListArgsStr(
     clang::TemplateParameterList const *paramList);
 
+  // ------------------------ TemplateArgument -------------------------
   // Stringify 'kind'.
   static std::string templateArgumentKindStr(
     clang::TemplateArgument::ArgKind kind);
@@ -522,16 +561,36 @@ public:      // methods
   std::string astTemplateArgumentListInfoOptStr(
     clang::ASTTemplateArgumentListInfo const * NULLABLE argsInfo) const;
 
-  // Get the canonical declaration for 'decl'.
+  // ----------------------------- Headers -----------------------------
+  // Return a quoted or angle-quoted string that will denote 'fname',
+  // given 'headerSearchOptions'.
   //
-  // This method is basically just confirming that the canonical decl will
-  // also be a NamedDecl, since the Clang API does not ensure that through
-  // its declared types.
-  clang::NamedDecl const *canonicalNamedDeclC(
-    clang::NamedDecl const *decl) const;
-  clang::NamedDecl       *canonicalNamedDecl(
-    clang::NamedDecl       *decl) const;
+  // If 'userEntryIndex != nullptr', then '*userEntryIndex' will be set
+  // to the index of 'm_headerSearchOptions.UserEntries' where the file
+  // was found, or -1 if it was found relative to the current directory,
+  // or -2 if I can't figure out where it came from.
+  std::string getIncludeSyntax(
+    clang::HeaderSearchOptions const &headerSearchOptions,
+    std::string const &fname,
+    int * NULLABLE userEntryIndex = nullptr);
 
+  // Return true if 'fname' refers to a private header that should not
+  // be nominated in an '#include' directive.
+  static bool isPrivateHeaderName(std::string const &fname);
+
+  // Same, but for a FileEntry.
+  static bool isPrivateHeaderEntry(clang::FileEntry const *entry);
+
+  // Find the file whose inclusion from the main source file led to
+  // 'loc' being in the translation unit.  Returns an empty string if
+  // the location did not arise from any include.
+  std::string getTopLevelIncludeForLoc(clang::SourceLocation loc) const;
+
+  // Get the file name containing 'loc', as influenced by #line
+  // directives, and dealing with the possibility of macro expansion.
+  std::string publicPresumedFname(clang::SourceLocation loc);
+
+  // ----------------------------- APValue -----------------------------
   // Stringify 'kind'.
   static std::string apValueKindStr(clang::APValue::ValueKind kind);
 
@@ -545,63 +604,7 @@ public:      // methods
   // Stringify 'n'.
   static std::string apIntStr(llvm::APInt const &n, bool isSigned);
   static std::string apsIntStr(llvm::APSInt const &n);
-
-  // Is 'decl' the declaration of an operator?
-  bool isOperatorDecl(clang::NamedDecl const *decl) const;
-
-  // True if 'loc' is in a source file, as opposed to a macro expansion
-  // or on the command line.
-  bool locInSourceFile(clang::SourceLocation loc) const;
-
-  // Return the entry corresponding to the expansion location of 'loc',
-  // or null if there is none.
-  clang::FileEntry const *getFileEntryForLoc(
-    clang::SourceLocation loc) const;
-
-  // Get the location of the token that precedes 'decl'.
-  clang::SourceLocation getDeclPrecedingTokenLoc(
-    clang::Decl const *decl) const;
-
-  // Is 'fd' is result of instantiating a template or member of a
-  // template, return the user-written declaration from which it was
-  // instantiated.  Otherwise return 'fd' itself.
-  static clang::FunctionDecl const *getUserWrittenFunctionDecl(
-    clang::FunctionDecl const *fd);
-  static clang::FunctionDecl *getUserWrittenFunctionDecl(
-    clang::FunctionDecl *fd);
-
-  // True if 'fd == getUserWrittenFunctionDecl(fd)'.
-  static bool isUserWrittenFunctionDecl(clang::FunctionDecl const *fd);
-
-  // Append to 'lines' all of the source code lines of the primary
-  // source file.  Each will end with a newline character, except
-  // possibly for the last.
-  //
-  // Return false, and leave 'lines' unchanged, if the code is not
-  // available (typically because the AST was loaded from a serialized
-  // AST file rather than created by parsing source code).  Otherwise
-  // return true.
-  //
-  // This routine is not particularly efficient, but it has a simple
-  // interface.
-  //
-  bool getPrimarySourceFileLines(std::vector<std::string> &lines);
 };
-
-
-// Return the characters in the range [begin,end-1] as a string.
-std::string stringRefRange(
-  llvm::StringRef const &sr, unsigned begin, unsigned end);
-
-
-// Lexicographic order on SourceRange.
-int compare(clang::SourceRange const &a, clang::SourceRange const &b);
-namespace clang {
-  inline bool operator< (clang::SourceRange const &a, clang::SourceRange const &b)
-  {
-    return compare(a,b) < 0;
-  }
-}
 
 
 // Deterministically compare two declarations, given pointers to them.
@@ -625,6 +628,21 @@ public:
     return compare(a,b) < 0;
   }
 };
+
+
+// Return the characters in the range [begin,end-1] as a string.
+std::string stringRefRange(
+  llvm::StringRef const &sr, unsigned begin, unsigned end);
+
+
+// Lexicographic order on SourceRange.
+int compare(clang::SourceRange const &a, clang::SourceRange const &b);
+namespace clang {
+  inline bool operator< (clang::SourceRange const &a, clang::SourceRange const &b)
+  {
+    return compare(a,b) < 0;
+  }
+}
 
 
 // Get the name of the dynamic type of the argument.  We have one
