@@ -8,6 +8,7 @@
 
 // smbase
 #include "smbase/compare-util.h"       // compare
+#include "smbase/sm-macros.h"          // STATICDEF
 #include "smbase/string-util.h"        // doubleQuote, beginsWith, hasSubstring, trimWhitespace
 #include "smbase/stringb.h"            // stringb
 
@@ -88,7 +89,7 @@ std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 }
 
 
-/*static*/ clang::SourceLocation ClangUtil::declLoc(
+STATICDEF clang::SourceLocation ClangUtil::declLoc(
   clang::Decl const *decl)
 {
   // If 'decl' is an implicit instantiation, then its 'getBeginLoc()'
@@ -128,7 +129,7 @@ std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 }
 
 
-/*static*/ clang::SourceLocation ClangUtil::getIdentifierLoc(
+STATICDEF clang::SourceLocation ClangUtil::getIdentifierLoc(
   clang::NamedDecl const *decl)
 {
   // At the moment, I have no better alternative than to rely on
@@ -384,7 +385,7 @@ std::string ClangUtil::namedDeclCompactIdentifier(
 }
 
 
-/*static*/ std::string ClangUtil::templateDeclParamsAsArgsStr(
+STATICDEF std::string ClangUtil::templateDeclParamsAsArgsStr(
   clang::TemplateDecl const *templateDecl)
 {
   clang::TemplateParameterList const *params =
@@ -395,14 +396,14 @@ std::string ClangUtil::namedDeclCompactIdentifier(
 }
 
 
-/*static*/ std::string ClangUtil::declarationNameStr(
+STATICDEF std::string ClangUtil::declarationNameStr(
   clang::DeclarationName declName)
 {
   return stringb("\"" << declName.getAsString() << "\"");
 }
 
 
-/*static*/ std::string ClangUtil::declarationNameKindStr(
+STATICDEF std::string ClangUtil::declarationNameKindStr(
   clang::DeclarationName::NameKind declNameKind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -423,7 +424,7 @@ std::string ClangUtil::namedDeclCompactIdentifier(
 }
 
 
-/*static*/ std::string ClangUtil::declarationNameAndKindStr(
+STATICDEF std::string ClangUtil::declarationNameAndKindStr(
   clang::DeclarationName declName)
 {
   return stringb(declarationNameStr(declName) << " (" <<
@@ -499,7 +500,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::moduleOwnershipKindStr(
+STATICDEF std::string ClangUtil::moduleOwnershipKindStr(
   clang::Decl::ModuleOwnershipKind kind)
 {
   ENUM_CLASS_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -513,7 +514,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::accessSpecifierStr(
+STATICDEF std::string ClangUtil::accessSpecifierStr(
   clang::AccessSpecifier specifier)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -527,7 +528,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::identifierNamespaceStr(
+STATICDEF std::string ClangUtil::identifierNamespaceStr(
   enum clang::Decl::IdentifierNamespace idns)
 {
   BITFLAGS_TABLE_LOOKUP(clang::Decl::, "IdentifierNamespace", "0", idns,
@@ -550,7 +551,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::linkageStr(clang::Linkage linkage)
+STATICDEF std::string ClangUtil::linkageStr(clang::Linkage linkage)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
     clang::, Linkage, linkage,
@@ -568,7 +569,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::storageClassStr(
+STATICDEF std::string ClangUtil::storageClassStr(
   clang::StorageClass storageClass)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -584,7 +585,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::threadStorageClassSpecifierStr(
+STATICDEF std::string ClangUtil::threadStorageClassSpecifierStr(
   clang::ThreadStorageClassSpecifier tscSpec)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -598,7 +599,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::initializationStyleStr(
+STATICDEF std::string ClangUtil::initializationStyleStr(
   clang::VarDecl::InitializationStyle initStyle)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -611,7 +612,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::exprValueKindStr(
+STATICDEF std::string ClangUtil::exprValueKindStr(
   clang::ExprValueKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -624,7 +625,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::exprObjectKindStr(
+STATICDEF std::string ClangUtil::exprObjectKindStr(
   clang::ExprObjectKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -640,7 +641,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::exprDependenceStr(
+STATICDEF std::string ClangUtil::exprDependenceStr(
   clang::ExprDependence dependence)
 {
   BITFLAGS_TABLE_LOOKUP(clang::ExprDependenceScope::,
@@ -655,7 +656,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::nonOdrUseReasonStr(
+STATICDEF std::string ClangUtil::nonOdrUseReasonStr(
   clang::NonOdrUseReason reason)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -669,7 +670,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::constexprSpecKindStr(
+STATICDEF std::string ClangUtil::constexprSpecKindStr(
   clang::ConstexprSpecKind kind)
 {
   ENUM_CLASS_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -683,7 +684,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::tagTypeKindStr(
+STATICDEF std::string ClangUtil::tagTypeKindStr(
   clang::TagTypeKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -698,7 +699,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::argPassingKindStr(
+STATICDEF std::string ClangUtil::argPassingKindStr(
   clang::RecordDecl::ArgPassingKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -711,7 +712,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::lambdaCaptureDefaultStr(
+STATICDEF std::string ClangUtil::lambdaCaptureDefaultStr(
   clang::LambdaCaptureDefault lcd)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -724,7 +725,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::lambdaDependencyKindStr(
+STATICDEF std::string ClangUtil::lambdaDependencyKindStr(
   clang::CXXRecordDecl::LambdaDependencyKind ldk)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -737,7 +738,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::inClassInitStyleStr(
+STATICDEF std::string ClangUtil::inClassInitStyleStr(
   clang::InClassInitStyle icis)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -750,7 +751,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::elaboratedTypeKeywordStr(
+STATICDEF std::string ClangUtil::elaboratedTypeKeywordStr(
   clang::ElaboratedTypeKeyword keyword)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -767,7 +768,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::exceptionSpecificationTypeStr(
+STATICDEF std::string ClangUtil::exceptionSpecificationTypeStr(
   clang::ExceptionSpecificationType est)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -789,7 +790,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::overloadedOperatorKindStr(
+STATICDEF std::string ClangUtil::overloadedOperatorKindStr(
   clang::OverloadedOperatorKind op)
 {
   // This is almost the same as 'clang::getOperatorSpelling()', but this
@@ -820,7 +821,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::binaryOperatorKindStr(
+STATICDEF std::string ClangUtil::binaryOperatorKindStr(
   clang::BinaryOperatorKind op)
 {
   static struct Entry {
@@ -846,7 +847,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::unaryOperatorKindStr(
+STATICDEF std::string ClangUtil::unaryOperatorKindStr(
   clang::UnaryOperatorKind op)
 {
   static struct Entry {
@@ -872,7 +873,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ std::string ClangUtil::castKindStr(clang::CastKind ckind)
+STATICDEF std::string ClangUtil::castKindStr(clang::CastKind ckind)
 {
   static struct Entry {
     clang::CastKind m_ckind;
@@ -896,7 +897,7 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
-/*static*/ clang::Decl const *ClangUtil::declFromDC(
+STATICDEF clang::Decl const *ClangUtil::declFromDC(
   clang::DeclContext const * NULLABLE dc)
 {
   if (dc) {
@@ -1050,7 +1051,7 @@ std::string ClangUtil::stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const
 }
 
 
-/*static*/ std::string ClangUtil::typeStr(
+STATICDEF std::string ClangUtil::typeStr(
   clang::Type const * NULLABLE type)
 {
   if (type) {
@@ -1062,13 +1063,13 @@ std::string ClangUtil::stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const
 }
 
 
-/*static*/ std::string ClangUtil::qualTypeStr(clang::QualType type)
+STATICDEF std::string ClangUtil::qualTypeStr(clang::QualType type)
 {
   return type.getAsString();
 }
 
 
-/*static*/ std::string ClangUtil::typeAndKindStr(
+STATICDEF std::string ClangUtil::typeAndKindStr(
   clang::Type const * NULLABLE type)
 {
   if (type) {
@@ -1081,7 +1082,7 @@ std::string ClangUtil::stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const
 }
 
 
-/*static*/ std::string ClangUtil::qualTypeAndKindStr(clang::QualType type)
+STATICDEF std::string ClangUtil::qualTypeAndKindStr(clang::QualType type)
 {
   return stringb(doubleQuote(qualTypeStr(type)) <<
                  " (" << type->getTypeClassName() << "Type)");
@@ -1151,7 +1152,7 @@ std::string ClangUtil::typeLocStr(clang::TypeLoc typeLoc) const
 }
 
 
-/*static*/ std::string ClangUtil::typeLocClassStr(
+STATICDEF std::string ClangUtil::typeLocClassStr(
   clang::TypeLoc::TypeLocClass tlClass)
 {
   // I won't try to use ENUM_TABLE_LOOKUP_OR_STRINGB_CAST here because I
@@ -1182,7 +1183,7 @@ std::string ClangUtil::typeLocStr(clang::TypeLoc typeLoc) const
 }
 
 
-/*static*/ std::string ClangUtil::templatedKindStr(
+STATICDEF std::string ClangUtil::templatedKindStr(
   clang::FunctionDecl::TemplatedKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -1200,7 +1201,7 @@ std::string ClangUtil::typeLocStr(clang::TypeLoc typeLoc) const
 }
 
 
-/*static*/ std::string ClangUtil::templateSpecializationKindStr(
+STATICDEF std::string ClangUtil::templateSpecializationKindStr(
   clang::TemplateSpecializationKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -1310,7 +1311,7 @@ std::string ClangUtil::templateNameStr(
 }
 
 
-/*static*/ std::string ClangUtil::templateNameKindStr(
+STATICDEF std::string ClangUtil::templateNameKindStr(
   clang::TemplateName::NameKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -1424,7 +1425,7 @@ string ClangUtil::getIncludeSyntax(
 }
 
 
-/*static*/ bool ClangUtil::isPrivateHeaderName(string const &fname)
+STATICDEF bool ClangUtil::isPrivateHeaderName(string const &fname)
 {
   // GNU libc/c++ private.
   if (hasSubstring(fname, "/bits/")) {
@@ -1454,14 +1455,14 @@ string ClangUtil::getIncludeSyntax(
 }
 
 
-/*static*/ bool ClangUtil::isPrivateHeaderEntry(
+STATICDEF bool ClangUtil::isPrivateHeaderEntry(
   clang::FileEntry const *entry)
 {
   return isPrivateHeaderName(entry->getName().str());
 }
 
 
-/*static*/ std::string ClangUtil::fileEntryNameStr(
+STATICDEF std::string ClangUtil::fileEntryNameStr(
   clang::FileEntry const *entry)
 {
   assert(entry);
@@ -1469,7 +1470,7 @@ string ClangUtil::getIncludeSyntax(
 }
 
 
-/*static*/ void ClangUtil::fileEntryNameToJSON(
+STATICDEF void ClangUtil::fileEntryNameToJSON(
   std::ostream &os, clang::FileEntry const *entry)
 {
   os << doubleQuote(fileEntryNameStr(entry));
@@ -1700,7 +1701,7 @@ string ClangUtil::templateParameterListStr(
 }
 
 
-/*static*/ std::string ClangUtil::encloseInAngleBrackets(
+STATICDEF std::string ClangUtil::encloseInAngleBrackets(
   std::list<std::string> const &args,
   bool hasParameterPack)
 {
@@ -1727,7 +1728,7 @@ string ClangUtil::templateParameterListStr(
 }
 
 
-/*static*/ std::string ClangUtil::templateParameterListArgsStr(
+STATICDEF std::string ClangUtil::templateParameterListArgsStr(
   clang::TemplateParameterList const *paramList)
 {
   std::list<string> argStrings;
@@ -1740,7 +1741,7 @@ string ClangUtil::templateParameterListStr(
 }
 
 
-/*static*/ std::string ClangUtil::templateArgumentKindStr(
+STATICDEF std::string ClangUtil::templateArgumentKindStr(
   clang::TemplateArgument::ArgKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -1869,7 +1870,7 @@ clang::NamedDecl *ClangUtil::canonicalNamedDecl(
 }
 
 
-/*static*/ std::string ClangUtil::apValueKindStr(
+STATICDEF std::string ClangUtil::apValueKindStr(
   clang::APValue::ValueKind kind)
 {
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
@@ -1893,7 +1894,7 @@ clang::NamedDecl *ClangUtil::canonicalNamedDecl(
 }
 
 
-/*static*/ std::string ClangUtil::apValueStr(
+STATICDEF std::string ClangUtil::apValueStr(
   clang::APValue const * NULLABLE apValue)
 {
   if (apValue) {
@@ -1930,7 +1931,7 @@ clang::NamedDecl *ClangUtil::canonicalNamedDecl(
 }
 
 
-/*static*/ std::string ClangUtil::smallVectorStr(
+STATICDEF std::string ClangUtil::smallVectorStr(
   llvm::SmallVectorImpl<char> const &vec)
 {
   std::ostringstream oss;
@@ -1943,8 +1944,8 @@ clang::NamedDecl *ClangUtil::canonicalNamedDecl(
 }
 
 
-/*static*/ std::string ClangUtil::apIntStr(llvm::APInt const &n,
-                                           bool isSigned)
+STATICDEF std::string ClangUtil::apIntStr(llvm::APInt const &n,
+                                          bool isSigned)
 {
   llvm::SmallVector<char, 20> digits;
   n.toString(digits, 10 /*radix*/, isSigned);
@@ -1952,7 +1953,7 @@ clang::NamedDecl *ClangUtil::canonicalNamedDecl(
 }
 
 
-/*static*/ std::string ClangUtil::apsIntStr(llvm::APSInt const &n)
+STATICDEF std::string ClangUtil::apsIntStr(llvm::APSInt const &n)
 {
   llvm::SmallVector<char, 20> digits;
   n.toString(digits);
@@ -2045,7 +2046,7 @@ clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
 }
 
 
-/*static*/ clang::FunctionDecl const *ClangUtil::getUserWrittenFunctionDecl(
+STATICDEF clang::FunctionDecl const *ClangUtil::getUserWrittenFunctionDecl(
   clang::FunctionDecl const *fd)
 {
   assert(fd);
@@ -2058,7 +2059,7 @@ clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
 }
 
 
-/*static*/ clang::FunctionDecl *ClangUtil::getUserWrittenFunctionDecl(
+STATICDEF clang::FunctionDecl *ClangUtil::getUserWrittenFunctionDecl(
   clang::FunctionDecl *fd)
 {
   return const_cast<clang::FunctionDecl*>(
@@ -2067,7 +2068,7 @@ clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
 }
 
 
-/*static*/ bool ClangUtil::isUserWrittenFunctionDecl(
+STATICDEF bool ClangUtil::isUserWrittenFunctionDecl(
   clang::FunctionDecl const *fd)
 {
   return fd == getUserWrittenFunctionDecl(fd);
@@ -2136,8 +2137,8 @@ int compare(clang::SourceRange const &a, clang::SourceRange const &b)
 }
 
 
-/*static*/ int DeclCompare::compare(clang::Decl const *a,
-                                    clang::Decl const *b)
+STATICDEF int DeclCompare::compare(clang::Decl const *a,
+                                   clang::Decl const *b)
 {
   // The ID of a decl is calculated from its address by walking up the
   // DeclContext tree to get to the ASTContext, then iterating over the
