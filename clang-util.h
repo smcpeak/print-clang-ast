@@ -286,6 +286,32 @@ public:      // methods
   static clang::Decl const *declFromDC(
     clang::DeclContext const * NULLABLE dc);
 
+  // Return the lexical parent of `decl` as a `Decl` rather than a
+  // `DeclContext`.  Returns `nullptr` if it has no lexical parent
+  // because it is the `TranslationUnitDecl`.
+  static clang::Decl const *getParentDeclOpt(clang::Decl const *decl);
+
+  // Get the nearest lexical ancestor of `decl` that is a `NamedDecl`, or
+  // `nullptr` if there is none.
+  static clang::NamedDecl const * NULLABLE getNamedParentDeclOpt(
+    clang::Decl const *decl);
+
+  /* Get the nearest `NamedDecl` ancestor of `decl`, except if `decl` is
+     a template parameter, then Clang says the parent is the template
+     body declaration, so adjust that to instead yield the
+     `TemplateDecl` (which is not classified as a `DeclContext`).
+  */
+  static clang::NamedDecl const * NULLABLE
+  getNamedParentDeclOpt_templateAdjustment(clang::Decl const *decl);
+
+  // True if `decl` is one of the three kinds of template parameter
+  // declarations.
+  static bool isTemplateParameterDecl(clang::Decl const *decl);
+
+  // True if one of the lexical proper ancestors of `decl` is a
+  // `FunctionDecl`.
+  static bool hasProperAncestorFunction(clang::Decl const *decl);
+
   // Render 'stmt' as a string by pretty-printing the syntax.
   std::string stmtStr(clang::Stmt const * NULLABLE stmt) const;
 

@@ -910,6 +910,99 @@ std::string ClangUtil::nestedNameSpecifierLocStr(
 }
 
 
+STATICDEF clang::Decl const *ClangUtil::getParentDeclOpt(
+  clang::Decl const *decl)
+{
+  return declFromDC(decl->getLexicalDeclContext());
+}
+
+
+STATICDEF clang::NamedDecl const * NULLABLE
+ClangUtil::getNamedParentDeclOpt(clang::Decl const *decl)
+{
+  clang::Decl const *parent = getParentDeclOpt(decl);
+  if (!parent) {
+    return nullptr;
+  }
+  if (auto namedDecl = dyn_cast<clang::NamedDecl>(parent)) {
+    return namedDecl;
+  }
+  else {
+    // Skip past non-named declarations.
+    return getNamedParentDeclOpt(parent);
+  }
+}
+
+
+STATICDEF clang::NamedDecl const * NULLABLE
+ClangUtil::getNamedParentDeclOpt_templateAdjustment(
+  clang::Decl const *decl)
+{
+  clang::NamedDecl const *parent = getNamedParentDeclOpt(decl);
+  if (!parent) {
+    return nullptr;
+  }
+
+  if (isTemplateParameterDecl(decl)) {
+    /* The `dc` might be the body declaration, but we want the template.
+
+       I think the rationale for the Clang design is they do not want to
+       increase the size of `TemplateDecl` by making it its own
+       `DeclContext`, so they attach the parameters to the body instead
+       since it is nearby.
+    */
+
+    if (auto functionDecl = dyn_cast<clang::FunctionDecl>(parent)) {
+      clang::FunctionTemplateDecl const *templateDecl =
+        functionDecl->getDescribedFunctionTemplate();
+      xassert(templateDecl);
+      return templateDecl;
+    }
+
+    if (auto recordDecl = dyn_cast<clang::CXXRecordDecl>(parent)) {
+      clang::ClassTemplateDecl const *templateDecl =
+        recordDecl->getDescribedClassTemplate();
+      xassert(templateDecl);
+      return templateDecl;
+    }
+
+    // For `ClassTemplatePartialSpecializationDecl`, `parent` is already
+    // what we want.
+
+    // TODO: What about VarTemplateDecl and TypeAliasTemplateDecl?
+  }
+
+  return parent;
+}
+
+
+STATICDEF bool ClangUtil::isTemplateParameterDecl(
+  clang::Decl const *decl)
+{
+  return isa<clang::TemplateTypeParmDecl>(decl) ||
+         isa<clang::NonTypeTemplateParmDecl>(decl) ||
+         isa<clang::TemplateTemplateParmDecl>(decl);
+}
+
+
+STATICDEF bool ClangUtil::hasProperAncestorFunction(
+  clang::Decl const *decl)
+{
+  while (true) {
+    decl = getParentDeclOpt(decl);
+    if (!decl) {
+      return false;
+    }
+
+    if (isa<clang::FunctionDecl>(decl)) {
+      return true;
+    }
+  }
+
+  // Not reached.
+}
+
+
 std::string ClangUtil::stmtStr(clang::Stmt const * NULLABLE stmt) const
 {
   if (stmt) {
