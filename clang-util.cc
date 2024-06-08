@@ -1258,6 +1258,13 @@ bool ClangUtil::inMainFile(SourceLocation loc) const
 }
 
 
+bool ClangUtil::isMainFileEntry(clang::FileEntry const *entry) const
+{
+  xassert(entry);
+  return m_srcMgr.isMainFile(*entry);
+}
+
+
 clang::Type const *ClangUtil::desugar(clang::Type const *type) const
 {
   // This one evidently does not require 'm_astContext', while the

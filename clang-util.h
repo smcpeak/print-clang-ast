@@ -371,6 +371,9 @@ public:      // methods
   // True if 'loc' is in the main file of the translation unit.
   bool inMainFile(clang::SourceLocation loc) const;
 
+  // True if `entry` is the main file.
+  bool isMainFileEntry(clang::FileEntry const *entry) const;
+
   // Apply the appropriate desugaring to 'type' to get down to something
   // structural.
   clang::Type const *desugar(clang::Type const *type) const;
