@@ -55,6 +55,7 @@ public:      // methods
   bool TraverseDecl(clang::Decl *decl);
   bool dataTraverseStmtPre(clang::Stmt *stmt);
   bool dataTraverseStmtPost(clang::Stmt *stmt);
+  bool TraverseType(clang::QualType T);
   bool TraverseTypeLoc(clang::TypeLoc TL);
   bool TraverseTemplateArgumentLoc(clang::TemplateArgumentLoc tal);
   bool TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc TL);

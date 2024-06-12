@@ -179,6 +179,23 @@ bool RAVPrinterVisitor::dataTraverseStmtPost(clang::Stmt *stmt)
 }
 
 
+bool RAVPrinterVisitor::TraverseType(clang::QualType qualType)
+{
+  // This is disabled because the corresponding functionality does not
+  // exist in the `printer-visitor` module.
+  //
+  // TODO: Add that capability, possibly by leveraging TypeVisitorC or
+  // just folding it into `clang-ast-visitor`.
+#if 0
+  m_os << indentString() << "Type " << qualTypeAndKindStr(qualType) << "\n";
+
+  INCREMENT_INDENT_LEVEL();
+#endif
+
+  return BaseClass::TraverseType(qualType);
+}
+
+
 bool RAVPrinterVisitor::TraverseTypeLoc(clang::TypeLoc typeLoc)
 {
   m_os << indentString() << typeLocStr(typeLoc) << "\n";
