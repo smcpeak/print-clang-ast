@@ -563,7 +563,13 @@ ClangUtil::getNamedParentDeclOpt_templateAdjustment(
   }
 
   if (isTemplateParameterDecl(decl)) {
-    /* The `dc` might be the body declaration, but we want the template.
+    /* The `parent` might be the template body declaration, but we want
+       the template declaration:
+
+         template <          // Template declaration
+           typename T        // Template parameter declaration
+         >
+         void f(T t);        // Template body declaration
 
        I think the rationale for the Clang design is they do not want to
        increase the size of `TemplateDecl` by making it its own
