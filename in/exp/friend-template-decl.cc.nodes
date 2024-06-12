@@ -507,7 +507,7 @@
   "Decl::Access": "AS_public",
   "Decl::IdentifierNamespace": "0",
   "Decl::Linkage": "(not set)",
-  "FriendDecl::Friend.TSI": "Elaborated(\"class MyVector<T>\", <in/src/friend-template-decl.cc:16:10, col:26>, TemplateSpecialization(\"MyVector<T>\", <in/src/friend-template-decl.cc:16:16, col:26>, NullTypeLoc))",
+  "FriendDecl::Friend.TSI": "ElaboratedTypeLoc(\"class MyVector<T>\", <in/src/friend-template-decl.cc:16:10, col:26>, TemplateSpecializationTypeLoc(\"MyVector<T>\", <in/src/friend-template-decl.cc:16:16, col:26>, NullTypeLoc))",
   "FriendDecl::NextFriend": { "ptr": "null" },
   "FriendDecl::FriendLoc": "in/src/friend-template-decl.cc:16:3",
   "FriendDecl::UnsupportedFriend": false,

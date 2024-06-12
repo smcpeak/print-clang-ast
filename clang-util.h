@@ -411,7 +411,7 @@ public:      // methods
   // Stringify 'ckind'.
   static std::string castKindStr(clang::CastKind ckind);
 
-  // Stringify 'tlClass'.
+  // Stringify 'tlClass', e.g., "ElaboratedTypeLoc".
   static std::string typeLocClassStr(
     clang::TypeLoc::TypeLocClass tlClass);
 

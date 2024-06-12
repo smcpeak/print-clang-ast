@@ -1309,7 +1309,9 @@ STATICDEF std::string ClangUtil::typeLocClassStr(
     clang::TypeLoc::TypeLocClass m_tlClass;
     char const *m_name;
   } const entries[] = {
-    #define ENTRY(name) { clang::TypeLoc::name, #name }
+    // Note that `name` is just "Elaborated" for "ElaboratedTypeLoc", so
+    // I add the suffix to the `m_name` table entry.
+    #define ENTRY(name) { clang::TypeLoc::name, #name "TypeLoc" }
 
     #define ABSTRACT_TYPE(Class, Base)
     #define TYPE(Class, Base) \

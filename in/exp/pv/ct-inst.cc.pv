@@ -1,47 +1,47 @@
 ---- stdout ----
 VDC_NONE: TranslationUnitDecl at <invalid loc>
   VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__int128_t" at <invalid loc>
-    VTC_TYPEDEF_NAME_DECL: Builtin("__int128", <<invalid sloc>>, NullTypeLoc)
+    VTC_TYPEDEF_NAME_DECL: BuiltinTypeLoc("__int128", <<invalid sloc>>, NullTypeLoc)
   VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__uint128_t" at <invalid loc>
-    VTC_TYPEDEF_NAME_DECL: Builtin("unsigned __int128", <<invalid sloc>>, NullTypeLoc)
+    VTC_TYPEDEF_NAME_DECL: BuiltinTypeLoc("unsigned __int128", <<invalid sloc>>, NullTypeLoc)
   VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__NSConstantString" at <invalid loc>
-    VTC_TYPEDEF_NAME_DECL: Record("struct __NSConstantString_tag", <<invalid sloc>>, NullTypeLoc)
+    VTC_TYPEDEF_NAME_DECL: RecordTypeLoc("struct __NSConstantString_tag", <<invalid sloc>>, NullTypeLoc)
   VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__builtin_ms_va_list" at <invalid loc>
-    VTC_TYPEDEF_NAME_DECL: Pointer("char *", <<invalid sloc>>, Builtin("char", <<invalid sloc>>, NullTypeLoc))
-      VTC_POINTER_TYPE: Builtin("char", <<invalid sloc>>, NullTypeLoc)
+    VTC_TYPEDEF_NAME_DECL: PointerTypeLoc("char *", <<invalid sloc>>, BuiltinTypeLoc("char", <<invalid sloc>>, NullTypeLoc))
+      VTC_POINTER_TYPE: BuiltinTypeLoc("char", <<invalid sloc>>, NullTypeLoc)
   VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__builtin_va_list" at <invalid loc>
-    VTC_TYPEDEF_NAME_DECL: ConstantArray("struct __va_list_tag[1]", <<invalid sloc>>, Record("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc))
-      VTC_ARRAY_TYPE_ELEMENT: Record("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc)
+    VTC_TYPEDEF_NAME_DECL: ConstantArrayTypeLoc("struct __va_list_tag[1]", <<invalid sloc>>, RecordTypeLoc("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc))
+      VTC_ARRAY_TYPE_ELEMENT: RecordTypeLoc("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc)
   VDC_TRANSLATION_UNIT_DECL: ClassTemplateDecl "S" at in/src/ct-inst.cc:4:1
     VDC_TEMPLATE_DECL_PARAMETER: TemplateTypeParmDecl "S::T" at in/src/ct-inst.cc:4:11
     VDC_TEMPLATE_DECL: CXXRecordDecl "S<T>" at in/src/ct-inst.cc:5:1
       VDC_RECORD_DECL: CXXRecordDecl "S::S<T>" at in/src/ct-inst.cc:5:1
       VDC_RECORD_DECL: FieldDecl "S::data" at in/src/ct-inst.cc:6:3
-        VTC_DECLARATOR_DECL: TemplateTypeParm("T", <in/src/ct-inst.cc:6:3>, NullTypeLoc)
+        VTC_DECLARATOR_DECL: TemplateTypeParmTypeLoc("T", <in/src/ct-inst.cc:6:3>, NullTypeLoc)
       VDC_RECORD_DECL: FieldDecl "S::ptr1" at in/src/ct-inst.cc:7:3
-        VTC_DECLARATOR_DECL: Pointer("S<T> *", <in/src/ct-inst.cc:7:3, col:5>, Elaborated("S<T>", <in/src/ct-inst.cc:7:3>, InjectedClassName("S<T>", <in/src/ct-inst.cc:7:3>, NullTypeLoc)))
-          VTC_POINTER_TYPE: Elaborated("S<T>", <in/src/ct-inst.cc:7:3>, InjectedClassName("S<T>", <in/src/ct-inst.cc:7:3>, NullTypeLoc))
-            VTC_ELABORATED_TYPE: InjectedClassName("S<T>", <in/src/ct-inst.cc:7:3>, NullTypeLoc)
+        VTC_DECLARATOR_DECL: PointerTypeLoc("S<T> *", <in/src/ct-inst.cc:7:3, col:5>, ElaboratedTypeLoc("S<T>", <in/src/ct-inst.cc:7:3>, InjectedClassNameTypeLoc("S<T>", <in/src/ct-inst.cc:7:3>, NullTypeLoc)))
+          VTC_POINTER_TYPE: ElaboratedTypeLoc("S<T>", <in/src/ct-inst.cc:7:3>, InjectedClassNameTypeLoc("S<T>", <in/src/ct-inst.cc:7:3>, NullTypeLoc))
+            VTC_ELABORATED_TYPE: InjectedClassNameTypeLoc("S<T>", <in/src/ct-inst.cc:7:3>, NullTypeLoc)
       VDC_RECORD_DECL: FieldDecl "S::ptr2" at in/src/ct-inst.cc:8:3
-        VTC_DECLARATOR_DECL: Pointer("S<T> *", <in/src/ct-inst.cc:8:3, col:8>, Elaborated("S<T>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecialization("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)))
-          VTC_POINTER_TYPE: Elaborated("S<T>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecialization("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc))
-            VTC_ELABORATED_TYPE: TemplateSpecialization("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)
+        VTC_DECLARATOR_DECL: PointerTypeLoc("S<T> *", <in/src/ct-inst.cc:8:3, col:8>, ElaboratedTypeLoc("S<T>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecializationTypeLoc("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)))
+          VTC_POINTER_TYPE: ElaboratedTypeLoc("S<T>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecializationTypeLoc("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc))
+            VTC_ELABORATED_TYPE: TemplateSpecializationTypeLoc("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)
               VTAC_TEMPLATE_SPECIALIZATION_TYPE: "T" (ArgKind::Type) at in/src/ct-inst.cc:8:5
-                VTC_TEMPLATE_ARGUMENT: TemplateTypeParm("T", <in/src/ct-inst.cc:8:5>, NullTypeLoc)
+                VTC_TEMPLATE_ARGUMENT: TemplateTypeParmTypeLoc("T", <in/src/ct-inst.cc:8:5>, NullTypeLoc)
     VDC_CLASS_TEMPLATE_INSTANTIATION: ClassTemplateSpecializationDecl "S<int>" at in/src/ct-inst.cc:4:1
       VDC_RECORD_DECL: CXXRecordDecl "S<int>::S" at in/src/ct-inst.cc:5:1
       VDC_RECORD_DECL: FieldDecl "S<int>::data" at in/src/ct-inst.cc:6:3
-        VTC_DECLARATOR_DECL: SubstTemplateTypeParm("int", <in/src/ct-inst.cc:6:3>, NullTypeLoc)
+        VTC_DECLARATOR_DECL: SubstTemplateTypeParmTypeLoc("int", <in/src/ct-inst.cc:6:3>, NullTypeLoc)
       VDC_RECORD_DECL: FieldDecl "S<int>::ptr1" at in/src/ct-inst.cc:7:3
-        VTC_DECLARATOR_DECL: Pointer("S<int> *", <in/src/ct-inst.cc:7:3, col:5>, Elaborated("S<int>", <in/src/ct-inst.cc:7:3>, Record("struct S<int>", <in/src/ct-inst.cc:7:3>, NullTypeLoc)))
-          VTC_POINTER_TYPE: Elaborated("S<int>", <in/src/ct-inst.cc:7:3>, Record("struct S<int>", <in/src/ct-inst.cc:7:3>, NullTypeLoc))
-            VTC_ELABORATED_TYPE: Record("struct S<int>", <in/src/ct-inst.cc:7:3>, NullTypeLoc)
+        VTC_DECLARATOR_DECL: PointerTypeLoc("S<int> *", <in/src/ct-inst.cc:7:3, col:5>, ElaboratedTypeLoc("S<int>", <in/src/ct-inst.cc:7:3>, RecordTypeLoc("struct S<int>", <in/src/ct-inst.cc:7:3>, NullTypeLoc)))
+          VTC_POINTER_TYPE: ElaboratedTypeLoc("S<int>", <in/src/ct-inst.cc:7:3>, RecordTypeLoc("struct S<int>", <in/src/ct-inst.cc:7:3>, NullTypeLoc))
+            VTC_ELABORATED_TYPE: RecordTypeLoc("struct S<int>", <in/src/ct-inst.cc:7:3>, NullTypeLoc)
       VDC_RECORD_DECL: FieldDecl "S<int>::ptr2" at in/src/ct-inst.cc:8:3
-        VTC_DECLARATOR_DECL: Pointer("S<int> *", <in/src/ct-inst.cc:8:3, col:8>, Elaborated("S<int>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecialization("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)))
-          VTC_POINTER_TYPE: Elaborated("S<int>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecialization("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc))
-            VTC_ELABORATED_TYPE: TemplateSpecialization("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)
+        VTC_DECLARATOR_DECL: PointerTypeLoc("S<int> *", <in/src/ct-inst.cc:8:3, col:8>, ElaboratedTypeLoc("S<int>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecializationTypeLoc("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)))
+          VTC_POINTER_TYPE: ElaboratedTypeLoc("S<int>", <in/src/ct-inst.cc:8:3, col:6>, TemplateSpecializationTypeLoc("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc))
+            VTC_ELABORATED_TYPE: TemplateSpecializationTypeLoc("S<int>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)
               VTAC_TEMPLATE_SPECIALIZATION_TYPE: "int" (ArgKind::Type) at in/src/ct-inst.cc:8:5
-                VTC_TEMPLATE_ARGUMENT: SubstTemplateTypeParm("int", <in/src/ct-inst.cc:8:5>, NullTypeLoc)
+                VTC_TEMPLATE_ARGUMENT: SubstTemplateTypeParmTypeLoc("int", <in/src/ct-inst.cc:8:5>, NullTypeLoc)
       VDC_RECORD_DECL: CXXConstructorDecl "S<int>::S()" at in/src/ct-inst.cc:5:8
         implicit VTC_DECLARATOR_DECL: void (void) noexcept
         VSC_FUNCTION_DECL_BODY: CompoundStmt at in/src/ct-inst.cc:5:8
@@ -54,10 +54,10 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
         VDC_IMPLICIT_FUNCTION_DECL_PARAMETER: ParmVarDecl "" at in/src/ct-inst.cc:5:8
           implicit VTC_DECLARATOR_DECL: S<int> &&
   VDC_TRANSLATION_UNIT_DECL: VarDecl "s" at in/src/ct-inst.cc:11:1
-    VTC_DECLARATOR_DECL: Elaborated("S<int>", <in/src/ct-inst.cc:11:1, col:6>, TemplateSpecialization("S<int>", <in/src/ct-inst.cc:11:1, col:6>, NullTypeLoc))
-      VTC_ELABORATED_TYPE: TemplateSpecialization("S<int>", <in/src/ct-inst.cc:11:1, col:6>, NullTypeLoc)
+    VTC_DECLARATOR_DECL: ElaboratedTypeLoc("S<int>", <in/src/ct-inst.cc:11:1, col:6>, TemplateSpecializationTypeLoc("S<int>", <in/src/ct-inst.cc:11:1, col:6>, NullTypeLoc))
+      VTC_ELABORATED_TYPE: TemplateSpecializationTypeLoc("S<int>", <in/src/ct-inst.cc:11:1, col:6>, NullTypeLoc)
         VTAC_TEMPLATE_SPECIALIZATION_TYPE: "int" (ArgKind::Type) at in/src/ct-inst.cc:11:3
-          VTC_TEMPLATE_ARGUMENT: Builtin("int", <in/src/ct-inst.cc:11:3>, NullTypeLoc)
+          VTC_TEMPLATE_ARGUMENT: BuiltinTypeLoc("int", <in/src/ct-inst.cc:11:3>, NullTypeLoc)
     VSC_VAR_DECL_INIT: CXXConstructExpr at in/src/ct-inst.cc:11:8
 ---- stderr ----
 ---- exit status ----
