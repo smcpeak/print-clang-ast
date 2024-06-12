@@ -204,7 +204,7 @@ bool RAVPrinterVisitor::TraverseQualifiedTypeLoc(clang::QualifiedTypeLoc TL)
 
 bool RAVPrinterVisitor::TraverseTemplateArgumentLoc(clang::TemplateArgumentLoc tal)
 {
-  m_os << indentString() << templateArgumentLocStr(tal) << "\n";
+  m_os << indentString() << "TArg " << templateArgumentLocStr(tal) << "\n";
 
   INCREMENT_INDENT_LEVEL();
 

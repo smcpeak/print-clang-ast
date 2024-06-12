@@ -111,7 +111,7 @@ void PrinterVisitor::visitTemplateArgumentLoc(
   clang::TemplateArgumentLoc tal)
 {
   PRINT_INDENT_AND_CONTEXT();
-  m_os << templateArgumentLocStr(tal) << "\n";
+  m_os << "TArg " << templateArgumentLocStr(tal) << "\n";
 
   INCREMENT_INDENT_LEVEL();
 
