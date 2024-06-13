@@ -166,6 +166,8 @@ all:
 
 OBJS :=
 OBJS += clang-ast-visitor.o
+OBJS += clang-ast.o
+OBJS += clang-util-test.o
 OBJS += clang-util.o
 OBJS += decl-implicit.o
 OBJS += enum-util.o

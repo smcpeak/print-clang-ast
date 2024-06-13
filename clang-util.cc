@@ -1728,6 +1728,31 @@ string ClangUtil::removeTemplateArguments(string const &src)
 }
 
 
+clang::NamedDecl const * NULLABLE ClangUtil::getInstFromDeclOpt(
+  clang::NamedDecl const *namedDecl) const
+{
+  if (auto functionDecl = dyn_cast<clang::FunctionDecl>(namedDecl)) {
+    return functionDecl->getTemplateInstantiationPattern();
+  }
+
+  if (auto recordDecl = dyn_cast<clang::CXXRecordDecl>(namedDecl)) {
+    return recordDecl->getTemplateInstantiationPattern();
+  }
+
+  if (auto varDecl = dyn_cast<clang::VarDecl>(namedDecl)) {
+    return varDecl->getTemplateInstantiationPattern();
+  }
+
+  if (auto typeAliasDecl = dyn_cast<clang::TypeAliasDecl>(namedDecl)) {
+    // TODO: What?  How do type alias templates work?  Perhaps there is
+    // no such thing as an "instantiation" of a type alias, and instead
+    // Clang just turns it into the underlying type immediately?
+  }
+
+  return nullptr;
+}
+
+
 // ------------------------- TemplateParameter -------------------------
 string ClangUtil::templateParameterListStr(
   clang::TemplateParameterList const *paramList) const

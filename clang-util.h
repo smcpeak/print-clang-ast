@@ -91,6 +91,8 @@ public:      // methods
   explicit ClangUtil(clang::ASTContext &astContext);
 
   // --------------------------- ASTContext ----------------------------
+  clang::ASTContext &getASTContext() { return m_astContext; }
+
   // Get the LangOptions in 'm_astContext'.
   clang::LangOptions const &getLangOptions() const;
 
@@ -508,6 +510,15 @@ public:      // methods
   // Remove all template arguments.
   std::string removeTemplateArguments(std::string const &src);
 
+  // If `namedDecl` is an instantiation of a template or explicit
+  // partial specialization, or a member of one, return the declaration
+  // from which it was instantiated.  That will be a declaration of the
+  // same basic kind, like a `FunctionDecl` for a `FunctionDecl` or a
+  // `CXXRecordDecl` for that.  It is *not* the `TemplateDecl` that
+  // might surround it.  Otherwise, return `nullptr`.
+  clang::NamedDecl const * NULLABLE getInstFromDeclOpt(
+    clang::NamedDecl const *namedDecl) const;
+
   // ------------------------ TemplateParameter ------------------------
   // Turn 'paramList' into a string like "template <class T>".
   std::string templateParameterListStr(
@@ -721,6 +732,9 @@ assert_dyn_cast_impl(
 
   return ret;
 }
+
+
+void clang_util_unit_tests();
 
 
 #endif // HEADER_ANALYSIS_CLANG_UTIL_H
