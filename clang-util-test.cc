@@ -41,7 +41,7 @@ public:      // methods
   GIFDVisitor(clang::ASTContext &astContext)
     : ClangASTVisitor(),
       ClangUtil(astContext),
-      m_actual(GDVK_SEQUENCE)
+      m_actual(GDVK_SET)
   {}
 
   // ClangASTVisitor methods
@@ -59,9 +59,9 @@ void GIFDVisitor::visitDecl(
 
   if (auto namedDecl = dyn_cast<clang::NamedDecl>(decl)) {
     if (auto instFrom = getInstFromDeclOpt(namedDecl)) {
-      m_actual.sequenceAppend(GDVTuple({
-        namedDeclCompactIdentifier(namedDecl),
-        namedDeclCompactIdentifier(instFrom)
+      m_actual.setInsert(GDVTuple({
+        namedDeclStr(namedDecl),
+        namedDeclStr(instFrom)
       }));
     }
     else {
@@ -87,6 +87,7 @@ void testOneGetInstFromDeclOpt(char const *source, GDValue const &expect)
 
 void testGetInstFromDeclOpt()
 {
+  // Simple example of a function template.
   testOneGetInstFromDeclOpt(
     R"(
       template <typename T>
@@ -98,11 +99,59 @@ void testGetInstFromDeclOpt()
         f<float>();
       }
     )",
-    GDValue(GDVSequence{
+    GDValue(GDVSet{
       GDVTuple{"f<int>()",   "f<T>()"},
       GDVTuple{"f<float>()", "f<T>()"},
     })
   );
+
+  // Simple example of a class template.
+  testOneGetInstFromDeclOpt(
+    R"(
+      template <typename T>
+      struct S {};
+
+      void g()
+      {
+        S<int> s1;
+        S<float> s2;
+      }
+    )",
+    GDValue(GDVSet{
+      GDVTuple{"S<int>",   "S<T>"},
+      GDVTuple{"S<float>", "S<T>"},
+    })
+  );
+
+  // Class template contains members that get instantiated.
+  testOneGetInstFromDeclOpt(
+    R"(
+      template <typename T>
+      struct S {
+        void m1();
+        void m2() {}
+      };
+
+      void g()
+      {
+        S<int> s1;
+        S<float> s2;
+      }
+    )",
+    GDValue(GDVSet{
+      // The "S" in "S::" does not have the template parameters because
+      // it results from calling `NamedDecl::getQualifiedNameAsString`,
+      // whereas the other "<T>" instances come from my own code.
+      GDVTuple{"S<int>",         "S<T>"},
+      GDVTuple{"S<int>::m1()",   "S::m1()"},
+      GDVTuple{"S<int>::m2()",   "S::m2()"},
+      GDVTuple{"S<float>",       "S<T>"},
+      GDVTuple{"S<float>::m1()", "S::m1()"},
+      GDVTuple{"S<float>::m2()", "S::m2()"},
+    })
+  );
+
+
 
   // TODO: More tests.
 }
