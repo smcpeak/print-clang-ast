@@ -12,6 +12,7 @@
 #include "stringref-parse.h"                               // stringref_parse_unit_tests
 #include "pca-util.h"                                      // pca_util_unit_tests
 
+#include "smbase/gdvalue.h"                                // gdv::GDValue
 #include "smbase/map-util.h"                               // mapInsertAll
 #include "smbase/sm-trace.h"                               // INIT_TRACE
 #include "smbase/string-util.h"                            // stringVectorFromPointerArray
@@ -41,6 +42,10 @@ static void all_unit_tests()
 
 static int innerMain(int argc, char const **argv)
 {
+  // When printing GDValues, for example as part of test failures, use
+  // indentation.
+  gdv::GDValue::s_defaultWriteOptions.m_enableIndentation = true;
+
   // Command line options parser for the options that precede those
   // intended for clang.
   PCACommandLineOptions options;
