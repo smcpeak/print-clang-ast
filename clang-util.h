@@ -492,6 +492,13 @@ public:      // methods
   std::string templateParamsForFunctionIfT(
     clang::FunctionDecl const *functionDecl) const;
 
+  // If `functionDecl` is the body declaration of a function template,
+  // return a string denoting its parameters like "<T>".  If it is a
+  // specialization of a function template, return a string denoting
+  // its arguments like "<int>".
+  std::string templateArgsForFunctionIfT(
+    clang::FunctionDecl const *functionDecl) const;
+
   // Return the template parameters of 'templateDecl' as a string in
   // argument syntax.
   static std::string templateDeclParamsAsArgsStr(

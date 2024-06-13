@@ -1632,6 +1632,27 @@ std::string ClangUtil::templateParamsForFunctionIfT(
 }
 
 
+std::string ClangUtil::templateArgsForFunctionIfT(
+  clang::FunctionDecl const *functionDecl) const
+{
+  if (clang::FunctionTemplateDecl const *functionTemplateDecl =
+        functionDecl->getDescribedFunctionTemplate()) {
+    clang::TemplateParameterList const *params =
+      functionTemplateDecl->getTemplateParameters();
+    return templateParameterListArgsStr(params);
+  }
+
+  if (clang::FunctionTemplateSpecializationInfo const *ftsi =
+        functionDecl->getTemplateSpecializationInfo()) {
+    return templateArgumentListStr(*(ftsi->TemplateArguments));
+  }
+
+  else {
+    return "";
+  }
+}
+
+
 STATICDEF std::string ClangUtil::templateDeclParamsAsArgsStr(
   clang::TemplateDecl const *templateDecl)
 {
