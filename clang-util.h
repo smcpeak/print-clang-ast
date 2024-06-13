@@ -191,15 +191,17 @@ public:      // methods
   std::string declKindMaybeNameAtLocStr(
     clang::Decl const * NULLABLE decl) const;
 
-  // Render 'decl' with qualifiers and signature.
+  // Render `decl` with qualifiers and signature, but not quoted.
+  // Returns "(null)" for `nullptr`.
   std::string namedDeclStr(
     clang::NamedDecl const * NULLABLE namedDecl) const;
 
-  // Stringify the declaration syntax and its location.
+  // Stringify the quoted declaration syntax and its location.
   std::string namedDeclAtLocStr(
     clang::NamedDecl const * NULLABLE namedDecl) const;
 
-  // Stringify the declaration syntax, its kind, and its location.
+  // Stringify the quoted declaration syntax, its kind, and its
+  // location.
   std::string namedDeclAndKindAtLocStr(
     clang::NamedDecl const * NULLABLE namedDecl) const;
 

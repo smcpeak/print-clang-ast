@@ -323,7 +323,7 @@ std::string ClangUtil::namedDeclStr(
   clang::NamedDecl const * NULLABLE namedDecl) const
 {
   if (!namedDecl) {
-    return "null";
+    return "(null)";
   }
 
   std::ostringstream oss;
@@ -332,6 +332,10 @@ std::string ClangUtil::namedDeclStr(
 
   if (auto cxxRecordDecl = dyn_cast<clang::CXXRecordDecl>(namedDecl)) {
     oss << templateArgsForClassIfT(cxxRecordDecl);
+  }
+
+  if (auto functionDecl = dyn_cast<clang::FunctionDecl>(namedDecl)) {
+    oss << templateArgsForFunctionIfT(functionDecl);
   }
 
   if (auto valueDecl = dyn_cast<clang::ValueDecl>(namedDecl)) {
@@ -343,7 +347,7 @@ std::string ClangUtil::namedDeclStr(
     }
   }
 
-  return doubleQuote(oss.str());
+  return oss.str();
 }
 
 
@@ -351,7 +355,7 @@ std::string ClangUtil::namedDeclAtLocStr(
   clang::NamedDecl const * NULLABLE namedDecl) const
 {
   if (namedDecl) {
-    return stringb(namedDeclStr(namedDecl) <<
+    return stringb(doubleQuote(namedDeclStr(namedDecl)) <<
                    " at " << declLocStr(namedDecl));
   }
   else {
@@ -365,7 +369,7 @@ std::string ClangUtil::namedDeclAndKindAtLocStr(
 {
   if (namedDecl) {
     return stringb(namedDecl->getDeclKindName() << "Decl " <<
-                   namedDeclStr(namedDecl) <<
+                   doubleQuote(namedDeclStr(namedDecl)) <<
                    " at " << declLocStr(namedDecl));
   }
   else {
