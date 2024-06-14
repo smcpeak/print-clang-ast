@@ -60,8 +60,13 @@ void GIFDVisitor::visitDecl(
   if (auto namedDecl = dyn_cast<clang::NamedDecl>(decl)) {
     if (auto instFrom = getInstFromDeclOpt(namedDecl)) {
       m_actual.setInsert(GDVTuple({
+        // Name and definition-ness of the instantiation.
         namedDeclStr(namedDecl),
-        namedDeclStr(instFrom)
+        GDValue::makeBool(isThisDeclarationADefinition(namedDecl)),
+
+        // Name and definition-ness of the template.
+        namedDeclStr(instFrom),
+        GDValue::makeBool(isThisDeclarationADefinition(instFrom)),
       }));
     }
     else {
@@ -90,6 +95,9 @@ void testOneGetInstFromDeclOpt(char const *source, GDValue const &expect)
 
 void testGetInstFromDeclOpt()
 {
+  GDValue const T = GDValue::makeBool(true);
+  GDValue const F = GDValue::makeBool(false);
+
   // Simple example of a function template.
   testOneGetInstFromDeclOpt(
     R"(
@@ -103,8 +111,26 @@ void testGetInstFromDeclOpt()
       }
     )",
     GDValue(GDVSet{
-      GDVTuple{"f<int>()",   "f<T>()"},
-      GDVTuple{"f<float>()", "f<T>()"},
+      GDVTuple{"f<int>()",   T, "f<T>()", T},
+      GDVTuple{"f<float>()", T, "f<T>()", T},
+    })
+  );
+
+  // Simple function template that is not defined.
+  testOneGetInstFromDeclOpt(
+    R"(
+      template <typename T>
+      void f();
+
+      void g()
+      {
+        f<int>();
+        f<float>();
+      }
+    )",
+    GDValue(GDVSet{
+      GDVTuple{"f<int>()",   F, "f<T>()", F},
+      GDVTuple{"f<float>()", F, "f<T>()", F},
     })
   );
 
@@ -121,8 +147,8 @@ void testGetInstFromDeclOpt()
       }
     )",
     GDValue(GDVSet{
-      GDVTuple{"S<int>",   "S<T>"},
-      GDVTuple{"S<float>", "S<T>"},
+      GDVTuple{"S<int>",   T, "S<T>", T},
+      GDVTuple{"S<float>", T, "S<T>", T},
     })
   );
 
@@ -132,25 +158,34 @@ void testGetInstFromDeclOpt()
       template <typename T>
       struct S {
         void m1();
-        void m2() {}
+        void m2() {}         // Body instantiated for `int`.
+        void m3() {}         // Body instantiated for `float`.
       };
 
       void g()
       {
         S<int> s1;
+        s1.m2();
         S<float> s2;
+        s2.m3();
       }
     )",
     GDValue(GDVSet{
       // The "S" in "S::" does not have the template parameters because
       // it results from calling `NamedDecl::getQualifiedNameAsString`,
       // whereas the other "<T>" instances come from my own code.
-      GDVTuple{"S<int>",         "S<T>"},
-      GDVTuple{"S<int>::m1()",   "S::m1()"},
-      GDVTuple{"S<int>::m2()",   "S::m2()"},
-      GDVTuple{"S<float>",       "S<T>"},
-      GDVTuple{"S<float>::m1()", "S::m1()"},
-      GDVTuple{"S<float>::m2()", "S::m2()"},
+      //
+      // Note how the template definition-ness depends only on whether
+      // a definition is syntactically present, while the instantiation
+      // definition-ness depends on which parts get instantiated.
+      GDVTuple{"S<int>",         T, "S<T>",    T},
+      GDVTuple{"S<int>::m1()",   F, "S::m1()", F},
+      GDVTuple{"S<int>::m2()",   T, "S::m2()", T},
+      GDVTuple{"S<int>::m3()",   F, "S::m3()", T},
+      GDVTuple{"S<float>",       T, "S<T>",    T},
+      GDVTuple{"S<float>::m1()", F, "S::m1()", F},
+      GDVTuple{"S<float>::m2()", F, "S::m2()", T},
+      GDVTuple{"S<float>::m3()", T, "S::m3()", T},
     })
   );
 
@@ -170,8 +205,8 @@ void testGetInstFromDeclOpt()
       }
     )",
     GDValue(GDVSet{
-      GDVTuple{"S<int>",              "S<T>"},
-      GDVTuple{"S<int>::m1<float>()", "S::m1<U>()"},
+      GDVTuple{"S<int>",              T, "S<T>",       T},
+      GDVTuple{"S<int>::m1<float>()", T, "S::m1<U>()", T},
     })
   );
 
@@ -192,9 +227,9 @@ void testGetInstFromDeclOpt()
       }
     )",
     GDValue(GDVSet{
-      GDVTuple{"S<int>",              "S<T>"},
-      GDVTuple{"S<int>::Inner",       "S::Inner"},
-      GDVTuple{"S<int>::Inner::m()",  "S::Inner::m()"},
+      GDVTuple{"S<int>",             T, "S<T>",          T},
+      GDVTuple{"S<int>::Inner",      T, "S::Inner",      T},
+      GDVTuple{"S<int>::Inner::m()", T, "S::Inner::m()", T},
     })
   );
 
@@ -206,24 +241,24 @@ void testGetInstFromDeclOpt()
       struct S {
         template <typename U>
         struct Inner {
-          void m() {}
+          void m1() {}
+          void m2() {}
         };
       };
 
       void g()
       {
         S<int>::Inner<float> i;
+        i.m1();
       }
     )",
     GDValue(GDVSet{
-      GDVTuple{"S<int>",                    "S<T>"},
-      GDVTuple{"S<int>::Inner<float>",      "S::Inner<U>"},
-      GDVTuple{"S<int>::Inner<float>::m()", "S::Inner::m()"},
+      GDVTuple{"S<int>",                     T, "S<T>",           T},
+      GDVTuple{"S<int>::Inner<float>",       T, "S::Inner<U>",    T},
+      GDVTuple{"S<int>::Inner<float>::m1()", T, "S::Inner::m1()", T},
+      GDVTuple{"S<int>::Inner<float>::m2()", F, "S::Inner::m2()", T},
     })
   );
-
-
-  // TODO: More tests.
 }
 
 

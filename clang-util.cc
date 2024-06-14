@@ -727,6 +727,35 @@ bool ClangUtil::isOperatorDecl(clang::NamedDecl const *decl) const
 }
 
 
+STATICDEF bool ClangUtil::isThisDeclarationADefinition(
+  clang::Decl const *decl)
+{
+  if (auto varDecl = dyn_cast<clang::VarDecl>(decl)) {
+    // For `VarDecl`, the method returns an enumeration.
+    return varDecl->isThisDeclarationADefinition() !=
+           clang::VarDecl::DeclarationOnly;
+  }
+
+  #define CASE(Subclass)                                       \
+    if (auto subclassDecl = dyn_cast<clang::Subclass>(decl)) { \
+      return subclassDecl->isThisDeclarationADefinition();     \
+    }
+
+  CASE(FunctionDecl)
+  CASE(TagDecl)              // This covers classes and enums.
+  CASE(FunctionTemplateDecl)
+  CASE(ClassTemplateDecl)
+  CASE(VarTemplateDecl)
+
+  // There are a couple more cases for Objective-C, but I don't care
+  // about that language and do not want unnecessary dependencies.
+
+  #undef CASE
+
+  return false;
+}
+
+
 clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
   clang::Decl const *decl) const
 {
