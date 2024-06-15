@@ -249,7 +249,10 @@ public:      // methods
 
   // If 'decl' is a member, return its containing class.  Otherwise,
   // return 'nullptr'.
-  clang::RecordDecl *maybeGetParentClass(clang::NamedDecl *decl);
+  clang::RecordDecl const *maybeGetParentClassC(
+    clang::NamedDecl const *decl) const;
+  clang::RecordDecl       *maybeGetParentClass (
+    clang::NamedDecl       *decl) const;
 
   // Get the innermost enclosing parent that has a name suitable for use
   // in a qualifier, or nullptr if there is none.

@@ -632,8 +632,8 @@ STATICDEF bool ClangUtil::hasProperAncestorFunction(
 }
 
 
-clang::RecordDecl *ClangUtil::maybeGetParentClass(
-  clang::NamedDecl *decl)
+clang::RecordDecl const *ClangUtil::maybeGetParentClassC(
+  clang::NamedDecl const *decl) const
 {
   if (auto methodDecl = dyn_cast<clang::CXXMethodDecl>(decl)) {
     return methodDecl->getParent();
@@ -642,6 +642,13 @@ clang::RecordDecl *ClangUtil::maybeGetParentClass(
     return fieldDecl->getParent();
   }
   return nullptr;
+}
+
+
+clang::RecordDecl *ClangUtil::maybeGetParentClass(
+  clang::NamedDecl *decl) const
+{
+  return const_cast<clang::RecordDecl*>(maybeGetParentClassC(decl));
 }
 
 
