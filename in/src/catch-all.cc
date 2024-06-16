@@ -1,15 +1,13 @@
 // catch-all.cc
-// Exercise handling of `catch (...)`.
+// Exercise handling of `catch (...)` and `throw;`.
 
-int foo()
+void foo()
 {
   try {
   }
   catch (...) {
-    return 2;
+    throw;
   }
-
-  return 0;
 }
 
 // EOF

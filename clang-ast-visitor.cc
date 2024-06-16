@@ -917,7 +917,7 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     HANDLE_NOOP_STMT_CLASS(CXXThisExpr)
 
     HANDLE_STMT_CLASS(CXXThrowExpr)
-      visitStmt(VSC_CXX_THROW_EXPR,
+      visitStmtOpt(VSC_CXX_THROW_EXPR,
         stmt->getSubExpr());
 
     HANDLE_STMT_CLASS(CXXTypeidExpr)

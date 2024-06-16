@@ -330,6 +330,8 @@ public:      // methods
 
   void printCXXCatchStmt(clang::CXXCatchStmt const *stmt);      // StmtCXX.h line   28
 
+  void printCXXThrowExpr(                                       // ExprCXX.h line 1181
+    clang::CXXThrowExpr const *expr);
   void printCXXDefaultArgExpr(                                  // ExprCXX.h line 1241
     clang::CXXDefaultArgExpr const *expr);
   void printCXXConstructExpr(                                   // ExprCXX.h line 1460

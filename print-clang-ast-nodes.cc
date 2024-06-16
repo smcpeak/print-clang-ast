@@ -2637,6 +2637,7 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
   PRINT_IF_SUBCLASS(stmt, CXXCatchStmt)
 
   // C++ expressions.
+  PRINT_IF_SUBCLASS(stmt, CXXThrowExpr)
   PRINT_IF_SUBCLASS(stmt, CXXDefaultArgExpr)
   PRINT_IF_SUBCLASS(stmt, CXXConstructExpr)
   PRINT_IF_SUBCLASS(stmt, CXXDependentScopeMemberExpr)
@@ -3022,6 +3023,19 @@ void PrintClangASTNodes::printCXXCatchStmt(
 
   OUT_QATTR_STMT(qualifier, "HandlerBlock",
     stmt->getHandlerBlock());
+}
+
+
+void PrintClangASTNodes::printCXXThrowExpr(
+  clang::CXXThrowExpr const *expr)
+{
+  char const *qualifier = "CXXThrowExpr::";
+
+  OUT_QATTR_LOC(qualifier, "ThrowLoc",
+    expr->getThrowLoc());
+
+  OUT_QATTR_STMT(qualifier, "Operand",
+    expr->getSubExpr());
 }
 
 
