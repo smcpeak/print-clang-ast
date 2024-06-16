@@ -336,6 +336,8 @@ public:      // methods
     clang::CXXDefaultArgExpr const *expr);
   void printCXXConstructExpr(                                   // ExprCXX.h line 1460
     clang::CXXConstructExpr const *expr);
+  void printCXXNewExpr(                                         // ExprCXX.h line 2139
+    clang::CXXNewExpr const *expr);
   void printCXXDependentScopeMemberExpr(                        // ExprCXX.h line 3550
     clang::CXXDependentScopeMemberExpr const *expr);
 

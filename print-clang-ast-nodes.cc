@@ -17,10 +17,10 @@
 #include "smbase/stringb.h"                      // stringb
 
 // clang
-//#include "clang/AST/ASTDumper.h"                 // clang::ASTDumper
 #include "clang/AST/DeclContextInternals.h"      // clang::StoredDeclsMap::size
 #include "clang/AST/DeclFriend.h"                // clang::FriendDecl
 #include "clang/AST/ExprCXX.h"                   // clang::CXXDependentScopeMemberExpr
+#include "clang/Basic/Version.h"                 // CLANG_VERSION_MAJOR
 #include "clang/Lex/Lexer.h"                     // clang::Lexer
 
 // llvm
@@ -110,6 +110,9 @@ static std::string jsonObject2(
   OUT_QATTR_JSON(qualifier, key, doubleQuote(stringb(value)))
 
 // Print an attribute that has a pointer value.
+//
+// TODO: There are many of these that should instead be using
+// OUT_QATTR_STMT or OUT_QATTR_DECL.
 #define OUT_QATTR_PTR(qualifier, key, id)                             \
   OUT_QATTR_JSON(qualifier, key, jsonObject1("ptr", doubleQuote(id)))
 
@@ -2640,6 +2643,7 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
   PRINT_IF_SUBCLASS(stmt, CXXThrowExpr)
   PRINT_IF_SUBCLASS(stmt, CXXDefaultArgExpr)
   PRINT_IF_SUBCLASS(stmt, CXXConstructExpr)
+  PRINT_IF_SUBCLASS(stmt, CXXNewExpr)
   PRINT_IF_SUBCLASS(stmt, CXXDependentScopeMemberExpr)
 }
 
@@ -3102,6 +3106,82 @@ void PrintClangASTNodes::printCXXConstructExpr(
     OUT_QATTR_PTR(qualifier, "Arg[" << (i++) << "]",
       getStmtIDStr(arg));
   }
+}
+
+
+void PrintClangASTNodes::printCXXNewExpr(
+  clang::CXXNewExpr const *expr)
+{
+  char const *qualifier = "CXXNewExpr::";
+
+  OUT_QATTR_DECL(qualifier, "OperatorNew",
+    expr->getOperatorNew());
+
+  OUT_QATTR_DECL(qualifier, "OperatorDelete",
+    expr->getOperatorDelete());
+
+  // TODO: Factor the many uses of `typeSourceInfoStr`.
+  OUT_QATTR_STRING(qualifier, "AllocatedTypeInfo",
+    typeSourceInfoStr(expr->getAllocatedTypeSourceInfo()));
+
+  // TODO: Factor uses of `sourceRangeStr`.
+  OUT_QATTR_STRING(qualifier, "Range",
+    sourceRangeStr(expr->getSourceRange()));
+
+  OUT_QATTR_STRING(qualifier, "DirectInitRange",
+    sourceRangeStr(expr->getDirectInitRange()));
+
+  OUT_QATTR_BOOL(qualifier, "IsArray",
+    expr->isArray());
+
+  if (expr->isArray()) {
+    std::optional<clang::Expr const *> arraySize = expr->getArraySize();
+    if (arraySize.has_value()) {
+      OUT_QATTR_STMT(qualifier, "ArraySize",
+        arraySize.value());
+    }
+    else {
+      OUT_QATTR_NULL(qualifier, "ArraySize");
+    }
+  }
+
+  OUT_QATTR_BOOL(qualifier, "HasInitializer",
+    expr->hasInitializer());
+
+#if CLANG_VERSION_MAJOR >= 18
+  OUT_QATTR_STRING(qualifier, "StoredInitializationStyle",
+    cxxNewInitializationStyleStr(expr->getInitializationStyle()));
+#endif
+
+  if (expr->hasInitializer()) {
+    OUT_QATTR_STMT(qualifier, "Initializer",
+      expr->getInitializer());
+  }
+
+  OUT_QATTR_INT(qualifier, "NumPlacementArgs",
+    expr->getNumPlacementArgs());
+
+  for (int i=0; i < expr->getNumPlacementArgs(); ++i) {
+    OUT_QATTR_STMT(qualifier, stringb("PlacementArg[" << i << "]"),
+      expr->getPlacementArg(i));
+  }
+
+  OUT_QATTR_BOOL(qualifier, "IsParenTypeId",
+    expr->isParenTypeId());
+
+  if (expr->isParenTypeId()) {
+    OUT_QATTR_STRING(qualifier, "TypeIdParensRange",
+      sourceRangeStr(expr->getTypeIdParens()));
+  }
+
+  OUT_QATTR_BOOL(qualifier, "IsGlobalNew",
+    expr->isGlobalNew());
+
+  OUT_QATTR_BOOL(qualifier, "ShouldPassAlignment",
+    expr->passAlignment());
+
+  OUT_QATTR_BOOL(qualifier, "UsualArrayDeleteWantsSize",
+    expr->doesUsualArrayDeleteWantSize());
 }
 
 
