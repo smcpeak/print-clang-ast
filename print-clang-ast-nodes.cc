@@ -2644,6 +2644,7 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
   PRINT_IF_SUBCLASS(stmt, CXXDefaultArgExpr)
   PRINT_IF_SUBCLASS(stmt, CXXConstructExpr)
   PRINT_IF_SUBCLASS(stmt, CXXNewExpr)
+  PRINT_IF_SUBCLASS(stmt, CXXDeleteExpr)
   PRINT_IF_SUBCLASS(stmt, CXXDependentScopeMemberExpr)
 }
 
@@ -3183,6 +3184,32 @@ void PrintClangASTNodes::printCXXNewExpr(
   OUT_QATTR_BOOL(qualifier, "UsualArrayDeleteWantsSize",
     expr->doesUsualArrayDeleteWantSize());
 }
+
+
+void PrintClangASTNodes::printCXXDeleteExpr(
+  clang::CXXDeleteExpr const *expr)
+{
+  char const *qualifier = "CXXDeleteExpr::";
+
+  OUT_QATTR_BOOL(qualifier, "GlobalDelete",
+    expr->isGlobalDelete());
+
+  OUT_QATTR_BOOL(qualifier, "ArrayForm",
+    expr->isArrayForm());
+
+  OUT_QATTR_BOOL(qualifier, "ArrayFormAsWritten",
+    expr->isArrayFormAsWritten());
+
+  OUT_QATTR_BOOL(qualifier, "UsualArrayDeleteWantsSize",
+    expr->doesUsualArrayDeleteWantSize());
+
+  OUT_QATTR_DECL(qualifier, "OperatorDelete",
+    expr->getOperatorDelete());
+
+  OUT_QATTR_STMT(qualifier, "Argument",
+    expr->getArgument());
+}
+
 
 
 void PrintClangASTNodes::printCXXDependentScopeMemberExpr(

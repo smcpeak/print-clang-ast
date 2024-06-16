@@ -1,0 +1,286 @@
+---- stdout ----
+{
+
+"TranslationUnitDecl 1": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "null" },
+  "Decl::lexicalDeclContext": { "ptr": "null" },
+  "Decl::Loc": "<invalid loc>",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "0",
+  "Decl::Linkage": "(not set)",
+  "DeclContext::DeclKind": "TranslationUnitDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "StoredDeclsMap with 6 entries",
+  "DeclContext::FirstDecl": { "ptr": "TypedefDecl 2" },
+  "DeclContext::LastDecl": { "ptr": "FunctionTemplateDecl 14" },
+},
+
+"TypedefDecl 2": {
+  "skipping reserved": "\"__int128_t\"",
+},
+
+"BuiltinType 3": {
+  "syntax": "\"__int128\"",
+},
+
+"TypedefDecl 4": {
+  "skipping reserved": "\"__uint128_t\"",
+},
+
+"BuiltinType 5": {
+  "syntax": "\"unsigned __int128\"",
+},
+
+"TypedefDecl 6": {
+  "skipping reserved": "\"__NSConstantString\"",
+},
+
+"RecordType 7": {
+  "syntax": "\"struct __NSConstantString_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 25" },
+},
+
+"TypedefDecl 8": {
+  "skipping reserved": "\"__builtin_ms_va_list\"",
+},
+
+"PointerType 9": {
+  "syntax": "\"char *\"",
+  "PointeeType": { "ptr": "BuiltinType 10", "preview": "char" },
+},
+
+"BuiltinType 10": {
+  "syntax": "\"char\"",
+},
+
+"TypedefDecl 11": {
+  "skipping reserved": "\"__builtin_va_list\"",
+},
+
+"ConstantArrayType 12": {
+  "syntax": "\"struct __va_list_tag[1]\"",
+},
+
+"RecordType 13": {
+  "syntax": "\"struct __va_list_tag\"",
+  "decl": { "ptr": "CXXRecordDecl 26" },
+},
+
+"FunctionTemplateDecl 14": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/delete-dependent-type.cc:5:6",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"f\"",
+  "TemplateDecl::TemplatedDecl": { "ptr": "FunctionDecl 17" },
+  "TemplateDecl::TemplateParams": "\"template <typename T>\"",
+  "TemplateDecl::TemplateParams->TemplateLoc": "in/src/delete-dependent-type.cc:4:1",
+  "TemplateDecl::TemplateParams->LAngleLoc": "in/src/delete-dependent-type.cc:4:10",
+  "TemplateDecl::TemplateParams->RAngleLoc": "in/src/delete-dependent-type.cc:4:21",
+  "TemplateDecl::TemplateParams->NumTParams": "1",
+  "TemplateDecl::TemplateParams->Flags": "",
+  "TemplateDecl::TemplateParams->Param[0]": { "ptr": "TemplateTypeParmDecl 15" },
+  "TemplateDecl::TemplateParams->Requires": { "ptr": "null" },
+  "Redeclarable::Previous": { "ptr": "FunctionTemplateDecl 14" },
+  "Redeclarable::First": { "ptr": "FunctionTemplateDecl 14" },
+  "Redeclarable::redecls_size()": 1,
+  "RedeclarableTemplateDecl::getInstantiatedFromMemberTemplate()": { "ptr": "null" },
+  "FunctionTemplateDecl::Common": { "ptr": "FunctionTemplateDecl::Common 27" },
+},
+
+"TemplateTypeParmDecl 15": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 17" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 17" },
+  "Decl::Loc": "in/src/delete-dependent-type.cc:4:20",
+  "Decl::flags": "Referenced",
+  "Decl::Access": "AS_public",
+  "Decl::IdentifierNamespace": "IDNS_Type|IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"T\"",
+  "TypeDecl::TypeForDecl": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
+  "TypeDecl::LocStart": "in/src/delete-dependent-type.cc:4:11",
+  "TemplateTypeParmDecl flags": "Typename",
+  "TemplateTypeParmDecl::NumExpanded": "0",
+},
+
+"TemplateTypeParmType 16": {
+  "syntax": "\"T\"",
+  "CanonicalType": { "ptr": "TemplateTypeParmType 28", "preview": "type-parameter-0-0" },
+  "TTPDecl": { "ptr": "TemplateTypeParmDecl 15" },
+  "Depth": "0",
+  "Index": "0",
+  "isParameterPack": "0",
+},
+
+"FunctionDecl 17": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::lexicalDeclContext": { "ptr": "TranslationUnitDecl 1" },
+  "Decl::Loc": "in/src/delete-dependent-type.cc:5:6",
+  "Decl::flags": "",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "ExternalLinkage",
+  "DeclContext::DeclKind": "FunctionDecl",
+  "DeclContext::DeclContextBits": "",
+  "DeclContext::LookupPtr": "null",
+  "DeclContext::FirstDecl": { "ptr": "ParmVarDecl 20" },
+  "DeclContext::LastDecl": { "ptr": "ParmVarDecl 20" },
+  "NamedDecl::Name": "\"f\"",
+  "ValueDecl::DeclType": { "ptr": "FunctionProtoType 18", "preview": "void (T *)" },
+  "DeclaratorDecl::TInfo": "FunctionProtoTypeLoc(\"void (T *)\", <in/src/delete-dependent-type.cc:5:1, col:12>, BuiltinTypeLoc(\"void\", <in/src/delete-dependent-type.cc:5:1>, NullTypeLoc))",
+  "DeclaratorDecl::TInfo::Ty": { "ptr": "FunctionProtoType 18", "preview": "void (T *)" },
+  "DeclaratorDecl::TInfo::TypeLoc.Class()": "FunctionProtoTypeLoc",
+  "DeclaratorDecl::TInfo::TypeLoc::LocalRangeBegin": "in/src/delete-dependent-type.cc:5:7",
+  "DeclaratorDecl::TInfo::TypeLoc::LParenLoc": "in/src/delete-dependent-type.cc:5:7",
+  "DeclaratorDecl::TInfo::TypeLoc::RParenLoc": "in/src/delete-dependent-type.cc:5:12",
+  "DeclaratorDecl::TInfo::TypeLoc::LocalRangeEnd": "in/src/delete-dependent-type.cc:5:12",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/delete-dependent-type.cc:5:1",
+  "Redeclarable::Previous": { "ptr": "FunctionDecl 17" },
+  "Redeclarable::First": { "ptr": "FunctionDecl 17" },
+  "Redeclarable::redecls_size()": 1,
+  "FunctionDecl::FunctionDeclBits::SClass": "SC_None",
+  "FunctionDecl::FunctionDeclBits": "HasWrittenPrototype",
+  "FunctionDecl::Param[0]": { "ptr": "ParmVarDecl 20" },
+  "FunctionDecl::Body": { "ptr": "CompoundStmt 22" },
+  "FunctionDecl::DefaultKWLoc": "<invalid loc>",
+  "FunctionDecl::getTemplatedKind()": "TK_FunctionTemplate",
+  "FunctionDecl::TemplateOrSpecialization.NamedDecl (described)": { "ptr": "FunctionTemplateDecl 14" },
+  "FunctionDecl::getInstantiatedFromMemberFunction()": { "ptr": "null" },
+  "FunctionDecl::getMemberSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getDescribedFunctionTemplate()": { "ptr": "FunctionTemplateDecl 14" },
+  "FunctionDecl::getTemplateSpecializationInfo()": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(true)": { "ptr": "null" },
+  "FunctionDecl::getTemplateInstantiationPattern(false)": { "ptr": "null" },
+  "FunctionDecl::getPrimaryTemplate()": { "ptr": "null" },
+  "FunctionDecl::getExceptionSpecType()": "EST_None",
+},
+
+"FunctionProtoType 18": {
+  "syntax": "\"void (T *)\"",
+  "CanonicalType": { "ptr": "FunctionProtoType 29", "preview": "void (type-parameter-0-0 *)" },
+  "ResultType": { "ptr": "BuiltinType 19", "preview": "void" },
+  "paramType[0]": { "ptr": "PointerType 21", "preview": "T *" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+},
+
+"BuiltinType 19": {
+  "syntax": "\"void\"",
+},
+
+"ParmVarDecl 20": {
+  "Decl::NextInContext": { "ptr": "null" },
+  "Decl::moduleOwnershipKind": "Unowned",
+  "Decl::semanticDeclContext": { "ptr": "FunctionDecl 17" },
+  "Decl::lexicalDeclContext": { "ptr": "FunctionDecl 17" },
+  "Decl::Loc": "in/src/delete-dependent-type.cc:5:11",
+  "Decl::flags": "Referenced",
+  "Decl::Access": "AS_none",
+  "Decl::IdentifierNamespace": "IDNS_Ordinary",
+  "Decl::Linkage": "(not set)",
+  "NamedDecl::Name": "\"t\"",
+  "ValueDecl::DeclType": { "ptr": "PointerType 21", "preview": "T *" },
+  "DeclaratorDecl::TInfo": "PointerTypeLoc(\"T *\", <in/src/delete-dependent-type.cc:5:8, col:10>, TemplateTypeParmTypeLoc(\"T\", <in/src/delete-dependent-type.cc:5:8>, NullTypeLoc))",
+  "DeclaratorDecl::TInfo::Ty": { "ptr": "PointerType 21", "preview": "T *" },
+  "DeclaratorDecl::TInfo::TypeLoc.Class()": "PointerTypeLoc",
+  "DeclaratorDecl::TInfo::TypeLoc::StarLoc": "in/src/delete-dependent-type.cc:5:10",
+  "DeclaratorDecl::ExtInfo": "absent",
+  "DeclaratorDecl::InnerLocStart": "in/src/delete-dependent-type.cc:5:8",
+  "VarDecl::InitStmt": { "ptr": "null" },
+  "VarDecl::VarDeclBitfields::SClass": "SC_None",
+  "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
+  "VarDecl::VarDeclBitfields::InitStyle": "CInit",
+  "VarDecl::VarDeclBitfields::ARCPseudoStrong": "0",
+  "ParmVarDecl::ParmVarDeclBits flags": "",
+  "ParmVarDecl::ParmVarDeclBits::DefaultArgKind": "DAK_Normal",
+  "ParmVarDecl::ParmVarDeclBits::ScopeDepthOrObjCQuals": "0",
+  "ParmVarDecl::ParmVarDeclBits::ParameterIndex": "0",
+},
+
+"PointerType 21": {
+  "syntax": "\"T *\"",
+  "CanonicalType": { "ptr": "PointerType 30", "preview": "type-parameter-0-0 *" },
+  "PointeeType": { "ptr": "TemplateTypeParmType 16", "preview": "T" },
+},
+
+"CompoundStmt 22": {
+  "CompoundStmt::LBraceLoc": "in/src/delete-dependent-type.cc:6:1",
+  "CompoundStmt::RBraceLoc": "in/src/delete-dependent-type.cc:8:1",
+  "CompoundStmt::NumStmts": 1,
+  "CompoundStmt::Stmt[0]": { "ptr": "CXXDeleteExpr 23" },
+},
+
+"CXXDeleteExpr 23": {
+  "Expr::ExprBits::ValueKind": "VK_PRValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "Instantiation|Value",
+  "Expr::TR": { "ptr": "BuiltinType 19", "preview": "void" },
+  "CXXDeleteExpr::GlobalDelete": false,
+  "CXXDeleteExpr::ArrayForm": false,
+  "CXXDeleteExpr::ArrayFormAsWritten": false,
+  "CXXDeleteExpr::UsualArrayDeleteWantsSize": false,
+  "CXXDeleteExpr::OperatorDelete": { "ptr": "null" },
+  "CXXDeleteExpr::Argument": { "ptr": "DeclRefExpr 24" },
+},
+
+"DeclRefExpr 24": {
+  "Expr::ExprBits::ValueKind": "VK_LValue",
+  "Expr::ExprBits::ObjectKind": "OK_Ordinary",
+  "Expr::ExprBits::Dependent": "Instantiation|Type|Value",
+  "Expr::TR": { "ptr": "PointerType 21", "preview": "T *" },
+  "DeclRefExpr::DeclRefExprBits": "",
+  "DeclRefExpr::Loc": "in/src/delete-dependent-type.cc:7:10",
+  "DeclRefExpr::D": { "ptr": "ParmVarDecl 20" },
+},
+
+"CXXRecordDecl 25": {
+  "skipping reserved": "\"__NSConstantString_tag\"",
+},
+
+"CXXRecordDecl 26": {
+  "skipping reserved": "\"__va_list_tag\"",
+},
+
+"FunctionTemplateDecl::Common 27": {
+  "associated decl": { "ptr": "FunctionTemplateDecl 14" },
+  "CommonBase::InstantiatedFromMember.ptr": { "ptr": "null" },
+  "CommonBase::InstantiatedFromMember.explicitMemberSpec": "0",
+  "CommonBase::LazySpecializations": "null",
+  "FTD::Common::Specializations": "empty",
+},
+
+"TemplateTypeParmType 28": {
+  "syntax": "\"type-parameter-0-0\"",
+  "TTPDecl": { "ptr": "null" },
+  "Depth": "0",
+  "Index": "0",
+  "isParameterPack": "0",
+},
+
+"FunctionProtoType 29": {
+  "syntax": "\"void (type-parameter-0-0 *)\"",
+  "ResultType": { "ptr": "BuiltinType 19", "preview": "void" },
+  "paramType[0]": { "ptr": "PointerType 30", "preview": "type-parameter-0-0 *" },
+  "FunctionProtoType::FunctionTypeBits.ExceptionSpecType": "EST_None",
+},
+
+"PointerType 30": {
+  "syntax": "\"type-parameter-0-0 *\"",
+  "PointeeType": { "ptr": "TemplateTypeParmType 28", "preview": "type-parameter-0-0" },
+},
+}
+---- stderr ----
+---- exit status ----
+Exit 0
