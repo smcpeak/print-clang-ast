@@ -682,8 +682,10 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     HANDLE_NOOP_STMT_CLASS(BreakStmt)
 
     HANDLE_STMT_CLASS(CXXCatchStmt)
-      visitDecl(VDC_CXX_CATCH_STMT, stmt->getExceptionDecl());
-      visitStmt(VSC_CXX_CATCH_STMT, stmt->getHandlerBlock());
+      // Optional because there is no declaration for `catch (...)`.
+      visitDeclOpt(VDC_CXX_CATCH_STMT, stmt->getExceptionDecl());
+
+      visitStmt   (VSC_CXX_CATCH_STMT, stmt->getHandlerBlock());
 
     HANDLE_STMT_CLASS(CXXForRangeStmt)
       // I don't know what all of these sub-expressions mean, so I don't

@@ -2615,11 +2615,14 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
   }
 
   // Dispatch to subclass print routines.
+
+  // C statements.
   PRINT_IF_SUBCLASS(stmt, DeclStmt)
   PRINT_IF_SUBCLASS(stmt, CompoundStmt)
   PRINT_IF_SUBCLASS(stmt, ValueStmt)
   PRINT_IF_SUBCLASS(stmt, ReturnStmt)
 
+  // C expressions.
   PRINT_IF_SUBCLASS(stmt, Expr)
   PRINT_IF_SUBCLASS(stmt, DeclRefExpr)
   PRINT_IF_SUBCLASS(stmt, IntegerLiteral)
@@ -2630,6 +2633,10 @@ void PrintClangASTNodes::printStmt(clang::Stmt const *stmt)
   PRINT_IF_SUBCLASS(stmt, BinaryOperator)
   PRINT_IF_SUBCLASS(stmt, ParenListExpr)
 
+  // C++ statements.
+  PRINT_IF_SUBCLASS(stmt, CXXCatchStmt)
+
+  // C++ expressions.
   PRINT_IF_SUBCLASS(stmt, CXXDefaultArgExpr)
   PRINT_IF_SUBCLASS(stmt, CXXConstructExpr)
   PRINT_IF_SUBCLASS(stmt, CXXDependentScopeMemberExpr)
@@ -2999,6 +3006,22 @@ static std::string constructionKindStr(
     CK_VirtualBase,
     CK_Delegating,
   )
+}
+
+
+void PrintClangASTNodes::printCXXCatchStmt(
+  clang::CXXCatchStmt const *stmt)
+{
+  char const *qualifier = "CXXCatchStmt::";
+
+  OUT_QATTR_LOC(qualifier, "CatchLoc",
+    stmt->getCatchLoc());
+
+  OUT_QATTR_DECL(qualifier, "ExceptionDecl",
+    stmt->getExceptionDecl());
+
+  OUT_QATTR_STMT(qualifier, "HandlerBlock",
+    stmt->getHandlerBlock());
 }
 
 

@@ -328,6 +328,8 @@ public:      // methods
   void printBinaryOperator(clang::BinaryOperator const *expr);  // Expr.h line 3809
   void printParenListExpr(clang::ParenListExpr const *expr);    // Expr.h line 5538
 
+  void printCXXCatchStmt(clang::CXXCatchStmt const *stmt);      // StmtCXX.h line   28
+
   void printCXXDefaultArgExpr(                                  // ExprCXX.h line 1241
     clang::CXXDefaultArgExpr const *expr);
   void printCXXConstructExpr(                                   // ExprCXX.h line 1460
