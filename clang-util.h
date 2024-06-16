@@ -13,6 +13,7 @@
 #include "clang/AST/ASTFwd.h"                              // clang::{Type, Stmt, Decl} [n]
 #include "clang/AST/Decl.h"                                // clang::NamedDecl
 #include "clang/AST/DeclTemplate.h"                        // clang::TemplateParameterList
+#include "clang/AST/ExprCXX.h"                             // clang::CXXNewInitializationStyle
 #include "clang/AST/ExternalASTSource.h"                   // clang::ExternalASTSource
 #include "clang/AST/Type.h"                                // clang::QualType
 #include "clang/Basic/Lambda.h"                            // clang::LambdaCaptureDefault
@@ -433,6 +434,12 @@ public:      // methods
   // Stringify 'kind'.
   static std::string templateSpecializationKindStr(
     clang::TemplateSpecializationKind kind);
+
+#if CLANG_VERSION_MAJOR >= 18
+  // Stringify `style`.
+  static std::string cxxNewInitializationStyleStr(
+    clang::CXXNewInitializationStyle style);
+#endif
 
   // ------------------------------ Stmt -------------------------------
   // Render 'stmt' as a string by pretty-printing the syntax.

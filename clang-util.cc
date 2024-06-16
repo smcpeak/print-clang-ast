@@ -1405,6 +1405,22 @@ STATICDEF std::string ClangUtil::templateSpecializationKindStr(
 }
 
 
+#if CLANG_VERSION_MAJOR >= 18
+// This code hasn not been compiled, let alone tested.
+STATICDEF std::string ClangUtil::cxxNewInitializationStyleStr(
+  clang::CXXNewInitializationStyle style)
+{
+  ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::CXXNewInitializationStyle, CXXNewInitializationStyle, style,
+
+    None,
+    Parens,
+    Braces,
+  )
+}
+#endif
+
+
 // ------------------------------- Stmt --------------------------------
 std::string ClangUtil::stmtStr(clang::Stmt const * NULLABLE stmt) const
 {
