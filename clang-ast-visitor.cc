@@ -748,7 +748,7 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     // TODO: All the ObjC* statements.
 
     HANDLE_STMT_CLASS(ReturnStmt)
-      visitStmt(VSC_RETURN_STMT_VALUE, stmt->getRetValue());
+      visitStmtOpt(VSC_RETURN_STMT_VALUE, stmt->getRetValue());
       visitDeclOpt(VDC_RETURN_STMT_NRVO_CANDIDATE, stmt->getNRVOCandidate());
 
     // TODO: SEHExceptStmt
