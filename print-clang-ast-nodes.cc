@@ -3140,8 +3140,17 @@ void PrintClangASTNodes::printAttr(clang::Attr const *attr)
 
   OUT_ATTR_INT("AttrKind", attr->getParsedKind());
 
-  OUT_ATTR_STRING("getAttrName()->getName()",
-    attr->getAttrName()->getName().str());
+  if (clang::IdentifierInfo const *ii = attr->getAttrName()) {
+    OUT_ATTR_STRING("getAttrName()->getName()",
+      ii->getName().str());
+  }
+  else {
+    // If we declare an `operator new` with placement args (or maybe it
+    // is simply caused by using `new`?), we get a bunch of implicit
+    // declarations of other `operator new` functions, and they have
+    // anonymous `Attr` objects for some reason.  Ex: new.cc.
+    OUT_ATTR_NULL("getAttrName()");
+  }
 
   OUT_ATTR_STRING("getSpelling()", attr->getSpelling());
 
