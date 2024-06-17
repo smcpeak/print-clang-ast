@@ -1486,7 +1486,25 @@ void ClangASTVisitor::visitClassTemplateInstantiations(
 {
   for (clang::ClassTemplateSpecializationDecl const *spec :
           ctd->specializations()) {
-    if (clang::isTemplateInstantiation(spec->getSpecializationKind())) {
+    // TODO: RecursiveASTVisitor traverses the redeclarations of `spec`
+    // in the equivalent place.  It also does that for other kinds of
+    // templates.
+
+    clang::TemplateSpecializationKind tsk =
+      spec->getSpecializationKind();
+
+    // Originally I visited all instantiations, but RAV does it
+    // differently, so I'm doing what it does.
+    //
+    // Regarding `TSK_Undeclared`, this evidently is how a
+    // specialization that is nominated by a deduction guide but not
+    // otherwise instantiatied or explicitly specialized gets recorded.
+    // I believe that is done precisely because Clang does not know
+    // which of those might happen, so chooses a value that indicates
+    // lack of committemnt.  Ex: deduction-guide-in-ns.cc.
+    //
+    if (tsk == clang::TSK_Undeclared ||
+        tsk == clang::TSK_ImplicitInstantiation) {
       visitDecl(VDC_CLASS_TEMPLATE_INSTANTIATION, spec);
     }
   }
