@@ -6,6 +6,13 @@ namespace NS {
   struct S {
     typedef int size_type;
 
+    // In conjunction with the explicit deduction guide below, this
+    // causes an implicit guide to be created.  But the implicit guide
+    // is placed into the namespace (not the class), along with the
+    // explicit guide.  Consequently, the user-written `size_type` is
+    // not in scope, so Clang synthesizes a copy of it, and sets the
+    // implicit deduction guide as its lexical (and semantic) parent.
+    // That confuses my analysis currently.
     S(size_type pos);
   };
 

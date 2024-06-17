@@ -1138,6 +1138,8 @@
   "syntax": "\"ns::B\"",
   "CanonicalType": { "ptr": "RecordType 43", "preview": "struct ns::A" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 43", "preview": "struct ns::A" },
+  "Decl": { "ptr": "TypedefDecl 55" },
+  "hasTypeDifferentFromDecl": false,
 },
 
 "CXXRecordDecl 60": {

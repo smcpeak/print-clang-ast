@@ -903,6 +903,8 @@
   "syntax": "\"size_t\"",
   "CanonicalType": { "ptr": "BuiltinType 15", "preview": "unsigned long" },
   "getUnqualifiedDesugaredType()": { "ptr": "BuiltinType 15", "preview": "unsigned long" },
+  "Decl": { "ptr": "TypedefDecl 14" },
+  "hasTypeDifferentFromDecl": false,
 },
 
 "BuiltinType 45": {

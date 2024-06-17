@@ -3693,6 +3693,10 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 {
   OUT_OBJECT(getTypeIDStr(type));
 
+  if (m_config.m_printAddresses) {
+    OUT_ATTR_STRING("address", type);
+  }
+
   OUT_ATTR_STRING("syntax",
     doubleQuote(typeStr(type)));
 
@@ -3854,6 +3858,21 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   else if (auto usingType = dyn_cast<clang::UsingType>(type)) {
     OUT_ATTR_PTR("Found",
       getOrCreateDeclIDStr(usingType->getFoundDecl()));
+  }
+
+  else if (auto typedefType = dyn_cast<clang::TypedefType>(type)) {
+    OUT_ATTR_DECL("Decl",
+      typedefType->getDecl());
+
+    OUT_ATTR_BOOL("hasTypeDifferentFromDecl",
+      !typedefType->typeMatchesDecl());
+
+    // If `hasTypeDifferentFromDecl` then there is a trailing object
+    // `QualType`.
+    if (!typedefType->typeMatchesDecl()) {
+      OUT_ATTR_QUALTYPE("TrailingQualType",
+        typedefType->desugar());
+    }
   }
 }
 

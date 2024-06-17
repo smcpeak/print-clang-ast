@@ -713,6 +713,8 @@
   "syntax": "\"A_typedef\"",
   "CanonicalType": { "ptr": "RecordType 17", "preview": "struct A" },
   "getUnqualifiedDesugaredType()": { "ptr": "RecordType 17", "preview": "struct A" },
+  "Decl": { "ptr": "TypedefDecl 15" },
+  "hasTypeDifferentFromDecl": false,
 },
 
 "CXXConstructorDecl 41": {
