@@ -210,9 +210,9 @@ public:      // methods
   std::string namedDeclAddrAtLocStr(
     clang::NamedDecl const * NULLABLE namedDecl) const;
 
-  // Print address and location of 'decl'.  I include "unnamed" in the
-  // method name because this is not what should normally be used, since
-  // normally we have a NamedDecl.
+  // Print kind, location, and address of 'decl'.  I include "unnamed"
+  // in the method name because this is not what should normally be
+  // used, since normally we have a NamedDecl.
   std::string unnamedDeclAddrAtLocStr(
     clang::Decl const * NULLABLE decl) const;
 
@@ -225,20 +225,20 @@ public:      // methods
   // Return the lexical parent of `decl` as a `Decl` rather than a
   // `DeclContext`.  Returns `nullptr` if it has no lexical parent
   // because it is the `TranslationUnitDecl`.
-  static clang::Decl const *getParentDeclOpt(clang::Decl const *decl);
+  clang::Decl const *getParentDeclOpt(clang::Decl const *decl) const;
 
   // Get the nearest lexical ancestor of `decl` that is a `NamedDecl`, or
   // `nullptr` if there is none.
-  static clang::NamedDecl const * NULLABLE getNamedParentDeclOpt(
-    clang::Decl const *decl);
+  clang::NamedDecl const * NULLABLE getNamedParentDeclOpt(
+    clang::Decl const *decl) const;
 
   /* Get the nearest `NamedDecl` ancestor of `decl`, except if `decl` is
      a template parameter, then Clang says the parent is the template
      body declaration, so adjust that to instead yield the
      `TemplateDecl` (which is not classified as a `DeclContext`).
   */
-  static clang::NamedDecl const * NULLABLE
-  getNamedParentDeclOpt_templateAdjustment(clang::Decl const *decl);
+  clang::NamedDecl const * NULLABLE
+  getNamedParentDeclOpt_templateAdjustment(clang::Decl const *decl) const;
 
   // True if `decl` is one of the three kinds of template parameter
   // declarations.
@@ -246,7 +246,7 @@ public:      // methods
 
   // True if one of the lexical proper ancestors of `decl` is a
   // `FunctionDecl`.
-  static bool hasProperAncestorFunction(clang::Decl const *decl);
+  bool hasProperAncestorFunction(clang::Decl const *decl) const;
 
   // If 'decl' is a member, return its containing class.  Otherwise,
   // return 'nullptr'.

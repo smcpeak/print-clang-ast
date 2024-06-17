@@ -9,6 +9,7 @@
 // smbase
 #include "smbase/compare-util.h"       // compare
 #include "smbase/sm-macros.h"          // STATICDEF
+#include "smbase/sm-trace.h"           // INIT_TRACE, etc.
 #include "smbase/string-util.h"        // doubleQuote, beginsWith, hasSubstring, trimWhitespace
 #include "smbase/stringb.h"            // stringb
 
@@ -29,6 +30,9 @@ using clang::dyn_cast;
 using clang::isa;
 
 using std::string;
+
+
+INIT_TRACE("clang-util");
 
 
 ClangUtil::ClangUtil(clang::ASTContext &astContext)
@@ -533,20 +537,25 @@ std::string ClangUtil::namedDeclCompactIdentifier(
 }
 
 
-STATICDEF clang::Decl const *ClangUtil::getParentDeclOpt(
-  clang::Decl const *decl)
+clang::Decl const *ClangUtil::getParentDeclOpt(
+  clang::Decl const *decl) const
 {
   return declFromDC(decl->getLexicalDeclContext());
 }
 
 
-STATICDEF clang::NamedDecl const * NULLABLE
-ClangUtil::getNamedParentDeclOpt(clang::Decl const *decl)
+clang::NamedDecl const * NULLABLE ClangUtil::getNamedParentDeclOpt(
+  clang::Decl const *decl) const
 {
   clang::Decl const *parent = getParentDeclOpt(decl);
   if (!parent) {
     return nullptr;
   }
+
+  TRACE3("getNamedParentDeclOpt:"
+    "\n  decl: " << unnamedDeclAddrAtLocStr(decl) <<
+    "\n  parent: " << unnamedDeclAddrAtLocStr(parent));
+
   if (auto namedDecl = dyn_cast<clang::NamedDecl>(parent)) {
     return namedDecl;
   }
@@ -557,9 +566,9 @@ ClangUtil::getNamedParentDeclOpt(clang::Decl const *decl)
 }
 
 
-STATICDEF clang::NamedDecl const * NULLABLE
+clang::NamedDecl const * NULLABLE
 ClangUtil::getNamedParentDeclOpt_templateAdjustment(
-  clang::Decl const *decl)
+  clang::Decl const *decl) const
 {
   clang::NamedDecl const *parent = getNamedParentDeclOpt(decl);
   if (!parent) {
@@ -614,8 +623,8 @@ STATICDEF bool ClangUtil::isTemplateParameterDecl(
 }
 
 
-STATICDEF bool ClangUtil::hasProperAncestorFunction(
-  clang::Decl const *decl)
+bool ClangUtil::hasProperAncestorFunction(
+  clang::Decl const *decl) const
 {
   while (true) {
     decl = getParentDeclOpt(decl);
