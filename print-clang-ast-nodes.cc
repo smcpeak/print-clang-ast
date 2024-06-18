@@ -592,10 +592,10 @@ void PrintClangASTNodes::printDeclContext(
               declContext->getLookupPtr()->size() << " entries") :
       string("null")));
 
-  OUT_QATTR_PTR("DeclContext::", "FirstDecl",
-    getDeclIDStr(SPY(DeclContext, declContext, FirstDecl)));
-  OUT_QATTR_PTR("DeclContext::", "LastDecl",
-    getDeclIDStr(SPY(DeclContext, declContext, LastDecl)));
+  OUT_QATTR_DECL("DeclContext::", "FirstDecl",
+    SPY(DeclContext, declContext, FirstDecl));
+  OUT_QATTR_DECL("DeclContext::", "LastDecl",
+    SPY(DeclContext, declContext, LastDecl));
 
   #undef DECLCONTEXT_FLAG
 }
@@ -638,8 +638,8 @@ void PrintClangASTNodes::printTemplateParameterList(
     TEMPLATEPARAMETERLIST_FLAG(HasConstrainedParameters));
 
   for (unsigned i=0; i < params->size(); ++i) {
-    OUT_QATTR_PTR(qualifier << label << "->", "Param[" << i << "]",
-      getDeclIDStr(params->getParam(i)));
+    OUT_QATTR_DECL(qualifier << label << "->", "Param[" << i << "]",
+      params->getParam(i));
   }
 
   OUT_QATTR_PTR(qualifier, label << "->Requires",
@@ -735,8 +735,8 @@ void PrintClangASTNodes::printTemplateArgument(
     case clang::TemplateArgument::Declaration:
       OUT_QATTR_QUALTYPE(qualifier, label << ".DeclArg.QT",
         arg.getParamTypeForDecl());
-      OUT_QATTR_PTR(qualifier, label << ".DeclArg.D",
-        getDeclIDStr(arg.getAsDecl()));
+      OUT_QATTR_DECL(qualifier, label << ".DeclArg.D",
+        arg.getAsDecl());
       break;
 
     case clang::TemplateArgument::NullPtr:
@@ -817,8 +817,8 @@ void PrintClangASTNodes::printTemplateName(
 
   switch (tname.getKind()) {
     case clang::TemplateName::Template:
-      OUT_QATTR_PTR(qualifier, label << ".Storage.Decl",
-        getDeclIDStr(tname.getAsTemplateDecl()));
+      OUT_QATTR_DECL(qualifier, label << ".Storage.Decl",
+        tname.getAsTemplateDecl());
       break;
 
     case clang::TemplateName::OverloadedTemplate:
@@ -938,14 +938,14 @@ void PrintClangASTNodes::printDeclGroupRef(
     OUT_QATTR_NULL(qualifier, label);
   }
   else if (dgr.isSingleDecl()) {
-    OUT_QATTR_PTR(qualifier, label,
-      getDeclIDStr(dgr.getSingleDecl()));
+    OUT_QATTR_DECL(qualifier, label,
+      dgr.getSingleDecl());
   }
   else {
     unsigned i = 0;
     for (auto it = dgr.begin(); it != dgr.end(); ++it) {
-      OUT_QATTR_PTR(qualifier, label << "[" << (i++) << "]",
-        getDeclIDStr(*it));
+      OUT_QATTR_DECL(qualifier, label << "[" << (i++) << "]",
+        *it);
     }
   }
 }
@@ -963,14 +963,14 @@ void PrintClangASTNodes::printCXXCtorInitializer(
         typeSourceInfoStr(tsi));
   }
   else if (clang::FieldDecl const *fieldDecl = init->getMember()) {
-    OUT_QATTR_PTR(qualifier,
+    OUT_QATTR_DECL(qualifier,
       label << ".Initializee" << ifLongForm(".FieldDecl"),
-        getDeclIDStr(fieldDecl));
+        fieldDecl);
   }
   else if (clang::IndirectFieldDecl const *ifd = init->getIndirectMember()) {
-    OUT_QATTR_PTR(qualifier,
+    OUT_QATTR_DECL(qualifier,
       label << ".Initializee" << ifLongForm(".IndirectFieldDecl"),
-        getDeclIDStr(fieldDecl));
+        fieldDecl);
   }
   else {
     // Should not happen.
@@ -1315,16 +1315,16 @@ template <class T>
 void PrintClangASTNodes::printRedeclarable(
   clang::Redeclarable<T> const *decl)
 {
-  OUT_ATTR_PTR(shortAndLongForms("RD::Prev", "Redeclarable::Previous"),
+  OUT_ATTR_DECL(shortAndLongForms("RD::Prev", "Redeclarable::Previous"),
     // The logic here looks weird, but it really is, in the end,
     // just reading a single pointer value, the same value in both
     // branches of the conditional.
-    getDeclIDStr(decl->isFirstDecl()?
-                   decl->getMostRecentDecl() :
-                   decl->getPreviousDecl()));
+    decl->isFirstDecl()?
+      decl->getMostRecentDecl() :
+      decl->getPreviousDecl());
 
-  OUT_ATTR_PTR(shortAndLongForms("RD::First", "Redeclarable::First"),
-    getDeclIDStr(decl->getFirstDecl()));
+  OUT_ATTR_DECL(shortAndLongForms("RD::First", "Redeclarable::First"),
+    decl->getFirstDecl());
 
   // There isn't actually a method called 'redecls_size', but I will
   // pretend there is.  Since it is usually 1, and only interesting
@@ -1358,8 +1358,8 @@ void PrintClangASTNodes::printDecl(clang::Decl const *decl)
     }
   }
 
-  OUT_QATTR_PTR("Decl::", "NextInContext",
-    getDeclIDStr(decl->getNextDeclInContext()));
+  OUT_QATTR_DECL("Decl::", "NextInContext",
+    decl->getNextDeclInContext());
 
   OUT_QATTR_STRING("Decl::", "moduleOwnershipKind",
     moduleOwnershipKindStr(decl->getModuleOwnershipKind()));
@@ -1367,11 +1367,11 @@ void PrintClangASTNodes::printDecl(clang::Decl const *decl)
   // When using shorter names, the semantic DC is more important than
   // the lexical DC, and I want a short name so I can have a short arrow
   // pointing to that DC.
-  OUT_QATTR_PTR("Decl::", shortAndLongForms("DC", "semanticDeclContext"),
-    getDeclIDStr(declFromDC(decl->getDeclContext())));
+  OUT_QATTR_DECL("Decl::", shortAndLongForms("DC", "semanticDeclContext"),
+    declFromDC(decl->getDeclContext()));
 
-  OUT_QATTR_PTR("Decl::", shortAndLongForms("LDC", "lexicalDeclContext"),
-    getDeclIDStr(declFromDC(decl->getLexicalDeclContext())));
+  OUT_QATTR_DECL("Decl::", shortAndLongForms("LDC", "lexicalDeclContext"),
+    declFromDC(decl->getLexicalDeclContext()));
 
   OUT_QATTR_STRING("Decl::", "Loc",
     locStr(decl->getLocation()));
@@ -1683,9 +1683,9 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
     for (unsigned i=0; i < decl->getNumParams(); ++i) {
       // The name of the private data member is 'ParamInfo', but it can
       // be unambiguously shortened to 'Param'.
-      OUT_QATTR_PTR("FunctionDecl::",
+      OUT_QATTR_DECL("FunctionDecl::",
         "Param[" << i << "]",
-          getDeclIDStr(decl->getParamDecl(i)));
+          decl->getParamDecl(i));
     }
   }
   else {
@@ -1707,8 +1707,8 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
 
     int i=0;
     for (clang::DeclAccessPair const &apair : dfi->getUnqualifiedLookups()) {
-      OUT_QATTR_PTR("FunctionDecl::", "DefaultedFunctionInfo[" << i << "].NamedDecl",
-        getDeclIDStr(apair.getDecl()));
+      OUT_QATTR_DECL("FunctionDecl::", "DefaultedFunctionInfo[" << i << "].NamedDecl",
+        apair.getDecl());
 
       OUT_QATTR_STRING("FunctionDecl::", "DefaultedFunctionInfo[" << i << "].Access",
         accessSpecifierStr(apair.getAccess()));
@@ -1757,9 +1757,9 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
       break;
 
     case clang::FunctionDecl::TK_FunctionTemplate:
-      OUT_QATTR_PTR(qualifier << label,
+      OUT_QATTR_DECL(qualifier << label,
         shortAndLongForms("FTD", ".NamedDecl (described)"),
-          getDeclIDStr(decl->getDescribedFunctionTemplate()));
+          decl->getDescribedFunctionTemplate());
       break;
 
     // This case means this an ordinary function that was declared
@@ -1770,8 +1770,8 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
     // function template inside a function template.  And is this only
     // for GNU nested functions, or is that a more general C++ feature?
     case clang::FunctionDecl::TK_DependentNonTemplate:
-      OUT_QATTR_PTR(qualifier, label << ".NamedDecl (inst from within)",
-        getDeclIDStr(decl->getInstantiatedFromDecl()));
+      OUT_QATTR_DECL(qualifier, label << ".NamedDecl (inst from within)",
+        decl->getInstantiatedFromDecl());
       break;
 
     case clang::FunctionDecl::TK_MemberSpecialization: {
@@ -1827,8 +1827,8 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
   // Print the result of various queries so I can try to correlate them
   // with the underlying data.
 
-  OUT_QATTR_PTR("FunctionDecl::", "getInstantiatedFromMemberFunction()",
-    getDeclIDStr(decl->getInstantiatedFromMemberFunction()));
+  OUT_QATTR_DECL("FunctionDecl::", "getInstantiatedFromMemberFunction()",
+    decl->getInstantiatedFromMemberFunction());
 
   // 'getTemplatedKind()' was printed above.
 
@@ -1836,21 +1836,21 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
     getMemberSpecializationInfoIDStr(
       decl->getMemberSpecializationInfo()));
 
-  OUT_QATTR_PTR("FunctionDecl::", "getDescribedFunctionTemplate()",
-    getDeclIDStr(decl->getDescribedFunctionTemplate()));
+  OUT_QATTR_DECL("FunctionDecl::", "getDescribedFunctionTemplate()",
+    decl->getDescribedFunctionTemplate());
 
   OUT_QATTR_PTR("FunctionDecl::", "getTemplateSpecializationInfo()",
     getFunctionTemplateSpecializationInfoIDStr(
       decl->getTemplateSpecializationInfo()));
 
-  OUT_QATTR_PTR("FunctionDecl::", "getTemplateInstantiationPattern(true)",
-    getDeclIDStr(decl->getTemplateInstantiationPattern(true)));
+  OUT_QATTR_DECL("FunctionDecl::", "getTemplateInstantiationPattern(true)",
+    decl->getTemplateInstantiationPattern(true));
 
-  OUT_QATTR_PTR("FunctionDecl::", "getTemplateInstantiationPattern(false)",
-    getDeclIDStr(decl->getTemplateInstantiationPattern(false)));
+  OUT_QATTR_DECL("FunctionDecl::", "getTemplateInstantiationPattern(false)",
+    decl->getTemplateInstantiationPattern(false));
 
-  OUT_QATTR_PTR("FunctionDecl::", "getPrimaryTemplate()",
-    getDeclIDStr(decl->getPrimaryTemplate()));
+  OUT_QATTR_DECL("FunctionDecl::", "getPrimaryTemplate()",
+    decl->getPrimaryTemplate());
 
   // TODO: Call getDependentSpecializationInfo().
 
@@ -1972,8 +1972,8 @@ void PrintClangASTNodes::printTagDecl(clang::TagDecl const *decl)
     SPY(TagDecl, decl, TypedefNameDeclOrQualifier);
 
   if (tndoq.is<clang::TypedefNameDecl*>()) {
-    OUT_QATTR_PTR("TagDecl::", "TypedefNameDeclOrQualifier.name",
-      getDeclIDStr(tndoq.get<clang::TypedefNameDecl*>()));
+    OUT_QATTR_DECL("TagDecl::", "TypedefNameDeclOrQualifier.name",
+      tndoq.get<clang::TypedefNameDecl*>());
   }
   else {
     if (clang::QualifierInfo *qi = tndoq.get<clang::QualifierInfo*>()) {
@@ -2092,9 +2092,9 @@ void PrintClangASTNodes::printCXXRecordDecl(clang::CXXRecordDecl const *decl)
   }
   else if (auto classTemplateDecl =
              templateOrInstantiation.dyn_cast<clang::ClassTemplateDecl*>()) {
-    OUT_QATTR_PTR(qualifier,
+    OUT_QATTR_DECL(qualifier,
       shortAndLongForms("CTD", "TemplateOrInstantiation.ctd"),
-        getDeclIDStr(classTemplateDecl));
+        classTemplateDecl);
   }
   else if (auto memberSpecializationInfo =
              templateOrInstantiation.dyn_cast<clang::MemberSpecializationInfo*>()) {
@@ -2130,8 +2130,8 @@ void PrintClangASTNodes::printCXXRecordDecl(clang::CXXRecordDecl const *decl)
 
 // Print the result of 'decl->query', which yields a Decl pointer.
 #define OUT_QATTR_QUERY_DECL_PTR(qualifier, decl, query) \
-  OUT_QATTR_PTR(qualifier, #query,                       \
-    getDeclIDStr(decl->query));
+  OUT_QATTR_DECL(qualifier, #query,                      \
+    decl->query);
 
   OUT_QATTR_QUERY_DECL_PTR(qualifier,
     decl, getDependentLambdaCallOperator());
@@ -2235,8 +2235,8 @@ void PrintClangASTNodes::printFriendDecl(clang::FriendDecl const *decl)
 
 void PrintClangASTNodes::printTemplateDecl(clang::TemplateDecl const *decl)
 {
-  OUT_QATTR_PTR("TemplateDecl::", shortAndLongForms("TdD", "TemplatedDecl"),
-    getDeclIDStr(decl->getTemplatedDecl()));
+  OUT_QATTR_DECL("TemplateDecl::", shortAndLongForms("TdD", "TemplatedDecl"),
+    decl->getTemplatedDecl());
 
   printTemplateParameterList("TemplateDecl::",
     shortAndLongForms("TP", "TemplateParams"),
@@ -2249,9 +2249,9 @@ void PrintClangASTNodes::printRedeclarableTemplateDecl(
 {
   printRedeclarable(decl);
 
-  OUT_QATTR_PTR("RedeclarableTemplateDecl::",
+  OUT_QATTR_DECL("RedeclarableTemplateDecl::",
     "getInstantiatedFromMemberTemplate()",
-      getDeclIDStr(decl->getInstantiatedFromMemberTemplate()));
+      decl->getInstantiatedFromMemberTemplate());
 }
 
 
@@ -2303,14 +2303,14 @@ void PrintClangASTNodes::printClassTemplateSpecializationDecl(
   string label = shortAndLongForms("ST", "SpecializedTemplate");
 
   if (auto ctd = specializedTemplate.dyn_cast<clang::ClassTemplateDecl*>()) {
-    OUT_QATTR_PTR(qualifier,
+    OUT_QATTR_DECL(qualifier,
       label << shortAndLongForms(".CTD", ".ClassTemplateDecl"),
-        getDeclIDStr(ctd));
+        ctd);
   }
   else if (auto sps = specializedTemplate.dyn_cast<SPS*>()) {
     string spsText = shortAndLongForms(".SPS", ".SpecializedPartialSpecialization");
-    OUT_QATTR_PTR(qualifier, label << spsText << "->PartialSpecialization",
-      getDeclIDStr(sps->PartialSpecialization));
+    OUT_QATTR_DECL(qualifier, label << spsText << "->PartialSpecialization",
+      sps->PartialSpecialization);
     OUT_QATTR_STRING(qualifier, label << spsText << "->TemplateArgs",
       templateArgumentListOptStr(sps->TemplateArgs));
   }
@@ -2367,8 +2367,8 @@ void PrintClangASTNodes::printClassTemplateSpecializationDecl(
 
   // Print some query results for ease of correlation.
 
-  OUT_QATTR_PTR(qualifier, "getSpecializedTemplate()",
-    getDeclIDStr(decl->getSpecializedTemplate()));
+  OUT_QATTR_DECL(qualifier, "getSpecializedTemplate()",
+    decl->getSpecializedTemplate());
 
 
 
@@ -2382,12 +2382,12 @@ void PrintClangASTNodes::printClassTemplateSpecializationDecl(
     OUT_QATTR_NULL(qualifier, label);                            \
   }                                                              \
   else if ((value).is<Type1*>()) {                               \
-    OUT_QATTR_PTR(qualifier, label "." abbrev1,                  \
-      getDeclIDStr((value).get<Type1*>()));                      \
+    OUT_QATTR_DECL(qualifier, label "." abbrev1,                 \
+      (value).get<Type1*>());                                    \
   }                                                              \
   else if ((value).is<Type2*>()) {                               \
-    OUT_QATTR_PTR(qualifier, label "." abbrev2,                  \
-      getDeclIDStr((value).get<Type2*>()));                      \
+    OUT_QATTR_DECL(qualifier, label "." abbrev2,                 \
+      (value).get<Type2*>());                                    \
   }                                                              \
   else {                                                         \
     OUT_QATTR_STRING(qualifier, label,                           \
@@ -2446,8 +2446,8 @@ void PrintClangASTNodes::printClassTemplatePartialSpecializationDecl(
   OUT_QATTR_INT(qualifier << "InstantiatedFromMember.", "specdThisLevel",
     instantiatedFromMember.getInt());
 
-  OUT_QATTR_PTR(qualifier, "InstantiatedFromMember" << ifLongForm(".ptr"),
-    getDeclIDStr(instantiatedFromMember.getPointer()));
+  OUT_QATTR_DECL(qualifier, "InstantiatedFromMember" << ifLongForm(".ptr"),
+    instantiatedFromMember.getPointer());
 }
 
 
@@ -2600,8 +2600,8 @@ void PrintClangASTNodes::printClassScopeFunctionSpecializationDecl(
 {
   char const *qualifier = "ClassScopeFunctionSpecializationDecl::";
 
-  OUT_QATTR_PTR(qualifier, "Specialization",
-    getDeclIDStr(decl->getSpecialization()));
+  OUT_QATTR_DECL(qualifier, "Specialization",
+    decl->getSpecialization());
 
   printASTTemplateArgumentListInfo(qualifier, "TemplateArgs",
     decl->getTemplateArgsAsWritten());
@@ -2744,8 +2744,8 @@ void PrintClangASTNodes::printDeclRefExpr(clang::DeclRefExpr const *expr)
   OUT_QATTR_STRING("DeclRefExpr::", "Loc",
     locStr(expr->getLocation()));
 
-  OUT_QATTR_PTR("DeclRefExpr::", "D",
-    getDeclIDStr(expr->getDecl()));
+  OUT_QATTR_DECL("DeclRefExpr::", "D",
+    expr->getDecl());
 
   // This has three components.  Two are redundant with the 'Loc' and
   // 'D' fields, while the third is 'DNLoc'.  But interpreting 'DNLoc'
@@ -2762,8 +2762,8 @@ void PrintClangASTNodes::printDeclRefExpr(clang::DeclRefExpr const *expr)
   }
 
   if (SPY(DeclRefExpr, expr, hasFoundDecl)) {
-    OUT_QATTR_PTR("DeclRefExpr::", "FoundDecl",
-      getDeclIDStr(expr->getFoundDecl()));
+    OUT_QATTR_DECL("DeclRefExpr::", "FoundDecl",
+      expr->getFoundDecl());
   }
 
   if (expr->hasTemplateKWAndArgsInfo()) {
@@ -2903,8 +2903,8 @@ void PrintClangASTNodes::printMemberExpr(clang::MemberExpr const *expr)
   OUT_QATTR_PTR(qualifier, "Base",
     getStmtIDStr(expr->getBase()));
 
-  OUT_QATTR_PTR(qualifier, "MemberDecl",
-    getDeclIDStr(expr->getMemberDecl()));
+  OUT_QATTR_DECL(qualifier, "MemberDecl",
+    expr->getMemberDecl());
 
   // Check the invariant in the documentation of 'getMemberDecl':
   {
@@ -3093,8 +3093,8 @@ void PrintClangASTNodes::printCXXConstructExpr(
     (expr->requiresZeroInitialization()?
                  " ZeroInitialization" : ""));
 
-  OUT_QATTR_PTR(qualifier, "Constructor",
-    getDeclIDStr(expr->getConstructor()));
+  OUT_QATTR_DECL(qualifier, "Constructor",
+    expr->getConstructor());
 
   OUT_QATTR_STRING(qualifier, "ParenOrBraceRange",
     sourceRangeStr(expr->getParenOrBraceRange()));
@@ -3337,8 +3337,8 @@ void PrintClangASTNodes::printFunctionTemplateSpecializationInfo(
   // because these do not show up in the normal AST dump and I have
   // my own unique numeric IDs.
 
-  OUT_ATTR_PTR("Function" << ifLongForm(".ptr"),
-    getDeclIDStr(ftsi->getFunction()));
+  OUT_ATTR_DECL("Function" << ifLongForm(".ptr"),
+    ftsi->getFunction());
 
   /*
     Documentation on the bit:
@@ -3357,8 +3357,8 @@ void PrintClangASTNodes::printFunctionTemplateSpecializationInfo(
   OUT_QATTR_STRING("Function.", "isFuncMemberSpec",
     isMemberSpecialization);
 
-  OUT_ATTR_PTR("Template" << ifLongForm(".ptr"),
-    getDeclIDStr(ftsi->getTemplate()));
+  OUT_ATTR_DECL("Template" << ifLongForm(".ptr"),
+    ftsi->getTemplate());
 
   OUT_QATTR_STRING("Template.", "specKind",
     templateSpecializationKindStr(ftsi->getTemplateSpecializationKind()));
@@ -3388,17 +3388,17 @@ void PrintClangASTNodes::printRedeclarableTemplateDecl_CommonBase(
     OUT_ATTR_STRING("address", common);
   }
 
-  OUT_ATTR_PTR("associated decl",
-    getDeclIDStr(decl));
+  OUT_ATTR_DECL("associated decl",
+    decl);
 
   char const *qualifier = "CommonBase::";
 
   llvm::PointerIntPair<clang::RedeclarableTemplateDecl*, 1, bool>
     InstantiatedFromMember =
       SPY(RedeclarableTemplateDecl, common, InstantiatedFromMember);
-  OUT_QATTR_PTR(qualifier,
+  OUT_QATTR_DECL(qualifier,
     "InstantiatedFromMember" << ifLongForm(".ptr"),
-      getDeclIDStr(InstantiatedFromMember.getPointer()));
+      InstantiatedFromMember.getPointer());
 
   /*
     The documentation of this bit is confusing.  The bit itself says:
@@ -3502,8 +3502,8 @@ void PrintClangASTNodes::printClassTemplateDecl_Common(
   unsigned i = 0;
   for (clang::ClassTemplateSpecializationDecl &ctsd :
          common->Specializations) {
-    OUT_QATTR_PTR(qualifier, "Specializations[" << i << "]",
-      getDeclIDStr(&ctsd));
+    OUT_QATTR_DECL(qualifier, "Specializations[" << i << "]",
+      &ctsd);
 
     ++i;
   }
@@ -3514,8 +3514,8 @@ void PrintClangASTNodes::printClassTemplateDecl_Common(
   i = 0;
   for (clang::ClassTemplatePartialSpecializationDecl &ctpsd :
          common->PartialSpecializations) {
-    OUT_QATTR_PTR(qualifier, "PartialSpecializations[" << i << "]",
-      getDeclIDStr(&ctpsd));
+    OUT_QATTR_DECL(qualifier, "PartialSpecializations[" << i << "]",
+      &ctpsd);
 
     ++i;
   }
@@ -3533,8 +3533,8 @@ void PrintClangASTNodes::printMemberSpecializationInfo(
 {
   OUT_OBJECT(getMemberSpecializationInfoIDStr(msi));
 
-  OUT_ATTR_PTR("Member",
-    getDeclIDStr(msi->getInstantiatedFrom()));
+  OUT_ATTR_DECL("Member",
+    msi->getInstantiatedFrom());
 
   OUT_ATTR_STRING("TemplateSpecializationKind",
     templateSpecializationKindStr(
@@ -3640,8 +3640,8 @@ void PrintClangASTNodes::printFake_CXXRecordDecl_DefinitionData(
   OUT_ATTR_STRING("Conversions", "TODO");
   OUT_ATTR_STRING("VisibleConversions", "TODO");
 
-  OUT_ATTR_PTR("Definition",
-    getDeclIDStr(defData->Definition));
+  OUT_ATTR_DECL("Definition",
+    defData->Definition);
 
   OUT_ATTR_STRING("FirstFriend", "TODO");
 
@@ -3747,8 +3747,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
   if (auto icnt =
         dyn_cast<clang::InjectedClassNameType>(type)) {
-    OUT_ATTR_PTR("Decl",
-      getDeclIDStr(SPY(InjectedClassNameType, icnt, Decl)));
+    OUT_ATTR_DECL("Decl",
+      SPY(InjectedClassNameType, icnt, Decl));
     OUT_ATTR_QUALTYPE("InjectedType",
       icnt->getInjectedSpecializationType());
   }
@@ -3772,8 +3772,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
     OUT_ATTR_STRING("Template",
       templateNameStr(tst->getTemplateName()));
-    OUT_QATTR_PTR("Template.", "TemplateDecl",
-      getDeclIDStr(tst->getTemplateName().getAsTemplateDecl()));
+    OUT_QATTR_DECL("Template.", "TemplateDecl",
+      tst->getTemplateName().getAsTemplateDecl());
 
     if (tst->isTypeAlias()) {
       OUT_ATTR_QUALTYPE("getAliasedType()",
@@ -3786,8 +3786,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   }
 
   else if (auto parmType = dyn_cast<clang::TemplateTypeParmType>(type)) {
-    OUT_ATTR_PTR("TTPDecl",
-      getDeclIDStr(parmType->getDecl()));
+    OUT_ATTR_DECL("TTPDecl",
+      parmType->getDecl());
     OUT_ATTR_STRING("Depth",
       parmType->getDepth());
     OUT_ATTR_STRING("Index",
@@ -3797,8 +3797,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   }
 
   else if (auto sttpt = dyn_cast<clang::SubstTemplateTypeParmType>(type)) {
-    OUT_ATTR_PTR("AssociatedDecl",
-      getDeclIDStr(sttpt->getAssociatedDecl()));
+    OUT_ATTR_DECL("AssociatedDecl",
+      sttpt->getAssociatedDecl());
     OUT_ATTR_STRING("Index",
       sttpt->getIndex());
     OUT_ATTR_STRING("PackIndex",
@@ -3808,8 +3808,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   }
 
   else if (auto tagType = dyn_cast<clang::TagType>(type)) {
-    OUT_ATTR_PTR("decl",
-      getDeclIDStr(SPY(TagType, tagType, decl)));
+    OUT_ATTR_DECL("decl",
+      SPY(TagType, tagType, decl));
   }
 
   else if (auto funcType = dyn_cast<clang::FunctionProtoType>(type)) {
@@ -3856,8 +3856,8 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   }
 
   else if (auto usingType = dyn_cast<clang::UsingType>(type)) {
-    OUT_ATTR_PTR("Found",
-      getDeclIDStr(usingType->getFoundDecl()));
+    OUT_ATTR_DECL("Found",
+      usingType->getFoundDecl());
   }
 
   else if (auto typedefType = dyn_cast<clang::TypedefType>(type)) {
