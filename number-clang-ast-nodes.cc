@@ -189,7 +189,7 @@ std::string ClangASTNodeNumbering::NumberingMap<T>::getExistingIDStr(
 
 
 template <class T>
-std::string ClangASTNodeNumbering::NumberingMap<T>::getOrCreateIDStr(
+std::string ClangASTNodeNumbering::NumberingMap<T>::getIDStr(
   T const * NULLABLE node)
 {
   // Ensure it exists first.
@@ -226,35 +226,29 @@ NodeID ClangASTNodeNumbering::getNextID()
 }
 
 
-#define DEFINE_MAP_METHODS(NodeType)                               \
-  NodeID ClangASTNodeNumbering::insertUnique##NodeType(            \
-    clang::NodeType const *node)                                   \
-  {                                                                \
-    return m_##NodeType##Map.insertUnique(node);                   \
-  }                                                                \
-                                                                   \
-  NodeID ClangASTNodeNumbering::getExisting##NodeType(             \
-    clang::NodeType const *node) const                             \
-  {                                                                \
-    return m_##NodeType##Map.getExisting(node);                    \
-  }                                                                \
-                                                                   \
-  NodeID ClangASTNodeNumbering::get##NodeType(                     \
-    clang::NodeType const *node)                                   \
-  {                                                                \
-    return m_##NodeType##Map.get(node);                            \
-  }                                                                \
-                                                                   \
-  std::string ClangASTNodeNumbering::get##NodeType##IDStr(         \
-    clang::NodeType const * NULLABLE node)                         \
-  {                                                                \
-    return m_##NodeType##Map.getIDStr(node);                       \
-  }                                                                \
-                                                                   \
-  std::string ClangASTNodeNumbering::getOrCreate##NodeType##IDStr( \
-    clang::NodeType const * NULLABLE node)                         \
-  {                                                                \
-    return m_##NodeType##Map.getOrCreateIDStr(node);               \
+#define DEFINE_MAP_METHODS(NodeType)                       \
+  NodeID ClangASTNodeNumbering::insertUnique##NodeType(    \
+    clang::NodeType const *node)                           \
+  {                                                        \
+    return m_##NodeType##Map.insertUnique(node);           \
+  }                                                        \
+                                                           \
+  NodeID ClangASTNodeNumbering::getExisting##NodeType(     \
+    clang::NodeType const *node) const                     \
+  {                                                        \
+    return m_##NodeType##Map.getExisting(node);            \
+  }                                                        \
+                                                           \
+  NodeID ClangASTNodeNumbering::get##NodeType(             \
+    clang::NodeType const *node)                           \
+  {                                                        \
+    return m_##NodeType##Map.get(node);                    \
+  }                                                        \
+                                                           \
+  std::string ClangASTNodeNumbering::get##NodeType##IDStr( \
+    clang::NodeType const * NULLABLE node)                 \
+  {                                                        \
+    return m_##NodeType##Map.getIDStr(node);               \
   }
 
 SM_PP_MAP_LIST(DEFINE_MAP_METHODS,

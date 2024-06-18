@@ -593,9 +593,9 @@ void PrintClangASTNodes::printDeclContext(
       string("null")));
 
   OUT_QATTR_PTR("DeclContext::", "FirstDecl",
-    getOrCreateDeclIDStr(SPY(DeclContext, declContext, FirstDecl)));
+    getDeclIDStr(SPY(DeclContext, declContext, FirstDecl)));
   OUT_QATTR_PTR("DeclContext::", "LastDecl",
-    getOrCreateDeclIDStr(SPY(DeclContext, declContext, LastDecl)));
+    getDeclIDStr(SPY(DeclContext, declContext, LastDecl)));
 
   #undef DECLCONTEXT_FLAG
 }
@@ -1218,7 +1218,7 @@ std::string PrintClangASTNodes::typeIDSyntaxJson(
 {
   if (type) {
     return ptrAndPreview(
-      getOrCreateTypeIDStr(type),
+      getTypeIDStr(type),
       typeStr(type)
     );
   }
@@ -1239,7 +1239,7 @@ std::string PrintClangASTNodes::qualTypeIDSyntaxJson(
     assert(type);
 
     return ptrAndPreview(
-      getOrCreateTypeIDStr(type),
+      getTypeIDStr(type),
       qualTypeStr(qualType)
     );
   }
@@ -1781,7 +1781,7 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
 
       OUT_QATTR_PTR(qualifier << label << ".",
         shortAndLongForms("MSI", "MemberSpecializationInfo"),
-          getOrCreateMemberSpecializationInfoIDStr(memberSpecInfo));
+          getMemberSpecializationInfoIDStr(memberSpecInfo));
       break;
     }
 
@@ -1792,7 +1792,7 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
 
       OUT_QATTR_PTR(qualifier << label << ".",
         shortAndLongForms("FTSI", "FunctionTemplateSpecializationInfo"),
-          getOrCreateFunctionTemplateSpecializationInfoIDStr(funcSpecInfo));
+          getFunctionTemplateSpecializationInfoIDStr(funcSpecInfo));
       break;
     }
 
@@ -1803,7 +1803,7 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
 
       OUT_QATTR_PTR(qualifier << label << ".",
         shortAndLongForms("DFTSI", "DependentFunctionTemplateSpecializationInfo"),
-          getOrCreateDependentFunctionTemplateSpecializationInfoIDStr(
+          getDependentFunctionTemplateSpecializationInfoIDStr(
             depFuncSpecInfo));
       break;
     }
@@ -1904,7 +1904,7 @@ void PrintClangASTNodes::printFieldDecl(clang::FieldDecl const *decl)
     // Also the expression might not already be numbered due to:
     // https://github.com/llvm/llvm-project/issues/64916
     OUT_QATTR_PTR("FieldDecl::", "Init",
-      getOrCreateStmtIDStr(decl->getInClassInitializer()));
+      getStmtIDStr(decl->getInClassInitializer()));
   }
 
   if (decl->hasCapturedVLAType()) {
@@ -2080,7 +2080,7 @@ void PrintClangASTNodes::printCXXRecordDecl(clang::CXXRecordDecl const *decl)
   // The DDs are never numbered in advance.  (I'm planning to remove the
   // advance numbering thing altogether at some point.)
   OUT_QATTR_PTR(qualifier, "DefinitionData",
-    getOrCreateFake_CXXRecordDecl_DefinitionDataIDStr(toFakeDD(defData)));
+    getFake_CXXRecordDecl_DefinitionDataIDStr(toFakeDD(defData)));
 
   llvm::PointerUnion<clang::ClassTemplateDecl *,
                      clang::MemberSpecializationInfo *>
@@ -2100,7 +2100,7 @@ void PrintClangASTNodes::printCXXRecordDecl(clang::CXXRecordDecl const *decl)
              templateOrInstantiation.dyn_cast<clang::MemberSpecializationInfo*>()) {
     OUT_QATTR_PTR(qualifier,
       shortAndLongForms("MSI", "TemplateOrInstantiation.msi"),
-        getOrCreateMemberSpecializationInfoIDStr(memberSpecializationInfo));
+        getMemberSpecializationInfoIDStr(memberSpecializationInfo));
   }
   else {
     OUT_QATTR_STRING(qualifier, "TemplateOrInstantiation", "unknown type?");
@@ -2266,7 +2266,7 @@ void PrintClangASTNodes::printFunctionTemplateDecl(
 
   OUT_QATTR_PTR("FunctionTemplateDecl::",
     shortAndLongForms("Cmn", "Common"),
-      m_numbering.getOrCreateFunctionTemplateDecl_CommonIDStr(
+      m_numbering.getFunctionTemplateDecl_CommonIDStr(
         common));
 }
 
@@ -2461,7 +2461,7 @@ void PrintClangASTNodes::printClassTemplateDecl(
 
   OUT_QATTR_PTR("ClassTemplateDecl::",
     shortAndLongForms("Cmn", "Common"),
-      m_numbering.getOrCreateClassTemplateDecl_CommonIDStr(
+      m_numbering.getClassTemplateDecl_CommonIDStr(
         common));
 
   /*
@@ -3477,7 +3477,7 @@ void PrintClangASTNodes::printFunctionTemplateDecl_Common(
       // questionable design decision).  So we need to take the
       // address of the iteration variable to get the actual pointer,
       // which is then the key for my maps.
-      getOrCreateFunctionTemplateSpecializationInfoIDStr(&ftsi));
+      getFunctionTemplateSpecializationInfoIDStr(&ftsi));
 
     ++i;
   }
@@ -3503,7 +3503,7 @@ void PrintClangASTNodes::printClassTemplateDecl_Common(
   for (clang::ClassTemplateSpecializationDecl &ctsd :
          common->Specializations) {
     OUT_QATTR_PTR(qualifier, "Specializations[" << i << "]",
-      getOrCreateDeclIDStr(&ctsd));
+      getDeclIDStr(&ctsd));
 
     ++i;
   }
@@ -3515,7 +3515,7 @@ void PrintClangASTNodes::printClassTemplateDecl_Common(
   for (clang::ClassTemplatePartialSpecializationDecl &ctpsd :
          common->PartialSpecializations) {
     OUT_QATTR_PTR(qualifier, "PartialSpecializations[" << i << "]",
-      getOrCreateDeclIDStr(&ctpsd));
+      getDeclIDStr(&ctpsd));
 
     ++i;
   }
@@ -3748,7 +3748,7 @@ void PrintClangASTNodes::printType(clang::Type const *type)
   if (auto icnt =
         dyn_cast<clang::InjectedClassNameType>(type)) {
     OUT_ATTR_PTR("Decl",
-      getOrCreateDeclIDStr(SPY(InjectedClassNameType, icnt, Decl)));
+      getDeclIDStr(SPY(InjectedClassNameType, icnt, Decl)));
     OUT_ATTR_QUALTYPE("InjectedType",
       icnt->getInjectedSpecializationType());
   }
@@ -3773,7 +3773,7 @@ void PrintClangASTNodes::printType(clang::Type const *type)
     OUT_ATTR_STRING("Template",
       templateNameStr(tst->getTemplateName()));
     OUT_QATTR_PTR("Template.", "TemplateDecl",
-      getOrCreateDeclIDStr(tst->getTemplateName().getAsTemplateDecl()));
+      getDeclIDStr(tst->getTemplateName().getAsTemplateDecl()));
 
     if (tst->isTypeAlias()) {
       OUT_ATTR_QUALTYPE("getAliasedType()",
@@ -3787,7 +3787,7 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
   else if (auto parmType = dyn_cast<clang::TemplateTypeParmType>(type)) {
     OUT_ATTR_PTR("TTPDecl",
-      getOrCreateDeclIDStr(parmType->getDecl()));
+      getDeclIDStr(parmType->getDecl()));
     OUT_ATTR_STRING("Depth",
       parmType->getDepth());
     OUT_ATTR_STRING("Index",
@@ -3798,7 +3798,7 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
   else if (auto sttpt = dyn_cast<clang::SubstTemplateTypeParmType>(type)) {
     OUT_ATTR_PTR("AssociatedDecl",
-      getOrCreateDeclIDStr(sttpt->getAssociatedDecl()));
+      getDeclIDStr(sttpt->getAssociatedDecl()));
     OUT_ATTR_STRING("Index",
       sttpt->getIndex());
     OUT_ATTR_STRING("PackIndex",
@@ -3809,7 +3809,7 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
   else if (auto tagType = dyn_cast<clang::TagType>(type)) {
     OUT_ATTR_PTR("decl",
-      getOrCreateDeclIDStr(SPY(TagType, tagType, decl)));
+      getDeclIDStr(SPY(TagType, tagType, decl)));
   }
 
   else if (auto funcType = dyn_cast<clang::FunctionProtoType>(type)) {
@@ -3857,7 +3857,7 @@ void PrintClangASTNodes::printType(clang::Type const *type)
 
   else if (auto usingType = dyn_cast<clang::UsingType>(type)) {
     OUT_ATTR_PTR("Found",
-      getOrCreateDeclIDStr(usingType->getFoundDecl()));
+      getDeclIDStr(usingType->getFoundDecl()));
   }
 
   else if (auto typedefType = dyn_cast<clang::TypedefType>(type)) {

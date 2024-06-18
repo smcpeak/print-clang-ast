@@ -100,16 +100,13 @@ public:      // methods
   // return "".
   std::string ifLongForm(std::string const &qualifier) const;
 
-  // Define a pair of methods to get the ID string for 'NodeType', the
-  // second of which will add a numbering if needed.  In both cases,
-  // the method here just delegates to 'm_numbering'.
-  #define DEFINE_GET_IDSTR_METHODS(NodeType)                       \
-    std::string get##NodeType##IDStr(                              \
-      clang::NodeType const * NULLABLE node)                       \
-        { return m_numbering.get##NodeType##IDStr(node); }         \
-    std::string getOrCreate##NodeType##IDStr(                      \
-      clang::NodeType const * NULLABLE node)                       \
-        { return m_numbering.getOrCreate##NodeType##IDStr(node); }
+  // Define a method to get the ID string for 'NodeType', adding a
+  // numbering if needed.  The method here just delegates to
+  // 'm_numbering'.
+  #define DEFINE_GET_IDSTR_METHODS(NodeType)               \
+    std::string get##NodeType##IDStr(                      \
+      clang::NodeType const * NULLABLE node)               \
+        { return m_numbering.get##NodeType##IDStr(node); }
 
   SM_PP_MAP_LIST(DEFINE_GET_IDSTR_METHODS,
     CLANG_AST_NODE_NUMBERING_TRACKED_TYPES)

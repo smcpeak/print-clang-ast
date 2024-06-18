@@ -87,11 +87,7 @@ public:      // types
     std::string getExistingIDStr(T const * NULLABLE node) const;
 
     // Similar, but create the numbering for 'node' if needed.
-    std::string getOrCreateIDStr(T const * NULLABLE node);
-
-    // Alias, for now.
-    std::string getIDStr(T const * NULLABLE node)
-      { return getOrCreateIDStr(node); }
+    std::string getIDStr(T const * NULLABLE node);
   };
 
 public:      // data
@@ -118,12 +114,11 @@ public:
 
   // Declare the methods for numbering 'NodeType'.  These just relay to
   // those in 'NumberingMap', so see the comments there for semantics.
-  #define DECLARE_MAP_METHODS(NodeType)                                              \
-    NodeID insertUnique##NodeType(clang::NodeType const *node);                      \
-    NodeID getExisting##NodeType(clang::NodeType const *node) const;                 \
-    NodeID get##NodeType(clang::NodeType const *node);                               \
-    std::string get##NodeType##IDStr(clang::NodeType const * NULLABLE node);         \
-    std::string getOrCreate##NodeType##IDStr(clang::NodeType const * NULLABLE node);
+  #define DECLARE_MAP_METHODS(NodeType)                                      \
+    NodeID insertUnique##NodeType(clang::NodeType const *node);              \
+    NodeID getExisting##NodeType(clang::NodeType const *node) const;         \
+    NodeID get##NodeType(clang::NodeType const *node);                       \
+    std::string get##NodeType##IDStr(clang::NodeType const * NULLABLE node);
 
   SM_PP_MAP_LIST(DECLARE_MAP_METHODS,
     CLANG_AST_NODE_NUMBERING_TRACKED_TYPES)
