@@ -1,9 +1,10 @@
 // optional-util.h
 // Utilities related to std::optional.
 
-#ifndef OPTIONAL_UTIL_H
-#define OPTIONAL_UTIL_H
+#ifndef PCA_OPTIONAL_UTIL_H
+#define PCA_OPTIONAL_UTIL_H
 
+#include <iostream>                    // std::ostream
 #include <optional>                    // std::optional
 #include <string>                      // std::string
 #include <sstream>                     // std::ostringstream
@@ -25,4 +26,20 @@ std::string optionalToString(std::optional<T> const &o, char const *ifNone)
 }
 
 
-#endif // OPTIONAL_UTIL_H
+template <class T>
+std::ostream& operator<< (std::ostream &os, std::optional<T> const &opt)
+{
+  if (opt.has_value()) {
+    os << opt.value();
+  }
+  else {
+    // This assumes 'null' will not be confused with whatever 'T' is.
+    // That's not true in every possible case, but in practice it almost
+    // always is, and I can handle exceptions separately.
+    os << "null";
+  }
+  return os;
+}
+
+
+#endif // PCA_OPTIONAL_UTIL_H
