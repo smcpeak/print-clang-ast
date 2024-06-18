@@ -145,8 +145,13 @@ static std::string jsonObject2(
   OUT_QATTR_STRING(qualifier, key, locStr(loc))
 
 // Print an attribute that is a QualType.
-#define OUT_QATTR_QUALTYPE(qualifier, key, qt)                \
-    OUT_QATTR_JSON(qualifier, key, qualTypeIDSyntaxJson(qt))
+#define OUT_QATTR_QUALTYPE(qualifier, key, qt)             \
+  OUT_QATTR_JSON(qualifier, key, qualTypeIDSyntaxJson(qt))
+
+// Print an attribute that is a `TypeSourceInfo`.
+#define OUT_QATTR_TYPE_SOURCE_INFO(qualifier, key, tsi) \
+  OUT_QATTR_STRING(qualifier, key,                      \
+    typeSourceInfoStr(tsi));
 
 // Print a placeholder for a value that I haven't implemented.
 #define OUT_QATTR_TODO(qualifier, key)     \
@@ -858,8 +863,8 @@ void PrintClangASTNodes::printTemplateArgumentLoc(
   // assertions in the 'TemplateArgumentLoc' accessor methods.
   switch (targLoc->getArgument().getKind()) {
     case clang::TemplateArgument::Type:
-      OUT_QATTR_STRING(qualifier, label << "::LocInfo::TypeSourceInfo",
-        typeSourceInfoStr(locInfo.getAsTypeSourceInfo()));
+      OUT_QATTR_TYPE_SOURCE_INFO(qualifier, label << "::LocInfo::TypeSourceInfo",
+        locInfo.getAsTypeSourceInfo());
       break;
 
     case clang::TemplateArgument::Expression:
@@ -958,9 +963,9 @@ void PrintClangASTNodes::printCXXCtorInitializer(
 {
   // Initializee.
   if (clang::TypeSourceInfo const *tsi = init->getTypeSourceInfo()) {
-    OUT_QATTR_STRING(qualifier,
+    OUT_QATTR_TYPE_SOURCE_INFO(qualifier,
       label << ".Initializee" << ifLongForm(".TypeSourceInfo"),
-        typeSourceInfoStr(tsi));
+        tsi);
   }
   else if (clang::FieldDecl const *fieldDecl = init->getMember()) {
     OUT_QATTR_DECL(qualifier,
@@ -1022,8 +1027,8 @@ void PrintClangASTNodes::printCXXBaseSpecifier(
     (bspec->getInheritConstructors()?
              " InheritConstructors" : ""));
 
-  OUT_QATTR_STRING(qualifier, label << ".BaseTypeInfo",
-    typeSourceInfoStr(bspec->getTypeSourceInfo()));
+  OUT_QATTR_TYPE_SOURCE_INFO(qualifier, label << ".BaseTypeInfo",
+    bspec->getTypeSourceInfo());
 
   OUT_QATTR_QUALTYPE(qualifier, label << ".getType()",
     bspec->getType());
@@ -1468,8 +1473,8 @@ void PrintClangASTNodes::printDeclaratorDecl(clang::DeclaratorDecl const *decl)
   clang::TypeSourceInfo const * NULLABLE tsi = decl->getTypeSourceInfo();
 
   // This prints 'tsi' as a summary string.
-  OUT_QATTR_STRING("DeclaratorDecl::", "TInfo",
-    typeSourceInfoStr(tsi));
+  OUT_QATTR_TYPE_SOURCE_INFO("DeclaratorDecl::", "TInfo",
+    tsi);
 
   if (tsi) {
     // Print the QualType stored in it, which I expect to be the same as
@@ -2205,8 +2210,8 @@ void PrintClangASTNodes::printFriendDecl(clang::FriendDecl const *decl)
   char const *qualifier = "FriendDecl::";
 
   if (clang::TypeSourceInfo const *tsi = decl->getFriendType()) {
-    OUT_QATTR_STRING(qualifier, "Friend.TSI",
-      typeSourceInfoStr(decl->getFriendType()));
+    OUT_QATTR_TYPE_SOURCE_INFO(qualifier, "Friend.TSI",
+      decl->getFriendType());
   }
   else {
     OUT_QATTR_DECL(qualifier, "Friend.ND",
@@ -2328,8 +2333,8 @@ void PrintClangASTNodes::printClassTemplateSpecializationDecl(
 
   ESI *esi = SPY(ClassTemplateSpecializationDecl, decl, ExplicitInfo);
   if (esi) {
-    OUT_QATTR_STRING(qualifier, label << "->TypeAsWritten",
-      typeSourceInfoStr(esi->TypeAsWritten));
+    OUT_QATTR_TYPE_SOURCE_INFO(qualifier, label << "->TypeAsWritten",
+      esi->TypeAsWritten);
     OUT_QATTR_STRING(qualifier, label << "->ExternLoc",
       locStr(esi->ExternLoc));
     OUT_QATTR_STRING(qualifier, label << "->TemplateKeywordLoc",
@@ -3121,9 +3126,8 @@ void PrintClangASTNodes::printCXXNewExpr(
   OUT_QATTR_DECL(qualifier, "OperatorDelete",
     expr->getOperatorDelete());
 
-  // TODO: Factor the many uses of `typeSourceInfoStr`.
-  OUT_QATTR_STRING(qualifier, "AllocatedTypeInfo",
-    typeSourceInfoStr(expr->getAllocatedTypeSourceInfo()));
+  OUT_QATTR_TYPE_SOURCE_INFO(qualifier, "AllocatedTypeInfo",
+    expr->getAllocatedTypeSourceInfo());
 
   // TODO: Factor uses of `sourceRangeStr`.
   OUT_QATTR_STRING(qualifier, "Range",
