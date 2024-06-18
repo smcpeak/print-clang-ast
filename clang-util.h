@@ -25,6 +25,7 @@
 #include "clang/Lex/HeaderSearchOptions.h"                 // clang::HeaderSearchOptions
 
 // smbase
+#include "smbase/save-restore.h"                           // SetRestore
 #include "smbase/sm-macros.h"                              // NULLABLE
 
 // llvm
@@ -67,10 +68,20 @@
 // services.  I then typically have a class that does some analysis
 // inherit this one.
 //
-// Methods in this class are 'static' when the ASTContext is not
-// actually needed, and (should be) 'const' otherwise.
+// Methods in this class are `static` when the ASTContext is not
+// actually needed, and (should usually be) `const` otherwise.
+// However, making them `static` precludes adding some kinds of debug
+// statements so I'm gravitating toward not using `static` methods.
+//
 class ClangUtil {
-public:      // data
+public:      // class data
+  // Instance for use in printing or other situations where it is
+  // troublesome to explicitly pass an object (which is otherwise
+  // preferred).  Some care is required when setting this since it can
+  // only work with one TU at a time.  Initially `nullptr`.
+  static ClangUtil const * NULLABLE s_instance;
+
+public:      // instance data
   // Main result of parsing.  This is not 'const' so I can get a
   // non-const SourceManager.
   clang::ASTContext &m_astContext;
@@ -90,6 +101,9 @@ public:      // data
 
 public:      // methods
   explicit ClangUtil(clang::ASTContext &astContext);
+
+  // Get the static instance, asserting it is not `nullptr`.
+  static ClangUtil const &getInstance();
 
   // --------------------------- ASTContext ----------------------------
   clang::ASTContext &getASTContext() { return m_astContext; }
@@ -638,6 +652,15 @@ public:      // methods
   // Stringify 'n'.
   static std::string apIntStr(llvm::APInt const &n, bool isSigned);
   static std::string apsIntStr(llvm::APSInt const &n);
+};
+
+
+// This class sets `ClangUtil::s_instance` to itself.
+class GlobalClangUtilInstance : public ClangUtil,
+                                public SetRestore<ClangUtil const *> {
+public:      // methods
+  ~GlobalClangUtilInstance();
+  explicit GlobalClangUtilInstance(clang::ASTContext &astContext);
 };
 
 

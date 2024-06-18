@@ -35,6 +35,9 @@ using std::string;
 INIT_TRACE("clang-util");
 
 
+ClangUtil const * NULLABLE ClangUtil::s_instance = nullptr;
+
+
 ClangUtil::ClangUtil(clang::ASTContext &astContext)
   : m_astContext(astContext),
     m_srcMgr(m_astContext.getSourceManager()),
@@ -46,6 +49,18 @@ ClangUtil::ClangUtil(clang::ASTContext &astContext)
   m_printingPolicy.Bool = true;
   m_printingPolicy.Nullptr = true;
   m_printingPolicy.SplitTemplateClosers = true;
+
+  // This does *not* set `s_instance`.  Instead, a client with more
+  // complete knowledge of the context must do so.
+}
+
+
+STATICDEF ClangUtil const &ClangUtil::getInstance()
+{
+  if (!s_instance) {
+    xfailure("ClangUtil::s_instance is not set.");
+  }
+  return *s_instance;
 }
 
 
@@ -2251,6 +2266,20 @@ STATICDEF std::string ClangUtil::apsIntStr(llvm::APSInt const &n)
   n.toString(digits);
   return smallVectorStr(digits);
 }
+
+
+// ---------------------- GlobalClangUtilInstance ----------------------
+GlobalClangUtilInstance::~GlobalClangUtilInstance()
+{
+  // The `SetRestore` dtor takes care of resetting `s_instance`.
+}
+
+
+GlobalClangUtilInstance::GlobalClangUtilInstance(
+  clang::ASTContext &astContext)
+  : ClangUtil(astContext),
+    SetRestore<ClangUtil const *>(ClangUtil::s_instance, this)
+{}
 
 
 // ---------------------------- DeclCompare ----------------------------
