@@ -642,8 +642,8 @@ void PrintClangASTNodes::printTemplateParameterList(
       params->getParam(i));
   }
 
-  OUT_QATTR_PTR(qualifier, label << "->Requires",
-    getStmtIDStr(params->getRequiresClause()));
+  OUT_QATTR_STMT(qualifier, label << "->Requires",
+    params->getRequiresClause());
 
   #undef TEMPLATEPARAMETERLIST_FLAG
 }
@@ -776,8 +776,8 @@ void PrintClangASTNodes::printTemplateArgument(
       break;
 
     case clang::TemplateArgument::Expression:
-      OUT_QATTR_PTR(qualifier, label << tovv,
-        getStmtIDStr(arg.getAsExpr()));
+      OUT_QATTR_STMT(qualifier, label << tovv,
+        arg.getAsExpr());
       break;
 
     case clang::TemplateArgument::Pack: {
@@ -866,8 +866,8 @@ void PrintClangASTNodes::printTemplateArgumentLoc(
     case clang::TemplateArgument::Declaration:
     case clang::TemplateArgument::NullPtr:
     case clang::TemplateArgument::Integral:
-      OUT_QATTR_PTR(qualifier, label << "::LocInfo::Expr",
-        getStmtIDStr(locInfo.getAsExpr()));
+      OUT_QATTR_STMT(qualifier, label << "::LocInfo::Expr",
+        locInfo.getAsExpr());
       break;
 
     case clang::TemplateArgument::Template:
@@ -979,8 +979,8 @@ void PrintClangASTNodes::printCXXCtorInitializer(
         "unknown?");
   }
 
-  OUT_QATTR_PTR(qualifier, label << ".Init",
-    getStmtIDStr(init->getInit()));
+  OUT_QATTR_STMT(qualifier, label << ".Init",
+    init->getInit());
 
   OUT_QATTR_LOC(qualifier, label << ".MemberOrEllipsisLocation",
     init->getMemberLocation());
@@ -1483,8 +1483,8 @@ void PrintClangASTNodes::printDeclaratorDecl(clang::DeclaratorDecl const *decl)
   }
 
   if (SPY(DeclaratorDecl, decl, hasExtInfo)) {
-    OUT_QATTR_PTR("DeclaratorDecl::ExtInfo::", "TrailingRequiresClause",
-      getStmtIDStr(decl->getTrailingRequiresClause()));
+    OUT_QATTR_STMT("DeclaratorDecl::ExtInfo::", "TrailingRequiresClause",
+      decl->getTrailingRequiresClause());
 
     // TODO: QualifierLoc has more information than this prints, so it
     // would be nice to dig deeper into that structure.
@@ -1538,8 +1538,8 @@ void PrintClangASTNodes::printVarDecl(clang::VarDecl const *decl)
 
     nullptr;
 
-  OUT_QATTR_PTR("VarDecl::", "InitStmt",
-    getStmtIDStr(initStmt));
+  OUT_QATTR_STMT("VarDecl::", "InitStmt",
+    initStmt);
 
   if (evalStmt) {
     OUT_QATTR_BITSET("VarDecl::", "EvaluatedStmt flags",
@@ -1725,9 +1725,9 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
     // I do not use 'getBody' for this because I want to know about this
     // particular node, not some potentially different redeclaration
     // that has a body.
-    OUT_QATTR_PTR("FunctionDecl::", "Body",
-      getStmtIDStr(SPY(FunctionDecl, decl, Body).
-                     get(getExternalSource())));
+    OUT_QATTR_STMT("FunctionDecl::", "Body",
+      SPY(FunctionDecl, decl, Body).
+          get(getExternalSource()));
   }
 
   OUT_QATTR_STRING("FunctionDecl::", "ODRHash",
@@ -1893,8 +1893,8 @@ void PrintClangASTNodes::printFieldDecl(clang::FieldDecl const *decl)
   // complicated way.  I'll just print them as three optional fields.
 
   if (decl->isBitField()) {
-    OUT_QATTR_PTR("FieldDecl::", "BitWidth",
-      getStmtIDStr(decl->getBitWidth()));
+    OUT_QATTR_STMT("FieldDecl::", "BitWidth",
+      decl->getBitWidth());
   }
 
   if (decl->hasInClassInitializer()) {
@@ -1903,8 +1903,8 @@ void PrintClangASTNodes::printFieldDecl(clang::FieldDecl const *decl)
     //
     // Also the expression might not already be numbered due to:
     // https://github.com/llvm/llvm-project/issues/64916
-    OUT_QATTR_PTR("FieldDecl::", "Init",
-      getStmtIDStr(decl->getInClassInitializer()));
+    OUT_QATTR_STMT("FieldDecl::", "Init",
+      decl->getInClassInitializer());
   }
 
   if (decl->hasCapturedVLAType()) {
@@ -2677,8 +2677,8 @@ void PrintClangASTNodes::printCompoundStmt(
     stmt->size());
 
   for (unsigned i=0; i < stmt->size(); ++i) {
-    OUT_QATTR_PTR(qualifier, "Stmt[" << i << "]",
-      getStmtIDStr(stmt->body_begin()[i]));
+    OUT_QATTR_STMT(qualifier, "Stmt[" << i << "]",
+      stmt->body_begin()[i]);
   }
 }
 
@@ -2900,8 +2900,8 @@ void PrintClangASTNodes::printMemberExpr(clang::MemberExpr const *expr)
       list);
   }
 
-  OUT_QATTR_PTR(qualifier, "Base",
-    getStmtIDStr(expr->getBase()));
+  OUT_QATTR_STMT(qualifier, "Base",
+    expr->getBase());
 
   OUT_QATTR_DECL(qualifier, "MemberDecl",
     expr->getMemberDecl());
@@ -2971,10 +2971,10 @@ void PrintClangASTNodes::printBinaryOperator(
 {
   char const *qualifier = "BinaryOperatpr::";
 
-  OUT_QATTR_PTR(qualifier, "LHS",
-    getStmtIDStr(expr->getLHS()));
-  OUT_QATTR_PTR(qualifier, "RHS",
-    getStmtIDStr(expr->getRHS()));
+  OUT_QATTR_STMT(qualifier, "LHS",
+    expr->getLHS());
+  OUT_QATTR_STMT(qualifier, "RHS",
+    expr->getRHS());
   OUT_QATTR_STRING(qualifier, "Opcode",
     expr->getOpcodeStr().str());
 }
@@ -2990,8 +2990,8 @@ void PrintClangASTNodes::printParenListExpr(
 
   for (unsigned i=0; i < expr->getNumExprs(); ++i) {
     clang::Expr const *e = expr->getExpr(i);
-    OUT_QATTR_PTR(qualifier, "Expr[" << i << "]",
-      getStmtIDStr(e));
+    OUT_QATTR_STMT(qualifier, "Expr[" << i << "]",
+      e);
   }
 
   OUT_QATTR_LOC(qualifier, "LParenLoc",
@@ -3104,8 +3104,8 @@ void PrintClangASTNodes::printCXXConstructExpr(
 
   unsigned i=0;
   for (clang::Expr const *arg : expr->arguments()) {
-    OUT_QATTR_PTR(qualifier, "Arg[" << (i++) << "]",
-      getStmtIDStr(arg));
+    OUT_QATTR_STMT(qualifier, "Arg[" << (i++) << "]",
+      arg);
   }
 }
 
@@ -3220,8 +3220,8 @@ void PrintClangASTNodes::printCXXDependentScopeMemberExpr(
   // I spy this field rather than using 'getBase()' because that
   // requires it not be implicit, yet it is evidently possible for
   // 'Base' to be non-null even in the implicit case.
-  OUT_QATTR_PTR(qualifier, "Base",
-    getStmtIDStr(SPY(CXXDependentScopeMemberExpr, expr, Base)));
+  OUT_QATTR_STMT(qualifier, "Base",
+    SPY(CXXDependentScopeMemberExpr, expr, Base));
 
   OUT_QATTR_QUALTYPE(qualifier, "BaseType",
     expr->getBaseType());
