@@ -8,7 +8,7 @@
 
 // smbase
 #include "smbase/compare-util.h"       // compare
-#include "smbase/sm-macros.h"          // STATICDEF
+#include "smbase/sm-macros.h"          // STATICDEF, PRETEND_USED
 #include "smbase/sm-trace.h"           // INIT_TRACE, etc.
 #include "smbase/string-util.h"        // doubleQuote, beginsWith, hasSubstring, trimWhitespace
 #include "smbase/stringb.h"            // stringb
@@ -1848,6 +1848,7 @@ clang::NamedDecl const * NULLABLE ClangUtil::getInstFromDeclOpt(
     // TODO: What?  How do type alias templates work?  Perhaps there is
     // no such thing as an "instantiation" of a type alias, and instead
     // Clang just turns it into the underlying type immediately?
+    PRETEND_USED(typeAliasDecl);
   }
 
   return nullptr;

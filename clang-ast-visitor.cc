@@ -446,7 +446,7 @@ void ClangASTVisitor::visitDecl(
 
     if (auto crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
       if (auto ctsd = dyn_cast<
-            clang::ClassTemplateSpecializationDecl>(decl)) {
+            clang::ClassTemplateSpecializationDecl>(crd)) {
         if (auto ctpsd = dyn_cast<
               clang::ClassTemplatePartialSpecializationDecl>(decl)) {
           visitTemplateDeclParameterList(
@@ -555,12 +555,12 @@ void ClangASTVisitor::visitDecl(
   // the test at in/src/friend-template-decl.cc appears to confirm that.
   // So the following case is never exercised.
   else if (auto ftd = dyn_cast<clang::FriendTemplateDecl>(decl)) {
-    clang::TypeSourceInfo const *tsi = fd->getFriendType();
+    clang::TypeSourceInfo const *tsi = ftd->getFriendType();
     if (tsi) {
       visitTypeLoc(VTC_FRIEND_TEMPLATE_DECL, tsi->getTypeLoc());
     }
     else {
-      clang::NamedDecl const *inner = fd->getFriendDecl();
+      clang::NamedDecl const *inner = ftd->getFriendDecl();
       visitDecl(VDC_FRIEND_TEMPLATE_DECL, inner);
     }
   }

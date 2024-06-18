@@ -419,8 +419,16 @@ namespace clang {
 
     DEFINE_FIELD_GETTER(TagDecl, TypedefNameDeclOrQualifier)
 
-    using CXXRecordDecl_DefinitionData =
-      struct CXXRecordDecl::DefinitionData;
+    // I need `struct` here because there is a data member of
+    // `CXXRecordDecl` that is also called `DefinitionData`.
+    //
+    // Relatedly (I think), if I define `CXXRecordDecl_DefinitionData`
+    // with a `using` declaration, then GCC will issue a spurious
+    // warning.  But it seems happy enough with `typedef`.
+    //
+    typedef struct CXXRecordDecl::DefinitionData
+      CXXRecordDecl_DefinitionData;
+
     using CXXRecordDecl_LambdaDefinitionData =
       CXXRecordDecl::LambdaDefinitionData;
 
@@ -975,7 +983,7 @@ void PrintClangASTNodes::printCXXCtorInitializer(
   else if (clang::IndirectFieldDecl const *ifd = init->getIndirectMember()) {
     OUT_QATTR_DECL(qualifier,
       label << ".Initializee" << ifLongForm(".IndirectFieldDecl"),
-        fieldDecl);
+        ifd);
   }
   else {
     // Should not happen.
@@ -2211,7 +2219,7 @@ void PrintClangASTNodes::printFriendDecl(clang::FriendDecl const *decl)
 
   if (clang::TypeSourceInfo const *tsi = decl->getFriendType()) {
     OUT_QATTR_TYPE_SOURCE_INFO(qualifier, "Friend.TSI",
-      decl->getFriendType());
+      tsi);
   }
   else {
     OUT_QATTR_DECL(qualifier, "Friend.ND",
@@ -3166,7 +3174,7 @@ void PrintClangASTNodes::printCXXNewExpr(
   OUT_QATTR_INT(qualifier, "NumPlacementArgs",
     expr->getNumPlacementArgs());
 
-  for (int i=0; i < expr->getNumPlacementArgs(); ++i) {
+  for (int i=0; i < (int)expr->getNumPlacementArgs(); ++i) {
     OUT_QATTR_STMT(qualifier, stringb("PlacementArg[" << i << "]"),
       expr->getPlacementArg(i));
   }
