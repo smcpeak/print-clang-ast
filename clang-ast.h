@@ -4,6 +4,7 @@
 #ifndef PCA_CLANG_AST_H
 #define PCA_CLANG_AST_H
 
+#include "clang-frontendaction-fwd.h"            // clang::FrontendAction
 #include "clang-util.h"                          // ClangUtil
 
 #include "clang/Frontend/ASTUnit.h"              // clang::ASTUnit
@@ -61,7 +62,7 @@ public:      // methods
   //
   // Return true on success.  On failure, return false after printing
   // error messages to stderr.
-  bool parseSourceCode();
+  bool parseSourceCode(clang::FrontendAction *feAction = nullptr);
 
   // Get the `ASTUnit` after a successful parse.
   clang::ASTUnit *getASTUnit();

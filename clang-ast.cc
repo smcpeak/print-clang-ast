@@ -86,7 +86,7 @@ bool ClangAST::parseCommandLine(
 }
 
 
-bool ClangAST::parseSourceCode()
+bool ClangAST::parseSourceCode(clang::FrontendAction *feAction)
 {
   // Boilerplate.
   std::shared_ptr<clang::PCHContainerOperations> pchContainerOps(
@@ -111,7 +111,8 @@ bool ClangAST::parseSourceCode()
     clang::ASTUnit::LoadFromCompilerInvocationAction(
       m_compilerInvocation,
       pchContainerOps,
-      diagnosticsEngine));
+      diagnosticsEngine,
+      feAction));
 
   if (m_ast == nullptr) {
     // Error messages should already have been printed.
