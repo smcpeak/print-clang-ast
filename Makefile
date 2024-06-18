@@ -92,9 +92,6 @@ CXXFLAGS =
 CXXFLAGS += -Wall
 CXXFLAGS += -Werror
 
-# Silence a warning about a multi-line comment in DeclOpenMP.h.
-CXXFLAGS += -Wno-comment
-
 # Get llvm compilation flags.
 #
 # Except, remove '-fno-exceptions' because I want to use std::regex but
