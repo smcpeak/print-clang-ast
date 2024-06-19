@@ -46,6 +46,10 @@ static int innerMain(int argc, char const **argv)
   // indentation.
   gdv::GDValue::s_defaultWriteOptions.m_enableIndentation = true;
 
+  // It seems like I'm usually printing into a context with one level
+  // of indentation already there.
+  gdv::GDValue::s_defaultWriteOptions.m_indentLevel = 1;
+
   // Command line options parser for the options that precede those
   // intended for clang.
   PCACommandLineOptions options;
