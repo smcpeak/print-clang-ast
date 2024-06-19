@@ -6,12 +6,12 @@
 // this dir
 #include "enum-util.h"                           // ENUM_TABLE_LOOKUP
 #include "expose-template-common.h"              // clang::FunctionTemplateDecl_Common
-#include "optional-util.h"                       // optionalToString
 #include "spy-private.h"                         // ACCESS_PRIVATE_FIELD
 #include "pca-util.h"                            // stringb
 
 // smbase
 #include "smbase/map-util.h"                     // mapFindOpt
+#include "smbase/optional-util.h"                // optionalToString
 #include "smbase/sm-trace.h"                     // INIT_TRACE
 #include "smbase/string-util.h"                  // doubleQuote
 #include "smbase/stringb.h"                      // stringb
