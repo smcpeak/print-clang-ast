@@ -270,6 +270,34 @@ STATICDEF clang::SourceLocation ClangUtil::declLoc(
     }
   }
 
+  if (auto ctsd = dyn_cast<clang::ClassTemplateSpecializationDecl>(decl)) {
+    if (!ctsd->isExplicitSpecialization()) {
+      /* The source range associated with an instantiation can be
+         incorrect:
+
+           https://github.com/llvm/llvm-project/issues/96098
+
+         So, get the location from the declaration it was instantiated
+         from.
+
+         Note: Like for function templates (above), this means the
+         location will be of the template *body*, whereas without this
+         it would be the template *head*.
+      */
+      if (clang::CXXRecordDecl const *instFrom =
+            ctsd->getTemplateInstantiationPattern()) {
+        return declLoc(instFrom);
+      }
+      else {
+        // What ends up here are specializations for which no decision
+        // has been made whether to instantiate or specialize.  The only
+        // specific case I'm aware of is template-ids named by deduction
+        // guides.  We can just flow down to the normal call to
+        // `getBeginLoc()`.
+      }
+    }
+  }
+
   /* One case where 'getLocation()' does the wrong thing is if 'decl' is
      a FunctionDecl implicitly instantiated from a member template of a
      template class, where the member template was declared in the class

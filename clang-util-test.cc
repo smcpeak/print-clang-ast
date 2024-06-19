@@ -55,7 +55,7 @@ void GIFDVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)
 {
-  TRACE2("visitDecl: " << declKindAtLocStr(decl));
+  TRACE2("GIFDVisitor::visitDecl: " << declKindAtLocStr(decl));
 
   if (auto namedDecl = dyn_cast<clang::NamedDecl>(decl)) {
     if (auto instFrom = getInstFromDeclOpt(namedDecl)) {
@@ -262,6 +262,72 @@ void testGetInstFromDeclOpt()
 }
 
 
+// Visitor that calls `getDeclLoc` on every `Decl` node and accumulates
+// the results.
+//
+// TODO: This is copy+paste of GIFDVisitor.  I should be able to factor
+// their commonality.
+class DeclLocVisitor : public ClangASTVisitor, public ClangUtil {
+public:      // types
+  using Base = ClangASTVisitor;
+
+public:      // data
+  // Actual results of the calls.
+  GDValue m_actual;
+
+public:      // methods
+  DeclLocVisitor(clang::ASTContext &astContext)
+    : ClangASTVisitor(),
+      ClangUtil(astContext),
+      m_actual(GDVK_SET)
+  {}
+
+  // ClangASTVisitor methods
+  virtual void visitDecl(
+    VisitDeclContext context,
+    clang::Decl const *decl) override;
+};
+
+
+void DeclLocVisitor::visitDecl(
+  VisitDeclContext context,
+  clang::Decl const *decl)
+{
+  TRACE2("DeclLocVisitor::visitDecl: " << declKindAtLocStr(decl));
+
+  // For the moment I only care about CTSDs.
+  if (auto ctsd = dyn_cast<clang::ClassTemplateSpecializationDecl>(decl)) {
+    clang::SourceLocation loc = declLoc(ctsd);
+
+    m_actual.setInsert(GDVTuple({
+      namedDeclStr(ctsd),
+      locLineColStr(loc)
+    }));
+  }
+
+  Base::visitDecl(context, decl);
+}
+
+
+void testOneDeclLoc(char const *fname, GDValue const &expect)
+{
+  ClangASTUtil ast({fname});
+
+  DeclLocVisitor visitor(ast.getASTContext());
+  visitor.scanTU(ast.getASTContext());
+
+  EXPECT_EQ(visitor.m_actual, expect);
+}
+
+
+void testDeclLoc()
+{
+  testOneDeclLoc("in/src/use-template-via-typedef.cc", GDValue(GDVSet{
+    GDVTuple{"S<int>", "14:1"},
+  }));
+}
+
+
 CLOSE_ANONYMOUS_NAMESPACE
 
 
@@ -269,6 +335,7 @@ CLOSE_ANONYMOUS_NAMESPACE
 void clang_util_unit_tests()
 {
   testGetInstFromDeclOpt();
+  testDeclLoc();
 }
 
 

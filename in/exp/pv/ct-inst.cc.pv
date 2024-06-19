@@ -28,7 +28,7 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
             VTC_ELABORATED_TYPE: TemplateSpecializationTypeLoc("S<T>", <in/src/ct-inst.cc:8:3, col:6>, NullTypeLoc)
               VTAC_TEMPLATE_SPECIALIZATION_TYPE: TArg "T" (ArgKind::Type) at in/src/ct-inst.cc:8:5
                 VTC_TEMPLATE_ARGUMENT: TemplateTypeParmTypeLoc("T", <in/src/ct-inst.cc:8:5>, NullTypeLoc)
-    VDC_CLASS_TEMPLATE_INSTANTIATION: ClassTemplateSpecializationDecl "S<int>" at in/src/ct-inst.cc:4:1
+    VDC_CLASS_TEMPLATE_INSTANTIATION: ClassTemplateSpecializationDecl "S<int>" at in/src/ct-inst.cc:5:1
       VDC_RECORD_DECL: CXXRecordDecl "S<int>::S" at in/src/ct-inst.cc:5:1
       VDC_RECORD_DECL: FieldDecl "S<int>::data" at in/src/ct-inst.cc:6:3
         VTC_DECLARATOR_DECL: SubstTemplateTypeParmTypeLoc("int", <in/src/ct-inst.cc:6:3>, NullTypeLoc)
