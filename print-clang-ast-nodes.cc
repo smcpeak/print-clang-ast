@@ -1389,6 +1389,9 @@ void PrintClangASTNodes::printDecl(clang::Decl const *decl)
   OUT_QATTR_STRING("Decl::", "Loc",
     locStr(decl->getLocation()));
 
+  OUT_QATTR_STRING("Decl::", "getSourceRange()",
+    sourceRangeStr(decl->getSourceRange()));
+
   // The qualifier here is unconditional because just "flags" is not
   // specific enough.
   OUT_QATTR_BITSET("", "Decl::flags",
