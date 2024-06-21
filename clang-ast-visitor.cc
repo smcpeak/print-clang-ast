@@ -1574,6 +1574,15 @@ void ClangASTVisitor::visitNonFunctionDeclContext(
   clang::DeclContext const *dc)
 {
   for (clang::Decl const *d : dc->decls()) {
+    if (auto crd = dyn_cast<clang::CXXRecordDecl>(d)) {
+      if (crd->isLambda()) {
+        // The `crd` object will be visited when its originating
+        // `LambdaExpr` is visited.  Therefore, skip it here.  (This
+        // matches the behavior of `RecursiveASTVisitor`.)
+        continue;
+      }
+    }
+
     visitDecl(context, d);
   }
 }
