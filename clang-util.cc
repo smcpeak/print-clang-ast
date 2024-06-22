@@ -166,6 +166,13 @@ clang::FileEntry const *ClangUtil::getFileEntryForLoc(
 }
 
 
+// ---------------------------- SourceRange ----------------------------
+std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
+{
+  return range.printToString(m_srcMgr);
+}
+
+
 // ----------------------------- FileEntry -----------------------------
 bool ClangUtil::isMainFileEntry(clang::FileEntry const *entry) const
 {
@@ -241,13 +248,6 @@ clang::FileID ClangUtil::getExpansionFileID(clang::SourceLocation loc) const
 {
   loc = m_srcMgr.getExpansionLoc(loc);
   return m_srcMgr.getFileID(loc);
-}
-
-
-// ---------------------------- SourceRange ----------------------------
-std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
-{
-  return range.printToString(m_srcMgr);
 }
 
 

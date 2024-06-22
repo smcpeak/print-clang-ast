@@ -138,6 +138,10 @@ public:      // methods
   clang::FileEntry const *getFileEntryForLoc(
     clang::SourceLocation loc) const;
 
+  // --------------------------- SourceRange ---------------------------
+  // Stringify 'range'.
+  std::string sourceRangeStr(clang::SourceRange range) const;
+
   // ---------------------------- FileEntry ----------------------------
   // True if `entry` is the main file.
   bool isMainFileEntry(clang::FileEntry const *entry) const;
@@ -171,10 +175,6 @@ public:      // methods
   // expansion happened; otherwise use it as-is.  Then get the FileID
   // from it.
   clang::FileID getExpansionFileID(clang::SourceLocation loc) const;
-
-  // --------------------------- SourceRange ---------------------------
-  // Stringify 'range'.
-  std::string sourceRangeStr(clang::SourceRange range) const;
 
   // ------------------------------ Decl -------------------------------
   /* Get the location of the beginning of 'decl'.  In particular, if
