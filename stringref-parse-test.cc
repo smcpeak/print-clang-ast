@@ -3,6 +3,7 @@
 
 #include "stringref-parse.h"                     // module under test
 
+#include "smbase/sm-test.h"                      // EXPECT_EQ
 #include "smbase/stringb.h"                      // stringb
 
 #include <cstdlib>                               // std::exit
@@ -611,6 +612,20 @@ static void test_textUpTo()
 }
 
 
+static void test_getNextIdentifier()
+{
+  StringRefParse p("id123 3abc");
+
+  EXPECT_EQ(p.getNextIdentifier(), "id123");
+  EXPECT_EQ(p.getNextIdentifier(), "");
+  p.skipWS();
+  EXPECT_EQ(p.getNextIdentifier(), "");
+  EXPECT_EQ(p.getNextChar(), '3');
+  EXPECT_EQ(p.getNextIdentifier(), "abc");
+  xassert(!p.hasText());
+}
+
+
 void stringref_parse_unit_tests()
 {
   test_advancePastBlankLinesAfterToken();
@@ -632,6 +647,7 @@ void stringref_parse_unit_tests()
   test_getNextWSSeparatedToken();
   test_getLineColStr();
   test_textUpTo();
+  test_getNextIdentifier();
 }
 
 

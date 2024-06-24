@@ -3,10 +3,11 @@
 
 #include "stringref-parse.h"                     // this module
 
-#include "smbase/codepoint.h"                    // isCWhitespace
+#include "smbase/codepoint.h"                    // isCWhitespace, isCIdentifierCharacter, isCIdentifierStartCharacter
 #include "smbase/stringb.h"                      // stringb
 
 #include <cstring>                               // std::strlen
+#include <sstream>                               // std::ostringstream
 #include <string>                                // std::string
 
 #include <assert.h>                              // assert
@@ -34,6 +35,22 @@ StringRefParse::StringRefParse(
     m_upperBound(upperBound)
 {
   assertInvariants();
+}
+
+
+char StringRefParse::peekNextChar() const
+{
+  xassertPrecondition(hasText());
+
+  return m_text[m_cursor];
+}
+
+
+char StringRefParse::getNextChar()
+{
+  xassertPrecondition(hasText());
+
+  return m_text[m_cursor++];
 }
 
 
@@ -416,16 +433,32 @@ std::string StringRefParse::getNextWSSeparatedToken()
 }
 
 
-std::string StringRefParse::textUpTo(unsigned end)
+std::string StringRefParse::getNextIdentifier()
 {
-  if (end > m_upperBound) {
-    end = m_upperBound;
-  }
-  if (end < m_cursor) {
-    end = m_cursor;
+  std::ostringstream oss;
+
+  if (hasText() && isCIdentifierStartCharacter(peekNextChar())) {
+    oss << getNextChar();
+
+    while (hasText() && isCIdentifierCharacter(peekNextChar())) {
+      oss << getNextChar();
+    }
   }
 
-  return m_text.substr(m_cursor, end - m_cursor).str();
+  return oss.str();
+}
+
+
+std::string StringRefParse::textUpTo(unsigned endOffset)
+{
+  if (endOffset > m_upperBound) {
+    endOffset = m_upperBound;
+  }
+  if (endOffset < m_cursor) {
+    endOffset = m_cursor;
+  }
+
+  return m_text.substr(m_cursor, endOffset - m_cursor).str();
 }
 
 

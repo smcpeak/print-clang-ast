@@ -54,6 +54,13 @@ public:      // methods
   // True if there is still text to scan.
   bool hasText() const { return m_cursor < m_upperBound; }
 
+  // Get the character at `m_cursor` without advancing.  Requires
+  // `hasText()`.
+  char peekNextChar() const;
+
+  // Get and advance.  Requires `hasText()`.
+  char getNextChar();
+
   // Set the offsets.  This asserts that the invariants hold.
   void setCursorAndBounds(
     unsigned cursor, unsigned lowerBound, unsigned upperBound);
@@ -158,10 +165,18 @@ public:      // methods
   // non-whitespace characters before the upper bound.
   std::string getNextWSSeparatedToken();
 
+  // Collect characters satisfying the constraints of a C identifier,
+  // starting at the cursor.  Stop when the first non-identifier
+  // character is encountered, leaving the cursor there and not
+  // including it in the returned value.  This returns an empty string
+  // (without advancing!) if the first character does not conform.
+  std::string getNextIdentifier();
+
   // Return all text from the cursor up to, but not including, the
-  // character at 'end', or at the upper bound, whichever is less.  If
-  // 'end' is at or less than the cursor, return the empty string.
-  std::string textUpTo(unsigned end);
+  // character at 'endOffset', or at the upper bound, whichever is less.
+  // If 'endOffset' is at or less than the cursor, return the empty
+  // string.
+  std::string textUpTo(unsigned endOffset);
 
   // Return the 1-based line/col of the current cursor position, taking
   // the lower bound position as the (1,1) start position.  This does a
