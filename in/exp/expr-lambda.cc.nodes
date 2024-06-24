@@ -247,6 +247,7 @@
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 42" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
   "CXXRecordDecl::getNumBases()": 0,
+  "getLambdaContextDecl()": { "ptr": "null" },
 },
 
 "CXXMethodDecl 24": {
@@ -956,6 +957,7 @@
   "CXXRecordDecl::getDestructor()": { "ptr": "CXXDestructorDecl 76" },
   "CXXRecordDecl::needsImplicitDestructor()": false,
   "CXXRecordDecl::getNumBases()": 0,
+  "getLambdaContextDecl()": { "ptr": "null" },
 },
 
 "CXXMethodDecl 61": {

@@ -2173,6 +2173,11 @@ void PrintClangASTNodes::printCXXRecordDecl(clang::CXXRecordDecl const *decl)
     OUT_QATTR_INT(qualifier, "getNumBases()",
       decl->getNumBases());
   }
+
+  if (decl->isLambda()) {
+    OUT_ATTR_DECL("getLambdaContextDecl()",
+      decl->getLambdaContextDecl());
+  }
 }
 
 
