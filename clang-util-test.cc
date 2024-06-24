@@ -4,12 +4,11 @@
 #include "clang-util.h"                // module under test
 
 #include "clang-ast-visitor.h"         // ClangASTVisitor
-#include "clang-ast.h"                 // ClangASTUtil
+#include "clang-ast.h"                 // ClangASTUtilTempFile
 
 #include "smbase/gdvalue.h"            // gdv::GDValue
 #include "smbase/sm-test.h"            // EXPECT_EQ
 #include "smbase/sm-trace.h"           // INIT_TRACE, etc.
-#include "smbase/temporary-file.h"     // smbase::TemporaryFile
 
 #include "clang/AST/Decl.h"            // clang::NamedDecl
 
@@ -80,11 +79,7 @@ void GIFDVisitor::visitDecl(
 
 void testOneGetInstFromDeclOpt(char const *source, GDValue const &expect)
 {
-  // Clang has a virtual file system that could be used to avoid
-  // actually hitting the disk here, but after a quick look, I decided
-  // it appeared to be more trouble than I wanted to deal with.
-  TemporaryFile temp("gifd", "cc", source);
-  ClangASTUtil ast({temp.getFname()});
+  ClangASTUtilTempFile ast(source);
 
   GIFDVisitor visitor(ast.getASTContext());
   visitor.scanTU(ast.getASTContext());

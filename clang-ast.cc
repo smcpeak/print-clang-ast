@@ -151,4 +151,18 @@ ClangASTUtil::ClangASTUtil(std::vector<std::string> const &fnameAndArgs)
 {}
 
 
+// ----------------------- ClangASTUtilTempFile ------------------------
+ClangASTUtilTempFile::~ClangASTUtilTempFile()
+{}
+
+
+// Clang has a virtual file system that could be used to avoid actually
+// hitting the disk here, but after a quick look, I decided it appeared
+// to be more trouble than I wanted to deal with.
+ClangASTUtilTempFile::ClangASTUtilTempFile(std::string const &source)
+  : TemporaryFile("cautf", "cc", source),
+    ClangASTUtil({TemporaryFile::getFname()})
+{}
+
+
 // EOF

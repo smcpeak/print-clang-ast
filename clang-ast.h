@@ -11,6 +11,7 @@
 #include "clang/Frontend/CompilerInvocation.h"   // clang::CompilerInvocation
 
 #include "smbase/sm-macros.h"                    // NO_OBJECT_COPIES
+#include "smbase/temporary-file.h"               // smbase::TemporaryFile
 
 #include <memory>                                // std::{shared_ptr, unique_ptr}
 #include <string>                                // std::string
@@ -83,6 +84,17 @@ public:      // methods
 
   clang::ASTContext &getASTContext()
     { return ClangAST::getASTContext(); }
+};
+
+
+// Parse in-memory source code using a temporary file.
+class ClangASTUtilTempFile : public smbase::TemporaryFile,
+                             public ClangASTUtil {
+public:      // methods
+  ~ClangASTUtilTempFile();
+
+  // Parse 'source'.
+  ClangASTUtilTempFile(std::string const &source);
 };
 
 
