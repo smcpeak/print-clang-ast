@@ -138,6 +138,13 @@ public:      // methods
   clang::FileEntry const *getFileEntryForLoc(
     clang::SourceLocation loc) const;
 
+  // Return the location for a given file/line/col.
+  clang::SourceLocation getLoc(clang::FileID fileID,
+                               int line, int col) const;
+
+  // Return the location for line/col in the TU main file.
+  clang::SourceLocation getMainFileLoc(int line, int col) const;
+
   // --------------------------- SourceRange ---------------------------
   // Stringify 'range'.
   std::string sourceRangeStr(clang::SourceRange range) const;

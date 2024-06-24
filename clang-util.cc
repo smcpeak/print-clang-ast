@@ -166,6 +166,19 @@ clang::FileEntry const *ClangUtil::getFileEntryForLoc(
 }
 
 
+clang::SourceLocation ClangUtil::getLoc(clang::FileID fileID,
+                                        int line, int col) const
+{
+  return m_srcMgr.translateLineCol(fileID, line, col);
+}
+
+
+clang::SourceLocation ClangUtil::getMainFileLoc(int line, int col) const
+{
+  return getLoc(m_mainFileID, line, col);
+}
+
+
 // ---------------------------- SourceRange ----------------------------
 std::string ClangUtil::sourceRangeStr(clang::SourceRange range) const
 {

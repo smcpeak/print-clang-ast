@@ -328,6 +328,20 @@ void testDeclLoc()
 }
 
 
+// Test `getLoc`, `getMainFileLoc`, `locLine`, and `locCol`.
+void testGetLoc()
+{
+  ClangASTUtilTempFile ast(R"(// line 1
+    int x;
+    // line 3
+)");
+
+  clang::SourceLocation loc = ast.getMainFileLoc(2,3);
+  xassert(ast.locLine(loc) == 2);
+  xassert(ast.locCol(loc) == 3);
+}
+
+
 CLOSE_ANONYMOUS_NAMESPACE
 
 
@@ -336,6 +350,7 @@ void clang_util_unit_tests()
 {
   testGetInstFromDeclOpt();
   testDeclLoc();
+  testGetLoc();
 }
 
 
