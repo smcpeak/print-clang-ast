@@ -333,6 +333,18 @@ STATICDEF clang::SourceLocation ClangUtil::declLoc(
 }
 
 
+STATICDEF clang::SourceLocation ClangUtil::declLocOpt(
+  clang::Decl const * NULLABLE decl)
+{
+  if (decl) {
+    return declLoc(decl);
+  }
+  else {
+    return clang::SourceLocation();
+  }
+}
+
+
 STATICDEF clang::SourceLocation ClangUtil::getIdentifierLoc(
   clang::NamedDecl const *decl)
 {
@@ -825,6 +837,37 @@ STATICDEF bool ClangUtil::isThisDeclarationADefinition(
   #undef CASE
 
   return false;
+}
+
+
+clang::NamedDecl const * NULLABLE ClangUtil::getDefnForDeclOpt(
+  clang::NamedDecl const * NULLABLE decl) const
+{
+  if (!decl) {
+    // This is allowed as a minor convenience.
+    return nullptr;
+  }
+  else if (auto vd = dyn_cast<clang::VarDecl>(decl)) {
+    return vd->getDefinition();
+  }
+  else if (auto fd = dyn_cast<clang::FunctionDecl>(decl)) {
+    return fd->getDefinition();
+  }
+  else if (auto td = dyn_cast<clang::TagDecl>(decl)) {
+    return td->getDefinition();
+  }
+  else if (auto rtd = dyn_cast<clang::RedeclarableTemplateDecl>(decl)) {
+    for (clang::RedeclarableTemplateDecl const *redecl : rtd->redecls()) {
+      if (isThisDeclarationADefinition(redecl)) {
+        return redecl;
+      }
+    }
+    return nullptr;
+  }
+  else {
+    // The declaration kind does not support the "definition" notion.
+    return nullptr;
+  }
 }
 
 
@@ -1873,12 +1916,15 @@ string ClangUtil::removeTemplateArguments(string const &src)
 clang::NamedDecl const * NULLABLE ClangUtil::getInstFromDeclOpt(
   clang::NamedDecl const *namedDecl) const
 {
+  // TODO: Look at function and variable templates, which probably need
+  // the same treatment as CXXRecordDecl.
+
   if (auto functionDecl = dyn_cast<clang::FunctionDecl>(namedDecl)) {
     return functionDecl->getTemplateInstantiationPattern();
   }
 
   if (auto recordDecl = dyn_cast<clang::CXXRecordDecl>(namedDecl)) {
-    return recordDecl->getTemplateInstantiationPattern();
+    return getCXXRecordDeclTemplateInstantiationPatternOpt(recordDecl);
   }
 
   if (auto varDecl = dyn_cast<clang::VarDecl>(namedDecl)) {
@@ -1892,6 +1938,54 @@ clang::NamedDecl const * NULLABLE ClangUtil::getInstFromDeclOpt(
     PRETEND_USED(typeAliasDecl);
   }
 
+  return nullptr;
+}
+
+
+// This is a copy+modification of
+// `CXXRecordDecl::getTemplateInstantiationPattern`.  The key change is
+// to *not* call `getDefinition` before returning.  Otherwise, I have
+// deliberately refrained from changing the code style, even though I do
+// not like it, to ease comparison with the original.
+clang::CXXRecordDecl const * NULLABLE
+ClangUtil::getCXXRecordDeclTemplateInstantiationPatternOpt(
+  clang::CXXRecordDecl const *decl) const
+{
+  using namespace clang;
+
+  // If it's a class template specialization, find the template or partial
+  // specialization from which it was instantiated.
+  if (auto *TD = dyn_cast<ClassTemplateSpecializationDecl>(decl)) {
+    auto From = TD->getInstantiatedFrom();
+    if (auto *CTD = From.dyn_cast<ClassTemplateDecl *>()) {
+      while (auto *NewCTD = CTD->getInstantiatedFromMemberTemplate()) {
+        if (NewCTD->isMemberSpecialization())
+          break;
+        CTD = NewCTD;
+      }
+      return CTD->getTemplatedDecl();
+    }
+    if (auto *CTPSD =
+            From.dyn_cast<ClassTemplatePartialSpecializationDecl *>()) {
+      while (auto *NewCTPSD = CTPSD->getInstantiatedFromMember()) {
+        if (NewCTPSD->isMemberSpecialization())
+          break;
+        CTPSD = NewCTPSD;
+      }
+      return CTPSD;
+    }
+  }
+
+  if (MemberSpecializationInfo *MSInfo = decl->getMemberSpecializationInfo()) {
+    if (isTemplateInstantiation(MSInfo->getTemplateSpecializationKind())) {
+      const CXXRecordDecl *RD = decl;
+      while (auto *NewRD = RD->getInstantiatedFromMemberClass())
+        RD = NewRD;
+      return RD;
+    }
+  }
+
+  xassert(!isTemplateInstantiation(decl->getTemplateSpecializationKind()));
   return nullptr;
 }
 

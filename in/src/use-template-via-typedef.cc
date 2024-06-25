@@ -3,7 +3,7 @@
 
 // Forward-declare the template.
 template <class T>
-struct S;
+struct S;                              // SYMLINE(S_decl)
 
 // Cause the specialization declaration to be instantiated.  The
 // "instantiated from" declaration is set to the one above.

@@ -198,6 +198,11 @@ public:      // methods
   */
   static clang::SourceLocation declLoc(clang::Decl const *decl);
 
+  // As a minor convenience, return an invalid location for `nullptr`,
+  // and otherwise do the same as `declLoc`.
+  static clang::SourceLocation declLocOpt(
+    clang::Decl const * NULLABLE decl);
+
   // Get the location of the identifier for 'decl'.
   static clang::SourceLocation getIdentifierLoc(
     clang::NamedDecl const *decl);
@@ -304,6 +309,10 @@ public:      // methods
   // True if `decl` is among the kinds that supports the
   // `isThisDeclarationADefinition` method, and it returns true.
   static bool isThisDeclarationADefinition(clang::Decl const *decl);
+
+  // If `decl` has a definition, get it.
+  clang::NamedDecl const * NULLABLE getDefnForDeclOpt(
+    clang::NamedDecl const * NULLABLE decl) const;
 
   // Get the location of the token that precedes 'decl'.
   clang::SourceLocation getDeclPrecedingTokenLoc(
@@ -560,8 +569,19 @@ public:      // methods
   // same basic kind, like a `FunctionDecl` for a `FunctionDecl` or a
   // `CXXRecordDecl` for that.  It is *not* the `TemplateDecl` that
   // might surround it.  Otherwise, return `nullptr`.
+  //
+  // If it was originally instantiated from a non-definition
+  // declaration, that is what is returned here, even if a definition of
+  // the template is later added.
+  //
   clang::NamedDecl const * NULLABLE getInstFromDeclOpt(
     clang::NamedDecl const *namedDecl) const;
+
+  // Like `CXXRecordDecl::getTemplateInstantiationPattern`, but without
+  // calling `getDefinition` before returning.
+  clang::CXXRecordDecl const * NULLABLE
+  getCXXRecordDeclTemplateInstantiationPatternOpt(
+    clang::CXXRecordDecl const *decl) const;
 
   // ------------------------ TemplateParameter ------------------------
   // Turn 'paramList' into a string like "template <class T>".

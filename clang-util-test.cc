@@ -299,9 +299,17 @@ void DeclLocVisitor::visitDecl(
   if (auto ctsd = dyn_cast<clang::ClassTemplateSpecializationDecl>(decl)) {
     clang::SourceLocation loc = declLoc(ctsd);
 
+    clang::NamedDecl const * NULLABLE instFromDecl =
+      getInstFromDeclOpt(ctsd);
+
+    clang::NamedDecl const * NULLABLE instFromDefn =
+      getDefnForDeclOpt(instFromDecl);
+
     m_actual.setInsert(GDVTuple({
       namedDeclStr(ctsd),
-      m_symLineMapper.symLineColStr(loc)
+      m_symLineMapper.symLineColStr(loc),
+      m_symLineMapper.symLineColStr(declLocOpt(instFromDecl)),
+      m_symLineMapper.symLineColStr(declLocOpt(instFromDefn)),
     }));
   }
 
@@ -323,7 +331,7 @@ void testOneDeclLoc(char const *fname, GDValue const &expect)
 void testDeclLoc()
 {
   testOneDeclLoc("in/src/use-template-via-typedef.cc", GDValue(GDVSet{
-    GDVTuple{"S<int>", "S_defn:1"},
+    GDVTuple{"S<int>", "S_defn:1", "S_decl:1", "S_defn:1"},
   }));
 }
 
