@@ -179,6 +179,7 @@ OBJS += printer-visitor.o
 OBJS += rav-printer-visitor.o
 OBJS += stringref-parse-test.o
 OBJS += stringref-parse.o
+OBJS += pca-unit-tests.o
 OBJS += pca-util-test.o
 OBJS += pca-util.o
 OBJS += symbolic-line-mapper-test.o

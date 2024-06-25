@@ -2,16 +2,12 @@
 // Entry point for print-clang-ast.exe program.
 
 #include "clang-ast.h"                                     // ClangAST
-#include "clang-util.h"                                    // clang_util_unit_tests
 #include "decl-implicit.h"                                 // declareImplicitThings
-#include "file-util.h"                                     // file_util_unit_tests
 #include "pca-command-line-options.h"                      // PCACommandLineOptions
-#include "pca-util.h"                                      // pca_util_unit_tests
+#include "pca-unit-tests.h"                                // pca_unit_tests
 #include "print-clang-ast-nodes.h"                         // printClangASTNodes
 #include "printer-visitor.h"                               // printerVisitorTU
 #include "rav-printer-visitor.h"                           // ravPrinterVisitorTU
-#include "stringref-parse.h"                               // stringref_parse_unit_tests
-#include "symbolic-line-mapper.h"                          // symbolic_line_mapper_unit_tests
 
 #include "smbase/gdvalue.h"                                // gdv::GDValue
 #include "smbase/map-util.h"                               // mapInsertAll
@@ -29,17 +25,6 @@ using std::string;
 
 
 INIT_TRACE("print-clang-ast");
-
-
-static void all_unit_tests()
-{
-  clang_util_unit_tests();
-  file_util_unit_tests();
-  pca_command_line_options_unit_tests();
-  pca_util_unit_tests();
-  stringref_parse_unit_tests();
-  symbolic_line_mapper_unit_tests();
-}
 
 
 static int innerMain(int argc, char const **argv)
@@ -68,8 +53,8 @@ static int innerMain(int argc, char const **argv)
   }
 
   if (options.m_runUnitTests) {
-    all_unit_tests();
-    cout << "unit tests passed\n";
+    pca_unit_tests();
+    cout << "PCA unit tests passed\n";
     return 0;
   }
 
