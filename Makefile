@@ -181,6 +181,8 @@ OBJS += stringref-parse-test.o
 OBJS += stringref-parse.o
 OBJS += pca-util-test.o
 OBJS += pca-util.o
+OBJS += symbolic-line-mapper-test.o
+OBJS += symbolic-line-mapper.o
 
 # Executable.
 all: print-clang-ast.exe
