@@ -3,6 +3,7 @@
 
 #include "stringref-parse.h"                     // module under test
 
+#include "smbase/sm-macros.h"                    // OPEN_ANONYMOUS_NAMESPACE
 #include "smbase/sm-test.h"                      // EXPECT_EQ
 #include "smbase/stringb.h"                      // stringb
 
@@ -16,11 +17,14 @@ using std::string;
 using std::cerr;
 
 
+OPEN_ANONYMOUS_NAMESPACE
+
+
 // The 'testCase' contains two markers, "[S]" indicating where the
 // cursor should start, and "[E]" indicating where it should end.  Both
 // markers are removed before actually performing the action.
 template <class RESULT>
-static void testOneGeneric(
+void testOneGeneric(
   char const *testCase,
   char const *actionLabel,
   RESULT expectResult,
@@ -71,7 +75,7 @@ static void testOneGeneric(
 
 // I don't know why, but the template won't automatically be used for
 // bool results.
-static void testOne(
+void testOne(
   char const *testCase,
   char const *actionLabel,
   bool expectResult,
@@ -84,7 +88,7 @@ static void testOne(
 // Run 'testOne', then run it again with a newline prepended to
 // 'testCase', expecting the same result.
 template <class RESULT>
-static void testOneGeneric_prependNL(
+void testOneGeneric_prependNL(
   char const *testCase,
   char const *actionLabel,
   RESULT expectResult,
@@ -97,7 +101,7 @@ static void testOneGeneric_prependNL(
 }
 
 
-static void testOne_prependNL(
+void testOne_prependNL(
   char const *testCase,
   char const *actionLabel,
   bool expectResult,
@@ -108,7 +112,7 @@ static void testOne_prependNL(
 }
 
 
-static void test_advancePastBlankLinesAfterToken()
+void test_advancePastBlankLinesAfterToken()
 {
   static char const * const tests[] = {
     // Degenerate case.
@@ -135,7 +139,7 @@ static void test_advancePastBlankLinesAfterToken()
 }
 
 
-static void test_backupToCppCommentStart()
+void test_backupToCppCommentStart()
 {
   static struct TestCase {
     char const *m_text;
@@ -170,7 +174,7 @@ static void test_backupToCppCommentStart()
 }
 
 
-static void test_onPPDirectiveLine()
+void test_onPPDirectiveLine()
 {
   static struct TestCase {
     char const *m_text;
@@ -204,7 +208,7 @@ static void test_onPPDirectiveLine()
 }
 
 
-static void test_advancePastNextNL()
+void test_advancePastNextNL()
 {
   static char const * const tests[] = {
     // Degenerate.
@@ -230,7 +234,7 @@ static void test_advancePastNextNL()
 }
 
 
-static void test_backupToWSStart_tcc_true()
+void test_backupToWSStart_tcc_true()
 {
   static char const * const tests[] = {
     // Degenerate.
@@ -269,7 +273,7 @@ static void test_backupToWSStart_tcc_true()
 }
 
 
-static void test_backupToWSStart_tcc_false()
+void test_backupToWSStart_tcc_false()
 {
   static char const * const tests[] = {
     // Degenerate.
@@ -289,7 +293,7 @@ static void test_backupToWSStart_tcc_false()
 }
 
 
-static void test_backupToLineStart()
+void test_backupToLineStart()
 {
   static char const * const tests[] = {
     "[S][E]",
@@ -307,7 +311,7 @@ static void test_backupToLineStart()
 }
 
 
-static void test_advancePastContiguousIncludes()
+void test_advancePastContiguousIncludes()
 {
   static char const * const tests[] = {
     "[S][E]",
@@ -344,7 +348,7 @@ static void test_advancePastContiguousIncludes()
 }
 
 
-static void test_skipWS()
+void test_skipWS()
 {
   static struct TestCase {
     char const *m_text;
@@ -365,7 +369,7 @@ static void test_skipWS()
 }
 
 
-static void test_skipNonWS()
+void test_skipNonWS()
 {
   static struct TestCase {
     char const *m_text;
@@ -388,7 +392,7 @@ static void test_skipNonWS()
 }
 
 
-static void test_skipCCommentIf()
+void test_skipCCommentIf()
 {
   static struct TestCase {
     char const *m_text;
@@ -421,7 +425,7 @@ static void test_skipCCommentIf()
 }
 
 
-static void test_skipCppCommentIf()
+void test_skipCppCommentIf()
 {
   static struct TestCase {
     char const *m_text;
@@ -449,7 +453,7 @@ static void test_skipCppCommentIf()
 }
 
 
-static void test_skipCommentsAndWhitespace()
+void test_skipCommentsAndWhitespace()
 {
   static struct TestCase {
     char const *m_text;
@@ -473,7 +477,7 @@ static void test_skipCommentsAndWhitespace()
 }
 
 
-static void test_skipIncludeIf()
+void test_skipIncludeIf()
 {
   static struct TestCase {
     char const *m_text;
@@ -499,7 +503,7 @@ static void test_skipIncludeIf()
 }
 
 
-static void test_skipStringIf()
+void test_skipStringIf()
 {
   static struct TestCase {
     char const *m_text;
@@ -523,7 +527,7 @@ static void test_skipStringIf()
 }
 
 
-static void test_searchFor()
+void test_searchFor()
 {
   static struct TestCase {
     char const *m_text;
@@ -550,7 +554,7 @@ static void test_searchFor()
 }
 
 
-static void test_getNextWSSeparatedToken()
+void test_getNextWSSeparatedToken()
 {
   static struct TestCase {
     char const *m_text;
@@ -573,7 +577,7 @@ static void test_getNextWSSeparatedToken()
 }
 
 
-static void test_getLineColStr()
+void test_getLineColStr()
 {
   static struct TestCase {
     char const *m_text;
@@ -597,7 +601,7 @@ static void test_getLineColStr()
 }
 
 
-static void test_textUpTo()
+void test_textUpTo()
 {
   StringRefParse p("abcdefghi", 3);
 
@@ -612,7 +616,7 @@ static void test_textUpTo()
 }
 
 
-static void test_getNextIdentifier()
+void test_getNextIdentifier()
 {
   StringRefParse p("id123 3abc");
 
@@ -624,6 +628,9 @@ static void test_getNextIdentifier()
   EXPECT_EQ(p.getNextIdentifier(), "abc");
   xassert(!p.hasText());
 }
+
+
+CLOSE_ANONYMOUS_NAMESPACE
 
 
 void stringref_parse_unit_tests()
