@@ -11,7 +11,7 @@ typedef S<int> S_of_int;
 
 // Now define the template.
 template <class T>
-struct S {
+struct S {                             // SYMLINE(S_defn)
   T t;
 };
 

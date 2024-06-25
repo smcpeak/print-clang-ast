@@ -5,6 +5,7 @@
 
 #include "clang-ast-visitor.h"         // ClangASTVisitor
 #include "clang-ast.h"                 // ClangASTUtilTempFile
+#include "symbolic-line-mapper.h"      // SymbolicLineMapper
 
 #include "smbase/gdvalue.h"            // gdv::GDValue
 #include "smbase/sm-test.h"            // EXPECT_EQ
@@ -267,6 +268,9 @@ public:      // types
   using Base = ClangASTVisitor;
 
 public:      // data
+  // Enable symbolic line numbers.
+  SymbolicLineMapper m_symLineMapper;
+
   // Actual results of the calls.
   GDValue m_actual;
 
@@ -274,6 +278,7 @@ public:      // methods
   DeclLocVisitor(clang::ASTContext &astContext)
     : ClangASTVisitor(),
       ClangUtil(astContext),
+      m_symLineMapper(astContext),
       m_actual(GDVK_SET)
   {}
 
@@ -296,7 +301,7 @@ void DeclLocVisitor::visitDecl(
 
     m_actual.setInsert(GDVTuple({
       namedDeclStr(ctsd),
-      locLineColStr(loc)
+      m_symLineMapper.symLineColStr(loc)
     }));
   }
 
@@ -318,7 +323,7 @@ void testOneDeclLoc(char const *fname, GDValue const &expect)
 void testDeclLoc()
 {
   testOneDeclLoc("in/src/use-template-via-typedef.cc", GDValue(GDVSet{
-    GDVTuple{"S<int>", "14:1"},
+    GDVTuple{"S<int>", "S_defn:1"},
   }));
 }
 
