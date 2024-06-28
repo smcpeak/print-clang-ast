@@ -314,6 +314,11 @@ public:      // methods
   clang::NamedDecl const * NULLABLE getDefnForDeclOpt(
     clang::NamedDecl const * NULLABLE decl) const;
 
+  // If `decl` has a separate definition, return it.  Otherwise return
+  // `decl`.
+  clang::NamedDecl const *getDefnOrSelfForDecl(
+    clang::NamedDecl const *decl) const;
+
   // Get the location of the token that precedes 'decl'.
   clang::SourceLocation getDeclPrecedingTokenLoc(
     clang::Decl const *decl) const;

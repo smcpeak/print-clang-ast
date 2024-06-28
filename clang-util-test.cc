@@ -305,6 +305,12 @@ void DeclLocVisitor::visitDecl(
     clang::NamedDecl const * NULLABLE instFromDefn =
       getDefnForDeclOpt(instFromDecl);
 
+    // This serves as a crude test of `getDefnOrSelfForDecl`.
+    if (instFromDecl) {
+      xassert(getDefnOrSelfForDecl(instFromDecl) ==
+              (instFromDefn? instFromDefn : instFromDecl));
+    }
+
     m_actual.setInsert(GDVTuple({
       namedDeclStr(ctsd),
       m_symLineMapper.symLineColStr(loc),

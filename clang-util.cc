@@ -871,6 +871,20 @@ clang::NamedDecl const * NULLABLE ClangUtil::getDefnForDeclOpt(
 }
 
 
+clang::NamedDecl const *ClangUtil::getDefnOrSelfForDecl(
+  clang::NamedDecl const *decl) const
+{
+  xassertPrecondition(decl);
+
+  if (clang::NamedDecl const *defn = getDefnForDeclOpt(decl)) {
+    return defn;
+  }
+  else {
+    return decl;
+  }
+}
+
+
 clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
   clang::Decl const *decl) const
 {
