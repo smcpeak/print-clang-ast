@@ -19,6 +19,7 @@
 #include "clang/AST/ExprConcepts.h"    // clang::concepts::Requirement
 #include "clang/AST/Type.h"            // clang::FunctionProtoType
 #include "clang/Basic/Version.h"       // CLANG_VERSION_MAJOR
+#include "clang/Lex/Lexer.h"           // clang::Lexer
 
 // llvm
 #include "llvm/ADT/APSInt.h"           // llvm::APSint::toString
@@ -176,6 +177,14 @@ clang::SourceLocation ClangUtil::getLoc(clang::FileID fileID,
 clang::SourceLocation ClangUtil::getMainFileLoc(int line, int col) const
 {
   return getLoc(m_mainFileID, line, col);
+}
+
+
+clang::SourceLocation ClangUtil::locAfterToken(
+  clang::SourceLocation loc) const
+{
+  return clang::Lexer::getLocForEndOfToken(loc, 0 /*offset*/,
+    getSourceManager(), getLangOptions());
 }
 
 

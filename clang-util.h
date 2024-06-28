@@ -106,7 +106,8 @@ public:      // methods
   static ClangUtil const &getInstance();
 
   // --------------------------- ASTContext ----------------------------
-  clang::ASTContext &getASTContext() { return m_astContext; }
+  clang::ASTContext &getASTContext() const { return m_astContext; }
+  clang::SourceManager &getSourceManager() const { return m_srcMgr; }
 
   // Get the LangOptions in 'm_astContext'.
   clang::LangOptions const &getLangOptions() const;
@@ -144,6 +145,10 @@ public:      // methods
 
   // Return the location for line/col in the TU main file.
   clang::SourceLocation getMainFileLoc(int line, int col) const;
+
+  // Assuming that `loc` is the start of a token, return the location of
+  // the character just past the end of that token.
+  clang::SourceLocation locAfterToken(clang::SourceLocation loc) const;
 
   // --------------------------- SourceRange ---------------------------
   // Stringify 'range'.

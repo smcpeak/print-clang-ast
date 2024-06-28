@@ -343,8 +343,11 @@ void testDeclLoc()
 
 
 // Test `getLoc`, `getMainFileLoc`, `locLine`, and `locCol`.
+//
+// Also test `locAfterToken`.
 void testGetLoc()
 {
+  // Note that lines 2 and 3 start in column 5.
   ClangASTUtilTempFile ast(R"(// line 1
     int x;
     // line 3
@@ -353,6 +356,18 @@ void testGetLoc()
   clang::SourceLocation loc = ast.getMainFileLoc(2,3);
   xassert(ast.locLine(loc) == 2);
   xassert(ast.locCol(loc) == 3);
+
+  // `int`.
+  EXPECT_EQ(ast.locLineColStr(ast.locAfterToken(ast.getMainFileLoc(2,5))),
+            "2:8");
+
+  // `x`.
+  EXPECT_EQ(ast.locLineColStr(ast.locAfterToken(ast.getMainFileLoc(2,9))),
+            "2:10");
+
+  // `;`.
+  EXPECT_EQ(ast.locLineColStr(ast.locAfterToken(ast.getMainFileLoc(2,10))),
+            "2:11");
 }
 
 
