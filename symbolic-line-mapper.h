@@ -4,6 +4,8 @@
 #ifndef PCA_SYMBOLIC_LINE_MAPPER_H
 #define PCA_SYMBOLIC_LINE_MAPPER_H
 
+#include "symbolic-line-mapper-fwd.h"  // forwards for this module
+
 #include "clang-ast-context-fwd.h"     // clang::ASTContext
 #include "clang-source-location-fwd.h" // clang::{FileId, SourceLocation}
 #include "clang-util.h"                // ClangUtil
