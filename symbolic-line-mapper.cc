@@ -13,7 +13,7 @@
 
 
 SymbolicLineMapper::LineToNameMap const &
-SymbolicLineMapper::getLineToNameMap(clang::FileID fileID)
+SymbolicLineMapper::getLineToNameMap(clang::FileID fileID) const
 {
   xassertPrecondition(fileID.isValid());
 
@@ -61,7 +61,20 @@ SymbolicLineMapper::SymbolicLineMapper(clang::ASTContext &astContext)
 {}
 
 
-std::string SymbolicLineMapper::symLineColStr(clang::SourceLocation loc)
+std::string SymbolicLineMapper::symLineColStr(
+  clang::SourceLocation loc) const
+{
+  std::string lineStr = symLineStr(loc);
+
+  // This will yield 0 if `loc` is invalid, which is fine.
+  int col = m_srcMgr.getPresumedColumnNumber(loc);
+
+  return stringb(lineStr << ":" << col);
+}
+
+
+std::string SymbolicLineMapper::symLineStr(
+  clang::SourceLocation loc) const
 {
   if (loc.isInvalid()) {
     return "<invalid loc>";
@@ -76,14 +89,13 @@ std::string SymbolicLineMapper::symLineColStr(clang::SourceLocation loc)
   LineToNameMap const &l2n = getLineToNameMap(fileID);
 
   int line = m_srcMgr.getPresumedLineNumber(loc);
-  int col = m_srcMgr.getPresumedColumnNumber(loc);
 
   if (auto itOpt = mapFindOpt(l2n, line)) {
     std::string const &name = (**itOpt).second;
-    return stringb(name << ":" << col);
+    return name;
   }
   else {
-    return stringb(line << ":" << col);
+    return stringb(line);
   }
 }
 

@@ -28,11 +28,18 @@ private:     // data
   //
   // This is built on demand by scanning the associated source code when
   // the file ID is first used.
+  //
+  // If this were an embedded map, this would be `mutable` so that
+  // `symLineColStr` can be `const`, thereby making `LineMapper const &`
+  // a possible substitute for `ClangUtil const &`.  However,
+  // `UniquePtr` does not propagate constness to the pointee, so it does
+  // not actually have to be `mutable`.
+  //
   smbase::UniquePtr<FileToLineToNameMap> m_fileIdToLineToName;
 
 private:     // methods
   // Get the map for `fileID`, creating it first if necessary.
-  LineToNameMap const &getLineToNameMap(clang::FileID fileID);
+  LineToNameMap const &getLineToNameMap(clang::FileID fileID) const;
 
 public:      // methods
   ~SymbolicLineMapper();
@@ -42,7 +49,10 @@ public:      // methods
   // Get `loc` as `L:C`, where `L` is either a line number or a symbolic
   // name.  The latter is used when the line textually contains a string
   // of the form "SYMLINE(id)" where `id` is a C-like identifier.
-  std::string symLineColStr(clang::SourceLocation loc);
+  std::string symLineColStr(clang::SourceLocation loc) const;
+
+  // Get just the line of `loc` as a name or number.
+  std::string symLineStr(clang::SourceLocation loc) const;
 };
 
 
