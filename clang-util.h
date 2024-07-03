@@ -328,6 +328,13 @@ public:      // methods
   clang::SourceLocation getDeclPrecedingTokenLoc(
     clang::Decl const *decl) const;
 
+  // If `decl` is redeclarable, get the declaration of that same entity
+  // that came before it in the translation unit.  Return `nullptr` is
+  // `decl` is not redeclarable or is the first declaration of its
+  // entity.
+  clang::NamedDecl const * NULLABLE getRedeclarablePreviousDeclarationOpt(
+    clang::NamedDecl const *decl) const;
+
   // --------------------------- DeclContext ---------------------------
   // Cast 'dc' to the associated Decl pointer.  Asserts that the
   // conversion succeeds, unless 'dc' is null, in which case null is

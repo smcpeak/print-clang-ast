@@ -921,6 +921,39 @@ clang::SourceLocation ClangUtil::getDeclPrecedingTokenLoc(
 }
 
 
+clang::NamedDecl const * NULLABLE
+ClangUtil::getRedeclarablePreviousDeclarationOpt(
+  clang::NamedDecl const *decl) const
+{
+  #define CASE(Subclass)                                   \
+    if (auto subclass = dyn_cast<clang::Subclass>(decl)) { \
+      return subclass->getPreviousDecl();                  \
+    }
+
+  // These are all of the types listed as template arguments for
+  // `Redeclarable` at
+  // https://clang.llvm.org/doxygen/classclang_1_1Redeclarable.html
+  // except for the ObjC nodes since I do not care about them and can
+  // avoid including their headers, and TranslationUnitDecl because it
+  // is not a `NamedDecl`.
+  CASE(FunctionDecl)
+  CASE(NamespaceAliasDecl)
+  CASE(NamespaceDecl)
+  //CASE(ObjCInterfaceDecl)
+  //CASE(ObjCProtocolDecl)
+  CASE(RedeclarableTemplateDecl)
+  CASE(TagDecl)
+  //CASE(TranslationUnitDecl)
+  CASE(TypedefNameDecl)
+  CASE(UsingShadowDecl)
+  CASE(VarDecl)
+
+  #undef CASE
+
+  return nullptr;
+}
+
+
 // ---------------------------- DeclContext ----------------------------
 STATICDEF clang::Decl const *ClangUtil::declFromDC(
   clang::DeclContext const * NULLABLE dc)
