@@ -10,6 +10,8 @@
 #include "smbase/xassert.h"            // xassert, xassertPrecondition
 
 #include <map>                         // std::map
+#include <utility>                     // std::in_place_type_t
+#include <variant>                     // std::{variant, get, holds_alternative}
 
 
 SymbolicLineMapper::LineToNameMap const &
@@ -76,14 +78,35 @@ std::string SymbolicLineMapper::symLineColStr(
 std::string SymbolicLineMapper::symLineStr(
   clang::SourceLocation loc) const
 {
-  if (loc.isInvalid()) {
+  std::optional<StrOrInt> stringOrIntOpt =
+    symLineStrOrIntOpt(loc);
+
+  if (!stringOrIntOpt.has_value()) {
     return "<invalid loc>";
+  }
+
+  else if (std::holds_alternative<std::string>(*stringOrIntOpt)) {
+    return std::get<std::string>(*stringOrIntOpt);
+  }
+
+  else {
+    return stringb(std::get<int>(*stringOrIntOpt));
+  }
+}
+
+
+std::optional<SymbolicLineMapper::StrOrInt>
+SymbolicLineMapper::symLineStrOrIntOpt(
+  clang::SourceLocation loc) const
+{
+  if (loc.isInvalid()) {
+    return std::nullopt;
   }
 
   clang::FileID fileID = m_srcMgr.getFileID(loc);
   if (fileID.isInvalid()) {
     // I don't think this can happen, but I'll just tolerate it.
-    return "<invalid file ID>";
+    return std::nullopt;
   }
 
   LineToNameMap const &l2n = getLineToNameMap(fileID);
@@ -92,11 +115,25 @@ std::string SymbolicLineMapper::symLineStr(
 
   if (auto itOpt = mapFindOpt(l2n, line)) {
     std::string const &name = (**itOpt).second;
-    return name;
+    return StrOrInt(std::in_place_type_t<std::string>(), name);
   }
   else {
-    return stringb(line);
+    return StrOrInt(std::in_place_type_t<int>(), line);
   }
+}
+
+
+std::optional<std::string> SymbolicLineMapper::symLineStrOpt(
+  clang::SourceLocation loc) const
+{
+  if (std::optional<StrOrInt> stringOrIntOpt =
+        symLineStrOrIntOpt(loc)) {
+    if (std::holds_alternative<std::string>(*stringOrIntOpt)) {
+      return std::get<std::string>(*stringOrIntOpt);
+    }
+  }
+
+  return std::nullopt;
 }
 
 

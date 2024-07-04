@@ -12,6 +12,11 @@
 
 #include "smbase/sm-unique-ptr.h"      // smbase::UniquePtr
 #include "smbase/std-map-fwd.h"        // stdfwd::map
+#include "smbase/std-optional-fwd.h"   // std::optional
+#include "smbase/std-string-fwd.h"     // std::string
+
+// TODO: Create a forward header for variant.
+#include <variant>                     // std::variant
 
 
 // Map source location lines to optional names.
@@ -22,6 +27,9 @@ private:     // types
 
   // Map from file ID to line->name map.
   using FileToLineToNameMap = stdfwd::map<clang::FileID, LineToNameMap>;
+
+public:      // types
+  typedef std::variant<std::string, int> StrOrInt;
 
 private:     // data
   // Map from file ID to its line->name map.
@@ -53,6 +61,17 @@ public:      // methods
 
   // Get just the line of `loc` as a name or number.
   std::string symLineStr(clang::SourceLocation loc) const;
+
+  // If `loc` is an invalid location, return `nullopt`.  If `loc` is on
+  // a line that has a symbolic name, return that name.  Otherwise,
+  // return the line number as an integer.
+  std::optional<StrOrInt> symLineStrOrIntOpt(
+    clang::SourceLocation loc) const;
+
+  // If `loc` is a valid location that has an associated symbolic line
+  // number name, return that name.  Otherwise return `nullopt`.
+  std::optional<std::string> symLineStrOpt(
+    clang::SourceLocation loc) const;
 };
 
 
