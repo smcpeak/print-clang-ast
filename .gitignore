@@ -6,6 +6,7 @@
 *.o.tmp
 config.mk
 doc/html
+libpca.a
 make-from-editor.sh
 out
 pre-config.mk

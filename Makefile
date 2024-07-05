@@ -41,6 +41,10 @@ endif
 # CREATE_OUTPUT_DIRECTORY, etc.
 include $(SMBASE)/sm-lib.mk
 
+# Tools to create a library.
+AR      = ar
+RANLIB  = ranlib
+
 # Python interpreter.
 PYTHON3 := python3
 
@@ -145,7 +149,7 @@ LDFLAGS += $(LLVM_LDFLAGS_AND_SYSTEM_LIBS)
 -include config.mk
 
 
-# ------------------------------ Recipes -------------------------------
+# ------------------------ Compilation recipes -------------------------
 # Default target.
 all:
 .PHONY: all
@@ -161,34 +165,49 @@ all:
 %.ii: %.cc
 	$(CXX) -E -o $@ $(GENDEPS_FLAGS) $(CXXFLAGS) $<
 
-OBJS :=
-OBJS += clang-ast-visitor.o
-OBJS += clang-ast.o
-OBJS += clang-util-test.o
-OBJS += clang-util.o
-OBJS += decl-implicit.o
-OBJS += enum-util.o
-OBJS += file-util-test.o
-OBJS += file-util.o
-OBJS += number-clang-ast-nodes.o
-OBJS += pca-command-line-options-test.o
-OBJS += pca-command-line-options.o
-OBJS += print-clang-ast-nodes.o
-OBJS += print-clang-ast.o
-OBJS += printer-visitor.o
-OBJS += rav-printer-visitor.o
-OBJS += stringref-parse-test.o
-OBJS += stringref-parse.o
-OBJS += pca-unit-tests.o
-OBJS += pca-util-test.o
-OBJS += pca-util.o
-OBJS += symbolic-line-mapper-test.o
-OBJS += symbolic-line-mapper.o
+
+# ------------------------------ libpca.a ------------------------------
+# libpca.a is the library that clients can link with.
+
+# Object files that go into libpca.a.
+LIBPCA_OBJS :=
+LIBPCA_OBJS += clang-ast-visitor.o
+LIBPCA_OBJS += clang-ast.o
+LIBPCA_OBJS += clang-util.o
+LIBPCA_OBJS += decl-implicit.o
+LIBPCA_OBJS += enum-util.o
+LIBPCA_OBJS += file-util.o
+LIBPCA_OBJS += number-clang-ast-nodes.o
+LIBPCA_OBJS += pca-command-line-options.o
+LIBPCA_OBJS += pca-util.o
+LIBPCA_OBJS += print-clang-ast-nodes.o
+LIBPCA_OBJS += printer-visitor.o
+LIBPCA_OBJS += rav-printer-visitor.o
+LIBPCA_OBJS += stringref-parse.o
+LIBPCA_OBJS += symbolic-line-mapper.o
+
+libpca.a: $(LIBPCA_OBJS)
+	$(RM) $@
+	$(AR) -r $@ $^
+	-$(RANLIB) $@
+
+
+# ------------------------ print-clang-ast.exe -------------------------
+# Object files that go into print-clang-ast.exe.
+PRINT_CLANG_AST_OBJS :=
+PRINT_CLANG_AST_OBJS += clang-util-test.o
+PRINT_CLANG_AST_OBJS += file-util-test.o
+PRINT_CLANG_AST_OBJS += pca-command-line-options-test.o
+PRINT_CLANG_AST_OBJS += pca-unit-tests.o
+PRINT_CLANG_AST_OBJS += pca-util-test.o
+PRINT_CLANG_AST_OBJS += print-clang-ast.o
+PRINT_CLANG_AST_OBJS += stringref-parse-test.o
+PRINT_CLANG_AST_OBJS += symbolic-line-mapper-test.o
 
 # Executable.
 all: print-clang-ast.exe
-print-clang-ast.exe: $(OBJS)
-	$(CXX) -g -Wall -o $@ $(OBJS) $(LDFLAGS)
+print-clang-ast.exe: $(PRINT_CLANG_AST_OBJS) libpca.a
+	$(CXX) -g -Wall -o $@ $(PRINT_CLANG_AST_OBJS) libpca.a $(LDFLAGS)
 
 
 # ------------------------------- Tests --------------------------------
@@ -473,7 +492,7 @@ check-full: check-diagrams
 # --------------------------- 'clean' target ---------------------------
 .PHONY: clean
 clean:
-	$(RM) *.o *.d *.exe
+	$(RM) *.o *.d *.exe *.a
 	$(RM) -r out
 
 
