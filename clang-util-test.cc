@@ -80,10 +80,7 @@ void testOneGetInstFromDeclOpt(char const *source, GDValue const &expect)
 {
   ClangASTUtilTempFile ast(source);
 
-  GIFDVisitor visitor(ast.getASTContext());
-  visitor.scanTU(ast.getASTContext());
-
-  EXPECT_EQ(visitor.m_actual, expect);
+  GIFDVisitor(ast.getASTContext()).scanTUExpect(expect);
 }
 
 
@@ -317,10 +314,7 @@ void testOneDeclLoc(char const *fname, GDValue const &expect)
 {
   ClangASTUtil ast({fname});
 
-  DeclLocVisitor visitor(ast.getASTContext());
-  visitor.scanTU(ast.getASTContext());
-
-  EXPECT_EQ(visitor.m_actual, expect);
+  DeclLocVisitor(ast.getASTContext()).scanTUExpect(expect);
 }
 
 

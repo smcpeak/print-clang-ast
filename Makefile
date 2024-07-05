@@ -173,6 +173,7 @@ all:
 LIBPCA_OBJS :=
 LIBPCA_OBJS += clang-ast-visitor.o
 LIBPCA_OBJS += clang-ast.o
+LIBPCA_OBJS += clang-test-visitor.o
 LIBPCA_OBJS += clang-util.o
 LIBPCA_OBJS += decl-implicit.o
 LIBPCA_OBJS += enum-util.o

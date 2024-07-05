@@ -35,7 +35,11 @@ SymbolicLineMapper::getLineToNameMap(clang::FileID fileID) const
   // Get the source code for that file.
   std::optional<llvm::MemoryBufferRef> bufferOpt =
     m_srcMgr.getBufferOrNone(fileID);
-  xassert(bufferOpt);
+
+  // This assertion can fail if `fileID` was derived from a macro
+  // expansion location.  Unfortunately, that isn't something I can
+  // directly assert on `fileID` itself.
+  xassertPrecondition(bufferOpt);
 
   // Scan the source, populating the map.
   StringRefParse parse(bufferOpt->getBuffer());
@@ -102,6 +106,15 @@ SymbolicLineMapper::symLineStrOrIntOpt(
   if (loc.isInvalid()) {
     return std::nullopt;
   }
+
+  // If `loc` describes a macro expansion, then its "file" is a virtual
+  // expansion buffer area and the location conceptually has two
+  // associated physical locations, the expansion and spelling
+  // locations.  So, use `getFileLoc` to get a location that is
+  // associated with a specific file.  The caller can pre-emptively call
+  // something like `getSpellingLoc` if they want to be more specific
+  // about which location gets used.
+  loc = m_srcMgr.getFileLoc(loc);
 
   clang::FileID fileID = m_srcMgr.getFileID(loc);
   if (fileID.isInvalid()) {

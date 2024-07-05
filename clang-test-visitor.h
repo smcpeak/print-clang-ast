@@ -18,11 +18,11 @@ public:      // data
   gdv::GDValue m_actual;
 
 public:      // methods
-  ClangTestVisitor(clang::ASTContext &astContext)
-    : ClangASTVisitor(),
-      ClangUtil(astContext),
-      m_actual(gdv::GDVK_SET)
-  {}
+  ClangTestVisitor(clang::ASTContext &astContext);
+
+  // Scan the TU referred to by `astContext` and then check that
+  // `m_actual` equals `expect`.
+  void scanTUExpect(gdv::GDValue const &expect);
 
   // The client then overrides `visitXXX` and populates `m_actual` in
   // the overriders.
