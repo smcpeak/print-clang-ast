@@ -3,16 +3,20 @@
 
 #include "clang-util.h"                // module under test
 
-#include "clang-ast-visitor.h"         // ClangASTVisitor
+// this dir
 #include "clang-ast.h"                 // ClangASTUtilTempFile
+#include "clang-test-visitor.h"        // ClangTestVisitor
 #include "symbolic-line-mapper.h"      // SymbolicLineMapper
 
+// smbase
 #include "smbase/gdvalue.h"            // gdv::GDValue
 #include "smbase/sm-test.h"            // EXPECT_EQ
 #include "smbase/sm-trace.h"           // INIT_TRACE, etc.
 
+// clang
 #include "clang/AST/Decl.h"            // clang::NamedDecl
 
+// libc++
 #include <sstream>                     // std::ostringstream
 
 using namespace gdv;
@@ -29,22 +33,16 @@ OPEN_ANONYMOUS_NAMESPACE
 
 // Visitor that calls `getInstFromDeclOpt` on every `Decl` node and
 // accumulates the results.
-class GIFDVisitor : public ClangASTVisitor, public ClangUtil {
+class GIFDVisitor : public ClangTestVisitor {
 public:      // types
-  using Base = ClangASTVisitor;
-
-public:      // data
-  // Actual results of the calls.
-  GDValue m_actual;
+  using Base = ClangTestVisitor;
 
 public:      // methods
   GIFDVisitor(clang::ASTContext &astContext)
-    : ClangASTVisitor(),
-      ClangUtil(astContext),
-      m_actual(GDVK_SET)
+    : ClangTestVisitor(astContext)
   {}
 
-  // ClangASTVisitor methods
+  // ClangTestVisitor methods
   virtual void visitDecl(
     VisitDeclContext context,
     clang::Decl const *decl) override;
@@ -260,29 +258,21 @@ void testGetInstFromDeclOpt()
 
 // Visitor that calls `getDeclLoc` on every `Decl` node and accumulates
 // the results.
-//
-// TODO: This is copy+paste of GIFDVisitor.  I should be able to factor
-// their commonality.
-class DeclLocVisitor : public ClangASTVisitor, public ClangUtil {
+class DeclLocVisitor : public ClangTestVisitor {
 public:      // types
-  using Base = ClangASTVisitor;
+  using Base = ClangTestVisitor;
 
 public:      // data
   // Enable symbolic line numbers.
   SymbolicLineMapper m_symLineMapper;
 
-  // Actual results of the calls.
-  GDValue m_actual;
-
 public:      // methods
   DeclLocVisitor(clang::ASTContext &astContext)
-    : ClangASTVisitor(),
-      ClangUtil(astContext),
-      m_symLineMapper(astContext),
-      m_actual(GDVK_SET)
+    : ClangTestVisitor(astContext),
+      m_symLineMapper(astContext)
   {}
 
-  // ClangASTVisitor methods
+  // ClangTestVisitor methods
   virtual void visitDecl(
     VisitDeclContext context,
     clang::Decl const *decl) override;
