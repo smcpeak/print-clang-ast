@@ -863,9 +863,13 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         stmt->getNumTemplateArgs());
 
     HANDLE_STMT_CLASS(CXXFoldExpr)
-      visitStmt(VSC_CXX_FOLD_EXPR_CALLEE, stmt->getCallee());
-      visitStmt(VSC_CXX_FOLD_EXPR_LHS, stmt->getLHS());
-      visitStmt(VSC_CXX_FOLD_EXPR_RHS, stmt->getRHS());
+      // TODO: I ran into a case
+      // (`header-analysis/in/src/int32-via-memory.h`) where the callee
+      // was `nullptr`, so I now tolerate all of them being null.  I
+      // should figure out what actually is possible.
+      visitStmtOpt(VSC_CXX_FOLD_EXPR_CALLEE, stmt->getCallee());
+      visitStmtOpt(VSC_CXX_FOLD_EXPR_LHS, stmt->getLHS());
+      visitStmtOpt(VSC_CXX_FOLD_EXPR_RHS, stmt->getRHS());
 
     HANDLE_NOOP_STMT_CLASS(CXXInheritedCtorInitExpr)
 
