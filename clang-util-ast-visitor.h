@@ -5,6 +5,7 @@
 #define CLANG_UTIL_AST_VISITOR_H
 
 #include "clang-ast-context-fwd.h"     // clang::ASTContext
+#include "clang-ast-visitor-nc.h"      // ClangASTVisitorNC
 #include "clang-ast-visitor.h"         // ClangASTVisitor
 #include "clang-util.h"                // ClangUtil
 
@@ -16,6 +17,15 @@ public:      // methods
 
   // Slightly more convenient version of `scanTU` that does not need the
   // context passed explicitly.
+  void scanTU();
+};
+
+
+// Likewise for `ClangASTVisitorNC`.
+class ClangUtilASTVisitorNC : public ClangUtil, public ClangASTVisitorNC {
+public:      // methods
+  ClangUtilASTVisitorNC(clang::ASTContext &context);
+
   void scanTU();
 };
 

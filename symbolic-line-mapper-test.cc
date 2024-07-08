@@ -124,7 +124,7 @@ void testWithMacroExpansion()
 CLOSE_ANONYMOUS_NAMESPACE
 
 
-// Called from print-clang-ast.cc.
+// Called from pca-unit-tests.cc.
 void symbolic_line_mapper_unit_tests()
 {
   testSymLineColStr();

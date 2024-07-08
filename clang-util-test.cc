@@ -358,7 +358,7 @@ void testGetLoc()
 CLOSE_ANONYMOUS_NAMESPACE
 
 
-// Called from print-clang-ast.cc.
+// Called from pca-unit-tests.cc.
 void clang_util_unit_tests()
 {
   testGetInstFromDeclOpt();

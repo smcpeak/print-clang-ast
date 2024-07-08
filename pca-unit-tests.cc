@@ -11,9 +11,13 @@
 #include "symbolic-line-mapper.h"      // symbolic_line_mapper_unit_tests
 
 
+void clang_ast_visitor_nc_unit_tests();          // clang-ast-visitor-nc.test.cc
+
+
 void pca_unit_tests()
 {
   clang_util_unit_tests();
+  clang_ast_visitor_nc_unit_tests();
   file_util_unit_tests();
   pca_command_line_options_unit_tests();
   pca_util_unit_tests();
