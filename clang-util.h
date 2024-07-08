@@ -335,6 +335,12 @@ public:      // methods
   clang::NamedDecl const * NULLABLE getRedeclarablePreviousDeclarationOpt(
     clang::NamedDecl const *decl) const;
 
+  // Render `decl` as a string by pretty-printing the syntax.
+  std::string declSyntaxStr(clang::Decl const * NULLABLE decl) const;
+
+  // Pretty-print the entire TU.
+  std::string tuSyntaxStr() const;
+
   // --------------------------- DeclContext ---------------------------
   // Cast 'dc' to the associated Decl pointer.  Asserts that the
   // conversion succeeds, unless 'dc' is null, in which case null is
@@ -490,6 +496,8 @@ public:      // methods
 
   // ------------------------------ Stmt -------------------------------
   // Render 'stmt' as a string by pretty-printing the syntax.
+  //
+  // TODO: Rename to `stmtSyntaxStr`.
   std::string stmtStr(clang::Stmt const * NULLABLE stmt) const;
 
   // Get the location of 'stmt'.

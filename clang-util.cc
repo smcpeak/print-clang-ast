@@ -954,6 +954,29 @@ ClangUtil::getRedeclarablePreviousDeclarationOpt(
 }
 
 
+// Here, `decl` is nullable just for consistency with `stmtStr`, which
+// also accepts a nullable pointer.
+std::string ClangUtil::declSyntaxStr(
+  clang::Decl const * NULLABLE decl) const
+{
+  if (decl) {
+    string ret;
+    llvm::raw_string_ostream rso(ret);
+    decl->print(rso, m_printingPolicy);
+    return ret;
+  }
+  else {
+    return "null";
+  }
+}
+
+
+std::string ClangUtil::tuSyntaxStr() const
+{
+  return declSyntaxStr(getASTContext().getTranslationUnitDecl());
+}
+
+
 // ---------------------------- DeclContext ----------------------------
 STATICDEF clang::Decl const *ClangUtil::declFromDC(
   clang::DeclContext const * NULLABLE dc)

@@ -4,12 +4,13 @@
 #include "clang-util.h"                // module under test
 
 // this dir
-#include "clang-ast.h"                 // ClangASTUtilTempFile
+#include "clang-ast.h"                 // ClangASTUtil, ClangASTUtilTempFile
 #include "clang-test-visitor.h"        // ClangTestVisitor
 #include "symbolic-line-mapper.h"      // SymbolicLineMapper
 
 // smbase
 #include "smbase/gdvalue.h"            // gdv::GDValue
+#include "smbase/sm-macros.h"          // OPEN_ANONYMOUS_NAMESPACE
 #include "smbase/sm-test.h"            // EXPECT_EQ
 #include "smbase/sm-trace.h"           // INIT_TRACE, etc.
 
@@ -355,6 +356,24 @@ void testGetLoc()
 }
 
 
+// Test `tuSyntaxStr`, which calls `declSyntaxStr`.
+void testTUSyntaxStr()
+{
+  // This input was chosen simply because it is the same input I am
+  // using in `header-analysis/name-anon-tparams-test.cc`.
+  ClangASTUtilTempFile ast(R"(
+    template <typename A, bool>
+    struct S {};
+  )");
+
+  // I have not made any effort to tweak how the output is printed.  The
+  // string here is just how it prints at the moment.
+  EXPECT_EQ(ast.tuSyntaxStr(), R"(template <typename A, bool> struct S {
+};
+)");
+}
+
+
 CLOSE_ANONYMOUS_NAMESPACE
 
 
@@ -364,6 +383,7 @@ void clang_util_unit_tests()
   testGetInstFromDeclOpt();
   testDeclLoc();
   testGetLoc();
+  testTUSyntaxStr();
 }
 
 
