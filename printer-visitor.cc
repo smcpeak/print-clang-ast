@@ -17,8 +17,7 @@ using clang::dyn_cast;
 
 PrinterVisitor::PrinterVisitor(std::ostream &os,
                                clang::ASTContext &astContext)
-  : ClangUtil(astContext),
-    ClangASTVisitor(),
+  : ClangUtilASTVisitor(astContext),
     m_flags(F_NONE),
     m_indentLevel(0),
     m_os(os)

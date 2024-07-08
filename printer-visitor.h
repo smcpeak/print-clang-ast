@@ -5,8 +5,7 @@
 #define PRINTER_VISITOR_H
 
 // this dir
-#include "clang-ast-visitor.h"                   // ClangASTVisitor
-#include "clang-util.h"                          // ClangUtil
+#include "clang-util-ast-visitor.h"              // ClangUtilASTVisitor
 
 // smbase
 #include "smbase/sm-macros.h"                    // ENUM_BITWISE_OPS
@@ -18,8 +17,7 @@
 
 // Implement a simple indentation-based AST printer that uses the
 // visitor for traversal.
-class PrinterVisitor : public ClangUtil,
-                       public ClangASTVisitor {
+class PrinterVisitor : public ClangUtilASTVisitor {
 public:      // types
   // Flags to control print behavior.
   enum Flags {

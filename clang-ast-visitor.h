@@ -73,6 +73,11 @@
   arrange to call the base class method when recursion is desired.  But
   as a consequential benefit, when recursion is not desired, or should
   happen at a specific point, the client has direct control over that.
+
+  Also note: In most cases, a client will want to inherit
+  `ClangUtilASTVisitor` (declared in `clang-util-ast-visitor.h`) instead
+  of `ClangASTVisitor` alone, since the former has a lot of additional
+  utility methods and carries an AST context.
 */
 
 
@@ -92,6 +97,7 @@
 #include "clang-type-fwd.h"                      // clang::QualType [n]
 #include "clang-type-loc-fwd.h"                  // clang::TypeLoc [n]
 
+// smbase
 #include "smbase/sm-macros.h"                    // NULLABLE
 
 // clang

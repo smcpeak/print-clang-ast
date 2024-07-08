@@ -4,15 +4,14 @@
 #ifndef CLANG_TEST_VISITOR_H
 #define CLANG_TEST_VISITOR_H
 
-#include "clang-ast-visitor.h"         // ClangASTVisitor
-#include "clang-util.h"                // ClangUtil
+#include "clang-util-ast-visitor.h"    // ClangUtilASTVisitor
 
 #include "smbase/gdvalue.h"            // gdv::GDValue
 
 
 // Visitor for use in tests to accumulate the result of calling some
 // function(s) on various AST nodes.
-class ClangTestVisitor : public ClangASTVisitor, public ClangUtil {
+class ClangTestVisitor : public ClangUtilASTVisitor {
 public:      // data
   // Actual results of the calls.
   gdv::GDValue m_actual;

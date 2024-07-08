@@ -11,8 +11,7 @@ using namespace gdv;
 
 
 ClangTestVisitor::ClangTestVisitor(clang::ASTContext &astContext)
-  : ClangASTVisitor(),
-    ClangUtil(astContext),
+  : ClangUtilASTVisitor(astContext),
     m_actual(GDVK_SET)
 {}
 
@@ -21,7 +20,7 @@ void ClangTestVisitor::scanTUExpect(GDValue const &expect)
 {
   EXN_CONTEXT(m_mainFileName);
 
-  ClangASTVisitor::scanTU(getASTContext());
+  scanTU();
   EXPECT_EQ(m_actual, expect);
 }
 
