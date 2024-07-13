@@ -517,21 +517,9 @@ void ClangASTVisitor::visitDecl(
     // TemplateTemplateParmDecl.
     visitDeclOpt(VDC_TEMPLATE_DECL, td->getTemplatedDecl());
 
-    // TODO: The various TemplateDecl subclasses.
+    visitTemplateInstantiationsIfCanonical(td);
 
-    if (auto ctd = dyn_cast<clang::ClassTemplateDecl>(decl)) {
-      visitClassTemplateInstantiationsIfCanonical(ctd);
-    }
-
-    else if (auto ftd = dyn_cast<clang::FunctionTemplateDecl>(decl)) {
-      visitFunctionTemplateInstantiationsIfCanonical(ftd);
-    }
-
-    else if (auto vtd = dyn_cast<clang::VarTemplateDecl>(decl)) {
-      visitVarTemplateInstantiationsIfCanonical(vtd);
-    }
-
-    else if (auto ttpd = dyn_cast<clang::TemplateTemplateParmDecl>(decl)) {
+    if (auto ttpd = dyn_cast<clang::TemplateTemplateParmDecl>(decl)) {
       if (ttpd->hasDefaultArgument() &&
           !ttpd->defaultArgumentWasInherited()) {
         visitTemplateArgumentLoc(VTAC_TEMPLATE_TEMPLATE_PARM_DECL_DEFAULT,
@@ -1773,6 +1761,23 @@ void ClangASTVisitor::visitCallExprArgs(
 {
   for (clang::Expr const *arg : callExpr->arguments()) {
     visitStmt(VSC_CALL_EXPR_ARG, arg);
+  }
+}
+
+
+void ClangASTVisitor::visitTemplateInstantiationsIfCanonical(
+  clang::TemplateDecl const *templateDecl)
+{
+  if (auto ctd = dyn_cast<clang::ClassTemplateDecl>(templateDecl)) {
+    visitClassTemplateInstantiationsIfCanonical(ctd);
+  }
+
+  else if (auto ftd = dyn_cast<clang::FunctionTemplateDecl>(templateDecl)) {
+    visitFunctionTemplateInstantiationsIfCanonical(ftd);
+  }
+
+  else if (auto vtd = dyn_cast<clang::VarTemplateDecl>(templateDecl)) {
+    visitVarTemplateInstantiationsIfCanonical(vtd);
   }
 }
 

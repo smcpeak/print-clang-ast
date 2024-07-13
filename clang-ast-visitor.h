@@ -712,8 +712,8 @@ public:      // methods
   void visitCallExprArgs(
     clang::CallExpr const *callExpr);
 
-  /* If 'ftd' is the canonical declaration for its template, then visit
-     its instantiations.  Otherwise do nothing.
+  /* If 'templateDecl' is the canonical declaration for its template,
+     then visit its instantiations.  Otherwise do nothing.
 
      Restricting to the canonical declaration is important for avoiding
      duplicate visitation when there are multiple declarations.  At
@@ -729,6 +729,10 @@ public:      // methods
      reflects a concern that is primarily internal to the visitor
      mechanism.
   */
+  void visitTemplateInstantiationsIfCanonical(
+    clang::TemplateDecl const *templateDecl);
+
+  // Visit the instantiations of 'ftd' if it is canonical.
   void visitFunctionTemplateInstantiationsIfCanonical(
     clang::FunctionTemplateDecl const *ftd);
 
