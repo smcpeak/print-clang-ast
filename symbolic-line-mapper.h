@@ -14,9 +14,7 @@
 #include "smbase/std-map-fwd.h"        // stdfwd::map
 #include "smbase/std-optional-fwd.h"   // std::optional
 #include "smbase/std-string-fwd.h"     // std::string
-
-// TODO: Create a forward header for variant.
-#include <variant>                     // std::variant
+#include "smbase/std-variant-fwd.h"    // std::variant
 
 
 // Map source location lines to optional names.
