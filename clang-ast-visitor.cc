@@ -244,7 +244,7 @@ char const *toString(VisitTypeContext vtc)
     VTC_CONVERT_VECTOR_EXPR,
     VTC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
 
-    VTC_TEMPLATE_ARGUMENT,
+    VTC_TEMPLATE_TYPE_ARGUMENT,
     VTC_NESTED_NAME_SPECIFIER,
     VTC_DECLARATION_NAME,
     VTC_CONCEPTS_TYPE_REQUIREMENT,
@@ -1381,7 +1381,7 @@ void ClangASTVisitor::visitTemplateArgumentLoc(
       break;
 
     case clang::TemplateArgument::Type:
-      visitTypeSourceInfo(VTC_TEMPLATE_ARGUMENT, tal.getTypeSourceInfo());
+      visitTypeSourceInfo(VTC_TEMPLATE_TYPE_ARGUMENT, tal.getTypeSourceInfo());
       break;
 
     case clang::TemplateArgument::Declaration:
