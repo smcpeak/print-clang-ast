@@ -4,6 +4,7 @@
 #include "printer-visitor.h"                     // this module
 
 // smbase
+#include "smbase/gdvalue.h"                      // operator<<(gdv::GDValue)
 #include "smbase/save-restore.h"                 // SET_RESTORE
 
 // clang
@@ -34,10 +35,13 @@ std::string PrinterVisitor::indentString() const
 }
 
 
+// This uses `toGDValue` to print `context` primarily as a way of
+// testing `toGDValue` and `toString` at the same time, since the former
+// uses the latter.
 #define PRINT_INDENT_AND_CONTEXT()       \
   m_os << indentString();                \
   if (m_flags & F_PRINT_VISIT_CONTEXT) { \
-    m_os << toString(context) << ": ";   \
+    m_os << toGDValue(context) << ": ";  \
   }
 
 

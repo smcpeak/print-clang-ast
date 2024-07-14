@@ -7,11 +7,17 @@
 #include "clang-util.h"                          // assert_dyn_cast
 #include "enum-util.h"                           // ENUM_TABLE_LOOKUP_CHECK_SIZE
 
+// smbase
+#include "smbase/gdvalue.h"                      // gdv::GDValue
+#include "smbase/gdvsymbol.h"                    // gdv::GDVSymbol
+
 // clang
 #include "clang/AST/DeclFriend.h"                // clang::{FriendDecl, ...}
 #include "clang/AST/ExprCXX.h"                   // clang::{CXXConstructExpr, ...}
 #include "clang/AST/ExprConcepts.h"              // clang::concepts::Requirement
 #include "clang/AST/StmtCXX.h"                   // clang::{CXXCatchStmt, ...}
+
+using namespace gdv;
 
 using clang::dyn_cast;
 
@@ -58,6 +64,14 @@ char const *toString(VisitDeclContext vdc)
 
   return "unknown";
 }
+
+#define DEFINE_TOGDVALUE_USING_TOSTRING(type) \
+  gdv::GDValue toGDValue(type value)          \
+  {                                           \
+    return GDVSymbol(toString(value));        \
+  }
+
+DEFINE_TOGDVALUE_USING_TOSTRING(VisitDeclContext)
 
 
 char const *toString(VisitStmtContext vsc)
@@ -176,6 +190,8 @@ char const *toString(VisitStmtContext vsc)
   return "unknown";
 }
 
+DEFINE_TOGDVALUE_USING_TOSTRING(VisitStmtContext)
+
 
 char const *toString(VisitTypeContext vtc)
 {
@@ -237,6 +253,8 @@ char const *toString(VisitTypeContext vtc)
   return "unknown";
 }
 
+DEFINE_TOGDVALUE_USING_TOSTRING(VisitTypeContext)
+
 
 char const *toString(VisitTemplateArgumentContext vtac)
 {
@@ -259,6 +277,8 @@ char const *toString(VisitTemplateArgumentContext vtac)
 
   return "unknown";
 }
+
+DEFINE_TOGDVALUE_USING_TOSTRING(VisitTemplateArgumentContext)
 
 
 char const *toString(VisitNestedNameSpecifierContext vnnsc)
@@ -284,6 +304,8 @@ char const *toString(VisitNestedNameSpecifierContext vnnsc)
   return "unknown";
 }
 
+DEFINE_TOGDVALUE_USING_TOSTRING(VisitNestedNameSpecifierContext)
+
 
 char const *toString(VisitDeclarationNameContext vdnc)
 {
@@ -300,6 +322,8 @@ char const *toString(VisitDeclarationNameContext vdnc)
 
   return "unknown";
 }
+
+DEFINE_TOGDVALUE_USING_TOSTRING(VisitDeclarationNameContext)
 
 
 // Signal to the check-src Makefile target to stop here: END_OF_ENUMS.

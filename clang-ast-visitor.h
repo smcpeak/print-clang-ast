@@ -98,6 +98,7 @@
 #include "clang-type-loc-fwd.h"                  // clang::TypeLoc [n]
 
 // smbase
+#include "smbase/gdvalue-fwd.h"                  // gdv::GDValue
 #include "smbase/sm-macros.h"                    // NULLABLE
 
 // clang
@@ -170,6 +171,9 @@ enum VisitDeclContext {
 
 // Return a string like "VDC_NONE", or "unknown" if 'vdc' is invalid.
 char const *toString(VisitDeclContext vdc);
+
+// Return a symbol with the string name.
+gdv::GDValue toGDValue(VisitDeclContext vdc);
 
 
 // Possible roles for a Stmt.
@@ -291,6 +295,9 @@ enum VisitStmtContext {
 // Return a string like "VSC_NONE", or "unknown" if 'vsc' is invalid.
 char const *toString(VisitStmtContext vsc);
 
+// Return a symbol with the string name.
+gdv::GDValue toGDValue(VisitStmtContext vsc);
+
 
 // Possible roles for a syntactic type.
 enum VisitTypeContext {
@@ -355,6 +362,9 @@ enum VisitTypeContext {
 // Return a string like "VTC_NONE", or "unknown" if 'vtc' is invalid.
 char const *toString(VisitTypeContext vtc);
 
+// Return a symbol with the string name.
+gdv::GDValue toGDValue(VisitTypeContext vtc);
+
 
 // Contexts for a template argument.
 enum VisitTemplateArgumentContext {
@@ -379,6 +389,9 @@ enum VisitTemplateArgumentContext {
 
 // Return a string like "VTAC_NONE", or "unknown" if 'vtac' is invalid.
 char const *toString(VisitTemplateArgumentContext vtac);
+
+// Return a symbol with the string name.
+gdv::GDValue toGDValue(VisitTemplateArgumentContext vtac);
 
 
 // Context for a nested name specifier (a name scope qualifier).
@@ -406,6 +419,9 @@ enum VisitNestedNameSpecifierContext {
 // Return a string like "VNNS_NONE", or "unknown" if 'vnnsc' is invalid.
 char const *toString(VisitNestedNameSpecifierContext vnnsc);
 
+// Return a symbol with the string name.
+gdv::GDValue toGDValue(VisitNestedNameSpecifierContext vnnsc);
+
 
 // Context for a DeclarationName.
 enum VisitDeclarationNameContext {
@@ -423,6 +439,9 @@ enum VisitDeclarationNameContext {
 
 // Return a string like "VDNC_NONE", or "unknown" if 'vdnc' is invalid.
 char const *toString(VisitDeclarationNameContext vdnc);
+
+// Return a symbol with the string name.
+gdv::GDValue toGDValue(VisitDeclarationNameContext vdnc);
 
 
 // Visitor for the Clang AST.  See the comments at the top of the file.
