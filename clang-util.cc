@@ -820,6 +820,12 @@ bool ClangUtil::isOperatorDecl(clang::NamedDecl const *decl) const
 }
 
 
+STATICDEF bool ClangUtil::isAnonymous(clang::NamedDecl const *decl)
+{
+  return decl->getDeclName().isEmpty();
+}
+
+
 STATICDEF bool ClangUtil::isThisDeclarationADefinition(
   clang::Decl const *decl)
 {

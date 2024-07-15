@@ -311,6 +311,9 @@ public:      // methods
   // Is 'decl' the declaration of an operator?
   bool isOperatorDecl(clang::NamedDecl const *decl) const;
 
+  // True if `decl` is anonymous.
+  static bool isAnonymous(clang::NamedDecl const *decl);
+
   // True if `decl` is among the kinds that supports the
   // `isThisDeclarationADefinition` method, and it returns true.
   static bool isThisDeclarationADefinition(clang::Decl const *decl);
