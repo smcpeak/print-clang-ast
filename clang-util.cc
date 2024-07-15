@@ -12,6 +12,7 @@
 #include "smbase/sm-trace.h"           // INIT_TRACE, etc.
 #include "smbase/string-util.h"        // doubleQuote, beginsWith, hasSubstring, trimWhitespace
 #include "smbase/stringb.h"            // stringb
+#include "smbase/strutil.h"            // sm_basename
 
 // clang
 #include "clang/AST/Decl.h"            // clang::FieldDecl::getParent
@@ -105,6 +106,27 @@ unsigned ClangUtil::locCol(clang::SourceLocation loc) const
 }
 
 
+std::string ClangUtil::basenameOfLocFile(clang::SourceLocation loc) const
+{
+  clang::FileID fid = m_srcMgr.getFileID(loc);
+  if (!fid.isValid()) {
+    return "<none>";
+  }
+
+  // I'm not using `getFileEntry` because `FileEntry` seems like it
+  // might be a lower-level interface.  Perhaps I should be using
+  // `FileEntryRef` everywhere in this module?
+  if (auto entryRefOpt = m_srcMgr.getFileEntryRefForID(fid)) {
+    clang::FileEntryRef entryRef = *entryRefOpt;
+    llvm::StringRef name = entryRef.getName();
+    return sm_basename(name.str());
+  }
+  else {
+    return "<none>";
+  }
+}
+
+
 bool ClangUtil::locInSourceFile(clang::SourceLocation loc) const
 {
   if (!loc.isValid()) {
@@ -145,7 +167,7 @@ bool ClangUtil::inMainFile(SourceLocation loc) const
 }
 
 
-clang::FileEntry const *ClangUtil::getFileEntryForLoc(
+clang::FileEntry const * NULLABLE ClangUtil::getFileEntryForLoc(
   clang::SourceLocation loc) const
 {
   // Previously, I had been calling 'getSpellingLoc' here, although I do

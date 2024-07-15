@@ -283,10 +283,13 @@ void DeclLocVisitor::visitDecl(
 {
   TRACE2("DeclLocVisitor::visitDecl: " << declKindAtLocStr(decl));
 
-  // For the moment I only care about CTSDs.
-  if (auto ctsd = dyn_cast<clang::ClassTemplateSpecializationDecl>(decl)) {
-    clang::SourceLocation loc = declLoc(ctsd);
+  clang::SourceLocation loc = declLoc(decl);
 
+  // Get the basename of all referenced files.
+  m_actual.setInsert(basenameOfLocFile(loc));
+
+  // Get extra information about CTSDs.
+  if (auto ctsd = dyn_cast<clang::ClassTemplateSpecializationDecl>(decl)) {
     clang::NamedDecl const * NULLABLE instFromDecl =
       getInstFromDeclOpt(ctsd);
 
@@ -322,7 +325,15 @@ void testOneDeclLoc(char const *fname, GDValue const &expect)
 void testDeclLoc()
 {
   testOneDeclLoc("in/src/use-template-via-typedef.cc", GDValue(GDVSet{
+    "<none>",
+    "use-template-via-typedef.cc",
     GDVTuple{"S<int>", "S_defn:1", "S_decl:1", "S_defn:1"},
+  }));
+
+  testOneDeclLoc("in/src/macro-expansion.cc", GDValue(GDVSet{
+    "<none>",
+    "macro-definition.h",
+    "macro-expansion.cc",
   }));
 }
 

@@ -127,6 +127,10 @@ public:      // methods
   unsigned locLine(clang::SourceLocation loc) const;
   unsigned locCol(clang::SourceLocation loc) const;
 
+  // Return the base name (i.e., without path information) of the file
+  // component of `loc`, or "<none>" if there is no associated file.
+  std::string basenameOfLocFile(clang::SourceLocation loc) const;
+
   // True if 'loc' is in a source file, as opposed to a macro expansion
   // or on the command line.
   bool locInSourceFile(clang::SourceLocation loc) const;
@@ -136,7 +140,7 @@ public:      // methods
 
   // Return the entry corresponding to the expansion location of 'loc',
   // or null if there is none.
-  clang::FileEntry const *getFileEntryForLoc(
+  clang::FileEntry const * NULLABLE getFileEntryForLoc(
     clang::SourceLocation loc) const;
 
   // Return the location for a given file/line/col.
