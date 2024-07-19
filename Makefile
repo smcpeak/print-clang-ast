@@ -444,10 +444,14 @@ out/pv/%.pv: in/src/% in/exp/pv/%.pv print-clang-ast.exe
 	  ./print-clang-ast.exe --printer-visitor \
 	    --print-visit-context \
 	    --print-implicit-qual-types \
+	    --print-inst-after-defn \
 	    -xc++ in/src/$*
 
 PRINTER_VISITOR_TESTS :=
 PRINTER_VISITOR_TESTS += ct-inst.cc
+PRINTER_VISITOR_TESTS += ct-pspec-notdef.cc
+PRINTER_VISITOR_TESTS += ct-pspec.cc
+PRINTER_VISITOR_TESTS += ct-redecl-inst.cc
 PRINTER_VISITOR_TESTS += expr-array-size.cc
 PRINTER_VISITOR_TESTS += friend-decl.cc
 PRINTER_VISITOR_TESTS += friend-template-decl.cc

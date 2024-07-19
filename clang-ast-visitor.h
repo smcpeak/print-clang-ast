@@ -446,7 +446,22 @@ gdv::GDValue toGDValue(VisitDeclarationNameContext vdnc);
 
 // Visitor for the Clang AST.  See the comments at the top of the file.
 class ClangASTVisitor {
+private:     // methods
+  // True if `spec` is an instantiation of the entity that `ctopd`
+  // declares.
+  bool isInstantiationOfThisClassTemplateOrPartial(
+    clang::ClassTemplateSpecializationDecl const *spec,
+    clang::NamedDecl const *ctopd) const;
+
+  // True if, in the current configuration, we should visit the
+  // instantiations of `templateDecl` right after it.
+  template <typename TEMPLATE_DECL>
+  bool isAppropriateForInstantiations(
+    TEMPLATE_DECL const *templateDecl) const;
+
 public:      // methods
+  ClangASTVisitor();
+
   // Scan the entire TU in 'astContext'.
   //
   // It is also normal to initiate scans anywhere in the AST by directly
@@ -454,6 +469,16 @@ public:      // methods
   // convenient way of kicking off a scan of the entire TU.
   //
   void scanTU(clang::ASTContext &astContext);
+
+  // -------- Configuration --------
+  // If true, instantiations of a template or partial specialization are
+  // visited right after the definition of that template or pspec.
+  // Otherwise, they are visited right after the canonical declaration
+  // of the template primary, which is what RAV does.
+  //
+  // Default: Return false.
+  //
+  virtual bool shouldVisitInstantiationsAfterDefinitions() const;
 
   // -------- Core visitors --------
   //
@@ -545,17 +570,24 @@ public:      // methods
   virtual void visitFunctionTemplateInstantiations(
     clang::FunctionTemplateDecl const *ftd);
 
-  // Visit the instantiations of 'ctd'.
+  // Visit the instantiations of `ctd`.
   //
-  // The default visitor will only call this when 'ctd' is canonical.
+  // The default visitor will only call this when `ctd` is canonical.
   //
-  // Note that this includes instantations of partial specializations;
-  // those are found (and visited) as specializations of the primary,
-  // even though they are instanitated from the partial specialization.
+  // If `onlyInstantiationsOfThisTemplate`, then we only want to visit
+  // instantiations of `ctd`.  Otherwise, we want to visit all
+  // instantiations, including of partial specializations.
   //
-  // Default: Call 'visitDecl' on each instantiation.
+  // Default: Call `visitDecl` on each relevant instantiation.
   virtual void visitClassTemplateInstantiations(
-    clang::ClassTemplateDecl const *ctd);
+    clang::ClassTemplateDecl const *ctd,
+    bool onlyInstantiationsOfThisTemplate);
+
+  // Visit the instantiations of `ctpsd`.
+  //
+  // Default: Call `visitDecl` on each relevant instantiation.
+  virtual void visitClassTemplatePartialSpecializationInstantiations(
+    clang::ClassTemplatePartialSpecializationDecl const *ctpsd);
 
   // Visit the instantiations of 'vtd'.
   //
@@ -731,36 +763,29 @@ public:      // methods
   void visitCallExprArgs(
     clang::CallExpr const *callExpr);
 
-  /* If 'templateDecl' is the canonical declaration for its template,
-     then visit its instantiations.  Otherwise do nothing.
+  /* If the current configuration (i.e.,
+     `shouldVisitInstantiationsAfterDefinitions()`) specifies to visit
+     instantiations of `templateDecl` right after it, then do so.
+     Otherwise do nothing.
 
-     Restricting to the canonical declaration is important for avoiding
-     duplicate visitation when there are multiple declarations.  At
-     first it might seem that the same could be done by restricting to
-     the definition, but that does not work for the case of a class
-     template primary that is never defined, but for which a partial
-     specialization *is* defined and instantiated, since we visit
-     instantiations of partial specializations as part of the primary.
-
-     However, I do not simply make the "if canonical" variants be the
-     "auxiliary visitors" (with 'virtual' specifier) because I do not
-     want clients to have to override a method whose name and behavior
-     reflects a concern that is primarily internal to the visitor
-     mechanism.
+     For now, I choose not to make the "if appropriate" variants be the
+     "auxiliary visitors" (with 'virtual' specifier) because I see the
+     logic inside them as an implementation detail, even though I think
+     it is ok for clients to call them.
   */
-  void visitTemplateInstantiationsIfCanonical(
+  void visitTemplateInstantiationsIfAppropriate(
     clang::TemplateDecl const *templateDecl);
 
-  // Visit the instantiations of 'ftd' if it is canonical.
-  void visitFunctionTemplateInstantiationsIfCanonical(
+  // Possibly visit the instantiations of 'ftd'.
+  void visitFunctionTemplateInstantiationsIfAppropriate(
     clang::FunctionTemplateDecl const *ftd);
 
-  // Visit the instantiations of 'ctd' if it is canonical.
-  void visitClassTemplateInstantiationsIfCanonical(
+  // Possibly visit the instantiations of 'ctd'.
+  void visitClassTemplateInstantiationsIfAppropriate(
     clang::ClassTemplateDecl const *ctd);
 
-  // Visit the instantiations of 'vtd' if it is canonical.
-  void visitVarTemplateInstantiationsIfCanonical(
+  // Possibly visit the instantiations of 'vtd'.
+  void visitVarTemplateInstantiationsIfAppropriate(
     clang::VarTemplateDecl const *vtd);
 
   // Visit the "outer" template parameters associated with 'dd'.  These

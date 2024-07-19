@@ -1,0 +1,33 @@
+---- stdout ----
+VDC_NONE: TranslationUnitDecl at <invalid loc>
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__int128_t" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: BuiltinTypeLoc("__int128", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__uint128_t" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: BuiltinTypeLoc("unsigned __int128", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__NSConstantString" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: RecordTypeLoc("struct __NSConstantString_tag", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__builtin_ms_va_list" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: PointerTypeLoc("char *", <<invalid sloc>>, BuiltinTypeLoc("char", <<invalid sloc>>, NullTypeLoc))
+      VTC_POINTER_TYPE: BuiltinTypeLoc("char", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: TypedefDecl "__builtin_va_list" at <invalid loc>
+    VTC_TYPEDEF_NAME_DECL: ConstantArrayTypeLoc("struct __va_list_tag[1]", <<invalid sloc>>, RecordTypeLoc("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc))
+      VTC_ARRAY_TYPE_ELEMENT: RecordTypeLoc("struct __va_list_tag", <<invalid sloc>>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: ClassTemplateDecl "S" at in/src/ct-pspec-notdef.cc:4:1
+    VDC_TEMPLATE_DECL_PARAMETER: TemplateTypeParmDecl "S::T" at in/src/ct-pspec-notdef.cc:4:11
+    VDC_TEMPLATE_DECL: CXXRecordDecl "S<T>" at in/src/ct-pspec-notdef.cc:5:1
+    VDC_CLASS_TEMPLATE_INSTANTIATION: ClassTemplateSpecializationDecl "S<int *>" at in/src/ct-pspec-notdef.cc:4:1
+  VDC_TRANSLATION_UNIT_DECL: ClassTemplatePartialSpecializationDecl "S<U *>" at in/src/ct-pspec-notdef.cc:7:1
+    VDC_TEMPLATE_DECL_PARAMETER: TemplateTypeParmDecl "S<type-parameter-0-0 *>::U" at in/src/ct-pspec-notdef.cc:7:11
+    VTC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL: TemplateSpecializationTypeLoc("S<U *>", <in/src/ct-pspec-notdef.cc:8:8, col:12>, NullTypeLoc)
+      VTAC_TEMPLATE_SPECIALIZATION_TYPE: TArg "U *" (ArgKind::Type) at in/src/ct-pspec-notdef.cc:8:10
+        VTC_TEMPLATE_TYPE_ARGUMENT: PointerTypeLoc("U *", <in/src/ct-pspec-notdef.cc:8:10, col:11>, TemplateTypeParmTypeLoc("U", <in/src/ct-pspec-notdef.cc:8:10>, NullTypeLoc))
+          VTC_POINTER_TYPE: TemplateTypeParmTypeLoc("U", <in/src/ct-pspec-notdef.cc:8:10>, NullTypeLoc)
+  VDC_TRANSLATION_UNIT_DECL: VarDecl "s" at in/src/ct-pspec-notdef.cc:10:1
+    VTC_DECLARATOR_DECL: ElaboratedTypeLoc("S<int *>", <in/src/ct-pspec-notdef.cc:10:8, col:14>, TemplateSpecializationTypeLoc("S<int *>", <in/src/ct-pspec-notdef.cc:10:8, col:14>, NullTypeLoc))
+      VTC_ELABORATED_TYPE: TemplateSpecializationTypeLoc("S<int *>", <in/src/ct-pspec-notdef.cc:10:8, col:14>, NullTypeLoc)
+        VTAC_TEMPLATE_SPECIALIZATION_TYPE: TArg "int *" (ArgKind::Type) at in/src/ct-pspec-notdef.cc:10:10
+          VTC_TEMPLATE_TYPE_ARGUMENT: PointerTypeLoc("int *", <in/src/ct-pspec-notdef.cc:10:10, col:13>, BuiltinTypeLoc("int", <in/src/ct-pspec-notdef.cc:10:10>, NullTypeLoc))
+            VTC_POINTER_TYPE: BuiltinTypeLoc("int", <in/src/ct-pspec-notdef.cc:10:10>, NullTypeLoc)
+---- stderr ----
+---- exit status ----
+Exit 0
