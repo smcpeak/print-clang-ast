@@ -1,1 +1,0 @@
-[clang][doc] Add documentation for the ASTs used to represent C++ templates.
