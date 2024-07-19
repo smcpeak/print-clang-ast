@@ -8,8 +8,9 @@
 #include "enum-util.h"                           // ENUM_TABLE_LOOKUP_CHECK_SIZE
 
 // smbase
-#include "smbase/gdvalue.h"                      // gdv::GDValue
+#include "smbase/gdvalue.h"                      // gdv::{GDValue, GDVMap}
 #include "smbase/gdvsymbol.h"                    // gdv::GDVSymbol
+#include "smbase/sm-trace.h"                     // INIT_TRACE, etc.
 #include "smbase/xassert.h"                      // xassert
 
 // clang
@@ -23,8 +24,15 @@ using namespace gdv;
 using clang::dyn_cast;
 
 
+INIT_TRACE("clang-ast-visitor");
+
+
 // Get the DeclContext aspect of 'decl'.
 #define DECL_CONTEXT_OF(decl) assert_dyn_cast(clang::DeclContext, (decl))
+
+
+// Ugly...
+#define CLANG_UTIL (*(ClangUtil::s_instance))
 
 
 char const *toString(VisitDeclContext vdc)
@@ -348,6 +356,32 @@ bool ClangASTVisitor::shouldVisitInstantiationsAfterDefinitions() const
 }
 
 
+bool ClangASTVisitor::isEffectivelyAClassTemplatePartialSpecializationDefinition(
+  clang::ClassTemplatePartialSpecializationDecl const *ctpsd) const
+{
+  TRACE2("isEffectivelyAClassTemplatePartialSpecializationDefinition: " <<
+         CLANG_UTIL.namedDeclAndKindAtLocStr(ctpsd));
+
+  if (ctpsd->isThisDeclarationADefinition()) {
+    return true;
+  }
+
+  if (clang::ClassTemplatePartialSpecializationDecl const *instFromMember =
+        ctpsd->getInstantiatedFromMemberTemplate()) {
+    // Even when `instFromMember` is a definition, clang does not call
+    // `ctpsd` a definition, since (presumably as an optimization) it
+    // never materializes its body.  Instead, it only performs the full
+    // substitution and instantiation when the arguments are all
+    // concrete.
+    //
+    // Ex: in/src/ct-cont-ct-pspec.cc.
+    return instFromMember->isThisDeclarationADefinition();
+  }
+
+  return false;
+}
+
+
 void ClangASTVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)
@@ -534,7 +568,8 @@ void ClangASTVisitor::visitDecl(
 
     if (auto ctpsd = dyn_cast<
           clang::ClassTemplatePartialSpecializationDecl>(decl)) {
-      if (isDefn && shouldVisitInstantiationsAfterDefinitions()) {
+      if (shouldVisitInstantiationsAfterDefinitions() &&
+          isEffectivelyAClassTemplatePartialSpecializationDefinition(ctpsd)) {
         visitClassTemplatePartialSpecializationInstantiations(ctpsd);
       }
 
@@ -1546,8 +1581,21 @@ bool ClangASTVisitor::isInstantiationOfThisClassTemplateOrPartial(
   clang::NamedDecl const * NULLABLE instFromDecl =
     getInstFromNamedDecl(spec);
   xassert(instFromDecl);
-  return instFromDecl->getCanonicalDecl() ==
-         ctopd->getCanonicalDecl();
+
+  bool ret = instFromDecl->getCanonicalDecl() ==
+             ctopd->getCanonicalDecl();
+
+  TRACE2("isInstantiationOfThisClassTemplateOrPartial: " <<
+    GDValue(GDVMap{
+      GDV_SKV("spec", CLANG_UTIL.namedDeclAndKindAtLocStr(spec)),
+      GDV_SKV("ctpod", CLANG_UTIL.namedDeclAndKindAtLocStr(ctopd)),
+      GDV_SKV("ctpod_can", CLANG_UTIL.namedDeclAndKindAtLocStr(CLANG_UTIL.canonicalNamedDeclC(ctopd))),
+      GDV_SKV("instFromDecp", CLANG_UTIL.namedDeclAndKindAtLocStr(instFromDecl)),
+      GDV_SKV("instFromDecp_can", CLANG_UTIL.namedDeclAndKindAtLocStr(CLANG_UTIL.canonicalNamedDeclC(instFromDecl))),
+      GDV_SKV_EXPR(ret),
+    }));
+
+  return ret;
 }
 
 
@@ -1592,6 +1640,13 @@ void ClangASTVisitor::visitClassTemplatePartialSpecializationInstantiations(
 {
   clang::ClassTemplateDecl const *primary =
     ctpsd->getSpecializedTemplate();
+
+  TRACE1_SCOPED(
+    "visitClassTemplatePartialSpecializationInstantiations: " <<
+    GDValue(GDVMap{
+      GDV_SKV("ctpsd", ClangUtil::s_instance->namedDeclAndKindAtLocStr(ctpsd)),
+      GDV_SKV("primary", ClangUtil::s_instance->namedDeclAndKindAtLocStr(primary)),
+    }));
 
   for (clang::ClassTemplateSpecializationDecl const *spec :
          primary->specializations()) {

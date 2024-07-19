@@ -447,6 +447,11 @@ gdv::GDValue toGDValue(VisitDeclarationNameContext vdnc);
 // Visitor for the Clang AST.  See the comments at the top of the file.
 class ClangASTVisitor {
 private:     // methods
+  // True if `ctpsd` is itself a definition, or is an instantiation of
+  // a member template that is a definition.
+  bool isEffectivelyAClassTemplatePartialSpecializationDefinition(
+    clang::ClassTemplatePartialSpecializationDecl const *ctpsd) const;
+
   // True if `spec` is an instantiation of the entity that `ctopd`
   // declares.
   bool isInstantiationOfThisClassTemplateOrPartial(
@@ -471,10 +476,14 @@ public:      // methods
   void scanTU(clang::ASTContext &astContext);
 
   // -------- Configuration --------
+
   // If true, instantiations of a template or partial specialization are
   // visited right after the definition of that template or pspec.
-  // Otherwise, they are visited right after the canonical declaration
-  // of the template primary, which is what RAV does.
+  // Otherwise, or for those without definitions, they are visited right
+  // after the canonical declaration of the template primary, which is
+  // what RAV does.
+  //
+  // THIS DOES NOT WORK.  See doc/clang-ast-visitor-inst-after-defn.txt.
   //
   // Default: Return false.
   //
@@ -833,6 +842,15 @@ public:      // methods
   void visitDeclaratorDeclType(
     clang::DeclaratorDecl const *dd);
 };
+
+
+// Run visitor tests on the given TU.
+//
+// Unlike most other modules, the tests for this one are meant to be
+// called while doing something else, like printing the AST nodes.
+//
+// Defined in clang-ast-visitor-test.cc.
+void clangASTVisitorTest(clang::ASTContext &astContext);
 
 
 #endif // CLANG_AST_VISITOR_H

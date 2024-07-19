@@ -199,6 +199,7 @@ libpca.a: $(LIBPCA_OBJS)
 # Object files that go into print-clang-ast.exe.
 PRINT_CLANG_AST_OBJS :=
 PRINT_CLANG_AST_OBJS += clang-ast-visitor-nc-test.o
+PRINT_CLANG_AST_OBJS += clang-ast-visitor-test.o
 PRINT_CLANG_AST_OBJS += clang-util-test.o
 PRINT_CLANG_AST_OBJS += file-util-test.o
 PRINT_CLANG_AST_OBJS += pca-command-line-options-test.o

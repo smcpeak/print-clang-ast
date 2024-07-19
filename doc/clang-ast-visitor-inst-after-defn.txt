@@ -1,0 +1,77 @@
+clang-ast-visitor-inst-after-defn.txt
+
+ClangASTVisitor has a configuration method:
+
+  virtual bool shouldVisitInstantiationsAfterDefinitions() const;
+
+This was intended to adjust the behavior so that it would always visit
+each template instantiation only after visiting the template or partial
+specialization from which it was instantiated.
+
+However, it does not work.  The main problem is the way Clang represents
+partial specializations of member class templates.  Consider
+in/src/ct-cont-ct-pspec.cc:
+
+  template <class T>
+  struct Outer {
+    template <class U>
+    struct Inner;
+  };
+
+  template <class T>
+  template <class V>
+  struct Outer<T>::Inner<V*> {
+    T t;
+    V *u;
+  };
+
+  Outer<int>::Inner<float*> i;
+
+There is a diagram in doc/ASTsForTemplates/ct-cont-ct-pspec.ded.png that
+I'll refer to here.
+
+First, acronyms:
+
+  * CTD: ClassTemplateDecl
+  * CTSD: ClassTemplateSpecializationDecl
+  * CTPSD: ClassTemplatePartialSpecializationDecl
+
+The directly written syntax corresponds to:
+
+  * CTD   14: Outer<T>
+  * CTD   19: Outer<T>::Inner<U>
+  * CTPSD 48: Outer<T>::Inner<V*>
+
+When Outer<int> is instantiated, we get:
+
+  * CTSD  23: Outer<int>
+  * CTD   25: Outer<int>::Inner<U>
+  * CTPSD 78: Outer<int>::Inner<V*>
+
+Then when Outer<int>::Inner<V*> is instantiated, we get:
+
+  * CTSD  29: Outer<int>::Inner<float*>.
+
+Now, my naive strategy for visiting instantiations after definitions was
+to visit the instantiations of a CTD after visiting the latter's
+definition, and similarly for CTPSD.  In this example, the instantiation
+Outer<int>::Inner<float*> (CTSD 29) is listed among the specializations
+of its primary, Outer<int>::Inner<U> (CTD 25), but we want to visit it
+while visiting its "instantiation source pattern", Outer<T>::Inner<V*>
+(CTPSD 48), and there isn't a simple way to navigate from CTPSD 48 to
+CTD 25, CTPSD 78, or CTSD 29.
+
+If we instead just visit CTSD 29 while visiting CTSD 78, then that will
+happen before visiting CTPSD 48, violating the intended ordering.
+
+To fix this, one would need to build at least one auxiliary map to make
+navigation possible, but that is already more mechanism than I am
+comfortable with in a visitor, and it's not clear that a single map
+would suffice, nor that that would produce a predictable ordering even
+if it did achieve instantiation-after-definition.
+
+So, I've decided to abandon the effort and just use two global passes in
+the visitor client.
+
+
+EOF

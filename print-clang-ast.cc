@@ -1,7 +1,9 @@
 // print-clang-ast.cc
 // Entry point for print-clang-ast.exe program.
 
+#include "clang-ast-visitor.h"                             // clangASTVisitorTest
 #include "clang-ast.h"                                     // ClangAST
+#include "clang-util.h"                                    // GlobalClangUtilInstance
 #include "decl-implicit.h"                                 // declareImplicitThings
 #include "pca-command-line-options.h"                      // PCACommandLineOptions
 #include "pca-unit-tests.h"                                // pca_unit_tests
@@ -88,6 +90,10 @@ static int innerMain(int argc, char const **argv)
     return 2;
   }
 
+  // Set `ClangUtil::s_instance`, which I don't like using, but
+  // occasionally is needed to enable tracing in weird spots.
+  GlobalClangUtilInstance gcui(ast.getASTContext());
+
   if (options.m_forceImplicit) {
     declareImplicitThings(ast.getASTUnit(), true /*defineAlso*/);
   }
@@ -139,6 +145,10 @@ static int innerMain(int argc, char const **argv)
       return 2;
     }
   }
+
+  // Exercise the visitor.  Do this last so we can use the above
+  // printing mechanisms to help debug any failures.
+  clangASTVisitorTest(ast.getASTContext());
 
   return 0;
 }
