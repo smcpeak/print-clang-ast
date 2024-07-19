@@ -355,7 +355,7 @@ public:      // methods
   // Cast 'dc' to the associated Decl pointer.  Asserts that the
   // conversion succeeds, unless 'dc' is null, in which case null is
   // returned.
-  static clang::Decl const *declFromDC(
+  static clang::Decl const * NULLABLE declFromDC(
     clang::DeclContext const * NULLABLE dc);
 
   // -------------------------- FunctionDecl ---------------------------

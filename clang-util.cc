@@ -1013,7 +1013,7 @@ std::string ClangUtil::tuSyntaxStr() const
 
 
 // ---------------------------- DeclContext ----------------------------
-STATICDEF clang::Decl const *ClangUtil::declFromDC(
+STATICDEF clang::Decl const * NULLABLE ClangUtil::declFromDC(
   clang::DeclContext const * NULLABLE dc)
 {
   if (dc) {
