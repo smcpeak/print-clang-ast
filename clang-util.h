@@ -342,6 +342,9 @@ public:      // methods
   clang::NamedDecl const * NULLABLE getRedeclarablePreviousDeclarationOpt(
     clang::NamedDecl const *decl) const;
 
+  // True if `a` and `b` declare the same entity.
+  bool sameEntity(clang::Decl const *a, clang::Decl const *b) const;
+
   // Render `decl` as a string by pretty-printing the syntax.
   std::string declSyntaxStr(clang::Decl const * NULLABLE decl) const;
 

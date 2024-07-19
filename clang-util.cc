@@ -982,6 +982,13 @@ ClangUtil::getRedeclarablePreviousDeclarationOpt(
 }
 
 
+bool ClangUtil::sameEntity(
+  clang::Decl const *a, clang::Decl const *b) const
+{
+  return a->getCanonicalDecl() == b->getCanonicalDecl();
+}
+
+
 // Here, `decl` is nullable just for consistency with `stmtStr`, which
 // also accepts a nullable pointer.
 std::string ClangUtil::declSyntaxStr(
