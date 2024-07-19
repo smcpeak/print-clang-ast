@@ -16,7 +16,7 @@
 
 // clang
 #include "clang/AST/Decl.h"            // clang::FieldDecl::getParent
-#include "clang/AST/DeclCXX.h"         // clang::CXXMethodDecl::getParent
+#include "clang/AST/DeclCXX.h"         // clang::{CXXMethodDecl::getParent, CXXDeductionGuideDecl}
 #include "clang/AST/ExprConcepts.h"    // clang::concepts::Requirement
 #include "clang/AST/Type.h"            // clang::FunctionProtoType
 #include "clang/Basic/Version.h"       // CLANG_VERSION_MAJOR
@@ -2101,6 +2101,16 @@ ClangUtil::getCXXRecordDeclTemplateInstantiationPatternOpt(
 
   xassert(!isTemplateInstantiation(decl->getTemplateSpecializationKind()));
   return nullptr;
+}
+
+
+bool ClangUtil::isDeductionGuideTemplate(clang::Decl const *decl) const
+{
+  if (auto ftd = dyn_cast<clang::FunctionTemplateDecl>(decl)) {
+    return isa<clang::CXXDeductionGuideDecl>(ftd->getTemplatedDecl());
+  }
+
+  return false;
 }
 
 

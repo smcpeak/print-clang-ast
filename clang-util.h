@@ -618,6 +618,10 @@ public:      // methods
   getCXXRecordDeclTemplateInstantiationPatternOpt(
     clang::CXXRecordDecl const *decl) const;
 
+  // True if `decl` is a `FunctionTemplateDecl` whose templated
+  // declaration is a `CXXDeductionGuideDecl`.
+  bool isDeductionGuideTemplate(clang::Decl const *decl) const;
+
   // ------------------------ TemplateParameter ------------------------
   // Turn 'paramList' into a string like "template <class T>".
   std::string templateParameterListStr(
