@@ -35,12 +35,6 @@ std::string PrinterVisitor::indentString() const
 }
 
 
-bool PrinterVisitor::shouldVisitInstantiationsAfterDefinitions() const
-{
-  return !!(m_flags & F_INST_AFTER_DEFN);
-}
-
-
 // This uses `toGDValue` to print `context` primarily as a way of
 // testing `toGDValue` and `toString` at the same time, since the former
 // uses the latter.

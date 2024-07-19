@@ -41,13 +41,8 @@ public:      // types
     // it.
     F_PRINT_DEFAULT_ARG_EXPRS          = 0x08,
 
-    // If set, then in the underlying visitor, set
-    // `m_shouldVisitInstantiationsAfterDefinitions` so that
-    // instantiations are visited after template definitions.
-    F_INST_AFTER_DEFN                  = 0x10,
-
     // All flags set.
-    F_ALL                              = 0x1F
+    F_ALL                              = 0x0F
   };
 
 public:      // data
@@ -68,7 +63,6 @@ public:      // methods
   std::string indentString() const;
 
   // ClangASTVisitor methods.
-  virtual bool shouldVisitInstantiationsAfterDefinitions() const override;
   virtual void visitDecl(VisitDeclContext context, clang::Decl const *decl) override;
   virtual void visitStmt(VisitStmtContext context, clang::Stmt const *stmt) override;
   virtual void visitTypeLoc(VisitTypeContext context, clang::TypeLoc typeLoc) override;

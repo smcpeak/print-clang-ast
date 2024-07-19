@@ -10,7 +10,6 @@
 // smbase
 #include "smbase/gdvalue.h"                      // gdv::{GDValue, GDVMap}
 #include "smbase/gdvsymbol.h"                    // gdv::GDVSymbol
-#include "smbase/sm-trace.h"                     // INIT_TRACE, etc.
 #include "smbase/xassert.h"                      // xassert
 
 // clang
@@ -24,15 +23,8 @@ using namespace gdv;
 using clang::dyn_cast;
 
 
-INIT_TRACE("clang-ast-visitor");
-
-
 // Get the DeclContext aspect of 'decl'.
 #define DECL_CONTEXT_OF(decl) assert_dyn_cast(clang::DeclContext, (decl))
-
-
-// Ugly...
-#define CLANG_UTIL (*(ClangUtil::s_instance))
 
 
 char const *toString(VisitDeclContext vdc)
@@ -350,38 +342,6 @@ void ClangASTVisitor::scanTU(clang::ASTContext &astContext)
 }
 
 
-bool ClangASTVisitor::shouldVisitInstantiationsAfterDefinitions() const
-{
-  return false;
-}
-
-
-bool ClangASTVisitor::isEffectivelyAClassTemplatePartialSpecializationDefinition(
-  clang::ClassTemplatePartialSpecializationDecl const *ctpsd) const
-{
-  TRACE2("isEffectivelyAClassTemplatePartialSpecializationDefinition: " <<
-         CLANG_UTIL.namedDeclAndKindAtLocStr(ctpsd));
-
-  if (ctpsd->isThisDeclarationADefinition()) {
-    return true;
-  }
-
-  if (clang::ClassTemplatePartialSpecializationDecl const *instFromMember =
-        ctpsd->getInstantiatedFromMemberTemplate()) {
-    // Even when `instFromMember` is a definition, clang does not call
-    // `ctpsd` a definition, since (presumably as an optimization) it
-    // never materializes its body.  Instead, it only performs the full
-    // substitution and instantiation when the arguments are all
-    // concrete.
-    //
-    // Ex: in/src/ct-cont-ct-pspec.cc.
-    return instFromMember->isThisDeclarationADefinition();
-  }
-
-  return false;
-}
-
-
 void ClangASTVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)
@@ -565,19 +525,6 @@ void ClangASTVisitor::visitDecl(
     if (isDefn) {
       visitNonFunctionDeclContext(VDC_RECORD_DECL, DECL_CONTEXT_OF(rd));
     }
-
-    if (auto ctpsd = dyn_cast<
-          clang::ClassTemplatePartialSpecializationDecl>(decl)) {
-      if (shouldVisitInstantiationsAfterDefinitions() &&
-          isEffectivelyAClassTemplatePartialSpecializationDefinition(ctpsd)) {
-        visitClassTemplatePartialSpecializationInstantiations(ctpsd);
-      }
-
-      // If there is no definition, then clang will not associate any
-      // specializations with the partial spec, so we do not need to
-      // fall back on visiting after the canonical the way we do for the
-      // template primary.
-    }
   } // RecordDecl
 
   else if (auto fsad = dyn_cast<clang::FileScopeAsmDecl>(decl)) {
@@ -599,7 +546,7 @@ void ClangASTVisitor::visitDecl(
     // TemplateTemplateParmDecl.
     visitDeclOpt(VDC_TEMPLATE_DECL, td->getTemplatedDecl());
 
-    visitTemplateInstantiationsIfAppropriate(td);
+    visitTemplateInstantiationsIfCanonical(td);
 
     if (auto ttpd = dyn_cast<clang::TemplateTemplateParmDecl>(decl)) {
       if (ttpd->hasDefaultArgument() &&
@@ -1555,53 +1502,8 @@ void ClangASTVisitor::visitFunctionTemplateInstantiations(
 }
 
 
-// Like `ClassTemplateDecl::getInstantiatedFrom`, except returning a
-// single `NamedDecl` instead of a pointer union.  Returns null for
-// something that is not an instantiation.
-static clang::NamedDecl const * NULLABLE getInstFromNamedDecl(
-  clang::ClassTemplateSpecializationDecl const *spec)
-{
-  // This is an `llvm::PointerUnion`.
-  auto instFromPU = spec->getInstantiatedFrom();
-
-  if (auto instFromCTD = instFromPU.dyn_cast<clang::ClassTemplateDecl *>()) {
-    return instFromCTD;
-  }
-  else {
-    // This could return null for a non-instantiation.
-    return instFromPU.dyn_cast<clang::ClassTemplatePartialSpecializationDecl *>();
-  }
-}
-
-
-bool ClangASTVisitor::isInstantiationOfThisClassTemplateOrPartial(
-  clang::ClassTemplateSpecializationDecl const *spec,
-  clang::NamedDecl const *ctopd) const
-{
-  clang::NamedDecl const * NULLABLE instFromDecl =
-    getInstFromNamedDecl(spec);
-  xassert(instFromDecl);
-
-  bool ret = instFromDecl->getCanonicalDecl() ==
-             ctopd->getCanonicalDecl();
-
-  TRACE2("isInstantiationOfThisClassTemplateOrPartial: " <<
-    GDValue(GDVMap{
-      GDV_SKV("spec", CLANG_UTIL.namedDeclAndKindAtLocStr(spec)),
-      GDV_SKV("ctpod", CLANG_UTIL.namedDeclAndKindAtLocStr(ctopd)),
-      GDV_SKV("ctpod_can", CLANG_UTIL.namedDeclAndKindAtLocStr(CLANG_UTIL.canonicalNamedDeclC(ctopd))),
-      GDV_SKV("instFromDecp", CLANG_UTIL.namedDeclAndKindAtLocStr(instFromDecl)),
-      GDV_SKV("instFromDecp_can", CLANG_UTIL.namedDeclAndKindAtLocStr(CLANG_UTIL.canonicalNamedDeclC(instFromDecl))),
-      GDV_SKV_EXPR(ret),
-    }));
-
-  return ret;
-}
-
-
 void ClangASTVisitor::visitClassTemplateInstantiations(
-  clang::ClassTemplateDecl const *ctd,
-  bool onlyInstantiationsOfThisTemplate)
+  clang::ClassTemplateDecl const *ctd)
 {
   for (clang::ClassTemplateSpecializationDecl const *spec :
          ctd->specializations()) {
@@ -1612,50 +1514,18 @@ void ClangASTVisitor::visitClassTemplateInstantiations(
     clang::TemplateSpecializationKind tsk =
       spec->getSpecializationKind();
 
-    if (tsk == clang::TSK_Undeclared) {
-      // This could be a specialization that is nominated by a deduction
-      // guide but not otherwise instantiatied or explicitly
-      // specialized.  It could also be a specialization mentioned but
-      // not instantiable because the relevant template has not been
-      // defined.  Since there is no instantiated-from, we will visit it
-      // with the primary.
+    // TODO: TSK_ExplicitSpecialization should be visited if it is a
+    // member instantiation.  This is a bug in RAV too.
+
+    // TSK_Undeclared could be a specialization that is nominated by a
+    // deduction guide but not otherwise instantiatied or explicitly
+    // specialized.  It could also be a specialization mentioned but not
+    // instantiable because the relevant template has not been defined.
+    // Since there is no instantiated-from, we will visit it with the
+    // primary.
+    if (tsk == clang::TSK_Undeclared ||
+        tsk == clang::TSK_ImplicitInstantiation) {
       visitDecl(VDC_CLASS_TEMPLATE_INSTANTIATION, spec);
-    }
-
-    if (tsk == clang::TSK_ImplicitInstantiation) {
-      if (onlyInstantiationsOfThisTemplate &&
-          !isInstantiationOfThisClassTemplateOrPartial(spec, ctd)) {
-        // `spec` is an instantiation of something else (which must be a
-        // partial specialization), so skip it here.
-        continue;
-      }
-      visitDecl(VDC_CLASS_TEMPLATE_INSTANTIATION, spec);
-    }
-  }
-}
-
-
-void ClangASTVisitor::visitClassTemplatePartialSpecializationInstantiations(
-  clang::ClassTemplatePartialSpecializationDecl const *ctpsd)
-{
-  clang::ClassTemplateDecl const *primary =
-    ctpsd->getSpecializedTemplate();
-
-  TRACE1_SCOPED(
-    "visitClassTemplatePartialSpecializationInstantiations: " <<
-    GDValue(GDVMap{
-      GDV_SKV("ctpsd", ClangUtil::s_instance->namedDeclAndKindAtLocStr(ctpsd)),
-      GDV_SKV("primary", ClangUtil::s_instance->namedDeclAndKindAtLocStr(primary)),
-    }));
-
-  for (clang::ClassTemplateSpecializationDecl const *spec :
-         primary->specializations()) {
-    clang::TemplateSpecializationKind tsk =
-      spec->getSpecializationKind();
-    if (tsk == clang::TSK_ImplicitInstantiation) {
-      if (isInstantiationOfThisClassTemplateOrPartial(spec, ctpsd)) {
-        visitDecl(VDC_CLASS_TEMPLATE_INSTANTIATION, spec);
-      }
     }
   }
 }
@@ -1923,90 +1793,45 @@ void ClangASTVisitor::visitCallExprArgs(
 }
 
 
-void ClangASTVisitor::visitTemplateInstantiationsIfAppropriate(
+void ClangASTVisitor::visitTemplateInstantiationsIfCanonical(
   clang::TemplateDecl const *templateDecl)
 {
   if (auto ctd = dyn_cast<clang::ClassTemplateDecl>(templateDecl)) {
-    visitClassTemplateInstantiationsIfAppropriate(ctd);
+    visitClassTemplateInstantiationsIfCanonical(ctd);
   }
 
   else if (auto ftd = dyn_cast<clang::FunctionTemplateDecl>(templateDecl)) {
-    visitFunctionTemplateInstantiationsIfAppropriate(ftd);
+    visitFunctionTemplateInstantiationsIfCanonical(ftd);
   }
 
   else if (auto vtd = dyn_cast<clang::VarTemplateDecl>(templateDecl)) {
-    visitVarTemplateInstantiationsIfAppropriate(vtd);
+    visitVarTemplateInstantiationsIfCanonical(vtd);
   }
 }
 
 
-// `TEMPLATE_DECL` is one of:
-//
-//   * ClassTemplateDecl
-//   * FunctionTemplateDecl
-//   * VarTemplateDecl
-//
-// It is tempting to visit the instantiations when `templateDecl` is the
-// definition rather than canonical.  The problem with that is if there
-// is no definition, then there are still instantiations of the
-// declaration, and can be instantiations of partial specializations.
-// And even when there is a definition, there can be instantiations of
-// the declaration only.  Only an instantiation of the definition is
-// necessarily tied to the template definition.
-//
-template <typename TEMPLATE_DECL>
-bool ClangASTVisitor::isAppropriateForInstantiations(
-  TEMPLATE_DECL const *templateDecl) const
-{
-  if (shouldVisitInstantiationsAfterDefinitions()) {
-    // Does this template have a definition?  Unfortunately, only for
-    // `VarTemplateDecl` can we ask that directly, so we instead go to
-    // the body declaration, which is one of `CXXRecordDecl`,
-    // `FunctionDecl`, or `VarDecl`.
-    auto bodyDecl = templateDecl->getTemplatedDecl();
-    if (bodyDecl->getDefinition()) {
-      // There is a definition, so visit instantiations when
-      // `templateDecl` is that definition.
-      return bodyDecl->isThisDeclarationADefinition();
-    }
-    else {
-      // There is no definition, so visit after the canonical.
-      return templateDecl->isCanonicalDecl();
-    }
-  }
-
-  else {
-    // Like RAV, always visit instantiations after the canonical, even
-    // though that will often mean visiting them before visiting the
-    // template from which they were instantiated.
-    return templateDecl->isCanonicalDecl();
-  }
-}
-
-
-void ClangASTVisitor::visitFunctionTemplateInstantiationsIfAppropriate(
+void ClangASTVisitor::visitFunctionTemplateInstantiationsIfCanonical(
   clang::FunctionTemplateDecl const *ftd)
 {
-  if (isAppropriateForInstantiations(ftd)) {
+  if (ftd->isCanonicalDecl()) {
     visitFunctionTemplateInstantiations(ftd);
   }
 }
 
 
-void ClangASTVisitor::visitClassTemplateInstantiationsIfAppropriate(
+void ClangASTVisitor::visitClassTemplateInstantiationsIfCanonical(
   clang::ClassTemplateDecl const *ctd)
 {
-  if (isAppropriateForInstantiations(ctd)) {
-    visitClassTemplateInstantiations(ctd,
-      shouldVisitInstantiationsAfterDefinitions());
+  if (ctd->isCanonicalDecl()) {
+    visitClassTemplateInstantiations(ctd);
   }
 }
 
 
-void ClangASTVisitor::visitVarTemplateInstantiationsIfAppropriate(
+void ClangASTVisitor::visitVarTemplateInstantiationsIfCanonical(
   clang::VarTemplateDecl const *vtd)
 {
-  if (isAppropriateForInstantiations(vtd)) {
+  if (vtd->isCanonicalDecl()) {
     visitVarTemplateInstantiations(vtd);
   }
 }

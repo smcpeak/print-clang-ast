@@ -82,13 +82,6 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
-  m_printInstAfterDefn,
-  false,
-  "--print-inst-after-defn",
-  R"(With --printer-visitor, print instantiations after template definitions.)"
-)
-
-BOOL_OPTION(
   m_ravPrinterVisitor,
   false,
   "--rav-printer-visitor",

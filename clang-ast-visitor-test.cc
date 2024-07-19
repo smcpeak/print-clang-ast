@@ -31,16 +31,18 @@ INIT_TRACE("clang-ast-visitor-test");
 // Although `ClangASTVisitor` is the module under test, I inherit
 // `ClangUtilASTVisitor` to get the `ClangUtil` capabilities too.
 //
-// The main point of this test is to validate the visitation order.
+// The main point of this test is to validate certain visitor
+// constraints, such as lack of duplicate visitation.  However, at the
+// moment there are a number of places those constraints are violated,
+// so all we're doing is exercising it without really checking anything.
+//
+// TODO: Enable the checks.
 //
 class ClangASTVisitorTest : public ClangUtilASTVisitor {
 public:      // types
   using Base = ClangUtilASTVisitor;
 
 public:      // data
-  // True to use visit instantiations after definitions.
-  bool m_instAfterDefn;
-
   // True if we are inside `LambdaExpr`.
   bool m_inLambdaExpr;
 
@@ -55,20 +57,13 @@ public:      // data
   std::set<clang::Stmt const *> m_visitedStmts;
 
 public:      // methods
-  ClangASTVisitorTest(clang::ASTContext &context,
-                      bool instAfterDefn)
+  ClangASTVisitorTest(clang::ASTContext &context)
     : ClangUtilASTVisitor(context),
-      m_instAfterDefn(instAfterDefn),
       m_inLambdaExpr(false),
       m_inDeductionGuideTemplate(false),
       m_visitedDecls(),
       m_visitedStmts()
   {}
-
-  virtual bool shouldVisitInstantiationsAfterDefinitions() const override
-  {
-    return m_instAfterDefn;
-  }
 
   virtual void visitDecl(
     VisitDeclContext context,
@@ -97,22 +92,6 @@ public:      // methods
       return;
 
       xfailure_stringbc("Double visit decl: " << declKindAtLocStr(decl));
-    }
-
-    if (m_instAfterDefn) {
-      if (auto namedDecl = dyn_cast<clang::NamedDecl>(decl)) {
-        if (clang::NamedDecl const *instFrom =
-              getInstFromDeclOpt(namedDecl)) {
-          // We should have already visited the thing `namedDecl` was
-          // instantiated from.
-          if (!contains(m_visitedDecls, instFrom)) {
-            xfailure_stringbc(
-              "Inst " << namedDeclAndKindAtLocStr(namedDecl) <<
-              " visited after instFrom " <<
-              namedDeclAndKindAtLocStr(instFrom) << ".");
-          }
-        }
-      }
     }
 
     Base::visitDecl(context, decl);
@@ -145,44 +124,15 @@ CLOSE_ANONYMOUS_NAMESPACE
 
 void clangASTVisitorTest(clang::ASTContext &astContext)
 {
-  ClangASTVisitorTest visitorIAD(astContext, true /*instAfterDefn*/);
-  ClangASTVisitorTest visitorDefault(astContext, false /*instAfterDefn*/);
-
-  // Run with default order first so if there are duplicated visits then
-  // I know it is not related to IAD.
-  {
-    EXN_CONTEXT("scan with default order");
-    visitorDefault.scanTU();
-  }
-
-  // IAD does not work.  Temporarily get the tests to pass.
-  return;
+  ClangASTVisitorTest visitor(astContext);
 
   {
-    EXN_CONTEXT("scan with instAfterDefn order");
-    visitorIAD.scanTU();
+    EXN_CONTEXT("visitor.scanTU");
+    visitor.scanTU();
   }
 
-  TRACE1_EXPR(visitorDefault.m_visitedDecls.size());
-  TRACE1_EXPR(visitorDefault.m_visitedStmts.size());
-  TRACE1_EXPR(visitorIAD.m_visitedDecls.size());
-  TRACE1_EXPR(visitorIAD.m_visitedStmts.size());
-
-  if (visitorDefault.m_visitedDecls.size() >
-      visitorIAD.m_visitedDecls.size()) {
-    // Find an element that `visitorIAD` missed.
-    clang::Decl const *missed = nullptr;
-    xassert(!isSubsetOf_getExtra(
-      missed /*OUT*/,
-      visitorDefault.m_visitedDecls,   // smaller
-      visitorIAD.m_visitedDecls));     // larger
-    xfailure_stringbc("visitorIAD missed decl: " <<
-                      visitorIAD.declKindAtLocStr(missed));
-  }
-
-  // Check that the set of visited nodes is the same.
-  xassert(visitorIAD.m_visitedDecls == visitorDefault.m_visitedDecls);
-  xassert(visitorIAD.m_visitedStmts == visitorDefault.m_visitedStmts);
+  TRACE1_EXPR(visitor.m_visitedDecls.size());
+  TRACE1_EXPR(visitor.m_visitedStmts.size());
 }
 
 

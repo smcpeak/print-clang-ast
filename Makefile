@@ -445,7 +445,6 @@ out/pv/%.pv: in/src/% in/exp/pv/%.pv print-clang-ast.exe
 	  ./print-clang-ast.exe --printer-visitor \
 	    --print-visit-context \
 	    --print-implicit-qual-types \
-	    --print-inst-after-defn \
 	    -xc++ in/src/$*
 
 PRINTER_VISITOR_TESTS :=

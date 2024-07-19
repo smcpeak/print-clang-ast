@@ -73,5 +73,8 @@ if it did achieve instantiation-after-definition.
 So, I've decided to abandon the effort and just use two global passes in
 the visitor client.
 
+The abandoned attempt can be recovered from the repo history in commit
+d4b4b1135e (2024-07-19).
+
 
 EOF

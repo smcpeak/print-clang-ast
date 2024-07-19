@@ -4,6 +4,9 @@
 /*
   This is a visitor and traverser for the clang AST.
 
+  Design
+  ------
+
   While conceptually similar to RecursiveASTVisitor (RAV, defined in
   clang/AST/RecursiveASTVisitor.h), this visitor has several advantages:
 
@@ -68,16 +71,29 @@
   decide it's too difficult to use, and therefore can't really compare
   more than interface complexity.
 
-  NOTE: Since the 'visit' methods are both what the client overrides,
-  and the traversal mechanism, a client that overrides one must always
-  arrange to call the base class method when recursion is desired.  But
-  as a consequential benefit, when recursion is not desired, or should
-  happen at a specific point, the client has direct control over that.
+  Usage notes
+  -----------
 
-  Also note: In most cases, a client will want to inherit
-  `ClangUtilASTVisitor` (declared in `clang-util-ast-visitor.h`) instead
-  of `ClangASTVisitor` alone, since the former has a lot of additional
-  utility methods and carries an AST context.
+  Since the 'visit' methods are both what the client overrides, and the
+  traversal mechanism, a client that overrides one must always arrange
+  to call the base class method when recursion is desired.  But as a
+  consequential benefit, when recursion is not desired, or should happen
+  at a specific point, the client has direct control over that.
+
+  In most cases, a client will want to inherit `ClangUtilASTVisitor`
+  (declared in `clang-util-ast-visitor.h`) instead of `ClangASTVisitor`
+  alone, since the former has a lot of additional utility methods and
+  carries an AST context.  (I have thought about making
+  `ClangASTVisitor` itself inherit `ClangUtil`, but so far have avoided
+  doing so since, ideally, a visitor carries no data.)
+
+  Template instantiations are frequently, but by no means always,
+  visited after the template from which they were instantiated.  The
+  order is a consequence of various Clang implementation details and a
+  desire for RAV compatibility.  I tried adding a mode to always visit
+  instantiations after template definitions, but gave up: see
+  doc/clang-ast-visitor-inst-after-defn.txt for details.  If such
+  ordering is needed, one must use two global passes.
 */
 
 
@@ -446,24 +462,6 @@ gdv::GDValue toGDValue(VisitDeclarationNameContext vdnc);
 
 // Visitor for the Clang AST.  See the comments at the top of the file.
 class ClangASTVisitor {
-private:     // methods
-  // True if `ctpsd` is itself a definition, or is an instantiation of
-  // a member template that is a definition.
-  bool isEffectivelyAClassTemplatePartialSpecializationDefinition(
-    clang::ClassTemplatePartialSpecializationDecl const *ctpsd) const;
-
-  // True if `spec` is an instantiation of the entity that `ctopd`
-  // declares.
-  bool isInstantiationOfThisClassTemplateOrPartial(
-    clang::ClassTemplateSpecializationDecl const *spec,
-    clang::NamedDecl const *ctopd) const;
-
-  // True if, in the current configuration, we should visit the
-  // instantiations of `templateDecl` right after it.
-  template <typename TEMPLATE_DECL>
-  bool isAppropriateForInstantiations(
-    TEMPLATE_DECL const *templateDecl) const;
-
 public:      // methods
   ClangASTVisitor();
 
@@ -474,20 +472,6 @@ public:      // methods
   // convenient way of kicking off a scan of the entire TU.
   //
   void scanTU(clang::ASTContext &astContext);
-
-  // -------- Configuration --------
-
-  // If true, instantiations of a template or partial specialization are
-  // visited right after the definition of that template or pspec.
-  // Otherwise, or for those without definitions, they are visited right
-  // after the canonical declaration of the template primary, which is
-  // what RAV does.
-  //
-  // THIS DOES NOT WORK.  See doc/clang-ast-visitor-inst-after-defn.txt.
-  //
-  // Default: Return false.
-  //
-  virtual bool shouldVisitInstantiationsAfterDefinitions() const;
 
   // -------- Core visitors --------
   //
@@ -583,20 +567,9 @@ public:      // methods
   //
   // The default visitor will only call this when `ctd` is canonical.
   //
-  // If `onlyInstantiationsOfThisTemplate`, then we only want to visit
-  // instantiations of `ctd`.  Otherwise, we want to visit all
-  // instantiations, including of partial specializations.
-  //
   // Default: Call `visitDecl` on each relevant instantiation.
   virtual void visitClassTemplateInstantiations(
-    clang::ClassTemplateDecl const *ctd,
-    bool onlyInstantiationsOfThisTemplate);
-
-  // Visit the instantiations of `ctpsd`.
-  //
-  // Default: Call `visitDecl` on each relevant instantiation.
-  virtual void visitClassTemplatePartialSpecializationInstantiations(
-    clang::ClassTemplatePartialSpecializationDecl const *ctpsd);
+    clang::ClassTemplateDecl const *ctd);
 
   // Visit the instantiations of 'vtd'.
   //
@@ -772,29 +745,27 @@ public:      // methods
   void visitCallExprArgs(
     clang::CallExpr const *callExpr);
 
-  /* If the current configuration (i.e.,
-     `shouldVisitInstantiationsAfterDefinitions()`) specifies to visit
-     instantiations of `templateDecl` right after it, then do so.
-     Otherwise do nothing.
+  /* If `templateDecl` is the canonical declaration of its entity,
+     then visit its instantiations.
 
-     For now, I choose not to make the "if appropriate" variants be the
+     For now, I choose not to make the "if canonical" variants be the
      "auxiliary visitors" (with 'virtual' specifier) because I see the
      logic inside them as an implementation detail, even though I think
      it is ok for clients to call them.
   */
-  void visitTemplateInstantiationsIfAppropriate(
+  void visitTemplateInstantiationsIfCanonical(
     clang::TemplateDecl const *templateDecl);
 
   // Possibly visit the instantiations of 'ftd'.
-  void visitFunctionTemplateInstantiationsIfAppropriate(
+  void visitFunctionTemplateInstantiationsIfCanonical(
     clang::FunctionTemplateDecl const *ftd);
 
   // Possibly visit the instantiations of 'ctd'.
-  void visitClassTemplateInstantiationsIfAppropriate(
+  void visitClassTemplateInstantiationsIfCanonical(
     clang::ClassTemplateDecl const *ctd);
 
   // Possibly visit the instantiations of 'vtd'.
-  void visitVarTemplateInstantiationsIfAppropriate(
+  void visitVarTemplateInstantiationsIfCanonical(
     clang::VarTemplateDecl const *vtd);
 
   // Visit the "outer" template parameters associated with 'dd'.  These

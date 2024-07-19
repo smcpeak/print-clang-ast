@@ -15,12 +15,6 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
   VDC_TRANSLATION_UNIT_DECL: ClassTemplateDecl "S" at in/src/ct-redecl-inst.cc:4:1
     VDC_TEMPLATE_DECL_PARAMETER: TemplateTypeParmDecl "S::T" at in/src/ct-redecl-inst.cc:4:11
     VDC_TEMPLATE_DECL: CXXRecordDecl "S<T>" at in/src/ct-redecl-inst.cc:5:1
-  VDC_TRANSLATION_UNIT_DECL: ClassTemplateDecl "S" at in/src/ct-redecl-inst.cc:7:1
-    VDC_TEMPLATE_DECL_PARAMETER: TemplateTypeParmDecl "S::T" at in/src/ct-redecl-inst.cc:7:11
-    VDC_TEMPLATE_DECL: CXXRecordDecl "S<T>" at in/src/ct-redecl-inst.cc:8:1
-      VDC_RECORD_DECL: CXXRecordDecl "S::S<T>" at in/src/ct-redecl-inst.cc:8:1
-      VDC_RECORD_DECL: FieldDecl "S::data" at in/src/ct-redecl-inst.cc:9:3
-        VTC_DECLARATOR_DECL: TemplateTypeParmTypeLoc("T", <in/src/ct-redecl-inst.cc:9:3>, NullTypeLoc)
     VDC_CLASS_TEMPLATE_INSTANTIATION: ClassTemplateSpecializationDecl "S<int>" at in/src/ct-redecl-inst.cc:8:1
       VDC_RECORD_DECL: CXXRecordDecl "S<int>::S" at in/src/ct-redecl-inst.cc:8:1
       VDC_RECORD_DECL: FieldDecl "S<int>::data" at in/src/ct-redecl-inst.cc:9:3
@@ -36,6 +30,12 @@ VDC_NONE: TranslationUnitDecl at <invalid loc>
         implicit VTC_DECLARATOR_DECL: void (S<int> &&)
         VDC_IMPLICIT_FUNCTION_DECL_PARAMETER: ParmVarDecl "" at in/src/ct-redecl-inst.cc:8:8
           implicit VTC_DECLARATOR_DECL: S<int> &&
+  VDC_TRANSLATION_UNIT_DECL: ClassTemplateDecl "S" at in/src/ct-redecl-inst.cc:7:1
+    VDC_TEMPLATE_DECL_PARAMETER: TemplateTypeParmDecl "S::T" at in/src/ct-redecl-inst.cc:7:11
+    VDC_TEMPLATE_DECL: CXXRecordDecl "S<T>" at in/src/ct-redecl-inst.cc:8:1
+      VDC_RECORD_DECL: CXXRecordDecl "S::S<T>" at in/src/ct-redecl-inst.cc:8:1
+      VDC_RECORD_DECL: FieldDecl "S::data" at in/src/ct-redecl-inst.cc:9:3
+        VTC_DECLARATOR_DECL: TemplateTypeParmTypeLoc("T", <in/src/ct-redecl-inst.cc:9:3>, NullTypeLoc)
   VDC_TRANSLATION_UNIT_DECL: VarDecl "s" at in/src/ct-redecl-inst.cc:12:1
     VTC_DECLARATOR_DECL: ElaboratedTypeLoc("S<int>", <in/src/ct-redecl-inst.cc:12:1, col:6>, TemplateSpecializationTypeLoc("S<int>", <in/src/ct-redecl-inst.cc:12:1, col:6>, NullTypeLoc))
       VTC_ELABORATED_TYPE: TemplateSpecializationTypeLoc("S<int>", <in/src/ct-redecl-inst.cc:12:1, col:6>, NullTypeLoc)

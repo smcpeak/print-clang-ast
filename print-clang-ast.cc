@@ -120,9 +120,6 @@ static int innerMain(int argc, char const **argv)
     if (options.m_printDefaultArgExprs) {
       flags |= PrinterVisitor::F_PRINT_DEFAULT_ARG_EXPRS;
     }
-    if (options.m_printInstAfterDefn) {
-      flags |= PrinterVisitor::F_INST_AFTER_DEFN;
-    }
 
     printerVisitorTU(cout,
                      ast.getASTContext(),
