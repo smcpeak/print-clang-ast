@@ -520,12 +520,14 @@ public:      // methods
   std::string stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const;
 
   // -------------------------- InitListExpr ---------------------------
-  // Given an ILE, get its semantic variant, which may be `ile` itself.
-  static clang::InitListExpr const *getSemanticInitListExpr(
+  // Given an ILE, get its semantic variant, which may be `ile` itself
+  // or may not exist, for example if semantic analysis has not yet run.
+  static clang::InitListExpr const * NULLABLE getSemanticInitListExpr(
     clang::InitListExpr const *ile);
 
-  // Given an ILE, get its syntactic variant, which may be `ile` itself.
-  static clang::InitListExpr const *getSyntacticInitListExpr(
+  // Given an ILE, get its syntactic variant, which may be `ile` itself
+  // or may not exist, which happens in uninstantiated templates.
+  static clang::InitListExpr const * NULLABLE getSyntacticInitListExpr(
     clang::InitListExpr const *ile);
 
   // --------------------- Type, QualType, TypeLoc ---------------------

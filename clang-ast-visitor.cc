@@ -1095,8 +1095,12 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     HANDLE_STMT_CLASS(InitListExpr)
       // Visit both forms (syntactic first, semantic second), even if
       // they are the same object, because RAV does it that way.
-      visitSyntacticInitListExpr(ClangUtil::getSyntacticInitListExpr(stmt));
-      visitSemanticInitListExpr(ClangUtil::getSemanticInitListExpr(stmt));
+      if (auto syn = ClangUtil::getSyntacticInitListExpr(stmt)) {
+        visitSyntacticInitListExpr(syn);
+      }
+      if (auto sem = ClangUtil::getSemanticInitListExpr(stmt)) {
+        visitSemanticInitListExpr(sem);
+      }
 
     // TODO: IntegerLiteral
 

@@ -13,7 +13,7 @@
 #include "smbase/string-util.h"        // doubleQuote, beginsWith, hasSubstring, trimWhitespace
 #include "smbase/stringb.h"            // stringb
 #include "smbase/strutil.h"            // sm_basename
-#include "smbase/xassert.h"            // smbase::xassertPtr
+#include "smbase/xassert.h"            // xassert
 
 // clang
 #include "clang/AST/Decl.h"            // clang::FieldDecl::getParent
@@ -1695,22 +1695,24 @@ std::string ClangUtil::stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const
 
 
 // --------------------------- InitListExpr ----------------------------
-STATICDEF clang::InitListExpr const *ClangUtil::getSemanticInitListExpr(
+STATICDEF clang::InitListExpr const * NULLABLE
+ClangUtil::getSemanticInitListExpr(
   clang::InitListExpr const *ile)
 {
   xassertPrecondition(ile);
   return ile->isSemanticForm()?
     ile :
-    xassertPtr(ile->getSemanticForm());
+    ile->getSemanticForm();
 }
 
 
-STATICDEF clang::InitListExpr const *ClangUtil::getSyntacticInitListExpr(
+STATICDEF clang::InitListExpr const * NULLABLE
+ClangUtil::getSyntacticInitListExpr(
   clang::InitListExpr const *ile)
 {
   xassertPrecondition(ile);
   return ile->isSemanticForm()?
-    xassertPtr(ile->getSyntacticForm()) :
+    ile->getSyntacticForm() :
     ile;
 }
 
