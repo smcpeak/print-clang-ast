@@ -1711,7 +1711,7 @@
   "DeclaratorDecl::InnerLocStart": "in/src/template-param-object-decl.cc:19:5",
   "VarDecl::InitStmt": { "ptr": "ImplicitCastExpr 96" },
   "VarDecl::EvaluatedStmt flags": "WasEvaluated HasConstantInitialization",
-  "VarDecl::EvaluatedStmt::Evaluated": "Unimplemented APValue kind: Struct",
+  "VarDecl::EvaluatedStmt::Evaluated": "Struct[bases:[] fields:[3]]",
   "VarDecl::VarDeclBitfields::SClass": "SC_None",
   "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
   "VarDecl::VarDeclBitfields::InitStyle": "CInit",
@@ -1795,7 +1795,7 @@
   "DeclaratorDecl::InnerLocStart": "in/src/template-param-object-decl.cc:20:5",
   "VarDecl::InitStmt": { "ptr": "CXXConstructExpr 108" },
   "VarDecl::EvaluatedStmt flags": "WasEvaluated",
-  "VarDecl::EvaluatedStmt::Evaluated": "Unimplemented APValue kind: Struct",
+  "VarDecl::EvaluatedStmt::Evaluated": "Struct[bases:[] fields:[1]]",
   "VarDecl::VarDeclBitfields::SClass": "SC_None",
   "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
   "VarDecl::VarDeclBitfields::InitStyle": "CallInit",
@@ -2068,6 +2068,7 @@
   "Decl::Linkage": "(not set)",
   "NamedDecl::Name": "",
   "ValueDecl::DeclType": { "ptr": "ElaboratedType 27", "preview": "const foo_t" },
+  "TemplateParamObjectDecl::Value": "Struct[bases:[] fields:[3]]",
 },
 
 "FunctionProtoType 126": {

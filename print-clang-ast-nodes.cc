@@ -1462,6 +1462,7 @@ void PrintClangASTNodes::printDecl(clang::Decl const *decl)
   PRINT_IF_SUBCLASS(decl, ClassTemplatePartialSpecializationDecl)
   PRINT_IF_SUBCLASS(decl, ClassTemplateDecl)
   PRINT_IF_SUBCLASS(decl, ClassScopeFunctionSpecializationDecl)
+  PRINT_IF_SUBCLASS(decl, TemplateParamObjectDecl)
 }
 
 
@@ -2626,6 +2627,16 @@ void PrintClangASTNodes::printClassScopeFunctionSpecializationDecl(
 
   printASTTemplateArgumentListInfo(qualifier, "TemplateArgs",
     decl->getTemplateArgsAsWritten());
+}
+
+
+void PrintClangASTNodes::printTemplateParamObjectDecl(
+  clang::TemplateParamObjectDecl const *decl)
+{
+  char const *qualifier = "TemplateParamObjectDecl::";
+
+  OUT_QATTR_STRING(qualifier, "Value",
+    apValueStr(&( decl->getValue() )));
 }
 
 

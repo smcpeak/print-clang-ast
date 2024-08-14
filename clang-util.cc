@@ -2510,6 +2510,27 @@ STATICDEF std::string ClangUtil::apValueStr(
         oss << apsIntStr(apValue->getInt());
         break;
 
+      case clang::APValue::Struct: {
+        // A "Struct" value consists of two sequences of values, one for
+        // the bases and one for the fields.
+        oss << "Struct[bases:[";
+        for (unsigned i = 0; i < apValue->getStructNumBases(); ++i) {
+          if (i > 0) {
+            oss << " ";
+          }
+          oss << apValueStr(&( apValue->getStructBase(i) ));
+        }
+        oss << "] fields:[";
+        for (unsigned i = 0; i < apValue->getStructNumFields(); ++i) {
+          if (i > 0) {
+            oss << " ";
+          }
+          oss << apValueStr(&( apValue->getStructField(i) ));
+        }
+        oss << "]]";
+        break;
+      }
+
       default:
         oss << "Unimplemented APValue kind: "
             << apValueKindStr(apValue->getKind());

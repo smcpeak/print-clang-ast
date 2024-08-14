@@ -270,6 +270,8 @@ check: check-src
 FILE_OPTS_bitfield_with_init := -std=c++20
 FILE_OPTS_function_requires_requires := -std=c++20
 FILE_OPTS_template_param_object_decl := -std=c++20
+FILE_OPTS_template_param_object_decl_docex := -std=c++20
+FILE_OPTS_template_param_object_decl_two_uses := -std=c++20
 
 define FILE_OPTS_FOR
 $(FILE_OPTS_$(call FILENAME_TO_VARNAME,$(1)))

@@ -307,6 +307,8 @@ public:      // methods
     clang::ClassTemplateDecl const *decl);
   void printClassScopeFunctionSpecializationDecl(               // DeclTemplate.h line 2604
     clang::ClassScopeFunctionSpecializationDecl const *decl);
+  void printTemplateParamObjectDecl(                            // DeclTemplate.h line 3287
+    clang::TemplateParamObjectDecl const *decl);
 
   void printStmt(clang::Stmt const *stmt);                      // Stmt.h line   49
   void printDeclStmt(clang::DeclStmt const *stmt);              // Stmt.h line 1297

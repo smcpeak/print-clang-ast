@@ -1522,7 +1522,7 @@
   "DeclaratorDecl::InnerLocStart": "in/src/ct-inner-struct.cc:12:1",
   "VarDecl::InitStmt": { "ptr": "CXXConstructExpr 79" },
   "VarDecl::EvaluatedStmt flags": "WasEvaluated HasConstantInitialization",
-  "VarDecl::EvaluatedStmt::Evaluated": "Unimplemented APValue kind: Struct",
+  "VarDecl::EvaluatedStmt::Evaluated": "Struct[bases:[] fields:[]]",
   "VarDecl::VarDeclBitfields::SClass": "SC_None",
   "VarDecl::VarDeclBitfields::TSCSpec": "TSCS_unspecified",
   "VarDecl::VarDeclBitfields::InitStyle": "CallInit",
