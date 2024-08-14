@@ -86,7 +86,7 @@
   "LookupPtr": "null",
   "FirstDecl": { "ptr": "null" },
   "LastDecl": { "ptr": "null" },
-  "Name": "\"foo\"",
+  "Name": "foo",
   "DeclType": { "ptr": "FunctionProtoType 15", "preview": "int (void)" },
   "TInfo": "FunctionProtoTypeLoc(\"int (void)\", <in/src/no-qualifiers.cc:6:1, col:9>, BuiltinTypeLoc(\"int\", <in/src/no-qualifiers.cc:6:1>, NullTypeLoc))",
   "Ty": { "ptr": "FunctionProtoType 15", "preview": "int (void)" },

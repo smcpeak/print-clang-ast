@@ -86,7 +86,7 @@
   "DeclContext::LookupPtr": "null",
   "DeclContext::FirstDecl": { "ptr": "EnumConstantDecl 15" },
   "DeclContext::LastDecl": { "ptr": "EnumConstantDecl 21" },
-  "NamedDecl::Name": "\"E\"",
+  "NamedDecl::Name": "E",
   "TypeDecl::TypeForDecl": { "ptr": "EnumType 24", "preview": "enum E" },
   "TypeDecl::LocStart": "in/src/enum.cc:4:1",
   "Redeclarable::Previous": { "ptr": "EnumDecl 14" },
@@ -109,7 +109,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Ordinary",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"ZERO\"",
+  "NamedDecl::Name": "ZERO",
   "ValueDecl::DeclType": { "ptr": "EnumType 24", "preview": "enum E" },
 },
 
@@ -124,7 +124,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Ordinary",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"ONE\"",
+  "NamedDecl::Name": "ONE",
   "ValueDecl::DeclType": { "ptr": "EnumType 24", "preview": "enum E" },
 },
 
@@ -139,7 +139,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Ordinary",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"THREE\"",
+  "NamedDecl::Name": "THREE",
   "ValueDecl::DeclType": { "ptr": "EnumType 24", "preview": "enum E" },
 },
 
@@ -183,7 +183,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Ordinary",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"FOUR\"",
+  "NamedDecl::Name": "FOUR",
   "ValueDecl::DeclType": { "ptr": "EnumType 24", "preview": "enum E" },
 },
 

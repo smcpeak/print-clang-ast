@@ -86,7 +86,7 @@
   "DeclContext::LookupPtr": "null",
   "DeclContext::FirstDecl": { "ptr": "null" },
   "DeclContext::LastDecl": { "ptr": "null" },
-  "NamedDecl::Name": "\"E\"",
+  "NamedDecl::Name": "E",
   "TypeDecl::TypeForDecl": { "ptr": "EnumType 22", "preview": "enum E" },
   "TypeDecl::LocStart": "in/src/call-op-via-using-decl.cc:4:1",
   "Redeclarable::Previous": { "ptr": "EnumDecl 14" },
@@ -114,7 +114,7 @@
   "DeclContext::LookupPtr": "StoredDeclsMap with 1 entries",
   "DeclContext::FirstDecl": { "ptr": "FunctionDecl 16" },
   "DeclContext::LastDecl": { "ptr": "FunctionDecl 16" },
-  "NamedDecl::Name": "\"NS1\"",
+  "NamedDecl::Name": "NS1",
 },
 
 "FunctionDecl 16": {
@@ -133,7 +133,7 @@
   "DeclContext::LookupPtr": "null",
   "DeclContext::FirstDecl": { "ptr": "null" },
   "DeclContext::LastDecl": { "ptr": "null" },
-  "NamedDecl::Name": "\"operator&\"",
+  "NamedDecl::Name": "operator&",
   "ValueDecl::DeclType": { "ptr": "FunctionProtoType 19", "preview": "int (E, E)" },
   "DeclaratorDecl::TInfo": "FunctionProtoTypeLoc(\"int (E, E)\", <in/src/call-op-via-using-decl.cc:7:3, col:22>, BuiltinTypeLoc(\"int\", <in/src/call-op-via-using-decl.cc:7:3>, NullTypeLoc))",
   "DeclaratorDecl::TInfo::Ty": { "ptr": "FunctionProtoType 19", "preview": "int (E, E)" },
@@ -176,7 +176,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Ordinary",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"\"",
+  "NamedDecl::Name": "",
   "ValueDecl::DeclType": { "ptr": "ElaboratedType 21", "preview": "E" },
   "DeclaratorDecl::TInfo": "ElaboratedTypeLoc(\"E\", <in/src/call-op-via-using-decl.cc:7:18>, EnumTypeLoc(\"enum E\", <in/src/call-op-via-using-decl.cc:7:18>, NullTypeLoc))",
   "DeclaratorDecl::TInfo::Ty": { "ptr": "ElaboratedType 21", "preview": "E" },
@@ -206,7 +206,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Ordinary",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"\"",
+  "NamedDecl::Name": "",
   "ValueDecl::DeclType": { "ptr": "ElaboratedType 21", "preview": "E" },
   "DeclaratorDecl::TInfo": "ElaboratedTypeLoc(\"E\", <in/src/call-op-via-using-decl.cc:7:21>, EnumTypeLoc(\"enum E\", <in/src/call-op-via-using-decl.cc:7:21>, NullTypeLoc))",
   "DeclaratorDecl::TInfo::Ty": { "ptr": "ElaboratedType 21", "preview": "E" },
@@ -268,7 +268,7 @@
   "DeclContext::LookupPtr": "StoredDeclsMap with 2 entries",
   "DeclContext::FirstDecl": { "ptr": "UsingDecl 24" },
   "DeclContext::LastDecl": { "ptr": "FunctionDecl 26" },
-  "NamedDecl::Name": "\"NS2\"",
+  "NamedDecl::Name": "NS2",
 },
 
 "UsingDecl 24": {
@@ -282,7 +282,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Using",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"operator&\"",
+  "NamedDecl::Name": "operator&",
 },
 
 "UsingShadowDecl 25": {
@@ -297,7 +297,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Ordinary|IDNS_NonMemberOperator",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"operator&\"",
+  "NamedDecl::Name": "operator&",
 },
 
 "FunctionDecl 26": {
@@ -316,7 +316,7 @@
   "DeclContext::LookupPtr": "null",
   "DeclContext::FirstDecl": { "ptr": "ParmVarDecl 28" },
   "DeclContext::LastDecl": { "ptr": "ParmVarDecl 28" },
-  "NamedDecl::Name": "\"caller\"",
+  "NamedDecl::Name": "caller",
   "ValueDecl::DeclType": { "ptr": "FunctionProtoType 27", "preview": "int (E)" },
   "DeclaratorDecl::TInfo": "FunctionProtoTypeLoc(\"int (E)\", <in/src/call-op-via-using-decl.cc:13:3, col:17>, BuiltinTypeLoc(\"int\", <in/src/call-op-via-using-decl.cc:13:3>, NullTypeLoc))",
   "DeclaratorDecl::TInfo::Ty": { "ptr": "FunctionProtoType 27", "preview": "int (E)" },
@@ -366,7 +366,7 @@
   "Decl::Access": "AS_none",
   "Decl::IdentifierNamespace": "IDNS_Ordinary",
   "Decl::Linkage": "(not set)",
-  "NamedDecl::Name": "\"e\"",
+  "NamedDecl::Name": "e",
   "ValueDecl::DeclType": { "ptr": "ElaboratedType 21", "preview": "E" },
   "DeclaratorDecl::TInfo": "ElaboratedTypeLoc(\"E\", <in/src/call-op-via-using-decl.cc:13:14>, EnumTypeLoc(\"enum E\", <in/src/call-op-via-using-decl.cc:13:14>, NullTypeLoc))",
   "DeclaratorDecl::TInfo::Ty": { "ptr": "ElaboratedType 21", "preview": "E" },

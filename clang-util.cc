@@ -1064,7 +1064,7 @@ STATICDEF bool ClangUtil::isUserWrittenFunctionDecl(
 STATICDEF std::string ClangUtil::declarationNameStr(
   clang::DeclarationName declName)
 {
-  return stringb("\"" << declName.getAsString() << "\"");
+  return declName.getAsString();
 }
 
 
@@ -1092,7 +1092,7 @@ STATICDEF std::string ClangUtil::declarationNameKindStr(
 STATICDEF std::string ClangUtil::declarationNameAndKindStr(
   clang::DeclarationName declName)
 {
-  return stringb(declarationNameStr(declName) << " (" <<
+  return stringb(doubleQuote(declarationNameStr(declName)) << " (" <<
                  declarationNameKindStr(declName.getNameKind()) << ")");
 }
 

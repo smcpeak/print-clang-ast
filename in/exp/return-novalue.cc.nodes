@@ -86,7 +86,7 @@
   "DeclContext::LookupPtr": "null",
   "DeclContext::FirstDecl": { "ptr": "null" },
   "DeclContext::LastDecl": { "ptr": "null" },
-  "NamedDecl::Name": "\"f\"",
+  "NamedDecl::Name": "f",
   "ValueDecl::DeclType": { "ptr": "FunctionProtoType 15", "preview": "void (void)" },
   "DeclaratorDecl::TInfo": "FunctionProtoTypeLoc(\"void (void)\", <in/src/return-novalue.cc:4:1, col:8>, BuiltinTypeLoc(\"void\", <in/src/return-novalue.cc:4:1>, NullTypeLoc))",
   "DeclaratorDecl::TInfo::Ty": { "ptr": "FunctionProtoType 15", "preview": "void (void)" },
