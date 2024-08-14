@@ -501,10 +501,13 @@ check-full: check-diagrams
 
 
 # --------------------------- 'clean' target ---------------------------
-.PHONY: clean
-clean:
-	$(RM) *.o *.d *.exe *.a
+.PHONY: check-clean
+check-clean:
 	$(RM) -r out
+
+.PHONY: clean
+clean: check-clean
+	$(RM) *.o *.d *.exe *.a
 
 
 # This does not do anything more than `clean`.  It exists so the
