@@ -4,7 +4,7 @@
 #include "clang-ast-visitor.h"                   // this module
 
 // this dir
-#include "clang-util.h"                          // assert_dyn_cast
+#include "clang-util.h"                          // ClangUtil, assert_dyn_cast
 #include "enum-util.h"                           // ENUM_TABLE_LOOKUP_CHECK_SIZE
 
 // smbase
@@ -177,6 +177,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CONVERT_VECTOR_EXPR,
     VSC_CALL_EXPR_CALLEE,
     VSC_CALL_EXPR_ARG,
+    VSC_INIT_LIST_EXPR,
     VSC_LAMBDA_EXPR_CAPTURE,
     VSC_MEMBER_EXPR,
     VSC_PAREN_EXPR,
@@ -1084,7 +1085,13 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     // TODO: GenericSelectionExpr
     // TODO: ImaginaryLiteral
     // TODO: ImplicitValueInitExpr
-    // TODO: InitListExpr
+
+    HANDLE_STMT_CLASS(InitListExpr)
+      // Visit both forms, even if they are the same object, because RAV
+      // does it that way.
+      visitSemanticInitListExpr(ClangUtil::getSemanticInitListExpr(stmt));
+      visitSyntacticInitListExpr(ClangUtil::getSyntacticInitListExpr(stmt));
+
     // TODO: IntegerLiteral
 
     HANDLE_STMT_CLASS(LambdaExpr)
@@ -1789,6 +1796,29 @@ void ClangASTVisitor::visitCallExprArgs(
 {
   for (clang::Expr const *arg : callExpr->arguments()) {
     visitStmt(VSC_CALL_EXPR_ARG, arg);
+  }
+}
+
+
+void ClangASTVisitor::visitSemanticInitListExpr(
+  clang::InitListExpr const *ile)
+{
+  visitInitListExprInits(ile);
+}
+
+
+void ClangASTVisitor::visitSyntacticInitListExpr(
+  clang::InitListExpr const *ile)
+{
+  visitInitListExprInits(ile);
+}
+
+
+void ClangASTVisitor::visitInitListExprInits(
+  clang::InitListExpr const *ile)
+{
+  for (clang::Expr const *init : ile->inits()) {
+    visitStmt(VSC_INIT_LIST_EXPR, init);
   }
 }
 

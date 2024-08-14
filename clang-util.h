@@ -519,6 +519,15 @@ public:      // methods
   // Kind and location.
   std::string stmtKindLocStr(clang::Stmt const * NULLABLE stmt) const;
 
+  // -------------------------- InitListExpr ---------------------------
+  // Given an ILE, get its semantic variant, which may be `ile` itself.
+  static clang::InitListExpr const *getSemanticInitListExpr(
+    clang::InitListExpr const *ile);
+
+  // Given an ILE, get its syntactic variant, which may be `ile` itself.
+  static clang::InitListExpr const *getSyntacticInitListExpr(
+    clang::InitListExpr const *ile);
+
   // --------------------- Type, QualType, TypeLoc ---------------------
   // Render 'type' as a string.
   static std::string typeStr(clang::Type const * NULLABLE type);

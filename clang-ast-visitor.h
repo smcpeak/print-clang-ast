@@ -294,6 +294,7 @@ enum VisitStmtContext {
   VSC_CONVERT_VECTOR_EXPR,
   VSC_CALL_EXPR_CALLEE,                // CallExpr and subclasses
   VSC_CALL_EXPR_ARG,
+  VSC_INIT_LIST_EXPR,
   VSC_LAMBDA_EXPR_CAPTURE,
   VSC_MEMBER_EXPR,
   VSC_PAREN_EXPR,
@@ -603,6 +604,26 @@ public:      // methods
     clang::LambdaCapture const *capture,
     clang::Expr const *init);
 
+  // Visit the "semantic" form of `ile`, which may be the same as its
+  // syntactic form.
+  //
+  // When the forms are the same, the default `visitStmt` visits them
+  // both, thus causing duplicate visitation, because that is what RAV
+  // does.  To ensure single visitation, the client must override one
+  // of these two methods and simply return if the given object is also
+  // of the opposite kind.
+  //
+  // Default: Call `visitInitListExprInits(ile)`.
+  virtual void visitSemanticInitListExpr(
+    clang::InitListExpr const *ile);
+
+  // Visit the "syntactic" form of `ile`, which may be the same as its
+  // semantic form.
+  //
+  // Default: Call `visitInitListExprInits(ile)`.
+  virtual void visitSyntacticInitListExpr(
+    clang::InitListExpr const *ile);
+
   // -------- Leaf visitors --------
   //
   // These are called when certain elements of interest are encountered
@@ -744,6 +765,10 @@ public:      // methods
   // Visit the argument expressions in 'callExpr'.
   void visitCallExprArgs(
     clang::CallExpr const *callExpr);
+
+  // Visit the initializers in `ile`.
+  void visitInitListExprInits(
+    clang::InitListExpr const *ile);
 
   /* If `templateDecl` is the canonical declaration of its entity,
      then visit its instantiations.
