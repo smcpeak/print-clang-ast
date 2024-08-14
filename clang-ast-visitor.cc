@@ -165,6 +165,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_CXX_UNRESOLVED_CONSTRUCT_EXPR_ARG,
     VSC_CONCEPTS_EXPR_REQUIREMENT,
     VSC_CONCEPTS_NESTED_REQUIREMENT,
+    VSC_DESIGNATED_INIT_EXPR,
     VSC_CONSTANT_EXPR,
     VSC_EXPR_WITH_CLEANUPS,
     VSC_MATERIALIZE_TEMPORARY_EXPR,
@@ -1061,7 +1062,12 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
         stmt->getTemplateArgs(),
         stmt->getNumTemplateArgs());
 
-    // TODO: DesignatedInitExpr
+    HANDLE_STMT_CLASS(DesignatedInitExpr)
+      // We don't visit the designators per se (which semantically
+      // describe a path in the initialized object), just the single
+      // initializer expression.
+      visitStmt(VSC_DESIGNATED_INIT_EXPR, stmt->getInit());
+
     // TODO: DesignatedInitUpdateExpr
 
     // TODO: ExpressionTraitExpr
@@ -1087,10 +1093,10 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
     // TODO: ImplicitValueInitExpr
 
     HANDLE_STMT_CLASS(InitListExpr)
-      // Visit both forms, even if they are the same object, because RAV
-      // does it that way.
-      visitSemanticInitListExpr(ClangUtil::getSemanticInitListExpr(stmt));
+      // Visit both forms (syntactic first, semantic second), even if
+      // they are the same object, because RAV does it that way.
       visitSyntacticInitListExpr(ClangUtil::getSyntacticInitListExpr(stmt));
+      visitSemanticInitListExpr(ClangUtil::getSemanticInitListExpr(stmt));
 
     // TODO: IntegerLiteral
 
