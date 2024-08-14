@@ -305,8 +305,10 @@ public:      // methods
     clang::ClassTemplatePartialSpecializationDecl const *decl);
   void printClassTemplateDecl(                                  // DeclTemplate.h line 2247
     clang::ClassTemplateDecl const *decl);
+#if CLANG_VERSION_MAJOR < 18
   void printClassScopeFunctionSpecializationDecl(               // DeclTemplate.h line 2604
     clang::ClassScopeFunctionSpecializationDecl const *decl);
+#endif
   void printTemplateParamObjectDecl(                            // DeclTemplate.h line 3287
     clang::TemplateParamObjectDecl const *decl);
 

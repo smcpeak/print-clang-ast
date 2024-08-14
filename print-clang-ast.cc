@@ -120,6 +120,9 @@ static int innerMain(int argc, char const **argv)
     if (options.m_printDefaultArgExprs) {
       flags |= PrinterVisitor::F_PRINT_DEFAULT_ARG_EXPRS;
     }
+    if (options.m_ravCompat) {
+      flags |= PrinterVisitor::F_RAV_COMPAT;
+    }
 
     printerVisitorTU(cout,
                      ast.getASTContext(),

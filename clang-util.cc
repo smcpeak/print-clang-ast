@@ -192,6 +192,22 @@ clang::FileEntry const * NULLABLE ClangUtil::getFileEntryForLoc(
 }
 
 
+clang::OptionalFileEntryRef ClangUtil::getFileEntryRefForLoc(
+  clang::SourceLocation loc) const
+{
+  // This is the same logic as in the previous function.
+
+  loc = m_srcMgr.getExpansionLoc(loc);
+
+  clang::FileID fid = m_srcMgr.getFileID(loc);
+  if (!fid.isValid()) {
+    return {};
+  }
+
+  return m_srcMgr.getFileEntryRefForID(fid);
+}
+
+
 clang::SourceLocation ClangUtil::getLoc(clang::FileID fileID,
                                         int line, int col) const
 {
@@ -225,21 +241,6 @@ bool ClangUtil::isMainFileEntry(clang::FileEntry const *entry) const
 {
   xassert(entry);
   return m_srcMgr.isMainFile(*entry);
-}
-
-
-STATICDEF std::string ClangUtil::fileEntryNameStr(
-  clang::FileEntry const *entry)
-{
-  assert(entry);
-  return entry->getName().str();
-}
-
-
-STATICDEF void ClangUtil::fileEntryNameToJSON(
-  std::ostream &os, clang::FileEntry const *entry)
-{
-  os << doubleQuote(fileEntryNameStr(entry));
 }
 
 
@@ -284,10 +285,25 @@ bool ClangUtil::getPrimarySourceFileLines(std::vector<std::string> &lines)
 }
 
 
+// --------------------------- FileEntryRef ----------------------------
+STATICDEF std::string ClangUtil::fileEntryRefNameStr(
+  clang::FileEntryRef entryRef)
+{
+  return entryRef.getName().str();
+}
+
+
+STATICDEF void ClangUtil::fileEntryRefNameToJSON(
+  std::ostream &os, clang::FileEntryRef entryRef)
+{
+  os << doubleQuote(fileEntryRefNameStr(entryRef));
+}
+
+
 // ------------------------------ FileId -------------------------------
 std::string ClangUtil::getFnameForFileID(clang::FileID fileID) const
 {
-  return fileEntryNameStr(m_srcMgr.getFileEntryForID(fileID));
+  return fileEntryRefNameStr(*(m_srcMgr.getFileEntryRefForID(fileID)));
 }
 
 
@@ -1220,6 +1236,23 @@ STATICDEF std::string ClangUtil::identifierNamespaceStr(
 
 STATICDEF std::string ClangUtil::linkageStr(clang::Linkage linkage)
 {
+  // In Clang 18, `Linkage` was changed to be an `enum class` and its
+  // enumerators renamed accordingly.  Also, `Invalid` was added as a
+  // distinct value from `None`.
+#if CLANG_VERSION_MAJOR >= 18
+  ENUM_CLASS_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::, Linkage, linkage,
+
+    Invalid,
+    None,
+    Internal,
+    UniqueExternal,
+    VisibleNone,
+    Module,
+    External,
+  )
+
+#else
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
     clang::, Linkage, linkage,
 
@@ -1233,6 +1266,8 @@ STATICDEF std::string ClangUtil::linkageStr(clang::Linkage linkage)
     ModuleLinkage,
     ExternalLinkage,
   )
+
+#endif
 }
 
 
@@ -1354,6 +1389,19 @@ STATICDEF std::string ClangUtil::constexprSpecKindStr(
 STATICDEF std::string ClangUtil::tagTypeKindStr(
   clang::TagTypeKind kind)
 {
+  // `TagTypeKind` changed to `enum class` in Clang 18.
+#if CLANG_VERSION_MAJOR >= 18
+  ENUM_CLASS_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::, TagTypeKind, kind,
+
+    Struct,
+    Interface,
+    Union,
+    Class,
+    Enum,
+  )
+
+#else
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
     clang::, TagTypeKind, kind,
 
@@ -1363,12 +1411,24 @@ STATICDEF std::string ClangUtil::tagTypeKindStr(
     TTK_Class,
     TTK_Enum,
   )
+
+#endif
 }
 
 
 STATICDEF std::string ClangUtil::argPassingKindStr(
-  clang::RecordDecl::ArgPassingKind kind)
+  clang::RecordArgPassingKind kind)
 {
+#if CLANG_VERSION_MAJOR >= 18
+  ENUM_CLASS_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::, RecordArgPassingKind, kind,
+
+    CanPassInRegs,
+    CannotPassInRegs,
+    CanNeverPassInRegs,
+  )
+
+#else
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
     clang::RecordDecl::, ArgPassingKind, kind,
 
@@ -1376,6 +1436,8 @@ STATICDEF std::string ClangUtil::argPassingKindStr(
     APK_CannotPassInRegs,
     APK_CanNeverPassInRegs,
   )
+
+#endif
 }
 
 
@@ -1421,6 +1483,20 @@ STATICDEF std::string ClangUtil::inClassInitStyleStr(
 STATICDEF std::string ClangUtil::elaboratedTypeKeywordStr(
   clang::ElaboratedTypeKeyword keyword)
 {
+#if CLANG_VERSION_MAJOR >= 18
+  ENUM_CLASS_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::, ElaboratedTypeKeyword, keyword,
+
+    Struct,
+    Interface,
+    Union,
+    Class,
+    Enum,
+    Typename,
+    None,
+  )
+
+#else
   ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
     clang::, ElaboratedTypeKeyword, keyword,
 
@@ -1432,6 +1508,8 @@ STATICDEF std::string ClangUtil::elaboratedTypeKeywordStr(
     ETK_Typename,
     ETK_None,
   )
+
+#endif
 }
 
 
@@ -1631,12 +1709,11 @@ STATICDEF std::string ClangUtil::templateSpecializationKindStr(
 
 
 #if CLANG_VERSION_MAJOR >= 18
-// This code hasn not been compiled, let alone tested.
 STATICDEF std::string ClangUtil::cxxNewInitializationStyleStr(
   clang::CXXNewInitializationStyle style)
 {
-  ENUM_TABLE_LOOKUP_OR_STRINGB_CAST(
-    clang::CXXNewInitializationStyle, CXXNewInitializationStyle, style,
+  ENUM_CLASS_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::, CXXNewInitializationStyle, style,
 
     None,
     Parens,
@@ -2394,10 +2471,10 @@ STATICDEF bool ClangUtil::isPrivateHeaderName(string const &fname)
 }
 
 
-STATICDEF bool ClangUtil::isPrivateHeaderEntry(
-  clang::FileEntry const *entry)
+STATICDEF bool ClangUtil::isPrivateHeaderEntryRef(
+  clang::FileEntryRef entryRef)
 {
-  return isPrivateHeaderName(entry->getName().str());
+  return isPrivateHeaderName(fileEntryRefNameStr(entryRef));
 }
 
 

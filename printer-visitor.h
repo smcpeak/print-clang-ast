@@ -22,27 +22,33 @@ public:      // types
   // Flags to control print behavior.
   enum Flags {
     // No flags set.
-    F_NONE                             = 0x00,
+    F_NONE                                       = 0x00,
 
     // Set to print the VisitXXXContext for each node.
-    F_PRINT_VISIT_CONTEXT              = 0x01,
+    F_PRINT_VISIT_CONTEXT                        = 0x01,
 
     // Set to print implicit QualType nodes.
-    F_PRINT_IMPLICIT_QUAL_TYPES        = 0x02,
+    F_PRINT_IMPLICIT_QUAL_TYPES                  = 0x02,
 
     // If set, then suppress printing the TypeAsWritten for a
     // ClassTemplatePartialSpecializationDecl, thereby emulating a bug
     // in RecursiveASTVisitor.
-    F_OMIT_CTPSD_TAW                   = 0x04,
+    F_OMIT_CTPSD_TAW                             = 0x04,
 
     // If set, then when printing a CXXDefaultArgExpr, print default
     // argument too.  The default visitor does not do that because the
     // default argument is not a child node, but RAV does traverse into
     // it.
-    F_PRINT_DEFAULT_ARG_EXPRS          = 0x08,
+    F_PRINT_DEFAULT_ARG_EXPRS                    = 0x08,
+
+    // If set, print or not print certain children for additional RAV
+    // compatibility.
+    //
+    // TODO: Remove the above compat flags in favor of this?
+    F_RAV_COMPAT                                 = 0x10,
 
     // All flags set.
-    F_ALL                              = 0x0F
+    F_ALL                                        = 0x1F
   };
 
 public:      // data
@@ -75,6 +81,8 @@ public:      // methods
   virtual void visitNestedNameSpecifierLoc(
     VisitNestedNameSpecifierContext context,
     clang::NestedNameSpecifierLoc nnsl) override;
+  virtual void visitCXXDefaultInitExpr(
+    clang::CXXDefaultInitExpr const *cdie) override;
 };
 
 

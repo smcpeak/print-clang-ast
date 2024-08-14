@@ -776,6 +776,13 @@ void PrintClangASTNodes::printTemplateArgument(
       break;
     }
 
+  #if CLANG_VERSION_MAJOR >= 18
+    case clang::TemplateArgument::StructuralValue:
+      OUT_QATTR_STRING(qualifier, label << ".StructuralValue.Value",
+        apValueStr(&( arg.getAsStructuralValue() )));
+      break;
+  #endif
+
     case clang::TemplateArgument::TemplateExpansion:
       OUT_QATTR_STRING(qualifier, label << ".TemplateArg.NumExpansions",
         optionalToString(arg.getNumTemplateExpansions(), "absent"));
@@ -1461,7 +1468,9 @@ void PrintClangASTNodes::printDecl(clang::Decl const *decl)
   PRINT_IF_SUBCLASS(decl, ClassTemplateSpecializationDecl)
   PRINT_IF_SUBCLASS(decl, ClassTemplatePartialSpecializationDecl)
   PRINT_IF_SUBCLASS(decl, ClassTemplateDecl)
+#if CLANG_VERSION_MAJOR < 18
   PRINT_IF_SUBCLASS(decl, ClassScopeFunctionSpecializationDecl)
+#endif
   PRINT_IF_SUBCLASS(decl, TemplateParamObjectDecl)
 }
 
@@ -1643,8 +1652,8 @@ void PrintClangASTNodes::printFunctionDecl(clang::FunctionDecl const *decl)
          " IsInlineSpecified" : "") <<
     (decl->isVirtualAsWritten()?
          " IsVirtualAsWritten" : "") <<
-    (decl->isPure()?
-         " IsPure" : "") <<
+    (decl->IF_CLANG_18(isPureVirtual, isPure)()?
+         " IsPureVirtual" : "") <<
     (decl->hasInheritedPrototype()?
          " HasInheritedPrototype" : "") <<
     (decl->hasWrittenPrototype()?
@@ -2617,6 +2626,7 @@ void PrintClangASTNodes::printClassTemplateDecl(
 }
 
 
+#if CLANG_VERSION_MAJOR < 18
 void PrintClangASTNodes::printClassScopeFunctionSpecializationDecl(
   clang::ClassScopeFunctionSpecializationDecl const *decl)
 {
@@ -2628,6 +2638,7 @@ void PrintClangASTNodes::printClassScopeFunctionSpecializationDecl(
   printASTTemplateArgumentListInfo(qualifier, "TemplateArgs",
     decl->getTemplateArgsAsWritten());
 }
+#endif
 
 
 void PrintClangASTNodes::printTemplateParamObjectDecl(
@@ -3033,6 +3044,21 @@ void PrintClangASTNodes::printParenListExpr(
 }
 
 
+#if CLANG_VERSION_MAJOR >= 18
+static std::string constructionKindStr(
+  clang::CXXConstructionKind ck)
+{
+  ENUM_CLASS_TABLE_LOOKUP_OR_STRINGB_CAST(
+    clang::, CXXConstructionKind, ck,
+
+    Complete,
+    NonVirtualBase,
+    VirtualBase,
+    Delegating,
+  )
+}
+
+#else
 static std::string constructionKindStr(
   clang::CXXConstructExpr::ConstructionKind ck)
 {
@@ -3045,6 +3071,8 @@ static std::string constructionKindStr(
     CK_Delegating,
   )
 }
+
+#endif
 
 
 void PrintClangASTNodes::printCXXCatchStmt(
@@ -3581,6 +3609,24 @@ void PrintClangASTNodes::printDependentFunctionTemplateSpecializationInfo(
 {
   OUT_OBJECT(getDependentFunctionTemplateSpecializationInfoIDStr(dftsi));
 
+#if CLANG_VERSION_MAJOR >= 18
+  char const *qualifier = "DTFSI";
+
+  llvm::ArrayRef<clang::FunctionTemplateDecl *> candidates =
+    dftsi->getCandidates();
+
+  OUT_QATTR_INT(qualifier, "NumCandidates",
+    candidates.size());
+
+  for (unsigned i=0; i < candidates.size(); ++i) {
+    OUT_QATTR_DECL(qualifier, "Candidate[" << i << "]",
+      candidates[i]);
+  }
+
+  printASTTemplateArgumentListInfo(qualifier, "TemplateArgumentsAsWritten",
+    dftsi->TemplateArgumentsAsWritten);
+
+#else
   OUT_ATTR_INT("NumTemplates",
     dftsi->getNumTemplates());
 
@@ -3603,6 +3649,8 @@ void PrintClangASTNodes::printDependentFunctionTemplateSpecializationInfo(
     OUT_ATTR_DECL("Template[" << i << "]",
       dftsi->getTemplate(i));
   }
+
+#endif
 }
 
 

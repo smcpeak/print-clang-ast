@@ -17,6 +17,7 @@
 #include "clang/AST/ExprCXX.h"                   // clang::{CXXConstructExpr, ...}
 #include "clang/AST/ExprConcepts.h"              // clang::concepts::Requirement
 #include "clang/AST/StmtCXX.h"                   // clang::{CXXCatchStmt, ...}
+#include "clang/Basic/Version.h"                 // CLANG_VERSION_MAJOR
 
 using namespace gdv;
 
@@ -50,7 +51,9 @@ char const *toString(VisitDeclContext vdc)
     VDC_VAR_TEMPLATE_INSTANTIATION,
     VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
     VDC_TEMPLATE_DECL_PARAMETER,
+  #if CLANG_VERSION_MAJOR < 18
     VDC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
+  #endif
 
     VDC_FUNCTION_TYPE_PARAMETER,
 
@@ -186,6 +189,7 @@ char const *toString(VisitStmtContext vsc)
     VSC_SUBST_NON_TYPE_TEMPLATE_PARM_EXPR,
     VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
     VSC_UNARY_OPERATOR,
+    VSC_CXX_DEFAULT_INIT_EXPR,
 
     VSC_TEMPLATE_ARGUMENT,
   );
@@ -267,7 +271,11 @@ char const *toString(VisitTemplateArgumentContext vtac)
     VTAC_NONE,
 
     VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+  #if CLANG_VERSION_MAJOR >= 18
+    VTAC_FUNCTION_DECL,
+  #else
     VTAC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
+  #endif
     VTAC_TEMPLATE_TEMPLATE_PARM_DECL_DEFAULT,
 
     VTAC_TEMPLATE_SPECIALIZATION_TYPE,
@@ -368,6 +376,8 @@ void ClangASTVisitor::visitDecl(
       // FunctionDecl up here.
       visitDeclarationNameInfo(VDNC_FUNCTION_DECL,
                                fd->getNameInfo());
+
+      visitFunctionDeclSpecializationInfo(fd);
     }
 
     // Note that visiting the type usually includes visiting the
@@ -584,6 +594,7 @@ void ClangASTVisitor::visitDecl(
     }
   }
 
+#if CLANG_VERSION_MAJOR < 18
   else if (auto csfsd = dyn_cast<
              clang::ClassScopeFunctionSpecializationDecl>(decl)) {
     // Visit the specialization class.
@@ -596,6 +607,7 @@ void ClangASTVisitor::visitDecl(
       VTAC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
       csfsd->getTemplateArgsAsWritten());
   }
+#endif
 
   else if (auto ttpd = dyn_cast<clang::TemplateTypeParmDecl>(decl)) {
     // TODO: Type constraint?
@@ -862,10 +874,12 @@ void ClangASTVisitor::visitStmt(VisitStmtContext context,
       visitTypeSourceInfo(VTC_CXX_TEMPORARY_OBJECT_EXPR, stmt->getTypeSourceInfo());
       visitCXXConstructExprArgs(stmt);
 
-    // These have pointers to elsewhere in the AST, but the pointees are
-    // not descendants of these nodes.
     HANDLE_NOOP_STMT_CLASS(CXXDefaultArgExpr)
-    HANDLE_NOOP_STMT_CLASS(CXXDefaultInitExpr)
+      // This has a pointer to elsewhere in the AST, but the pointee is
+      // not a descendant of this node.
+
+    HANDLE_STMT_CLASS(CXXDefaultInitExpr)
+      visitCXXDefaultInitExpr(stmt);
 
     HANDLE_STMT_CLASS(CXXDeleteExpr)
       visitStmt(VSC_CXX_DELETE_EXPR, stmt->getArgument());
@@ -1421,6 +1435,12 @@ void ClangASTVisitor::visitTemplateArgumentLoc(
                 tal.getSourceIntegralExpression());
       break;
 
+  #if CLANG_VERSION_MAJOR >= 18
+    case clang::TemplateArgument::StructuralValue:
+      // TODO
+      break;
+  #endif
+
     case clang::TemplateArgument::Template:
       // TODO
       break;
@@ -1580,6 +1600,19 @@ void ClangASTVisitor::visitCXXCtorInitializer(
 }
 
 
+void ClangASTVisitor::visitCXXDefaultInitExpr(
+  clang::CXXDefaultInitExpr const *cdie)
+{
+  // Clang 18 visits this child, but previous versions did not.
+  //
+  // I'm not sure if this is nullable.
+  visitStmtOpt(VSC_CXX_DEFAULT_INIT_EXPR, cdie->getExpr());
+
+  // TODO: There is also `getRewrittenExpr`, which I think I should
+  // visit, but RAV does not.
+}
+
+
 void ClangASTVisitor::visitImplicitQualType(VisitTypeContext context,
                                             clang::QualType qualType)
 {
@@ -1631,6 +1664,24 @@ void ClangASTVisitor::visitImplicitFunctionDeclParameters(
   for (clang::ParmVarDecl const *param : fd->parameters()) {
     visitDecl(VDC_IMPLICIT_FUNCTION_DECL_PARAMETER, param);
   }
+}
+
+
+void ClangASTVisitor::visitFunctionDeclSpecializationInfo(
+  clang::FunctionDecl const *functionDecl)
+{
+  // TODO: RAV calls `getTemplateSpecializationInfo` here.
+
+#if CLANG_VERSION_MAJOR >= 18
+  // In Clang 18, this replaces `ClassScopeFunctionSpecializationDecl`.
+  if (clang::DependentFunctionTemplateSpecializationInfo const *dftsi =
+        functionDecl->getDependentSpecializationInfo()) {
+    // Ex: in/src/ct-cont-friend-ft-spec-inst.cc
+    visitASTTemplateArgumentListInfoOpt(
+      VTAC_FUNCTION_DECL,
+      dftsi->TemplateArgumentsAsWritten);
+  }
+#endif
 }
 
 

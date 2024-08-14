@@ -119,6 +119,7 @@
 
 // clang
 #include "clang/AST/ASTFwd.h"                    // clang::{Stmt, Decl, ...} [n]
+#include "clang/Basic/Version.h"                 // CLANG_VERSION_MAJOR
 
 
 /*
@@ -168,7 +169,9 @@ enum VisitDeclContext {
   VDC_VAR_TEMPLATE_INSTANTIATION,
   VDC_IMPLICIT_FUNCTION_DECL_PARAMETER,
   VDC_TEMPLATE_DECL_PARAMETER,   // also used for ClassTemplatePartialSpecializationDecl parameters
+#if CLANG_VERSION_MAJOR < 18
   VDC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
+#endif
 
   // ---- Context is a TypeLoc ----
   VDC_FUNCTION_TYPE_PARAMETER,
@@ -303,6 +306,7 @@ enum VisitStmtContext {
   VSC_SUBST_NON_TYPE_TEMPLATE_PARM_EXPR,
   VSC_UNARY_EXPR_OR_TYPE_TRAIT_EXPR,
   VSC_UNARY_OPERATOR,
+  VSC_CXX_DEFAULT_INIT_EXPR,
 
   // ---- Other contexts ----
   VSC_TEMPLATE_ARGUMENT,
@@ -390,7 +394,11 @@ enum VisitTemplateArgumentContext {
 
   // ---- Context is a Decl ----
   VTAC_CLASS_TEMPLATE_PARTIAL_SPECIALIZATION_DECL,
+#if CLANG_VERSION_MAJOR >= 18
+  VTAC_FUNCTION_DECL,
+#else
   VTAC_CLASS_SCOPE_FUNCTION_SPECIALIZATION_DECL,
+#endif
   VTAC_TEMPLATE_TEMPLATE_PARM_DECL_DEFAULT,
 
   // ---- Context is a TypeLoc ----
@@ -594,6 +602,13 @@ public:      // methods
   virtual void visitCXXCtorInitializer(
     clang::CXXCtorInitializer const *init);
 
+  // Default: Visit the children of `cdie`.
+  //
+  // The children are implicit code, so a client might want to override
+  // this to be a no-op.
+  virtual void visitCXXDefaultInitExpr(
+    clang::CXXDefaultInitExpr const *cdie);
+
   // Default: If 'capture' is an "initialization capture", then visit
   // the variable it contains.  Otherwise, visit 'init'.
   //
@@ -692,6 +707,10 @@ public:      // methods
   //
   void visitImplicitFunctionDeclParameters(
     clang::FunctionDecl const *fd);
+
+  // Visit the specialization info, if any, in `functionDecl`.
+  void visitFunctionDeclSpecializationInfo(
+    clang::FunctionDecl const *functionDecl);
 
   // Visit the bases of 'crd'.
   void visitCXXRecordBases(

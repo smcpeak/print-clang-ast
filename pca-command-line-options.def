@@ -82,6 +82,13 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
+  m_ravCompat,
+  false,
+  "--rav-compat",
+  R"(With --printer-visitor, enable other RAV compatibility behavior.)"
+)
+
+BOOL_OPTION(
   m_ravPrinterVisitor,
   false,
   "--rav-printer-visitor",

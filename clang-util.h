@@ -16,6 +16,7 @@
 #include "clang/AST/ExprCXX.h"                             // clang::CXXNewInitializationStyle
 #include "clang/AST/ExternalASTSource.h"                   // clang::ExternalASTSource
 #include "clang/AST/Type.h"                                // clang::QualType
+#include "clang/Basic/FileEntry.h"                         // clang::{FileEntry, FileEntryRef, OptionalFileEntryRef} [n]
 #include "clang/Basic/Lambda.h"                            // clang::LambdaCaptureDefault
 #include "clang/Basic/OperatorKinds.h"                     // clang::OverloadedOperatorKind
 #include "clang/Basic/SourceLocation.h"                    // clang::FileID
@@ -38,8 +39,8 @@
 #include <vector>                                          // std::vector
 
 
-// Expand to 'thenCode' if we're compiling against Clang+LLVM 17 or
-// later.
+// Expand to 'thenCode' if we're compiling against a certain version of
+// Clang+LLVM or later.
 //
 // Beware: In some cases, I'm not sure which version introduced a
 // change, so there may be cases that need adjustment, particularly when
@@ -48,14 +49,19 @@
 // 'elseCode', I merely have reason to believe it should work.  The
 // basic pattern is I insert IF_CLANG_17 when I am using Clang-17 and
 // ran into a compatibility issue.
-//
+
+#if CLANG_VERSION_MAJOR >= 18
+  #define IF_CLANG_18(thenCode, elseCode) thenCode
+#else
+  #define IF_CLANG_18(thenCode, elseCode) elseCode
+#endif
+
 #if CLANG_VERSION_MAJOR >= 17
   #define IF_CLANG_17(thenCode, elseCode) thenCode
 #else
   #define IF_CLANG_17(thenCode, elseCode) elseCode
 #endif
 
-// Similar for Clang-16.
 #if CLANG_VERSION_MAJOR >= 16
   #define IF_CLANG_16(thenCode, elseCode) thenCode
 #else
@@ -143,6 +149,11 @@ public:      // methods
   clang::FileEntry const * NULLABLE getFileEntryForLoc(
     clang::SourceLocation loc) const;
 
+  // Return the entry ref corresponding to the expansion location of
+  // 'loc', or the absent value if there is none.
+  clang::OptionalFileEntryRef getFileEntryRefForLoc(
+    clang::SourceLocation loc) const;
+
   // Return the location for a given file/line/col.
   clang::SourceLocation getLoc(clang::FileID fileID,
                                int line, int col) const;
@@ -159,15 +170,11 @@ public:      // methods
   std::string sourceRangeStr(clang::SourceRange range) const;
 
   // ---------------------------- FileEntry ----------------------------
+  // NOTE: As of Clang 18, `FileEntry` does not have an associated file
+  // name.
+
   // True if `entry` is the main file.
   bool isMainFileEntry(clang::FileEntry const *entry) const;
-
-  // Return the file name in 'entry'.
-  static std::string fileEntryNameStr(clang::FileEntry const *entry);
-
-  // Write the file name to 'os' as a double-quoted string.
-  static void fileEntryNameToJSON(std::ostream &os,
-                                  clang::FileEntry const *entry);
 
   // Append to 'lines' all of the source code lines of the primary
   // source file.  Each will end with a newline character, except
@@ -182,6 +189,14 @@ public:      // methods
   // interface.
   //
   bool getPrimarySourceFileLines(std::vector<std::string> &lines);
+
+  // -------------------------- FileEntryRef ---------------------------
+  // Return the file name in 'entry'.
+  static std::string fileEntryRefNameStr(clang::FileEntryRef entryRef);
+
+  // Write the file name to 'os' as a double-quoted string.
+  static void fileEntryRefNameToJSON(std::ostream &os,
+                                     clang::FileEntryRef entryRef);
 
   // ----------------------------- FileId ------------------------------
   // Turn a FileID into a string.
@@ -447,9 +462,14 @@ public:      // methods
   static std::string tagTypeKindStr(
     clang::TagTypeKind kind);
 
+  // Compatibility alias.
+  #if CLANG_VERSION_MAJOR < 18
+    #define RecordArgPassingKind RecordDecl::ArgPassingKind
+  #endif
+
   // Stringify 'kind'.
   static std::string argPassingKindStr(
-    clang::RecordDecl::ArgPassingKind kind);
+    clang::RecordArgPassingKind kind);
 
   // Stringify 'lcd'.
   static std::string lambdaCaptureDefaultStr(
@@ -703,8 +723,8 @@ public:      // methods
   // be nominated in an '#include' directive.
   static bool isPrivateHeaderName(std::string const &fname);
 
-  // Same, but for a FileEntry.
-  static bool isPrivateHeaderEntry(clang::FileEntry const *entry);
+  // Same, but for a FileEntryRef.
+  static bool isPrivateHeaderEntryRef(clang::FileEntryRef entryRef);
 
   // Find the file whose inclusion from the main source file led to
   // 'loc' being in the translation unit.  Returns an empty string if
@@ -720,6 +740,9 @@ public:      // methods
   static std::string apValueKindStr(clang::APValue::ValueKind kind);
 
   // Stringify 'apValue'.
+  //
+  // TODO: Add an overload that accepts an `APValue` reference (not a
+  // pointer) so I don't have to take the address in most places.
   static std::string apValueStr(clang::APValue const * NULLABLE apValue);
 
   // Stringify 'vec'.

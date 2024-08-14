@@ -148,6 +148,20 @@ void PrinterVisitor::visitNestedNameSpecifierLoc(
 }
 
 
+void PrinterVisitor::visitCXXDefaultInitExpr(
+  clang::CXXDefaultInitExpr const *cdie)
+{
+  if (m_flags & F_RAV_COMPAT) {
+    if (CLANG_VERSION_MAJOR < 18) {
+      // Versions before 18 did not print the children.
+      return;
+    }
+  }
+
+  ClangASTVisitor::visitCXXDefaultInitExpr(cdie);
+}
+
+
 void printerVisitorTU(std::ostream &os,
                       clang::ASTContext &astContext,
                       PrinterVisitor::Flags flags)

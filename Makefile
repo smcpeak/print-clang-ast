@@ -7,7 +7,8 @@ USE_SOURCE_BUILD := 0
 
 ifeq ($(USE_SOURCE_BUILD),1)
   # Trying my own build.
-  CLANG_LLVM_SRC_DIR = $(HOME)/bld/llvm-project-2023-07-14
+  #CLANG_LLVM_SRC_DIR = $(HOME)/bld/llvm-project-2023-07-14
+  CLANG_LLVM_SRC_DIR = $(HOME)/bld/llvm-project-18.1.4
   CLANG_LLVM_INSTALL_DIR = $(CLANG_LLVM_SRC_DIR)/build
 
 else
@@ -72,6 +73,9 @@ LLVM_LIBDIR := $(shell $(LLVM_CONFIG) --libdir)
 
 # Other flags needed for linking, whether statically or dynamically.
 LLVM_LDFLAGS_AND_SYSTEM_LIBS := $(shell $(LLVM_CONFIG) --ldflags --system-libs)
+
+# Major version of Clang+LLVM as an integer.
+CLANG_VERSION_MAJOR := $(shell $(LLVM_CONFIG) --version | sed 's/\..*//')
 
 
 # -------------------------- Compiler options --------------------------
@@ -356,7 +360,17 @@ out/%.nodes: out/%.json in/exp/%.nodes print-clang-ast.exe
 TEST_CONFIRMATIONS := $(patsubst in/src/%,out/%.nodes,$(TEST_INPUTS))
 
 .PHONY: check-nodes
+
+# The output depends on the Clang version, and my current expected
+# output was created with Clang 16.
+#
+# TODO: Make different directories for other versions?
+ifeq ($(CLANG_VERSION_MAJOR),16)
 check-nodes: $(TEST_CONFIRMATIONS)
+else
+check-nodes:
+	@echo "check-nodes target currently only works with Clang 16 (current is $(CLANG_VERSION_MAJOR))."
+endif
 
 check: check-nodes
 
@@ -475,7 +489,9 @@ out/rpv/%.rpv.ok: in/src/% print-clang-ast.exe
 	@#
 	@# Run --printer-visitor with the RAV compatibility flags.
 	./print-clang-ast.exe --printer-visitor \
-	  --omit-ctpsd-taw --print-default-arg-exprs \
+	  --omit-ctpsd-taw \
+	  --print-default-arg-exprs \
+	  --rav-compat \
 	  -xc++ $(call FILE_OPTS_FOR,$*) in/src/$* > out/rpv/$*.pv
 	@#
 	@# Check that they agree.
