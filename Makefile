@@ -144,7 +144,7 @@ LDFLAGS += -Wl,-rpath=$(LLVM_LIBDIR)
 LDFLAGS += -lLLVMSupport
 
 # Link with smbase.
-LDFLAGS += $(SMBASE)/libsmbase.a
+LDFLAGS += $(SMBASE)/obj/libsmbase.a
 
 # Get the needed -L search path, plus things like -ldl.
 LDFLAGS += $(LLVM_LDFLAGS_AND_SYSTEM_LIBS)
