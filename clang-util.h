@@ -244,6 +244,12 @@ public:      // methods
 
   // Render `decl` with qualifiers and signature, but not quoted.
   // Returns "(null)" for `nullptr`.
+  //
+  // TODO: This function is not clearly distinct in purpose from
+  // `namedDeclCompactIdentifier`, and the two functions have evolved
+  // toward having the same behavior.  They should be merged, or else a
+  // clear reason for having both established.
+  //
   std::string namedDeclStr(
     clang::NamedDecl const * NULLABLE namedDecl) const;
 
@@ -269,6 +275,10 @@ public:      // methods
   // Return a string that identifies the entity declared by 'namedDecl'
   // in a compact but reasonably unambiguous in the context of an
   // automated test.  See comments at the implementation for details.
+  //
+  // TODO: This is not clearly distinguished from `namedDeclStr`.  See
+  // comments there for more.
+  //
   std::string namedDeclCompactIdentifier(
     clang::NamedDecl const *namedDecl) const;
 
@@ -608,6 +618,11 @@ public:      // methods
   // its arguments like "<int>".
   std::string templateArgsForFunctionIfT(
     clang::FunctionDecl const *functionDecl) const;
+
+  // Return template params or arguments if `varDecl` is a template or
+  // specialization.
+  std::string templateArgsForVarIfT(
+    clang::VarDecl const *varDecl) const;
 
   // Return the template parameters of 'templateDecl' as a string in
   // argument syntax.

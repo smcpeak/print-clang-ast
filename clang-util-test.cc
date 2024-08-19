@@ -54,9 +54,14 @@ void GIFDVisitor::visitDecl(
   VisitDeclContext context,
   clang::Decl const *decl)
 {
-  TRACE2("GIFDVisitor::visitDecl: " << declKindAtLocStr(decl));
+  TRACE2_SCOPED("GIFDVisitor::visitDecl: " << declKindAtLocStr(decl));
 
   if (auto namedDecl = dyn_cast<clang::NamedDecl>(decl)) {
+    // For some reason I have two functions that do almost the same
+    // thing...
+    TRACE3("compactId: " << namedDeclCompactIdentifier(namedDecl));
+    TRACE3("namedDeclStr: " << namedDeclStr(namedDecl));
+
     if (auto instFrom = getInstFromDeclOpt(namedDecl)) {
       m_actual.setInsert(GDVTuple({
         // Name and definition-ness of the instantiation.
@@ -249,6 +254,28 @@ void testGetInstFromDeclOpt()
       GDVTuple{"S<int>::Inner<float>",       T, "S::Inner<U>",    T},
       GDVTuple{"S<int>::Inner<float>::m1()", T, "S::Inner::m1()", T},
       GDVTuple{"S<int>::Inner<float>::m2()", F, "S::Inner::m2()", T},
+    })
+  );
+
+
+  // Variable template.
+  //
+  // One thing this tests is that we do not regard `v<N>` as being
+  // instantiated from itself, which is what happens if we naively call
+  // `VarDecl::getTemplateInstantiationPattern`.
+  //
+  testOneGetInstFromDeclOpt(
+    R"(
+      template <int N>
+      int v = N;
+
+      int f()
+      {
+        return v<3>;
+      }
+    )",
+    GDValue(GDVSet{
+      GDVTuple{"v<3>", T, "v<N>", T},
     })
   );
 }

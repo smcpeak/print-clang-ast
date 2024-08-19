@@ -460,6 +460,10 @@ std::string ClangUtil::namedDeclStr(
     oss << templateArgsForFunctionIfT(functionDecl);
   }
 
+  if (auto varDecl = dyn_cast<clang::VarDecl>(namedDecl)) {
+    oss << templateArgsForVarIfT(varDecl);
+  }
+
   if (auto valueDecl = dyn_cast<clang::ValueDecl>(namedDecl)) {
     clang::Type const *type =
       valueDecl->getType().getTypePtr()->getUnqualifiedDesugaredType();
@@ -2030,6 +2034,34 @@ std::string ClangUtil::templateArgsForFunctionIfT(
 }
 
 
+std::string ClangUtil::templateArgsForVarIfT(
+  clang::VarDecl const *varDecl) const
+{
+  if (clang::VarTemplateDecl const *varTemplateDecl =
+        varDecl->getDescribedVarTemplate()) {
+    clang::TemplateParameterList const *params =
+      varTemplateDecl->getTemplateParameters();
+    return templateParameterListArgsStr(params);
+  }
+
+  if (auto partialSpecDecl =
+             dyn_cast<clang::VarTemplatePartialSpecializationDecl>(
+               varDecl)) {
+    clang::ASTTemplateArgumentListInfo const *args =
+      partialSpecDecl->getTemplateArgsAsWritten();
+    return astTemplateArgumentListInfoStr(*args);
+  }
+
+  if (auto specDecl =
+             dyn_cast<clang::VarTemplateSpecializationDecl>(
+               varDecl)) {
+    return templateArgumentListStr(specDecl->getTemplateArgs());
+  }
+
+  return "";
+}
+
+
 STATICDEF std::string ClangUtil::templateDeclParamsAsArgsStr(
   clang::TemplateDecl const *templateDecl)
 {
@@ -2145,6 +2177,14 @@ clang::NamedDecl const * NULLABLE ClangUtil::getInstFromDeclOpt(
   }
 
   if (auto varDecl = dyn_cast<clang::VarDecl>(namedDecl)) {
+    if (varDecl->getDescribedVarTemplate()) {
+      // `VarDecl::getTemplateInstantiationPattern` has the strange
+      // behavior that it regards a template body as being an
+      // instantiation of itself!  So if we are given the template body,
+      // then say it is not an instantiation of anything.
+      return nullptr;
+    }
+
     return varDecl->getTemplateInstantiationPattern();
   }
 
