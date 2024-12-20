@@ -35,8 +35,7 @@ BOOL_OPTION(
   m_dumpAST,
   false,
   "--dump-ast",
-  R"(Dump the Clang AST to stderr after parsing, before doing further
-    processing.)"
+  R"(Print the Clang AST as a tree, like "clang -Xclang -ast-dump".)"
 )
 
 BOOL_OPTION(
