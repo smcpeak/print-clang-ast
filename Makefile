@@ -97,8 +97,16 @@ CXXFLAGS =
 # increase is ~50% over not having either.
 #CXXFLAGS += -O2
 
-CXXFLAGS += -Wall
-CXXFLAGS += -Werror
+# I need at least -O in order to compile decl-implicit.cc.  Without
+# optimization, the assembler chokes with "too many sections".  It is
+# related to the use of RecursiveASTVisitor.
+OPT_FLAGS = -O
+CXXFLAGS += $(OPT_FLAGS)
+
+WARNING_FLAGS =
+WARNING_FLAGS += -Wall
+WARNING_FLAGS += -Werror
+CXXFLAGS += $(WARNING_FLAGS)
 
 # Get llvm compilation flags.
 #
