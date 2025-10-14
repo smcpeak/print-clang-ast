@@ -1,0 +1,11 @@
+---- stdout ----
+Method: CXXMethodDecl at in/src/method-comments.h:10:3
+  Comment: "/// This is a comment in the header file."
+Method: CXXMethodDecl at in/src/method-comments.cc:8:1
+  Comment: "/// This is a comment in the implementation file."
+  Other: CXXMethodDecl at in/src/method-comments.cc:8:1
+  Other: CXXMethodDecl at in/src/method-comments.h:10:3
+    Comment: "/// This is a comment in the header file."
+---- stderr ----
+---- exit status ----
+Exit 0

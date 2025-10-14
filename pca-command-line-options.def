@@ -127,6 +127,13 @@ BOOL_OPTION(
 )
 
 BOOL_OPTION(
+  m_printMethodComments,
+  false,
+  "--print-method-comments",
+  R"(Print Doxygen-style comments found near methods..)"
+)
+
+BOOL_OPTION(
   m_forceImplicit,
   false,
   "--force-implicit",

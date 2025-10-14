@@ -210,6 +210,7 @@ PRINT_CLANG_AST_OBJS += pca-command-line-options-test.o
 PRINT_CLANG_AST_OBJS += pca-unit-tests.o
 PRINT_CLANG_AST_OBJS += pca-util-test.o
 PRINT_CLANG_AST_OBJS += print-clang-ast.o
+PRINT_CLANG_AST_OBJS += print-method-comments.o
 PRINT_CLANG_AST_OBJS += stringref-parse-test.o
 PRINT_CLANG_AST_OBJS += symbolic-line-mapper-test.o
 
@@ -506,6 +507,25 @@ RAV_PRINTER_VISITOR_TESTS := $(patsubst in/src/%,%,$(TEST_INPUTS))
 check-rav-printer-visitor: $(patsubst %,out/rpv/%.rpv.ok,$(RAV_PRINTER_VISITOR_TESTS))
 
 check: check-rav-printer-visitor
+
+
+# -------------------- Test --print-method-comments --------------------
+in/exp/pmc/%.txt:
+	touch $@
+
+out/pmc/%.pmc.ok: in/src/% in/exp/pmc/%.txt print-clang-ast.exe
+	$(CREATE_OUTPUT_DIRECTORY)
+	$(RUN_COMPARE_EXPECT) \
+	  --actual $@ \
+	  --expect in/exp/pmc/$*.txt \
+	  ./print-clang-ast.exe --print-method-comments \
+	    -xc++ in/src/$*
+	touch $@
+
+.PHONY: check-print-method-comments
+check-print-method-comments: out/pmc/method-comments.cc.pmc.ok
+
+check: check-print-method-comments
 
 
 # ------------------------ 'check-full' target -------------------------

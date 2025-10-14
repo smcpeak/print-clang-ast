@@ -8,6 +8,7 @@
 #include "pca-command-line-options.h"                      // PCACommandLineOptions
 #include "pca-unit-tests.h"                                // pca_unit_tests
 #include "print-clang-ast-nodes.h"                         // printClangASTNodes
+#include "print-method-comments.h"                         // printMethodComments
 #include "printer-visitor.h"                               // printerVisitorTU
 #include "rav-printer-visitor.h"                           // ravPrinterVisitorTU
 
@@ -131,6 +132,10 @@ static int innerMain(int argc, char const **argv)
 
   if (options.m_ravPrinterVisitor) {
     ravPrinterVisitorTU(cout, ast.getASTContext());
+  }
+
+  if (options.m_printMethodComments) {
+    printMethodComments(cout, ast.getASTContext());
   }
 
   if (options.m_printASTNodes) {
