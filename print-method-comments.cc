@@ -5,6 +5,7 @@
 
 #include "clang-util-ast-visitor.h"    // ClangUtilASTVisitor
 
+#include "smbase/sm-env.h"             // smbase::envAsBool
 #include "smbase/string-util.h"        // doubleQuote
 
 #include "clang/AST/ASTContext.h"      // clang::ASTContext
@@ -26,9 +27,75 @@ public:      // methods
       m_os(os)
   {}
 
+  void printBases(clang::CXXRecordDecl const *crd);
+
   // ClangASTVisitor methods.
   virtual void visitDecl(VisitDeclContext context, clang::Decl const *decl) override;
 };
+
+
+// Ad-hoc code to print some information about a class's base class
+// specifiers, as part of answering
+// https://stackoverflow.com/questions/79893236/recovering-typedef-type-alias-name-from-a-substituted-template-type-parameter-in
+void PMCVisitor::printBases(clang::CXXRecordDecl const *crd)
+{
+  if (!crd->isThisDeclarationADefinition()) {
+    return;
+  }
+
+  m_os << "CXXRecordDecl definition: " << namedDeclAndKindAtLocStr(crd) << "\n";
+
+  for (clang::CXXBaseSpecifier const &baseSpec : crd->bases()) {
+    clang::TypeLoc baseTL = baseSpec.getTypeSourceInfo()->getTypeLoc();
+
+    m_os << "  Base: " << typeLocStr(baseTL) << "\n";
+
+    // NOTE: In the Clang github dev trunk, `ElaboratedTypeLoc` has been
+    // renamed to `ElaboratedNameTypeLoc` (see PR 147835).  The code
+    // here was written for Clang-18, which uses the older name.
+    if (auto baseETL = baseTL.getAs<clang::ElaboratedTypeLoc>()) {
+      if (auto baseTSTL = baseETL.getNamedTypeLoc().getAs<clang::TemplateSpecializationTypeLoc>()) {
+        unsigned numArgs = baseTSTL.getNumArgs();
+        m_os << "    TSTL has " << numArgs << " args:\n";
+
+        for (unsigned i=0; i < numArgs; ++i) {
+          m_os << "      Arg " << i << ":\n";
+
+          clang::TemplateArgumentLoc argLoc = baseTSTL.getArgLoc(i);
+          if (clang::TypeSourceInfo const *argTSI = argLoc.getTypeSourceInfo()) {
+            clang::TypeLoc argTL = argTSI->getTypeLoc();
+            m_os << "        Arg TypeLoc: " << typeLocStr(argTL) << "\n";
+
+            if (auto argETL = argTL.getAs<clang::ElaboratedTypeLoc>()) {
+              if (auto argTTL = argETL.getNamedTypeLoc().getAs<clang::TypedefTypeLoc>()) {
+                clang::TypedefType const *argTT = argTTL.getTypePtr();
+                assert(argTT);
+                clang::TypedefNameDecl const *argTND = argTT->getDecl();
+                assert(argTND);
+                m_os << "        Arg TypedefNameDecl: " << namedDeclAndKindAtLocStr(argTND) << "\n";
+              }
+              else {
+                m_os << "        Not a TypedefTypeLoc.\n";
+              }
+            }
+            else {
+              m_os << "        Not an ElaboratedTypeLoc.\n";
+            }
+          }
+          else {
+            m_os << "        Not a type argument.\n";
+          }
+        }
+      }
+      else {
+        m_os << "    Not a TemplateSpecializationTypeLoc.\n";
+      }
+    }
+    else {
+      m_os << "   Not an ElaboratedTypeLoc.\n";
+    }
+  }
+}
 
 
 void PMCVisitor::visitDecl(VisitDeclContext context, clang::Decl const *decl)
@@ -60,6 +127,13 @@ void PMCVisitor::visitDecl(VisitDeclContext context, clang::Decl const *decl)
           }
         }
       }
+    }
+  }
+
+  static bool doPrintBases = smbase::envAsBool("PRINT_BASES");
+  if (doPrintBases) {
+    if (auto *crd = dyn_cast<clang::CXXRecordDecl>(decl)) {
+      printBases(crd);
     }
   }
 
