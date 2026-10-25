@@ -72,6 +72,9 @@ LLVM_CXXFLAGS := $(shell $(LLVM_CONFIG) --cxxflags)
 LLVM_LIBDIR := $(shell $(LLVM_CONFIG) --libdir)
 
 # Other flags needed for linking, whether statically or dynamically.
+#
+# On Linux at least, this variable will contain "-lz" and "-ltinfo",
+# which might necessitate "sudo apt install zlib1g-dev libtinfo-dev".
 LLVM_LDFLAGS_AND_SYSTEM_LIBS := $(shell $(LLVM_CONFIG) --ldflags --system-libs)
 
 # Major version of Clang+LLVM as an integer.
