@@ -19,7 +19,7 @@ else
   #
   # In Clang+LLVM 14, CFGImplicitDtor::getDestructorDecl is not fully
   # implemented.  So I'm switching to 16.
-  CLANG_LLVM_INSTALL_DIR = $(HOME)/opt/clang+llvm-16.0.0-x86_64-linux-gnu-ubuntu-18.04
+  CLANG_LLVM_INSTALL_DIR = $(HOME)/opt/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04
 
 endif
 
