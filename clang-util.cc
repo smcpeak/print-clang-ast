@@ -7,7 +7,7 @@
 #include "enum-util.h"                 // ENUM_TABLE_LOOKUP, BITFLAGS_TABLE_LOOKUP
 
 // smbase
-#include "smbase/compare-util.h"       // compare
+#include "smbase/compare-util.h"       // smbase::compare
 #include "smbase/sm-macros.h"          // STATICDEF, PRETEND_USED
 #include "smbase/sm-trace.h"           // INIT_TRACE, etc.
 #include "smbase/string-util.h"        // doubleQuote, beginsWith, hasSubstring, trimWhitespace
@@ -2723,7 +2723,8 @@ STATICDEF int DeclCompare::compare(clang::Decl const *a,
   // I'm not sure about the cost of walking the slabs; that too is at
   // least logarithmic and possibly linear.
 
-  return ::compare(a->getID(), b->getID());
+  using smbase::compare;
+  return compare(a->getID(), b->getID());
 }
 
 

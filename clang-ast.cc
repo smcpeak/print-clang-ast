@@ -13,7 +13,13 @@
 
 #include "smbase/exc.h"                                    // smbase::xmessage
 
+#include <iostream>                                        // std::cerr
+
+
 using namespace smbase;
+
+
+using std::cerr;
 
 
 // ----------------------------- ClangAST ------------------------------

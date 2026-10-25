@@ -5,13 +5,16 @@
 
 #include "stringref-parse.h"           // StringRefParse
 
-#include "smbase/map-util.h"           // mapFindOpt
+#include "smbase/map-util.h"           // smbase::mapFindOpt
 #include "smbase/stringb.h"            // stringb
 #include "smbase/xassert.h"            // xassert, xassertPrecondition
 
 #include <map>                         // std::map
 #include <utility>                     // std::in_place_type_t
 #include <variant>                     // std::{variant, get, holds_alternative}
+
+
+using namespace smbase;
 
 
 SymbolicLineMapper::LineToNameMap const &

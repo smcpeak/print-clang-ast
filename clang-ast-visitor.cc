@@ -9,7 +9,7 @@
 
 // smbase
 #include "smbase/gdvalue.h"                      // gdv::{GDValue, GDVMap}
-#include "smbase/gdvsymbol.h"                    // gdv::GDVSymbol
+#include "smbase/gdv-symbol.h"                   // gdv::GDVSymbol
 #include "smbase/xassert.h"                      // xassert
 
 // clang

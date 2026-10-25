@@ -10,8 +10,8 @@
 #include "pca-util.h"                            // stringb
 
 // smbase
-#include "smbase/map-util.h"                     // mapFindOpt
-#include "smbase/optional-util.h"                // optionalToString
+#include "smbase/map-util.h"                     // smbase::mapFindOpt
+#include "smbase/optional-util.h"                // smbase::optionalToString
 #include "smbase/sm-trace.h"                     // INIT_TRACE
 #include "smbase/string-util.h"                  // doubleQuote
 #include "smbase/stringb.h"                      // stringb
@@ -34,6 +34,9 @@
 
 // libc
 #include <assert.h>                              // assert
+
+
+using namespace smbase;
 
 
 using clang::isa;
