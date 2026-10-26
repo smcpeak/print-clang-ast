@@ -2484,6 +2484,13 @@ string ClangUtil::getIncludeSyntax(
 STATICDEF bool ClangUtil::isPrivateHeaderName(string const &fname)
 {
   // GNU libc/c++ private.
+  //
+  // Note: When checking for certain directory names, I just check for
+  // the name surrounded by slashes, which means that (e.g.)
+  // "bits/foo.h" as a relative path would not be classified as private.
+  // That is fine because the private headers are always named using
+  // absolute paths, since they come from system header file
+  // directories, so the leading slash will always be present.
   if (hasSubstring(fname, "/bits/")) {
     return true;
   }
@@ -2504,6 +2511,14 @@ STATICDEF bool ClangUtil::isPrivateHeaderName(string const &fname)
 
   // Exclude ext/alloc_traits.h (?).
   if (hasSubstring(fname, "/ext/")) {
+    return true;
+  }
+
+  // Names beginning with two underscores are treated as private to the
+  // implementation (although I don't think that is actually stated in
+  // the C++ standard anywhere).  For example, Clang-18 has
+  // __stddef_size_t.h, which is included by <stddef.h>.
+  if (beginsWith(sm_basename(fname), "__")) {
     return true;
   }
 

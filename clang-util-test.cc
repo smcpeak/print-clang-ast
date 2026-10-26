@@ -13,6 +13,9 @@
 #include "smbase/sm-macros.h"          // OPEN_ANONYMOUS_NAMESPACE
 #include "smbase/sm-test.h"            // EXPECT_EQ
 #include "smbase/sm-trace.h"           // INIT_TRACE, etc.
+#include "smbase/string-util.h"        // doubleQuote
+#include "smbase/stringb.h"            // stringbc
+#include "smbase/xassert.h"            // xfailure_stringbc
 
 // clang
 #include "clang/AST/Decl.h"            // clang::NamedDecl
@@ -412,6 +415,52 @@ void testTUSyntaxStr()
 }
 
 
+// Test `isPrivateHeaderName`.
+void testIsPrivateHeaderName()
+{
+  auto check = [](char const *fname, bool expect) -> void {
+    bool actual = ClangUtil::isPrivateHeaderName(fname);
+    if (actual != expect) {
+      xfailure_stringbc("isPrivateHeaderName(" << doubleQuote(fname) <<
+                        "): actual=" << actual << " expect=" << expect);
+    }
+  };
+
+  // Public headers.
+  check("/usr/include/stdio.h", false);
+  check("/usr/include/c++/12/vector", false);
+  check("/opt/clang/lib/clang/18/include/stddef.h", false);
+  check("foo.h", false);
+  check("./foo.h", false);
+
+  // GNU "bits" directory.
+  check("/usr/include/c++/12/bits/stl_vector.h", true);
+  check("/usr/include/x86_64-linux-gnu/bits/types.h", true);
+
+  // GNU "pstl" directory.
+  check("/usr/include/c++/12/pstl/glue_memory_defs.h", true);
+
+  // GNU "ext" directory.
+  check("/usr/include/c++/12/ext/alloc_traits.h", true);
+
+  // Directory names only count as complete path components.
+  check("/usr/include/mybits/foo.h", false);
+
+  // Clang metaprogramming files.
+  check("clang/AST/OperationKinds.def", true);
+  check("clang/AST/TypeNodes.inc", true);
+
+  // Names that begin with two underscores.
+  check("/opt/clang/lib/clang/18/include/__stddef_size_t.h", true);
+  check("__foo.h", true);
+
+  // Only the final path component matters for the underscore rule.
+  check("/usr/include/__dir/foo.h", false);
+  check("/usr/include/_foo.h", false);
+  check("/usr/include/foo__.h", false);
+}
+
+
 CLOSE_ANONYMOUS_NAMESPACE
 
 
@@ -422,6 +471,7 @@ void clang_util_unit_tests()
   testDeclLoc();
   testGetLoc();
   testTUSyntaxStr();
+  testIsPrivateHeaderName();
 }
 
 
